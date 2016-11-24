@@ -17,6 +17,8 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var hideKeyboardButton: UIButton!
+    @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
     var kbHeight: CGFloat?
     var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
 
@@ -24,17 +26,12 @@ class MemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         containerViewHeight.constant = 0
-        
     }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //registerForKeyboardNotification
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(aNotification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(aNotification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -42,9 +39,16 @@ class MemoViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        //unregisterForKeyboardNotification
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    @IBAction func tapEffectButton(_ sender: Any) {
+        showTopView(bool: true)
+    }
+    
+    @IBAction func tapHideKeyboardButton(_ sender: Any) {
+        textView.resignFirstResponder()
     }
     
     func keyboardWillShow(aNotification: Notification){
@@ -59,32 +63,30 @@ class MemoViewController: UIViewController {
         
         controlsView.isHidden = showKeyboard
         textAlignControl.isHidden = !showKeyboard
-        
+        hideKeyboardButton.isHidden = !showKeyboard
+        cacheCursorPosition = CGPoint(x: 0, y: -10)
         
         //키보드가 올라오거나 내려갈 때 애니메이션 함수
         if let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
+            let toolbarHeight = navigationController?.toolbar.frame.height
         {
             let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
             
             if showKeyboard
             {
                 self.kbHeight = kbHeight
+                self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight
             }
             else
             {
-                UIView.animate(withDuration: 0.3) { [unowned self] in
-                    self.textView.contentInset.top = 0
-                    self.textView.contentInset.bottom = 0
+                UIView.animate(withDuration: duration) { [weak self] in
+                    self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
                     //textView.contentOffset.y = 0
                 }
             }
         }
         
-    }
-
-    @IBAction func tapEffectButton(_ sender: Any) {
-        showTopView(bool: true)
     }
     
     func showTopView(bool: Bool) {
@@ -100,7 +102,6 @@ class MemoViewController: UIViewController {
 
 
 extension MemoViewController: UITextViewDelegate {
-    
     
     func textViewDidChange(_ textView: UITextView) {
         guard let nowCursorPosition = textView.selectedTextRange?.end else { return } 

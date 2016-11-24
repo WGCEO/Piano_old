@@ -319,6 +319,17 @@
                                     <outlet property="delegate" destination="BxF-0e-dzh" id="SuG-yn-nyx"/>
                                 </connections>
                             </textView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYR-kG-epT">
+                                <rect key="frame" x="337" y="519" width="38" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="38" id="9hT-xR-isU"/>
+                                    <constraint firstAttribute="height" constant="40" id="vTL-Td-xqq"/>
+                                </constraints>
+                                <state key="normal" title="✔️"/>
+                                <connections>
+                                    <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="iPw-GN-Zu6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -326,7 +337,9 @@
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="NdA-7D-Fge"/>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="S4w-Az-L7P"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="TAb-qw-B61"/>
+                            <constraint firstAttribute="trailing" secondItem="XYR-kG-epT" secondAttribute="trailing" id="amb-ys-oNM"/>
                             <constraint firstAttribute="trailing" secondItem="Vjy-SL-eOr" secondAttribute="trailing" id="d5Z-hV-1hC"/>
+                            <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="XYR-kG-epT" secondAttribute="bottom" id="lGB-AI-Iho"/>
                             <constraint firstAttribute="bottom" secondItem="Vjy-SL-eOr" secondAttribute="bottom" id="v7k-N7-x62"/>
                             <constraint firstAttribute="trailing" secondItem="uxc-Po-ywr" secondAttribute="trailing" id="wNH-AJ-Cfq"/>
                         </constraints>
@@ -398,6 +411,8 @@
                     <connections>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="uqh-BP-3YM"/>
                         <outlet property="controlsView" destination="d1J-cb-CWX" id="yYb-78-e4m"/>
+                        <outlet property="hideKeyboardButton" destination="XYR-kG-epT" id="Nu9-E2-kNh"/>
+                        <outlet property="hideKeyboardButtonBottom" destination="lGB-AI-Iho" id="df1-ti-Ptk"/>
                         <outlet property="textAlignControl" destination="hhq-fU-0P7" id="sDi-KS-DmO"/>
                         <outlet property="textView" destination="Vjy-SL-eOr" id="7fT-rV-aJn"/>
                         <outlet property="textViewTop" destination="S4w-Az-L7P" id="aV8-Ja-Pih"/>
