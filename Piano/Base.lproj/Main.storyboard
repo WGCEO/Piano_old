@@ -330,15 +330,30 @@
                                     <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="iPw-GN-Zu6"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fF2-4n-XFz">
+                                <rect key="frame" x="0.0" y="519" width="38" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="38" id="tpm-6e-Cuk"/>
+                                    <constraint firstAttribute="height" constant="40" id="xU6-sZ-ezX"/>
+                                </constraints>
+                                <state key="normal" title="❖">
+                                    <color key="titleColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapEraseTextButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="Qnr-Tc-err"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="7Yi-oC-t7W"/>
+                            <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="fF2-4n-XFz" secondAttribute="bottom" id="NLd-9a-6ta"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="NdA-7D-Fge"/>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="S4w-Az-L7P"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="TAb-qw-B61"/>
                             <constraint firstAttribute="trailing" secondItem="XYR-kG-epT" secondAttribute="trailing" id="amb-ys-oNM"/>
                             <constraint firstAttribute="trailing" secondItem="Vjy-SL-eOr" secondAttribute="trailing" id="d5Z-hV-1hC"/>
+                            <constraint firstItem="fF2-4n-XFz" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="fng-ht-AO3"/>
                             <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="XYR-kG-epT" secondAttribute="bottom" id="lGB-AI-Iho"/>
                             <constraint firstAttribute="bottom" secondItem="Vjy-SL-eOr" secondAttribute="bottom" id="v7k-N7-x62"/>
                             <constraint firstAttribute="trailing" secondItem="uxc-Po-ywr" secondAttribute="trailing" id="wNH-AJ-Cfq"/>
@@ -411,6 +426,8 @@
                     <connections>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="uqh-BP-3YM"/>
                         <outlet property="controlsView" destination="d1J-cb-CWX" id="yYb-78-e4m"/>
+                        <outlet property="eraseTextButton" destination="fF2-4n-XFz" id="QbR-Ln-mRr"/>
+                        <outlet property="eraseTextButtonBottom" destination="NLd-9a-6ta" id="YaO-XU-RfD"/>
                         <outlet property="hideKeyboardButton" destination="XYR-kG-epT" id="Nu9-E2-kNh"/>
                         <outlet property="hideKeyboardButtonBottom" destination="lGB-AI-Iho" id="df1-ti-Ptk"/>
                         <outlet property="textAlignControl" destination="hhq-fU-0P7" id="sDi-KS-DmO"/>

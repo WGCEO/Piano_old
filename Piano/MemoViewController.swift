@@ -18,6 +18,10 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var hideKeyboardButton: UIButton!
+
+    @IBOutlet weak var eraseTextButton: UIButton!
+
+    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
     @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
     var kbHeight: CGFloat?
     var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
@@ -32,8 +36,8 @@ class MemoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(aNotification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(aNotification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -51,42 +55,73 @@ class MemoViewController: UIViewController {
         textView.resignFirstResponder()
     }
     
-    func keyboardWillShow(aNotification: Notification){
-        adjustViewsByKeyboardState(showKeyboard: true, notification: aNotification)
-    }
-    
-    func keyboardWillHide(aNotification: Notification){
-        adjustViewsByKeyboardState(showKeyboard: false, notification: aNotification)
-    }
-    
-    func adjustViewsByKeyboardState(showKeyboard:Bool, notification: Notification){
+    @IBAction func tapEraseTextButton(_ sender: Any) {
+        //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
-        controlsView.isHidden = showKeyboard
-        textAlignControl.isHidden = !showKeyboard
-        hideKeyboardButton.isHidden = !showKeyboard
-        cacheCursorPosition = CGPoint(x: 0, y: -10)
+        //
+        let beginning: UITextPosition = textView.beginningOfDocument
+        var offset = textView.selectedRange.location
+        var findWord = false
         
-        //키보드가 올라오거나 내려갈 때 애니메이션 함수
-        if let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
-            let toolbarHeight = navigationController?.toolbar.frame.height
-        {
-            let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
+        while true {
             
-            if showKeyboard
-            {
-                self.kbHeight = kbHeight
-                self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight
+            guard let start = textView.position(from: beginning, offset: offset - 1),
+                let end = textView.position(from: beginning, offset: offset),
+                let textRange = textView.textRange(from: start, to: end),
+                let text = textView.text(in: textRange) else { return }
+            
+            let whitespacesAndNewlines = CharacterSet.whitespacesAndNewlines
+            let range = text.rangeOfCharacter(from: whitespacesAndNewlines)
+            
+            
+            guard range != nil else { //단어가 있다는 말
+                findWord = true
+                offset -= 1
+                continue
             }
-            else
-            {
-                UIView.animate(withDuration: duration) { [weak self] in
-                    self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-                    //textView.contentOffset.y = 0
-                }
+            
+            //whitespace발견! 
+            if findWord {
+//                guard let start = textView.position(from: beginning, offset: offset),
+//                    let end = textView.position(from: beginning, offset: textView.selectedRange.location),
+//                    let textRange = textView.textRange(from: start, to: end) else { return }
+                    //textView.replace(textRange, withText: "")
+                
+                let start = textView.text.index(textView.text.startIndex, offsetBy: offset)
+                let end = textView.text.index(textView.text.startIndex, offsetBy: textView.selectedRange.location - 1)
+                textView.text.removeSubrange(start...end)
+                break
+            } else {
+                offset -= 1
             }
+            
         }
-        
+    }
+    
+    func keyboardWillShow(notification: Notification){
+        guard let userInfo = notification.userInfo,
+            let toolbarHeight = navigationController?.toolbar.frame.height else { return }
+        cacheCursorPosition = CGPoint(x: 0, y: -10)
+        controlsView.isHidden = true
+        textAlignControl.isHidden = false
+        hideKeyboardButton.isHidden = false
+        eraseTextButton.isHidden = false
+        let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
+        self.kbHeight = kbHeight
+        self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight
+        self.eraseTextButtonBottom.constant = kbHeight - toolbarHeight
+    }
+    
+    func keyboardWillHide(notification: Notification){
+        guard let userInfo = notification.userInfo,
+           let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
+        controlsView.isHidden = false
+        textAlignControl.isHidden = true
+        hideKeyboardButton.isHidden = true
+        eraseTextButton.isHidden = true
+        UIView.animate(withDuration: duration) { [weak self] in
+            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        }
     }
     
     func showTopView(bool: Bool) {
@@ -106,9 +141,10 @@ extension MemoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let nowCursorPosition = textView.selectedTextRange?.end else { return } 
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
+        let cursorHeight =  textView.caretRect(for: nowCursorPosition).height
 
         if shouldMoveCursor(from: cursorPosition) {
-            moveCursor(from: cursorPosition)
+            moveCursor(from: cursorPosition, cursorHeight: cursorHeight)
         }
     }
     
@@ -118,7 +154,7 @@ extension MemoViewController: UITextViewDelegate {
     }
     
     //커서를 이동시키는 메서드
-    func moveCursor(from: CGPoint) {
+    func moveCursor(from: CGPoint, cursorHeight: CGFloat) {
         guard let kbHeight = kbHeight,
             let navigationbarHeight = navigationController?.navigationBar.frame.height,
             let toolbarHeight = navigationController?.toolbar.frame.height
@@ -128,7 +164,7 @@ extension MemoViewController: UITextViewDelegate {
         
         cacheCursorPosition = from
         let currentCursorY = cacheCursorPosition.y
-        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight)
+        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + cursorHeight)
         
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.textView.contentInset.top = cursorDestinationY
