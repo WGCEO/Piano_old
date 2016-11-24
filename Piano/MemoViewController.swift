@@ -141,10 +141,9 @@ extension MemoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let nowCursorPosition = textView.selectedTextRange?.end else { return } 
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
-        let cursorHeight =  textView.caretRect(for: nowCursorPosition).height
 
         if shouldMoveCursor(from: cursorPosition) {
-            moveCursor(from: cursorPosition, cursorHeight: cursorHeight)
+            moveCursor(from: cursorPosition)
         }
     }
     
@@ -154,7 +153,7 @@ extension MemoViewController: UITextViewDelegate {
     }
     
     //커서를 이동시키는 메서드
-    func moveCursor(from: CGPoint, cursorHeight: CGFloat) {
+    func moveCursor(from: CGPoint) {
         guard let kbHeight = kbHeight,
             let navigationbarHeight = navigationController?.navigationBar.frame.height,
             let toolbarHeight = navigationController?.toolbar.frame.height
@@ -164,7 +163,8 @@ extension MemoViewController: UITextViewDelegate {
         
         cacheCursorPosition = from
         let currentCursorY = cacheCursorPosition.y
-        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + cursorHeight)
+        let textInsetTop = textView.textContainerInset.top
+        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + textInsetTop)
         
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.textView.contentInset.top = cursorDestinationY
