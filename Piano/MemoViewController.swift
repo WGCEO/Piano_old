@@ -18,7 +18,7 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
     
     var kbHeight: CGFloat?
-    var cacheCursorPosition: CGPoint = CGPoint.zero
+    var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
 
     
     override func viewDidLoad() {
@@ -103,35 +103,31 @@ extension MemoViewController: UITextViewDelegate {
     
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let nowCursorPosition = textView.selectedTextRange?.end,
-            textView.selectedRange.length == 0 else { return }
+        guard let nowCursorPosition = textView.selectedTextRange?.end else { return } 
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
-        
+
         if shouldMoveCursor(from: cursorPosition) {
-            moveCursor(from: nowCursorPosition)
+            moveCursor(from: cursorPosition)
         }
     }
     
+    //현재 커서가 키보드에 붙어있는 지 아닌 지 체크
     func shouldMoveCursor(from: CGPoint) -> Bool{
-        if from.y != cacheCursorPosition.y {
-            cacheCursorPosition = from
-            return true
-        } else {
-            return false
-        }
+        return from.y != cacheCursorPosition.y ? true : false
     }
     
-    func moveCursor(from: UITextPosition) {
+    //커서를 이동시키는 메서드
+    func moveCursor(from: CGPoint) {
         guard let kbHeight = kbHeight,
             let navigationbarHeight = navigationController?.navigationBar.frame.height,
             let toolbarHeight = navigationController?.toolbar.frame.height
             else { return }
-        
         let screenHeight = UIScreen.main.bounds.height
-        let cursorHeight = textView.caretRect(for: from).height
         let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        
+        cacheCursorPosition = from
         let currentCursorY = cacheCursorPosition.y
-        let cursorDestinationY = screenHeight - (kbHeight + currentCursorY + navigationbarHeight + cursorHeight + statusBarHeight)
+        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight)
         
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.textView.contentInset.top = cursorDestinationY
@@ -139,6 +135,4 @@ extension MemoViewController: UITextViewDelegate {
             self?.textView.contentOffset.y = -cursorDestinationY
         }
     }
-    
-    
 }
