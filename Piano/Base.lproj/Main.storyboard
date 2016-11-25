@@ -311,24 +311,9 @@
                                     <segue destination="gQW-Od-Zpc" kind="embed" id="mry-Qc-ERV"/>
                                 </connections>
                             </containerView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="타이핑을 하면 마치 익숙한 악기를 연주하는 것처럼 무언가 쾌적하고 빨라진 것을 느낄 수 있습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">&lt;타이핑&gt;
-Piano로 타이핑을 하면 마치 익숙한 악기를 연주하는 것처럼 무언가 쾌적하고 빨라진 느낌을 경험하게 됩니다. 그리고 발견하죠. 키보드 바로 위에서만 커서가 깜박여서 작성중인 문장과 키보드가 한눈에 보인다는 사실을요. 덕분에 오타가 거의 나지 않는다는 것도 곧 체감하게 됩니다. 가끔 오타가 발생하더라도 번거롭게 한글자씩 지우지 마세요. 키보드 왼쪽 버튼을 살짝 터치하면 커서 왼쪽의 단어가 한번에 사라집니다. 당신은 그저 새로 떠오르는 아이디어에만 집중할 수 있습니다. 가독성을 위해 텍스트만 보고 싶다면 키보드 오른쪽 버튼을 살짝 터치해주세요. 키보드가 잠시 사라지고, 오직 당신의 아이디어와 마주할 수 있습니다. 
-
-&lt;편집&gt;
-Piano의 편집 기능을 경험한다면 당신은 데스크탑과 노트북을 더이상 사용하지 않을 수도 있습니다. 모바일 기기에서의 편집이 불편한 이유를 다양한 사람에게 묻고 몽땅(깔끔하게) 개선했기 때문이죠. 텍스트를 작성했다면 강조하고 싶은 부분을 손끝으로 살짝 쓸어주세요. 사랑하는 사람의 볼을 쓰다듬듯 부드럽게요. 그럼 글자들이 사랑의 세레나데를 노래하듯 아름답게 튀어오릅니다. 색상 변경부터 굵기, 취소선까지 기본 기능이 준비되어 있고, 다른 효과를 추가할 수도 있습니다. 당신이 떠올린 악상이 무엇이든, 그대로 표현할 수 있습니다.
-
-&lt;녹음&gt;
-Piano는 원하는 모든 것을 기록할 수 있는 최고의 도구입니다. 놀라운 건, 동시에 할 수도 있다는 거죠. 중요한 회의나 어려운 강의, 아니면 엄마의 목소리나 우연히 들은 음악 등 언젠가 다시 듣고 싶을 세상의 모든 소리를 녹음하세요. 그리고, 그 순간 떠오른 생각을 함께 메모하세요. Piano는 당신에게 최적화되어 있습니다. 당신이 들으며 쓸 수 있다면, Piano도 가능합니다. 
-
-&lt;협업&gt; 
-Piano는 혼자, 또는 함께하는 작업을 지향합니다. 누군가에게 보여주고 싶은 기록이 있다면 바로 공유하세요. 당신이 선택한 사람은 그 메모를 읽고, 미소짓거나 공감하고, 자신의 의견을 작성할 수도 있습니다. Piano를 통해 공동 과제를 하고, 회의 내용을 교환하세요. 가끔은 문자 대신 Piano로 하고 싶은 말을 전해보세요. Piano는 혼자, 또는 함께 들을 수 있는 음악처럼 풍요롭고 행복한 일상을 당신에게 선물합니다. 
-
-&lt;링크&gt; 
-Piano는 당신의 생각과 인터넷 페이지를 빠르고 간결하게 연결해줍니다. 웹 서핑 중 저장하고 싶은 페이지를 발견했다면, 링크를 복사해온 뒤 붙여넣기 해주세요. 그럼 URL이 보일 거예요. 지금부터 딱 두 번만의 터치로 URL이 없어지는 마법을 보여드릴게요. 복사해온 링크를 터치하고, 미리 작성해 놓은 텍스트 중 원하는 단어를 터치하세요. 그럼 가독성을 방해하는 URL이 단어 속으로 빨려들어갑니다. 당신은 오직 텍스트에만 집중할 수 있습니다. 지루한 음악을 끝까지 들을 필요 없잖아요. 마음을 설레게하는 멜로디만 골라서 당신만의 음악을 작곡하세요. 지금 이 순간부터 원하는 것만 선택해서 기록하고 저장하는 생활이 가능해집니다. 
-</mutableString>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
@@ -420,18 +405,15 @@ Piano는 당신의 생각과 인터넷 페이지를 빠르고 간결하게 연�
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-5E-DEm">
-                            <rect key="frame" x="99" y="54" width="42" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-5E-DEm">
+                            <rect key="frame" x="34" y="54" width="190" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstItem="7Bm-5E-DEm" firstAttribute="centerY" secondItem="ljl-Bu-EbL" secondAttribute="centerY" id="Hlb-wU-1UA"/>
-                        <constraint firstItem="7Bm-5E-DEm" firstAttribute="centerX" secondItem="ljl-Bu-EbL" secondAttribute="centerX" id="aG9-vC-4Gj"/>
-                    </constraints>
                     <connections>
                         <outlet property="label" destination="7Bm-5E-DEm" id="iFc-Nd-v2j"/>
                     </connections>

@@ -34,6 +34,7 @@ class MemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        canvas.textView = textView
         containerViewHeight.constant = 0
     }
     

@@ -122,17 +122,10 @@
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
 				310870A91DE1729C0044BA5D /* Reusable.swift */,
-				3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */,
-				310870911DE13B180044BA5D /* MemoListViewController.swift */,
-				310870931DE13B270044BA5D /* MemoViewController.swift */,
-				31575C941DE80BB600373ADD /* PianoControl.swift */,
-				310870951DE13BB40044BA5D /* TopViewController.swift */,
-				310870A71DE172870044BA5D /* TextEffectCell.swift */,
+				31575C961DE825F600373ADD /* FolderList */,
+				31575C971DE825FF00373ADD /* MemoList */,
+				31575C981DE8260700373ADD /* Memo */,
 				310870A51DE1720A0044BA5D /* Constant.swift */,
-				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
-				31575C921DE808FA00373ADD /* TextViewMode.swift */,
-				3108708F1DE13AF20044BA5D /* MoreViewController.swift */,
-				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
 				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
 				3131F6DA1DDD2E3D00EC4229 /* LaunchScreen.storyboard */,
 				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
@@ -156,6 +149,45 @@
 				3131F6F31DDD2E3D00EC4229 /* Info.plist */,
 			);
 			path = PianoUITests;
+			sourceTree = "<group>";
+		};
+		31575C961DE825F600373ADD /* FolderList */ = {
+			isa = PBXGroup;
+			children = (
+				3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */,
+				3108708F1DE13AF20044BA5D /* MoreViewController.swift */,
+			);
+			name = FolderList;
+			sourceTree = "<group>";
+		};
+		31575C971DE825FF00373ADD /* MemoList */ = {
+			isa = PBXGroup;
+			children = (
+				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
+				310870911DE13B180044BA5D /* MemoListViewController.swift */,
+			);
+			name = MemoList;
+			sourceTree = "<group>";
+		};
+		31575C981DE8260700373ADD /* Memo */ = {
+			isa = PBXGroup;
+			children = (
+				31575C941DE80BB600373ADD /* PianoControl.swift */,
+				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
+				31575C921DE808FA00373ADD /* TextViewMode.swift */,
+				310870931DE13B270044BA5D /* MemoViewController.swift */,
+				31575C991DE8261E00373ADD /* TopView */,
+			);
+			name = Memo;
+			sourceTree = "<group>";
+		};
+		31575C991DE8261E00373ADD /* TopView */ = {
+			isa = PBXGroup;
+			children = (
+				310870951DE13BB40044BA5D /* TopViewController.swift */,
+				310870A71DE172870044BA5D /* TextEffectCell.swift */,
+			);
+			name = TopView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
