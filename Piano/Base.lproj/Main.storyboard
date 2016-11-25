@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -228,8 +229,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="찬기 업무 일지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwy-Ai-Gxy">
-                                                    <rect key="frame" x="15" y="15" width="98" height="21"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="투게더 업무 일지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwy-Ai-Gxy">
+                                                    <rect key="frame" x="15" y="15" width="112" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
@@ -313,18 +314,20 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">2016-11-24 21:43:11.916155 Piano[820:229197] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
-2016-11-24 21:43:11.924394 Piano[820:229197] [MC] Reading from public effective user settings.
-2016-11-24 21:43:11.916155 Piano[820:229197] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
-2016-11-24 21:43:11.924394 Piano[820:229197] [MC] Reading from public effective user settings.
-2016-11-24 21:43:11.916155 Piano[820:229197] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
-2016-11-24 21:43:11.924394 Piano[820:229197] [MC] Reading from public effective user settings.
-2016-11-24 21:43:11.916155 Piano[820:229197] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
-2016-11-24 21:43:11.924394 Piano[820:229197] [MC] Reading from public effective user settings.
-2016-11-24 21:43:11.916155 Piano[820:229197] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
-2016-11-24 21:43:11.924394 Piano[820:229197] [MC] Reading from public effective user settings.
-2016-11-24 21:43:11.916155 Piano[820:229197] [MC] System group container for systemgroup.com.apple.configurationprofiles path is /private/var/containers/Shared/SystemGroup/systemgroup.com.apple.configurationprofiles
-2016-11-24 21:43:11.924394 Piano[820:229197] [MC] Reading from public effective user settings.
+                                <mutableString key="text">&lt;타이핑&gt;
+Piano로 타이핑을 하면 마치 익숙한 악기를 연주하는 것처럼 무언가 쾌적하고 빨라진 느낌을 경험하게 됩니다. 그리고 발견하죠. 키보드 바로 위에서만 커서가 깜박여서 작성중인 문장과 키보드가 한눈에 보인다는 사실을요. 덕분에 오타가 거의 나지 않는다는 것도 곧 체감하게 됩니다. 가끔 오타가 발생하더라도 번거롭게 한글자씩 지우지 마세요. 키보드 왼쪽 버튼을 살짝 터치하면 커서 왼쪽의 단어가 한번에 사라집니다. 당신은 그저 새로 떠오르는 아이디어에만 집중할 수 있습니다. 가독성을 위해 텍스트만 보고 싶다면 키보드 오른쪽 버튼을 살짝 터치해주세요. 키보드가 잠시 사라지고, 오직 당신의 아이디어와 마주할 수 있습니다. 
+
+&lt;편집&gt;
+Piano의 편집 기능을 경험한다면 당신은 데스크탑과 노트북을 더이상 사용하지 않을 수도 있습니다. 모바일 기기에서의 편집이 불편한 이유를 다양한 사람에게 묻고 몽땅(깔끔하게) 개선했기 때문이죠. 텍스트를 작성했다면 강조하고 싶은 부분을 손끝으로 살짝 쓸어주세요. 사랑하는 사람의 볼을 쓰다듬듯 부드럽게요. 그럼 글자들이 사랑의 세레나데를 노래하듯 아름답게 튀어오릅니다. 색상 변경부터 굵기, 취소선까지 기본 기능이 준비되어 있고, 다른 효과를 추가할 수도 있습니다. 당신이 떠올린 악상이 무엇이든, 그대로 표현할 수 있습니다.
+
+&lt;녹음&gt;
+Piano는 원하는 모든 것을 기록할 수 있는 최고의 도구입니다. 놀라운 건, 동시에 할 수도 있다는 거죠. 중요한 회의나 어려운 강의, 아니면 엄마의 목소리나 우연히 들은 음악 등 언젠가 다시 듣고 싶을 세상의 모든 소리를 녹음하세요. 그리고, 그 순간 떠오른 생각을 함께 메모하세요. Piano는 당신에게 최적화되어 있습니다. 당신이 들으며 쓸 수 있다면, Piano도 가능합니다. 
+
+&lt;협업&gt; 
+Piano는 혼자, 또는 함께하는 작업을 지향합니다. 누군가에게 보여주고 싶은 기록이 있다면 바로 공유하세요. 당신이 선택한 사람은 그 메모를 읽고, 미소짓거나 공감하고, 자신의 의견을 작성할 수도 있습니다. Piano를 통해 공동 과제를 하고, 회의 내용을 교환하세요. 가끔은 문자 대신 Piano로 하고 싶은 말을 전해보세요. Piano는 혼자, 또는 함께 들을 수 있는 음악처럼 풍요롭고 행복한 일상을 당신에게 선물합니다. 
+
+&lt;링크&gt; 
+Piano는 당신의 생각과 인터넷 페이지를 빠르고 간결하게 연결해줍니다. 웹 서핑 중 저장하고 싶은 페이지를 발견했다면, 링크를 복사해온 뒤 붙여넣기 해주세요. 그럼 URL이 보일 거예요. 지금부터 딱 두 번만의 터치로 URL이 없어지는 마법을 보여드릴게요. 복사해온 링크를 터치하고, 미리 작성해 놓은 텍스트 중 원하는 단어를 터치하세요. 그럼 가독성을 방해하는 URL이 단어 속으로 빨려들어갑니다. 당신은 오직 텍스트에만 집중할 수 있습니다. 지루한 음악을 끝까지 들을 필요 없잖아요. 마음을 설레게하는 멜로디만 골라서 당신만의 음악을 작곡하세요. 지금 이 순간부터 원하는 것만 선택해서 기록하고 저장하는 생활이 가능해집니다. 
 </mutableString>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
@@ -334,6 +337,7 @@
                             </textView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYR-kG-epT">
                                 <rect key="frame" x="337" y="519" width="38" height="40"/>
+                                <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="38" id="9hT-xR-isU"/>
                                     <constraint firstAttribute="height" constant="40" id="vTL-Td-xqq"/>
@@ -345,13 +349,14 @@
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fF2-4n-XFz">
                                 <rect key="frame" x="0.0" y="519" width="38" height="40"/>
+                                <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="38" id="tpm-6e-Cuk"/>
                                     <constraint firstAttribute="height" constant="40" id="xU6-sZ-ezX"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                <state key="normal" title="❖">
-                                    <color key="titleColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="◀︎">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
                                     <action selector="tapEraseTextButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="Qnr-Tc-err"/>
@@ -386,70 +391,51 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="7Xk-Vo-8Dh">
                         <nil key="title"/>
-                        <barButtonItem key="rightBarButtonItem" width="138" style="plain" id="fEY-ep-d3B">
-                            <view key="customView" contentMode="scaleToFill" id="D0E-ZK-wMW">
-                                <rect key="frame" x="221" y="5" width="138" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <segmentedControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hhq-fU-0P7">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="34"/>
-                                        <segments>
-                                            <segment title="좌"/>
-                                            <segment title="중앙"/>
-                                            <segment title="우"/>
-                                        </segments>
-                                    </segmentedControl>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="d1J-cb-CWX">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="33"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHj-bX-yb9">
-                                                <rect key="frame" x="0.0" y="0.0" width="46" height="33"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <state key="normal" title="편집"/>
-                                                <connections>
-                                                    <action selector="tapEffectButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="VpZ-In-AYe"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jew-xI-esi">
-                                                <rect key="frame" x="46" y="0.0" width="46" height="33"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <state key="normal" title="협업"/>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lks-7m-tqS">
-                                                <rect key="frame" x="92" y="0.0" width="46" height="33"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <state key="normal" title="전송"/>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="d1J-cb-CWX" firstAttribute="leading" secondItem="D0E-ZK-wMW" secondAttribute="leading" id="Ewx-pg-0vE"/>
-                                    <constraint firstAttribute="trailing" secondItem="d1J-cb-CWX" secondAttribute="trailing" id="HFc-hL-9Jb"/>
-                                    <constraint firstAttribute="bottom" secondItem="d1J-cb-CWX" secondAttribute="bottom" id="N0D-qc-djy"/>
-                                    <constraint firstItem="hhq-fU-0P7" firstAttribute="top" secondItem="D0E-ZK-wMW" secondAttribute="top" id="an7-9o-c64"/>
-                                    <constraint firstItem="d1J-cb-CWX" firstAttribute="top" secondItem="D0E-ZK-wMW" secondAttribute="top" id="ffg-56-BR3"/>
-                                    <constraint firstAttribute="trailing" secondItem="hhq-fU-0P7" secondAttribute="trailing" id="lsB-Ys-p2q"/>
-                                    <constraint firstItem="hhq-fU-0P7" firstAttribute="leading" secondItem="D0E-ZK-wMW" secondAttribute="leading" id="rDM-Jf-Tuq"/>
-                                    <constraint firstAttribute="bottom" secondItem="hhq-fU-0P7" secondAttribute="bottom" id="vaX-1I-j6U"/>
-                                </constraints>
-                            </view>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="action" id="Pm2-Xi-uU6"/>
+                            <barButtonItem title="협업" id="VMT-j9-3fg"/>
+                            <barButtonItem title="효과" id="K5Z-c7-Tc8">
+                                <connections>
+                                    <action selector="tapEffectButton:" destination="BxF-0e-dzh" id="JAI-cS-WzF"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="canvas" destination="ljl-Bu-EbL" id="Rs6-Ie-6Xc"/>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="uqh-BP-3YM"/>
-                        <outlet property="controlsView" destination="d1J-cb-CWX" id="yYb-78-e4m"/>
+                        <outlet property="effectButton" destination="K5Z-c7-Tc8" id="pt0-w6-ZQD"/>
                         <outlet property="eraseTextButton" destination="fF2-4n-XFz" id="QbR-Ln-mRr"/>
                         <outlet property="eraseTextButtonBottom" destination="NLd-9a-6ta" id="YaO-XU-RfD"/>
                         <outlet property="hideKeyboardButton" destination="XYR-kG-epT" id="Nu9-E2-kNh"/>
                         <outlet property="hideKeyboardButtonBottom" destination="lGB-AI-Iho" id="df1-ti-Ptk"/>
-                        <outlet property="textAlignControl" destination="hhq-fU-0P7" id="sDi-KS-DmO"/>
+                        <outlet property="sendButton" destination="Pm2-Xi-uU6" id="GF8-HX-Kle"/>
+                        <outlet property="shareButton" destination="VMT-j9-3fg" id="2Uw-AD-RGb"/>
                         <outlet property="textView" destination="Vjy-SL-eOr" id="7fT-rV-aJn"/>
                         <outlet property="textViewTop" destination="S4w-Az-L7P" id="aV8-Ja-Pih"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HX2-RA-s0u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="ljl-Bu-EbL" customClass="PianoControl" customModule="Piano" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-5E-DEm">
+                            <rect key="frame" x="99" y="54" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="7Bm-5E-DEm" firstAttribute="centerY" secondItem="ljl-Bu-EbL" secondAttribute="centerY" id="Hlb-wU-1UA"/>
+                        <constraint firstItem="7Bm-5E-DEm" firstAttribute="centerX" secondItem="ljl-Bu-EbL" secondAttribute="centerX" id="aG9-vC-4Gj"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="label" destination="7Bm-5E-DEm" id="iFc-Nd-v2j"/>
+                    </connections>
+                </view>
             </objects>
             <point key="canvasLocation" x="2584.8000000000002" y="-531.18440779610194"/>
         </scene>
@@ -549,7 +535,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
-                                        <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="FNh-Rg-cBB" firstAttribute="centerX" secondItem="dku-3O-8rq" secondAttribute="centerX" id="qWG-aA-xPx"/>
                                             <constraint firstItem="FNh-Rg-cBB" firstAttribute="centerY" secondItem="dku-3O-8rq" secondAttribute="centerY" id="rDU-pJ-gzH"/>

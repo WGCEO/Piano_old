@@ -23,6 +23,8 @@
 		3131F6DC1DDD2E3D00EC4229 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3131F6DA1DDD2E3D00EC4229 /* LaunchScreen.storyboard */; };
 		3131F6E71DDD2E3D00EC4229 /* PianoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6E61DDD2E3D00EC4229 /* PianoTests.swift */; };
 		3131F6F21DDD2E3D00EC4229 /* PianoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6F11DDD2E3D00EC4229 /* PianoUITests.swift */; };
+		31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C921DE808FA00373ADD /* TextViewMode.swift */; };
+		31575C951DE80BB600373ADD /* PianoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C941DE80BB600373ADD /* PianoControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		3131F6ED1DDD2E3D00EC4229 /* PianoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3131F6F11DDD2E3D00EC4229 /* PianoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoUITests.swift; sourceTree = "<group>"; };
 		3131F6F31DDD2E3D00EC4229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		31575C921DE808FA00373ADD /* TextViewMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewMode.swift; sourceTree = "<group>"; };
+		31575C941DE80BB600373ADD /* PianoControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,10 +125,12 @@
 				3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */,
 				310870911DE13B180044BA5D /* MemoListViewController.swift */,
 				310870931DE13B270044BA5D /* MemoViewController.swift */,
+				31575C941DE80BB600373ADD /* PianoControl.swift */,
 				310870951DE13BB40044BA5D /* TopViewController.swift */,
 				310870A71DE172870044BA5D /* TextEffectCell.swift */,
 				310870A51DE1720A0044BA5D /* Constant.swift */,
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
+				31575C921DE808FA00373ADD /* TextViewMode.swift */,
 				3108708F1DE13AF20044BA5D /* MoreViewController.swift */,
 				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
 				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
@@ -290,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				310870A81DE172870044BA5D /* TextEffectCell.swift in Sources */,
+				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				310870961DE13BB40044BA5D /* TopViewController.swift in Sources */,
 				310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */,
 				310870901DE13AF20044BA5D /* MoreViewController.swift in Sources */,
@@ -299,6 +306,7 @@
 				310870A01DE14AD90044BA5D /* SearchMemoListViewController.swift in Sources */,
 				3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
+				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				310870A61DE1720A0044BA5D /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

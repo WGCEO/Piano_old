@@ -18,13 +18,20 @@ class TopViewController: UIViewController {
     }
 
     @IBAction func tapApplyButton(_ sender: Any) {
+        //TODO: 중복코드 처리하기
         guard let parent = parent as? MemoViewController else { return }
         parent.showTopView(bool: false)
+        parent.textView.isSelectable = true
+        parent.textView.isEditable = true
+        parent.textView.mode = .typing
     }
     
     @IBAction func tapCancelButton(_ sender: Any) {
         guard let parent = parent as? MemoViewController else { return }
         parent.showTopView(bool: false)
+        parent.textView.isSelectable = true
+        parent.textView.isEditable = true
+        parent.textView.mode = .typing
     }
 }
 

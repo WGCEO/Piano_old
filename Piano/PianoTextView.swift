@@ -10,10 +10,12 @@ import UIKit
 
 class PianoTextView: UITextView {
     
+    var mode: TextViewMode = .typing
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 20)
+        self.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
     }
     
 }
