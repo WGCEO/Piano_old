@@ -28,8 +28,8 @@ class PianoControl: UIControl {
         var rect = manager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
         let range = manager.glyphRange(forBoundingRect: rect, in: container)
         
-        //TODO1: -1 과 5에 대해 해결하기.... TODO2: 이 함수 리펙토링(효율적인 방법 있을 듯)
-        rect.origin.y = rect.origin.y + textView.textContainerInset.top - textView.contentOffset.y - 1
+        //TODO1: -1 과 5에 대해 해결하기 -> lineFragmentPadding = 5임. TODO2: 이 함수 리펙토링(효율적인 방법 있을 듯)
+        rect.origin.y = rect.origin.y + textView.textContainerInset.top - textView.contentOffset.y - 4
         rect.origin.x += 5
         label.frame = rect
         
@@ -41,6 +41,7 @@ class PianoControl: UIControl {
         }
         
         label.text = textView.text(in: textRange)
+        
         
         return true
     }

@@ -33,7 +33,8 @@ class MemoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        textView.layoutManager.delegate = self
         canvas.textView = textView
         containerViewHeight.constant = 0
     }
@@ -122,8 +123,8 @@ class MemoViewController: UIViewController {
         eraseTextButton.isHidden = false
         let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
         self.kbHeight = kbHeight
-        self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight
-        self.eraseTextButtonBottom.constant = kbHeight - toolbarHeight
+        self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight + 4
+        self.eraseTextButtonBottom.constant = kbHeight - toolbarHeight + 4
     }
     
     func keyboardWillHide(notification: Notification){
@@ -160,6 +161,12 @@ class MemoViewController: UIViewController {
         let canvasHeight = screen.height - statusBarHeight - topViewHeight
         canvas.frame = CGRect(x: left, y: offset, width: canvasWidth, height: canvasHeight)
         textView.addSubview(canvas)
+    }
+}
+
+extension MemoViewController: NSLayoutManagerDelegate {
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return 8
     }
 }
 

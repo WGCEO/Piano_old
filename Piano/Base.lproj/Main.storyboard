@@ -311,16 +311,89 @@
                                     <segue destination="gQW-Od-Zpc" kind="embed" id="mry-Qc-ERV"/>
                                 </connections>
                             </containerView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="타이핑을 하면 마치 익숙한 악기를 연주하는 것처럼 무언가 쾌적하고 빨라진 것을 느낄 수 있습니다." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+
+NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
+
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.</mutableString>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BxF-0e-dzh" id="SuG-yn-nyx"/>
                                 </connections>
                             </textView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYR-kG-epT">
+                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYR-kG-epT">
                                 <rect key="frame" x="337" y="519" width="38" height="40"/>
                                 <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -328,11 +401,16 @@
                                     <constraint firstAttribute="height" constant="40" id="vTL-Td-xqq"/>
                                 </constraints>
                                 <state key="normal" title="✔️"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="iPw-GN-Zu6"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fF2-4n-XFz">
+                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fF2-4n-XFz">
                                 <rect key="frame" x="0.0" y="519" width="38" height="40"/>
                                 <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -343,6 +421,11 @@
                                 <state key="normal" title="◀︎">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="tapEraseTextButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="Qnr-Tc-err"/>
                                 </connections>
