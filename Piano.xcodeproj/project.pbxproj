@@ -25,6 +25,7 @@
 		3131F6F21DDD2E3D00EC4229 /* PianoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6F11DDD2E3D00EC4229 /* PianoUITests.swift */; };
 		31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C921DE808FA00373ADD /* TextViewMode.swift */; };
 		31575C951DE80BB600373ADD /* PianoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C941DE80BB600373ADD /* PianoControl.swift */; };
+		31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C9C1DEA594800373ADD /* PianoLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		3131F6F31DDD2E3D00EC4229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31575C921DE808FA00373ADD /* TextViewMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewMode.swift; sourceTree = "<group>"; };
 		31575C941DE80BB600373ADD /* PianoControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoControl.swift; sourceTree = "<group>"; };
+		31575C9C1DEA594800373ADD /* PianoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				31575C941DE80BB600373ADD /* PianoControl.swift */,
+				31575C9C1DEA594800373ADD /* PianoLabel.swift */,
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				31575C921DE808FA00373ADD /* TextViewMode.swift */,
 				310870931DE13B270044BA5D /* MemoViewController.swift */,
@@ -340,6 +343,7 @@
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				310870A61DE1720A0044BA5D /* Constant.swift in Sources */,
+				31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

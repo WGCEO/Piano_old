@@ -293,7 +293,7 @@
         <!--Memo View Controller-->
         <scene sceneID="qR9-eK-nk7">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BxF-0e-dzh" customClass="MemoViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BxF-0e-dzh" customClass="MemoViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sFu-T0-Fa9"/>
                         <viewControllerLayoutGuide type="bottom" id="L47-1m-t3x"/>
@@ -314,79 +314,11 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
+                                <string key="text">NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
 
 NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
 
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.</mutableString>
+NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
@@ -430,14 +362,30 @@ NSTextContainer is responsible for defining a region where text can be laid out.
                                     <action selector="tapEraseTextButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="Qnr-Tc-err"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jVU-rr-kq4">
+                                <rect key="frame" x="0.0" y="255" width="375" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddu-xU-y0o" customClass="PianoLabel" customModule="Piano" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <color key="backgroundColor" white="1" alpha="0.75658176369863017" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="ddu-xU-y0o" secondAttribute="bottom" id="4I0-HL-HyI"/>
+                            <constraint firstAttribute="trailing" secondItem="ddu-xU-y0o" secondAttribute="trailing" id="61A-ZS-aK7"/>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="7Yi-oC-t7W"/>
                             <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="fF2-4n-XFz" secondAttribute="bottom" id="NLd-9a-6ta"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="NdA-7D-Fge"/>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="S4w-Az-L7P"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="TAb-qw-B61"/>
+                            <constraint firstItem="ddu-xU-y0o" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="Zu8-Rd-GCg"/>
+                            <constraint firstItem="ddu-xU-y0o" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="a5D-wc-0qe"/>
                             <constraint firstAttribute="trailing" secondItem="XYR-kG-epT" secondAttribute="trailing" id="amb-ys-oNM"/>
                             <constraint firstAttribute="trailing" secondItem="Vjy-SL-eOr" secondAttribute="trailing" id="d5Z-hV-1hC"/>
                             <constraint firstItem="fF2-4n-XFz" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="fng-ht-AO3"/>
@@ -487,18 +435,9 @@ NSTextContainer is responsible for defining a region where text can be laid out.
                 <view contentMode="scaleToFill" id="ljl-Bu-EbL" customClass="PianoControl" customModule="Piano" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-5E-DEm">
-                            <rect key="frame" x="34" y="54" width="190" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
-                        <outlet property="label" destination="7Bm-5E-DEm" id="iFc-Nd-v2j"/>
+                        <outlet property="curtainView" destination="jVU-rr-kq4" id="CWU-CT-JoB"/>
+                        <outlet property="label" destination="ddu-xU-y0o" id="tCv-va-dAX"/>
                     </connections>
                 </view>
             </objects>
