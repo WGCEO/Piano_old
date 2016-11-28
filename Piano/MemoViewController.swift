@@ -173,6 +173,8 @@ extension MemoViewController: NSLayoutManagerDelegate {
 
 extension MemoViewController: UITextViewDelegate {
     
+
+    
     func textViewDidChange(_ textView: UITextView) {
         guard let nowCursorPosition = textView.selectedTextRange?.end else { return } 
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
@@ -202,7 +204,9 @@ extension MemoViewController: UITextViewDelegate {
         let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + textInsetTop)
         
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.textView.contentInset.top = cursorDestinationY
+            if cursorDestinationY > 0 {
+                self?.textView.contentInset.top = cursorDestinationY
+            }
             self?.textView.contentInset.bottom = kbHeight - toolbarHeight
             self?.textView.contentOffset.y = -cursorDestinationY
         }

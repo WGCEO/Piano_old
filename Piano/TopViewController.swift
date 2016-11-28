@@ -23,6 +23,7 @@ class TopViewController: UIViewController {
         parent.showTopView(bool: false)
         parent.textView.isSelectable = true
         parent.textView.isEditable = true
+        parent.canvas.removeFromSuperview()
         parent.textView.mode = .typing
     }
     
@@ -31,6 +32,7 @@ class TopViewController: UIViewController {
         parent.showTopView(bool: false)
         parent.textView.isSelectable = true
         parent.textView.isEditable = true
+        parent.canvas.removeFromSuperview()
         parent.textView.mode = .typing
     }
 }
