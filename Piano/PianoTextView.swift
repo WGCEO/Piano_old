@@ -17,5 +17,4 @@ class PianoTextView: UITextView {
         self.font = UIFont.preferredFont(forTextStyle: .body)
         self.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
     }
-    
 }

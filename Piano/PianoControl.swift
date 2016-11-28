@@ -14,65 +14,44 @@ class PianoControl: UIControl {
     @IBOutlet weak var curtainView: UIView!
 
     weak var textView: PianoTextView?
-    
-    //TODO: super 메서드 호출해도 되는 것인지.    
+      
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        super.beginTracking(touch, with: event)
         guard let textView = self.textView else { return true }
         
+        //1. rect 가져오기 2. 터치포인트에 해당하는 텍스트 라인 가져오기
         let point = touch.location(in: self)
+        var rect = textView.getRect(including: point)
+        label.text = textView.getText(from: rect)
         
-        let realY = point.y + textView.contentOffset.y - textView.textContainerInset.top
-        let textViewPoint = CGPoint(x: point.x, y: realY)
-        let manager = textView.layoutManager
-        let container = textView.textContainer
-        let index = manager.glyphIndex(for: textViewPoint, in: container)
-        var rect = manager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
-        let range = manager.glyphRange(forBoundingRect: rect, in: container)
+        let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
+        //TODO: ContainerViewHeight = 100 이걸 리터럴이 아닌 값으로 표현해야함
+        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 100
+        rect.origin.move(x: shiftX, y: shiftY)
 
-        //ContainerViewHeight = 100
-        rect.origin.y = rect.origin.y + textView.textContainerInset.top - textView.contentOffset.y + 100
-        rect.origin.x += (textView.textContainer.lineFragmentPadding + textView.textContainerInset.left)
-        //label.bounds = rect  todo: 여기에 새로운 뷰 만들어서 뒤 레이블 가려야함
-
-        
         label.actualRect = rect
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        rect.origin.y += statusBarHeight
+        rect.origin.move(x: 0, y: UIApplication.shared.statusBarFrame.height)
         curtainView.frame = rect
-        
-        let begin = textView.beginningOfDocument
-        guard let start = textView.position(from: begin, offset: range.location),
-            let end = textView.position(from: start, offset: range.length),
-            let textRange = textView.textRange(from: start, to: end) else {
-                return true
-        }
-
-        label.text = textView.text(in: textRange)
+    
+        //TODO: 25가 뭔지 정체 알아내기
         label.touchPointX = touch.location(in: self).x + 25
         label.isHidden = false
         curtainView.isHidden = false
         return true
     }
+    
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        super.continueTracking(touch, with: event)
-        
         //TODO: 25의 정체를 밝히기
         label.touchPointX = touch.location(in: self).x + 25
         return true
     }
     
     override func cancelTracking(with event: UIEvent?) {
-        super.cancelTracking(with: event)
-        
         label.isHidden = true
         curtainView.isHidden = true
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        super.endTracking(touch, with: event)
-        
         label.isHidden = true
         curtainView.isHidden = true
     }
