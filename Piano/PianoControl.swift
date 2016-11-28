@@ -15,15 +15,10 @@ class PianoControl: UIControl {
 
     weak var textView: PianoTextView?
     
-    
     //TODO: super 메서드 호출해도 되는 것인지.    
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         super.beginTracking(touch, with: event)
         guard let textView = self.textView else { return true }
-        
-        label.isHidden = false
-        curtainView.isHidden = false
-        
         
         let point = touch.location(in: self)
         
@@ -52,16 +47,19 @@ class PianoControl: UIControl {
             let textRange = textView.textRange(from: start, to: end) else {
                 return true
         }
-        
+
         label.text = textView.text(in: textRange)
-        
-        
+        label.touchPointX = touch.location(in: self).x + 25
+        label.isHidden = false
+        curtainView.isHidden = false
         return true
     }
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         super.continueTracking(touch, with: event)
-        label.touchPointX = touch.location(in: self).x
+        
+        //TODO: 25의 정체를 밝히기
+        label.touchPointX = touch.location(in: self).x + 25
         return true
     }
     

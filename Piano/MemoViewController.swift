@@ -125,6 +125,7 @@ class MemoViewController: UIViewController {
         self.kbHeight = kbHeight
         self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight + 4
         self.eraseTextButtonBottom.constant = kbHeight - toolbarHeight + 4
+        textView.contentInset.bottom = kbHeight - toolbarHeight
     }
     
     func keyboardWillHide(notification: Notification){
