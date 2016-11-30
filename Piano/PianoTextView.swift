@@ -14,7 +14,8 @@ class PianoTextView: UITextView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.font = UIFont.preferredFont(forTextStyle: .body)
         self.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
     }
+    
+    
 }

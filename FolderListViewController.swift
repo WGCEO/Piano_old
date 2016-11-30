@@ -23,6 +23,22 @@ class FolderListViewController: UIViewController {
         super.viewDidAppear(animated)
         indicatingCell()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(FolderListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    func preferredContentSizeChanged(notification: Notification) {
+        tableView.reloadData()
+    }
 
 }
 

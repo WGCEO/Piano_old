@@ -24,7 +24,6 @@ class PianoLabel: UILabel {
         }
     }
 
-    
     // Could be enhanced by kerning text:
     // http://stackoverflow.com/questions/21443625/core-text-calculate-letter-frame-in-ios
     
@@ -32,29 +31,60 @@ class PianoLabel: UILabel {
         guard let text = self.text,
             let touchPointX = self.touchPointX else { return }
         
-        //오른쪽부터 쓰는 글씨도 해결해야함
+        //TODO: 오른쪽부터 쓰는 글씨도 해결해야함
         var leftOffset: CGFloat = actualRect.origin.x
-        let topOffset = actualRect.origin.y   //(bounds.size.height - charHeight) / 2.0 +
+        let topOffset = actualRect.origin.y   
+        
         for char in text.characters {
-            let charSize = String(char).size(attributes: [NSFontAttributeName: font])
+            
+            let s = String(char)
+            let charSize = s.size(attributes: [NSFontAttributeName: font])
             var rect = CGRect(origin: CGPoint(x: leftOffset, y: topOffset)
                 , size: charSize)
             
-
-            let s = String(char)
             let charCenter = leftOffset + charSize.width / 2
             
-            if abs(Int32(touchPointX - charCenter)) < 60 {
-                rect.origin.y -= CGFloat(60 - abs(Int32(touchPointX - charCenter)))
-            } 
+            //2차 함수
+            let distance = touchPointX - charCenter
+            let x = distance < 0 ? -distance : distance
+            let waveLength: CGFloat = 80
+            // y = - 2.5x^2 + C
+            let y = waveLength * waveLength - 2 * x * x
             
-            s.draw(in: rect, withAttributes: [
-                NSFontAttributeName:
-                    UIFont.systemFont(ofSize: 17),
-                NSForegroundColorAttributeName:
-                    textColor.withAlphaComponent(1),
-                //NSBackgroundColorAttributeName: UIColor.blue
-                ])
+            if y > 0 {
+
+                let textAlpha: CGFloat = x < charSize.width/2 ? 1 : 0.4
+                
+
+                // 20(더할 수 있는 최대값) / 10000(y의 최대값) = 500
+                //let fontSize: CGFloat = y < 17 ? 17 : 17 + y/500
+//                let fontSize: CGFloat = x < charSize.width/2 ? 37 : 17
+                let fontStyle: UIFontTextStyle = x < charSize.width/2 ? .title1 : .body
+
+                let font = UIFont.preferredFont(forTextStyle: fontStyle)
+                let size = s.size(attributes: [NSFontAttributeName: font])
+                rect.origin.y -= x < charSize.width/2 ? (sqrt(y) + size.height)  : sqrt(y)
+                rect.size = size
+                s.draw(in: rect, withAttributes: [
+                    NSFontAttributeName:
+                        font,
+                    NSForegroundColorAttributeName:
+                        textColor.withAlphaComponent(textAlpha),
+                    //NSBackgroundColorAttributeName: UIColor.blue
+                    ])
+
+            } else {
+                
+                s.draw(in: rect, withAttributes: [
+                    NSFontAttributeName:
+                        UIFont.preferredFont(forTextStyle: .body),
+                    NSForegroundColorAttributeName:
+                        textColor.withAlphaComponent(1),
+                    //NSBackgroundColorAttributeName: UIColor.blue
+                    ])
+            }
+            
+            
             
             leftOffset += charSize.width
         }

@@ -37,6 +37,12 @@ class MemoViewController: UIViewController {
         textView.layoutManager.delegate = self
         canvas.textView = textView
         containerViewHeight.constant = 0
+        
+    }
+    
+    func preferredContentSizeChanged(notification: Notification) {
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        canvas.label.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +50,7 @@ class MemoViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -51,6 +58,7 @@ class MemoViewController: UIViewController {
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
 
     @IBAction func tapEffectButton(_ sender: Any) {
@@ -171,23 +179,20 @@ extension MemoViewController: NSLayoutManagerDelegate {
     }
 }
 
-
 extension MemoViewController: UITextViewDelegate {
     
-
-    
-    func textViewDidChange(_ textView: UITextView) {
-        guard let nowCursorPosition = textView.selectedTextRange?.end else { return } 
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        guard let nowCursorPosition = textView.selectedTextRange?.start else { return } 
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
-
-        if shouldMoveCursor(from: cursorPosition) {
+        
+        if !isCursorAttachingKeyboard(cursorPosition: cursorPosition) && textView.selectedRange.length < 1 {
             moveCursor(from: cursorPosition)
         }
     }
     
-    //현재 커서가 키보드에 붙어있는 지 아닌 지 체크
-    func shouldMoveCursor(from: CGPoint) -> Bool{
-        return from.y != cacheCursorPosition.y ? true : false
+    //현재 커서가 키보드에 붙어있는 지 아닌 지 체크 isCursorAttachingKeyboard
+    func isCursorAttachingKeyboard(cursorPosition: CGPoint) -> Bool{
+        return cursorPosition.y != cacheCursorPosition.y ? false : true
     }
     
     //커서를 이동시키는 메서드
@@ -202,7 +207,8 @@ extension MemoViewController: UITextViewDelegate {
         cacheCursorPosition = from
         let currentCursorY = cacheCursorPosition.y
         let textInsetTop = textView.textContainerInset.top
-        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + textInsetTop)
+        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + textInsetTop + textView.textContainer.lineFragmentPadding * 2)
+        //textView.textContainer.lineFragmentPadding * 2 이게 맞는 건지 확인해야함
         
         UIView.animate(withDuration: 0.3) { [weak self] in
             if cursorDestinationY > 0 {

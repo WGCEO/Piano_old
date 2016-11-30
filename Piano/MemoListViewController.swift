@@ -26,6 +26,24 @@ class MemoListViewController: UIViewController {
         indicatingCell()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(MemoListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    func preferredContentSizeChanged(notification: Notification) {
+        tableView.reloadData()
+    }
+    
+    
+    
     func setTableViewCellHeight() {
         let originalString: String = "ForBodySize"
         let myString = originalString
