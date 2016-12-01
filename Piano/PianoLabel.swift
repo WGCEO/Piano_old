@@ -10,7 +10,9 @@ import UIKit
 
 class PianoLabel: UILabel {
     
-    var waveLength: CGFloat = 60
+    var leftEndTouchX: CGFloat = CGFloat.greatestFiniteMagnitude
+    
+    var waveLength: CGFloat = 60 //이거 Designable
     
     var actualRect = CGRect.zero
     
@@ -22,6 +24,12 @@ class PianoLabel: UILabel {
     
     var touchPointX: CGFloat? {
         didSet {
+            
+            guard let touchPointX = self.touchPointX else { return }
+            if  touchPointX < leftEndTouchX {
+                leftEndTouchX = touchPointX
+            }
+            
             setNeedsDisplay()
         }
     }
@@ -56,26 +64,23 @@ class PianoLabel: UILabel {
             // 4차식
             let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
             
+            let isApplyEffect = rect.origin.x > leftEndTouchX && rect.origin.x < touchPointX ? true : false
+            
             if x > -waveLength && x < waveLength {
-
-                let textAlpha: CGFloat = x < charSize.width/2 ? 1 : 0.4
                 
+                let isSelectedCharacter = x < charSize.width / 2
 
-                // 20(더할 수 있는 최대값) / 10000(y의 최대값) = 500
-                //let fontSize: CGFloat = y < 17 ? 17 : 17 + y/500
-//                let fontSize: CGFloat = x < charSize.width/2 ? 37 : 17
-                let fontStyle: UIFontTextStyle = x < charSize.width/2 ? .title1 : .body
+                let textAlpha: CGFloat = isSelectedCharacter ? 1 : 0.4
+                let fontStyle: UIFontTextStyle = isSelectedCharacter ? .title1 : .body
 
                 let font = UIFont.preferredFont(forTextStyle: fontStyle)
                 let size = s.size(attributes: [NSFontAttributeName: font])
                 rect.origin.y -= x < charSize.width/2 ? (y + size.height)  : y
                 rect.size = size
                 s.draw(in: rect, withAttributes: [
-                    NSFontAttributeName:
-                        font,
-                    NSForegroundColorAttributeName:
-                        textColor.withAlphaComponent(textAlpha),
-                    //NSBackgroundColorAttributeName: UIColor.blue
+                    NSFontAttributeName: font,
+                    NSForegroundColorAttributeName: textColor.withAlphaComponent(textAlpha),
+                    NSBackgroundColorAttributeName: isApplyEffect && !isSelectedCharacter ? UIColor.yellow : UIColor.clear
                     ])
 
             } else {
@@ -85,7 +90,7 @@ class PianoLabel: UILabel {
                         UIFont.preferredFont(forTextStyle: .body),
                     NSForegroundColorAttributeName:
                         textColor.withAlphaComponent(1),
-                    //NSBackgroundColorAttributeName: UIColor.blue
+                    NSBackgroundColorAttributeName: isApplyEffect ? UIColor.yellow : UIColor.clear
                     ])
             }
             

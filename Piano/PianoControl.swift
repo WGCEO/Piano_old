@@ -14,6 +14,7 @@ class PianoControl: UIControl {
     @IBOutlet weak var curtainView: UIView!
 
     weak var textView: PianoTextView?
+    
       
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         guard let textView = self.textView else { return true }
@@ -49,10 +50,17 @@ class PianoControl: UIControl {
     override func cancelTracking(with event: UIEvent?) {
         label.isHidden = true
         curtainView.isHidden = true
+        label.leftEndTouchX = CGFloat.greatestFiniteMagnitude
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         label.isHidden = true
         curtainView.isHidden = true
+        
+        
+        //버그 생길 위험이 있는 코드, 점검하기
+        label.leftEndTouchX = CGFloat.greatestFiniteMagnitude
+        
+        
     }
 }
