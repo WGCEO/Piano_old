@@ -315,12 +315,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:
-
-NSTextStorage is responsible for holding a string value and notifying the set of NSLayoutManagers when any change occurs to said string.
-
-NSTextContainer is responsible for defining a region where text can be laid out. This region is used by NSLayoutManager to determine where to break lines. In our case this will be our CharacterLabel’s frame.NSLayoutManager, NSTextStorage, NSTextContainer need to work together to get everything laid out nicely. It all starts with NSTextStorage:</string>
+www.naver.com 010-7359-4004 heloooo</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="BxF-0e-dzh" id="SuG-yn-nyx"/>
                                 </connections>
@@ -409,7 +407,11 @@ NSTextContainer is responsible for defining a region where text can be laid out.
                         <nil key="title"/>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="action" id="Pm2-Xi-uU6"/>
-                            <barButtonItem title="협업" id="VMT-j9-3fg"/>
+                            <barButtonItem title="협업" id="VMT-j9-3fg">
+                                <connections>
+                                    <action selector="tapLiveButton:" destination="BxF-0e-dzh" id="G6e-HQ-OuM"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem title="효과" id="K5Z-c7-Tc8">
                                 <connections>
                                     <action selector="tapEffectButton:" destination="BxF-0e-dzh" id="JAI-cS-WzF"/>

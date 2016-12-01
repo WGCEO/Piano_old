@@ -10,6 +10,8 @@ import UIKit
 
 class PianoLabel: UILabel {
     
+    var waveLength: CGFloat = 60
+    
     var actualRect = CGRect.zero
     
     var isAnimating: Bool = false {
@@ -47,11 +49,14 @@ class PianoLabel: UILabel {
             //2차 함수
             let distance = touchPointX - charCenter
             let x = distance < 0 ? -distance : distance
-            let waveLength: CGFloat = 80
             // y = - 2.5x^2 + C
-            let y = waveLength * waveLength - 2 * x * x
+            let leftLamda = (x + waveLength) / waveLength
+            let rightLamda = (x - waveLength) / waveLength
             
-            if y > 0 {
+            // 4차식
+            let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
+            
+            if x > -waveLength && x < waveLength {
 
                 let textAlpha: CGFloat = x < charSize.width/2 ? 1 : 0.4
                 
@@ -63,7 +68,7 @@ class PianoLabel: UILabel {
 
                 let font = UIFont.preferredFont(forTextStyle: fontStyle)
                 let size = s.size(attributes: [NSFontAttributeName: font])
-                rect.origin.y -= x < charSize.width/2 ? (sqrt(y) + size.height)  : sqrt(y)
+                rect.origin.y -= x < charSize.width/2 ? (y + size.height)  : y
                 rect.size = size
                 s.draw(in: rect, withAttributes: [
                     NSFontAttributeName:

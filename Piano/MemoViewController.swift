@@ -37,7 +37,6 @@ class MemoViewController: UIViewController {
         textView.layoutManager.delegate = self
         canvas.textView = textView
         containerViewHeight.constant = 0
-        
     }
     
     func preferredContentSizeChanged(notification: Notification) {
@@ -59,6 +58,9 @@ class MemoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    @IBAction func tapLiveButton(_ sender: Any) {
+        textView.isEditable = !textView.isEditable
     }
 
     @IBAction func tapEffectButton(_ sender: Any) {
