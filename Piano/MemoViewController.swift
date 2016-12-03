@@ -10,15 +10,17 @@ import UIKit
 
 class MemoViewController: UIViewController {
 
-    
-    @IBOutlet var canvas: PianoControl!
+
+    @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textView: PianoTextView!
     
+
+    @IBOutlet weak var textViewTop: NSLayoutConstraint!
+    @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
+
     @IBOutlet weak var effectButton: UIBarButtonItem!
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var sendButton: UIBarButtonItem!
-    @IBOutlet weak var textViewTop: NSLayoutConstraint!
-    @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var hideKeyboardButton: UIButton!
 
@@ -26,22 +28,19 @@ class MemoViewController: UIViewController {
 
     @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
     @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
-    let topViewHeight: CGFloat = 100.0
-    var kbHeight: CGFloat?
-    var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.layoutManager.delegate = self
-        canvas.textView = textView
         containerViewHeight.constant = 0
+        textView.canvas.delegate = label
+        textView.layoutManager.delegate = self
     }
     
     func preferredContentSizeChanged(notification: Notification) {
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        canvas.label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,7 +67,7 @@ class MemoViewController: UIViewController {
         textView.isEditable = false
         textView.isSelectable = false
         textView.mode = .effect
-        attachCanvasToTextView()
+        textView.attachCanvas()
     }
     
     @IBAction func tapHideKeyboardButton(_ sender: Any) {
@@ -125,17 +124,18 @@ class MemoViewController: UIViewController {
     func keyboardWillShow(notification: Notification){
         guard let userInfo = notification.userInfo,
             let toolbarHeight = navigationController?.toolbar.frame.height else { return }
-        cacheCursorPosition = CGPoint(x: 0, y: -10)
+        
         effectButton.isEnabled = false
         shareButton.isEnabled = false
         sendButton.isEnabled = false
         hideKeyboardButton.isHidden = false
         eraseTextButton.isHidden = false
         let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
-        self.kbHeight = kbHeight
-        self.hideKeyboardButtonBottom.constant = kbHeight - toolbarHeight + 4
-        self.eraseTextButtonBottom.constant = kbHeight - toolbarHeight + 4
-        textView.contentInset.bottom = kbHeight - toolbarHeight
+        let bottomDistance = kbHeight - toolbarHeight
+        textView.bottomDistance = bottomDistance
+        textView.cacheCursorPosition = CGPoint(x: 0, y: -10)
+        hideKeyboardButtonBottom.constant = bottomDistance + 4
+        eraseTextButtonBottom.constant = bottomDistance + 4
     }
     
     func keyboardWillHide(notification: Notification){
@@ -155,23 +155,10 @@ class MemoViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(bool, animated: true)
         self.navigationController?.setToolbarHidden(bool, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.containerViewHeight.constant = bool ? self.topViewHeight : 0
-            self.textViewTop.constant = bool ? self.topViewHeight : 0
+            self.containerViewHeight.constant = bool ? 100 : 0
+            self.textViewTop.constant = bool ? 100 : 0
             self.view.layoutIfNeeded()
         }
-    }
-    
-    func attachCanvasToTextView() {
-        canvas.removeFromSuperview()
-        let screen = UIScreen.main.bounds
-        let left = textView.textContainerInset.left
-        let right = textView.textContainerInset.right
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        let offset = textView.contentOffset.y
-        let canvasWidth = screen.width - (left + right)
-        let canvasHeight = screen.height - statusBarHeight - topViewHeight
-        canvas.frame = CGRect(x: left, y: offset, width: canvasWidth, height: canvasHeight)
-        textView.addSubview(canvas)
     }
 }
 
@@ -181,63 +168,3 @@ extension MemoViewController: NSLayoutManagerDelegate {
     }
 }
 
-extension MemoViewController: UITextViewDelegate {
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        guard let nowCursorPosition = textView.selectedTextRange?.start else { return } 
-        let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
-        
-        if !isCursorAttachingKeyboard(cursorPosition: cursorPosition) && textView.selectedRange.length < 1 {
-            moveCursor(from: cursorPosition)
-        }
-    }
-    
-    //현재 커서가 키보드에 붙어있는 지 아닌 지 체크 isCursorAttachingKeyboard
-    func isCursorAttachingKeyboard(cursorPosition: CGPoint) -> Bool{
-        return cursorPosition.y != cacheCursorPosition.y ? false : true
-    }
-    
-    //커서를 이동시키는 메서드
-    func moveCursor(from: CGPoint) {
-        guard let kbHeight = kbHeight,
-            let navigationbarHeight = navigationController?.navigationBar.frame.height,
-            let toolbarHeight = navigationController?.toolbar.frame.height
-            else { return }
-        let screenHeight = UIScreen.main.bounds.height
-        let statusBarHeight = UIApplication.shared.statusBarFrame.height
-        
-        cacheCursorPosition = from
-        let currentCursorY = cacheCursorPosition.y
-        let textInsetTop = textView.textContainerInset.top
-        let cursorDestinationY = screenHeight - (statusBarHeight + navigationbarHeight + currentCursorY + kbHeight + textInsetTop + textView.textContainer.lineFragmentPadding * 2)
-        //textView.textContainer.lineFragmentPadding * 2 이게 맞는 건지 확인해야함
-        
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            if cursorDestinationY > 0 {
-                self?.textView.contentInset.top = cursorDestinationY
-            }
-            self?.textView.contentInset.bottom = kbHeight - toolbarHeight
-            self?.textView.contentOffset.y = -cursorDestinationY
-        }
-    }
-}
-
-
-extension MemoViewController: UIScrollViewDelegate {
-
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if textView.mode != .typing {
-            attachCanvasToTextView()
-        }
-    }
-    
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if textView.mode != .typing {
-            attachCanvasToTextView()
-        }
-    }
-    
-
-}

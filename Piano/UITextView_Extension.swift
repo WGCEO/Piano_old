@@ -23,9 +23,21 @@ extension UITextView {
     }
     
     func getRect(including point: CGPoint) -> CGRect {
-        let realY = point.y + self.contentOffset.y - self.textContainerInset.top
-        let textViewPoint = CGPoint(x: point.x, y: realY)
-        let index = self.layoutManager.glyphIndex(for: textViewPoint, in: self.textContainer)
+        let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
         return self.layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
     }
+    
+    func getRange(begin: CGPoint, end: CGPoint) -> NSRange {
+        let beginY = begin.y + self.contentOffset.y - self.textContainerInset.top
+        let endY = end.y + self.contentOffset.y - self.textContainerInset.top
+        let textViewTouchBeginPoint = CGPoint(x: begin.x, y: beginY)
+        let textViewTouchEndPoint = CGPoint(x: end.x, y: endY)
+        let beginIndex = self.layoutManager.glyphIndex(for: textViewTouchBeginPoint, in: self.textContainer)
+        let endIndex = self.layoutManager.glyphIndex(for: textViewTouchEndPoint, in: self.textContainer)
+        
+        return NSRange(location: beginIndex, length: endIndex - beginIndex)
+        
+    }
+    
+    
 }

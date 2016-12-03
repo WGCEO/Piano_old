@@ -10,8 +10,7 @@ import UIKit
 
 extension CGPoint {
     
-    mutating func move(x: CGFloat, y: CGFloat) {
-        self.x = self.x + x
-        self.y = self.y + y
+    func move(x: CGFloat, y: CGFloat) -> CGPoint{
+        return CGPoint(x: self.x + x, y: self.y + y)
     }
 }

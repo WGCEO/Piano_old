@@ -8,59 +8,90 @@
 
 import UIKit
 
+protocol PianoControlDelegate: class {
+    func textFromTextView(text: String)
+    func rectForText(_ rect: CGRect)
+    func xPointFromTouch(_ x: CGFloat)
+    func isVisible(_ bool: Bool)
+    func resetLeftEnd(value: CGFloat)
+}
+
 class PianoControl: UIControl {
 
-    @IBOutlet weak var label: PianoLabel!
-    @IBOutlet weak var curtainView: UIView!
 
-    weak var textView: PianoTextView?
+    weak var delegate: PianoControlDelegate?
+    weak var textView: PianoTextView!
+    var selectedRect: CGRect?
     
       
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        guard let textView = self.textView else { return true }
         
-        //1. rect 가져오기 2. 터치포인트에 해당하는 텍스트 라인 가져오기
-        let point = touch.location(in: self)
-        var rect = textView.getRect(including: point)
-        label.text = textView.getText(from: rect)
-        
-        let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
-        //TODO: ContainerViewHeight = 100 이걸 리터럴이 아닌 값으로 표현해야함
-        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 100
-        rect.origin.move(x: shiftX, y: shiftY)
+        //1. 텍스트 뷰의 좌표로 점 평행이동
+        let point = touch.location(in: self).move(x: 0, y: textView.contentOffset.y - textView.textContainerInset.top)
 
-        label.actualRect = rect
-        rect.origin.move(x: 0, y: UIApplication.shared.statusBarFrame.height)
-        curtainView.frame = rect
-    
+        
+        let rect = textView.getRect(including: point)
+        textView.attachEraseView(rect: rect)
+        delegate?.textFromTextView(text: textView.getText(from: rect))
+        //        selectedRect = rect
+        
+        //TODO: ContainerViewHeight = 100 이걸 리터럴이 아닌 값으로 표현해야함
+        let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
+        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 100
+        let newRect = rect.offsetBy(dx: shiftX, dy: shiftY)
+
+        delegate?.rectForText(newRect)
+        
         //TODO: 25가 뭔지 정체 알아내기
-        label.touchPointX = touch.location(in: self).x + 25
-        label.isHidden = false
-        curtainView.isHidden = false
+        delegate?.xPointFromTouch(point.x + 25)
+        delegate?.isVisible(true)
         return true
     }
     
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         //TODO: 25의 정체를 밝히기
-        label.touchPointX = touch.location(in: self).x + 25
+        delegate?.xPointFromTouch(touch.location(in: self).x + 25)
         return true
     }
     
     override func cancelTracking(with event: UIEvent?) {
-        label.isHidden = true
-        curtainView.isHidden = true
-        label.leftEndTouchX = CGFloat.greatestFiniteMagnitude
+        delegate?.isVisible(false)
+        delegate?.resetLeftEnd(value: CGFloat.greatestFiniteMagnitude)
+        textView.removeEraseView()
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        label.isHidden = true
-        curtainView.isHidden = true
+        delegate?.isVisible(false)
+        textView.removeEraseView()
         
         
-        //버그 생길 위험이 있는 코드, 점검하기
-        label.leftEndTouchX = CGFloat.greatestFiniteMagnitude
-        
-        
+        //TODO: 코드가 너무 더러움... 완전 리펙토링하기
+//        let indexs = label.applyEffectIndexSet.sorted()
+//        
+//        guard let selectedRect = self.selectedRect,
+//            let firstIndex = indexs.first,
+//            let lastIndex = indexs.last  else { return }
+//
+//        let lineRange = textView.layoutManager.glyphRange(forBoundingRect: selectedRect, in: textView.textContainer)
+//        let selectedTextRange = NSRange(location: lineRange.location + firstIndex, length: lastIndex - firstIndex + 1)
+//        
+//
+//        let attrs: [String : Any] = [
+//            NSFontAttributeName: label.font,
+//            NSForegroundColorAttributeName: label.textColor,
+//            NSBackgroundColorAttributeName: Constant.yellowEffectColor
+//        ]
+//        textView.layoutManager.textStorage?.setAttributes(attrs, range: selectedTextRange)
+//        
+//        self.selectedRect = nil
+//        label.applyEffectIndexSet.removeAll()
+//        
+//        //버그 생길 위험이 있는 코드, 점검하기
+//        label.leftEndTouchX = CGFloat.greatestFiniteMagnitude
     }
 }
+
+
+
+

@@ -26,6 +26,7 @@
 		31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C921DE808FA00373ADD /* TextViewMode.swift */; };
 		31575C951DE80BB600373ADD /* PianoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C941DE80BB600373ADD /* PianoControl.swift */; };
 		31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C9C1DEA594800373ADD /* PianoLabel.swift */; };
+		315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315A53821DF311FA00BB7367 /* NSRange_Extension.swift */; };
 		316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */; };
 		316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F157B1DEC140A007693D9 /* UITextView_Extension.swift */; };
 		3175A8011DEEC81700C1A02E /* PianoTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */; };
@@ -74,6 +75,7 @@
 		31575C921DE808FA00373ADD /* TextViewMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewMode.swift; sourceTree = "<group>"; };
 		31575C941DE80BB600373ADD /* PianoControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoControl.swift; sourceTree = "<group>"; };
 		31575C9C1DEA594800373ADD /* PianoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoLabel.swift; sourceTree = "<group>"; };
+		315A53821DF311FA00BB7367 /* NSRange_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRange_Extension.swift; sourceTree = "<group>"; };
 		316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint_Extension.swift; sourceTree = "<group>"; };
 		316F157B1DEC140A007693D9 /* UITextView_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView_Extension.swift; sourceTree = "<group>"; };
 		3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextStorage.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
 				316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */,
 				316F157B1DEC140A007693D9 /* UITextView_Extension.swift */,
+				315A53821DF311FA00BB7367 /* NSRange_Extension.swift */,
 				310870A91DE1729C0044BA5D /* Reusable.swift */,
 				31575C961DE825F600373ADD /* FolderList */,
 				31575C971DE825FF00373ADD /* MemoList */,
@@ -349,6 +352,7 @@
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				310870A01DE14AD90044BA5D /* SearchMemoListViewController.swift in Sources */,
+				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,

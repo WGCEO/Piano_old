@@ -9,5 +9,5 @@
 import UIKit
 
 struct Constant {
-    
+    static let yellowEffectColor = UIColor(colorLiteralRed: 1, green: 237/255, blue: 0, alpha: 1)
 }

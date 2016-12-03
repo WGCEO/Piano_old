@@ -10,5 +10,6 @@ import UIKit
 
 class TextEffectCell: UICollectionViewCell, Reusable {
     
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    
 }

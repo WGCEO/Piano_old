@@ -23,7 +23,7 @@ class TopViewController: UIViewController {
         parent.showTopView(bool: false)
         parent.textView.isSelectable = true
         parent.textView.isEditable = true
-        parent.canvas.removeFromSuperview()
+        parent.textView.canvas.removeFromSuperview()
         parent.textView.mode = .typing
     }
     
@@ -32,7 +32,7 @@ class TopViewController: UIViewController {
         parent.showTopView(bool: false)
         parent.textView.isSelectable = true
         parent.textView.isEditable = true
-        parent.canvas.removeFromSuperview()
+        parent.textView.canvas.removeFromSuperview()
         parent.textView.mode = .typing
     }
 }
@@ -43,25 +43,25 @@ extension TopViewController: UICollectionViewDataSource {
         
         switch indexPath.item {
         case 0:
-            cell.label.text = "볼드체"
+            cell.imageView.image = UIImage(named: "b")
         case 1:
-            cell.label.text = "글자색"
+            cell.imageView.image = UIImage(named: "textColor")
         case 2:
-            cell.label.text = "형광펜"
+            cell.imageView.image = UIImage(named: "textBg")
         case 3:
-            cell.label.text = "취소선"
+            cell.imageView.image = UIImage(named: "textLine")
         case 4:
-            cell.label.text = "이텔릭"
+            cell.imageView.image = UIImage(named: "italic")
         case 5:
-            cell.label.text = "제목"
+            cell.imageView.image = UIImage(named: "textColor")
         case 6:
-            cell.label.text = "부제목"
+            cell.imageView.image = UIImage(named: "textBg")
         case 7:
-            cell.label.text = "캡션1"
+            cell.imageView.image = UIImage(named: "textLine")
         case 8:
-            cell.label.text = "캡션2"
+            cell.imageView.image = UIImage(named: "italic")
         case 9:
-            cell.label.text = "풋놋"
+            cell.imageView.image = UIImage(named: "b")
         default:
             ()
         }
