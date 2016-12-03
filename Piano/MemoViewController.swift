@@ -24,9 +24,8 @@ class MemoViewController: UIViewController {
     
     @IBOutlet weak var hideKeyboardButton: UIButton!
 
-    @IBOutlet weak var eraseTextButton: UIButton!
-
-    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
+//    @IBOutlet weak var eraseTextButton: UIButton!
+//    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
     @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
 
     
@@ -129,13 +128,13 @@ class MemoViewController: UIViewController {
         shareButton.isEnabled = false
         sendButton.isEnabled = false
         hideKeyboardButton.isHidden = false
-        eraseTextButton.isHidden = false
+//        eraseTextButton.isHidden = false
         let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
         let bottomDistance = kbHeight - toolbarHeight
         textView.bottomDistance = bottomDistance
         textView.cacheCursorPosition = CGPoint(x: 0, y: -10)
         hideKeyboardButtonBottom.constant = bottomDistance + 4
-        eraseTextButtonBottom.constant = bottomDistance + 4
+//        eraseTextButtonBottom.constant = bottomDistance + 4
     }
     
     func keyboardWillHide(notification: Notification){
@@ -145,7 +144,7 @@ class MemoViewController: UIViewController {
         shareButton.isEnabled = true
         sendButton.isEnabled = true
         hideKeyboardButton.isHidden = true
-        eraseTextButton.isHidden = true
+//        eraseTextButton.isHidden = true
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         }

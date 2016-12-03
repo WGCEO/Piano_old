@@ -14,6 +14,8 @@ protocol PianoControlDelegate: class {
     func xPointFromTouch(_ x: CGFloat)
     func isVisible(_ bool: Bool)
     func resetLeftEnd(value: CGFloat)
+    func getIndexes() -> [Int]
+    func setIndexes(_ indexes: Set<Int>?) 
 }
 
 class PianoControl: UIControl {
@@ -21,7 +23,7 @@ class PianoControl: UIControl {
 
     weak var delegate: PianoControlDelegate?
     weak var textView: PianoTextView!
-    var selectedRect: CGRect?
+    var selectedRange: NSRange?
     
       
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
@@ -32,8 +34,9 @@ class PianoControl: UIControl {
         
         let rect = textView.getRect(including: point)
         textView.attachEraseView(rect: rect)
-        delegate?.textFromTextView(text: textView.getText(from: rect))
-        //        selectedRect = rect
+        let (text, range) = textView.getTextAndRange(from: rect)
+        delegate?.textFromTextView(text: text)
+        selectedRange = range
         
         //TODO: ContainerViewHeight = 100 이걸 리터럴이 아닌 값으로 표현해야함
         let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
@@ -43,15 +46,14 @@ class PianoControl: UIControl {
         delegate?.rectForText(newRect)
         
         //TODO: 25가 뭔지 정체 알아내기
-        delegate?.xPointFromTouch(point.x + 25)
+        delegate?.xPointFromTouch(point.x + textView.textContainerInset.left)
         delegate?.isVisible(true)
         return true
     }
     
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        //TODO: 25의 정체를 밝히기
-        delegate?.xPointFromTouch(touch.location(in: self).x + 25)
+        delegate?.xPointFromTouch(touch.location(in: self).x + textView.textContainerInset.left)
         return true
     }
     
@@ -62,33 +64,33 @@ class PianoControl: UIControl {
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        delegate?.isVisible(false)
-        textView.removeEraseView()
         
-        
+        //끝났으면 텍스트뷰에 칠해야 함
         //TODO: 코드가 너무 더러움... 완전 리펙토링하기
-//        let indexs = label.applyEffectIndexSet.sorted()
-//        
-//        guard let selectedRect = self.selectedRect,
-//            let firstIndex = indexs.first,
-//            let lastIndex = indexs.last  else { return }
-//
-//        let lineRange = textView.layoutManager.glyphRange(forBoundingRect: selectedRect, in: textView.textContainer)
-//        let selectedTextRange = NSRange(location: lineRange.location + firstIndex, length: lastIndex - firstIndex + 1)
-//        
-//
-//        let attrs: [String : Any] = [
-//            NSFontAttributeName: label.font,
-//            NSForegroundColorAttributeName: label.textColor,
-//            NSBackgroundColorAttributeName: Constant.yellowEffectColor
-//        ]
-//        textView.layoutManager.textStorage?.setAttributes(attrs, range: selectedTextRange)
-//        
-//        self.selectedRect = nil
-//        label.applyEffectIndexSet.removeAll()
-//        
-//        //버그 생길 위험이 있는 코드, 점검하기
-//        label.leftEndTouchX = CGFloat.greatestFiniteMagnitude
+
+        
+        guard let range = self.selectedRange, 
+            let indexs = delegate?.getIndexes(), 
+            let firstIndex = indexs.first,
+            let lastIndex = indexs.last  else { return }
+
+        let selectedTextRange = NSRange(location: range.location + firstIndex, length: lastIndex - firstIndex + 1)
+        
+
+        //TODO: 로직 싹 다 고쳐야 함
+        let attrs: [String : Any] = [
+            NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body),
+            NSForegroundColorAttributeName: UIColor.black,
+            NSBackgroundColorAttributeName: Constant.yellowEffectColor
+        ]
+        textView.layoutManager.textStorage?.setAttributes(attrs, range: selectedTextRange)
+        
+        selectedRange = nil
+        delegate?.setIndexes(nil)
+        
+        delegate?.isVisible(false)
+        delegate?.resetLeftEnd(value: CGFloat.greatestFiniteMagnitude)
+        textView.removeEraseView()
     }
 }
 

@@ -355,25 +355,6 @@
                                     <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="iPw-GN-Zu6"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fF2-4n-XFz">
-                                <rect key="frame" x="0.0" y="519" width="38" height="40"/>
-                                <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="38" id="tpm-6e-Cuk"/>
-                                    <constraint firstAttribute="height" constant="40" id="xU6-sZ-ezX"/>
-                                </constraints>
-                                <state key="normal" title="↩︎">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="19"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="tapEraseTextButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="Qnr-Tc-err"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1QZ-Ga-XjH" customClass="PianoLabel" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -389,12 +370,10 @@
                             <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="1QZ-Ga-XjH" secondAttribute="bottom" id="9aG-6n-dXW"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="C1S-gQ-asM"/>
                             <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="Vjy-SL-eOr" secondAttribute="bottom" id="KuI-Sj-3v1"/>
-                            <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="fF2-4n-XFz" secondAttribute="bottom" id="NLd-9a-6ta"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="NdA-7D-Fge"/>
                             <constraint firstItem="1QZ-Ga-XjH" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="VAx-SS-MgZ"/>
                             <constraint firstAttribute="trailing" secondItem="XYR-kG-epT" secondAttribute="trailing" id="amb-ys-oNM"/>
                             <constraint firstAttribute="trailing" secondItem="Vjy-SL-eOr" secondAttribute="trailing" id="d5Z-hV-1hC"/>
-                            <constraint firstItem="fF2-4n-XFz" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="fng-ht-AO3"/>
                             <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="XYR-kG-epT" secondAttribute="bottom" id="lGB-AI-Iho"/>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="v2q-xi-PHo"/>
                             <constraint firstAttribute="trailing" secondItem="uxc-Po-ywr" secondAttribute="trailing" id="wNH-AJ-Cfq"/>
@@ -431,8 +410,6 @@
                     <connections>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="t0k-Jc-TxO"/>
                         <outlet property="effectButton" destination="K5Z-c7-Tc8" id="pt0-w6-ZQD"/>
-                        <outlet property="eraseTextButton" destination="fF2-4n-XFz" id="QbR-Ln-mRr"/>
-                        <outlet property="eraseTextButtonBottom" destination="NLd-9a-6ta" id="YaO-XU-RfD"/>
                         <outlet property="hideKeyboardButton" destination="XYR-kG-epT" id="Nu9-E2-kNh"/>
                         <outlet property="hideKeyboardButtonBottom" destination="lGB-AI-Iho" id="df1-ti-Ptk"/>
                         <outlet property="label" destination="1QZ-Ga-XjH" id="FnW-XF-Lty"/>

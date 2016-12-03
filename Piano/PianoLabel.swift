@@ -52,8 +52,9 @@ class PianoLabel: UILabel {
             
             let s = String(char)
             let charSize = s.size(attributes: [NSFontAttributeName: font])
-            var rect = CGRect(origin: CGPoint(x: leftOffset, y: topOffset)
+            let rect = CGRect(origin: CGPoint(x: leftOffset, y: topOffset)
                 , size: charSize)
+            
             
             let charCenter = leftOffset + charSize.width / 2
             let distance = touchPointX - charCenter
@@ -65,11 +66,11 @@ class PianoLabel: UILabel {
             let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
             
 
-            let isSelectedCharacter = x < charSize.width / 2
-            let isApplyEffect = rect.origin.x > leftEndTouchX && 
-                rect.origin.x < touchPointX &&
+            let isSelectedCharacter = touchPointX - leftOffset > 0 && 
+                touchPointX - leftOffset < charSize.width
+            let isApplyEffect = leftOffset + charSize.width > leftEndTouchX &&
+                touchPointX - leftOffset > 0 &&
                 !isSelectedCharacter ? true : false
-            
             
             if isApplyEffect {
                 applyEffectIndexSet.insert(index)
@@ -77,16 +78,20 @@ class PianoLabel: UILabel {
                 applyEffectIndexSet.remove(index)
             }
             
+            
+            
             //효과 입히기
             if x > -waveLength && x < waveLength {
                 
-                let textAlpha: CGFloat = isSelectedCharacter ? 1 : 0.4
+                let textAlpha: CGFloat = 1//isSelectedCharacter ? 1 : 0.4
                 let fontStyle: UIFontTextStyle = isSelectedCharacter ? .title1 : .body
 
                 let font = UIFont.preferredFont(forTextStyle: fontStyle)
                 let size = s.size(attributes: [NSFontAttributeName: font])
-                rect.origin.y -= x < charSize.width/2 ? (y + size.height)  : y
-                rect.size = size
+                let x = rect.origin.x
+                let y = rect.origin.y - (isSelectedCharacter ? (y + size.height)  : y)
+                let point = CGPoint(x: x, y: y)
+                let rect = CGRect(origin: point, size: size)
                 
                 s.draw(in: rect, withAttributes: [
                     NSFontAttributeName: font,
@@ -127,11 +132,22 @@ extension PianoLabel: PianoControlDelegate {
     
     func isVisible(_ bool: Bool) {
         self.isHidden = !bool
-        
-        
     }
     
     func resetLeftEnd(value: CGFloat) {
         leftEndTouchX = value
+    }
+    
+    func getIndexes() -> [Int] {
+        return applyEffectIndexSet.sorted()
+    }
+    
+    func setIndexes(_ indexes: Set<Int>?) {
+        guard let indexes = indexes else { 
+            applyEffectIndexSet.removeAll()
+            return
+        }
+        
+        applyEffectIndexSet = indexes
     }
 }
