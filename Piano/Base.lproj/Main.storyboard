@@ -340,24 +340,18 @@
                             </textView>
                             <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYR-kG-epT">
                                 <rect key="frame" x="337" y="519" width="38" height="40"/>
-                                <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="38" id="9hT-xR-isU"/>
                                     <constraint firstAttribute="height" constant="40" id="vTL-Td-xqq"/>
                                 </constraints>
                                 <state key="normal" title="✔️"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="19"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="iPw-GN-Zu6"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1QZ-Ga-XjH" customClass="PianoLabel" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -544,6 +538,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="7HM-g1-brq" id="Tjh-np-J9K"/>
                         <outlet property="label" destination="Q0t-cU-yz9" id="mKV-kc-NiX"/>
                     </connections>
                 </viewController>
@@ -562,5 +557,4 @@
         <image name="test" width="37" height="37"/>
         <image name="voiceIco" width="20" height="25"/>
     </resources>
-    <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
 </document>

@@ -10,11 +10,13 @@ import UIKit
 
 class TopViewController: UIViewController {
 
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let indexPath = IndexPath(item: 0, section: 0)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
     }
 
     @IBAction func tapApplyButton(_ sender: Any) {
@@ -44,14 +46,19 @@ extension TopViewController: UICollectionViewDataSource {
         switch indexPath.item {
         case 0:
             cell.imageView.image = UIImage(named: "b")
+            cell.textEffect = .headline
         case 1:
             cell.imageView.image = UIImage(named: "textColor")
+            cell.textEffect = .red
         case 2:
-            cell.imageView.image = UIImage(named: "textBg")
+            cell.imageView.image = UIImage(named: "textColor")
+            cell.textEffect = .green
         case 3:
             cell.imageView.image = UIImage(named: "textLine")
+            cell.textEffect = .underline
         case 4:
-            cell.imageView.image = UIImage(named: "italic")
+            cell.imageView.image = UIImage(named: "textLine")
+            cell.textEffect = .strike
         case 5:
             cell.imageView.image = UIImage(named: "textColor")
         case 6:
@@ -72,6 +79,17 @@ extension TopViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
+    }
+}
+
+extension TopViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let parent = parent as? MemoViewController,
+            let cell = collectionView.cellForItem(at: indexPath) as? TextEffectCell
+        else { return }
+        
+        let control = parent.textView.canvas
+        control.textEffect = cell.textEffect 
     }
 }
 

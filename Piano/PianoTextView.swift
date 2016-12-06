@@ -22,11 +22,19 @@ class PianoTextView: UITextView {
         return view
     }()
     
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.textContainerInset = UIEdgeInsetsMake(20, 20, 0, 20)
         self.delegate = self
         canvas.textView = self
+    }
+    
+
+    
+    //애니메이션중이면 액션을 실행하면 안됨, 실행하게 된다면 둘다 애니메이션이라 blocking이 됨 
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return isAnimating ? false : true
     }
     
     func attachEraseView(rect: CGRect) {
@@ -54,11 +62,11 @@ class PianoTextView: UITextView {
 
 extension PianoTextView: UITextViewDelegate {
     
-    
     func textViewDidChangeSelection(_ textView: UITextView) {
         
         guard let nowCursorPosition = textView.selectedTextRange?.start else { return } 
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
+        
         
         if !isCursorAttachingKeyboard(cursorPosition: cursorPosition) 
             && textView.selectedRange.length < 1 {

@@ -35,11 +35,10 @@ class MemoViewController: UIViewController {
         containerViewHeight.constant = 0
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
-    }
-    
-    func preferredContentSizeChanged(notification: Notification) {
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        
+        
+//        print("텍스트뷰의 스트링은 \(textView.text)")
+//        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +46,6 @@ class MemoViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -55,7 +53,6 @@ class MemoViewController: UIViewController {
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     @IBAction func tapLiveButton(_ sender: Any) {
         textView.isEditable = !textView.isEditable
@@ -165,5 +162,6 @@ extension MemoViewController: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
         return 8
     }
+
 }
 
