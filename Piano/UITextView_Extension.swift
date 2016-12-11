@@ -18,7 +18,6 @@ extension UITextView {
             let textRange = self.textRange(from: start, to: end),
             let text = self.text(in: textRange) 
             else { return ("", range) }
-        
         return (text, range)
     }
     

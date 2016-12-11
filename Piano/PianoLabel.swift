@@ -10,11 +10,14 @@ import UIKit
 
 class PianoLabel: UILabel {
     
-    var leftEndTouchX: CGFloat = CGFloat.greatestFiniteMagnitude 
+    
+    var leftEndTouchX: CGFloat = CGFloat.greatestFiniteMagnitude
+    var rightEndTouchX: CGFloat = 0
     var applyEffectIndexSet: Set<Int> = []
-    
+    var removeEffectIndexSet: Set<Int> = []
+
     var textEffect: TextEffectAttribute = .headline
-    
+    var attributes: [[String : Any]] = []
     
     var waveLength: CGFloat = 70 //이거 Designable
     
@@ -34,6 +37,12 @@ class PianoLabel: UILabel {
             if  touchPointX < leftEndTouchX {
                 leftEndTouchX = touchPointX
             }
+            
+            if touchPointX > rightEndTouchX {
+                rightEndTouchX = touchPointX
+            }
+            
+            
             setNeedsDisplay()
         }
     }
@@ -67,23 +76,21 @@ class PianoLabel: UILabel {
             return
         }
         
-        if progress > 1 {
-            print(progress)
-        }
+        
         
         backgroundColor = UIColor.white.withAlphaComponent(0.8 * progress)
         
         //TODO: 오른쪽부터 쓰는 글씨도 해결해야함
         var leftOffset: CGFloat = textRect.origin.x
-        let topOffset = textRect.origin.y   
+        let topOffset = textRect.origin.y
         
         for (index, char) in text.characters.enumerated() {
             
             let s = String(char)
-            let charSize = s.size(attributes: [NSFontAttributeName: self.font])
+            var attribute = attributes[index]
+            let charSize = s.size(attributes: attribute)
             let rect = CGRect(origin: CGPoint(x: leftOffset, y: topOffset)
                 , size: charSize)
-            
             
             let charCenter = leftOffset + charSize.width / 2
             let distance = touchPointX - charCenter
@@ -94,44 +101,86 @@ class PianoLabel: UILabel {
             // 4차식
             let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
             
-
-            let isSelectedCharacter = touchPointX - leftOffset > 0 && 
-                touchPointX - leftOffset < charSize.width
-            let isApplyEffect = leftOffset + charSize.width > leftEndTouchX &&
-                touchPointX - leftOffset > 0 &&
-                !isSelectedCharacter ? true : false
+            //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
+            //let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
+            
+            //touchPointX < leftOffset || touchPointX > charSize.width + leftOffset
+            //가장 왼쪽의 터치가 단어의 오른쪽 끝보다 왼쪽에 있어야 하고, 현재 터치포인트가 단어의 오른쪽 끝보다 크면 효과 적용
+            let isApplyEffect = leftOffset + charSize.width > leftEndTouchX && touchPointX > leftOffset + charSize.width //&& !isSelectedCharacter ? true : false
+            
+            // 가장 오른쪽의 터치가 단어의 왼쪽 끝보다 오른쪽에 있어야 하고, 현재 터치 포인트가 단어의 왼쪽 끝보다 작으면 효과 제거
+            let isRemoveEffect = leftOffset > touchPointX && leftOffset < rightEndTouchX
+            
+            if isRemoveEffect {
+                removeEffectIndexSet.insert(index)
+                
+                let newAttr = makeAttribute(by: textEffect)
+                
+                if let _ = newAttr[NSFontAttributeName] {
+                    attribute[NSFontAttributeName] = UIFont.preferredFont(forTextStyle: .body)
+                }
+                
+                if let _ = newAttr[NSForegroundColorAttributeName] {
+                    attribute[NSForegroundColorAttributeName] = UIColor.black
+                }
+                
+                if let _ = newAttr[NSStrikethroughStyleAttributeName] {
+                    attribute[NSStrikethroughStyleAttributeName] = 0
+                }
+                
+                if let _ = newAttr[NSUnderlineStyleAttributeName] {
+                    attribute[NSUnderlineStyleAttributeName] = 0
+                }
+                
+            } else {
+                removeEffectIndexSet.remove(index)
+            }
+            
+            
             
             if isApplyEffect {
                 applyEffectIndexSet.insert(index)
+                
+                let newAttr = makeAttribute(by: textEffect)
+                
+                if let font = newAttr[NSFontAttributeName] {
+                    attribute[NSFontAttributeName] = font
+                }
+                
+                if let color = newAttr[NSForegroundColorAttributeName] {
+                    attribute[NSForegroundColorAttributeName] = color
+                }
+                
+                if let strike = newAttr[NSStrikethroughStyleAttributeName] {
+                    attribute[NSStrikethroughStyleAttributeName] = strike
+                }
+                
+                if let underline = newAttr[NSUnderlineStyleAttributeName] {
+                    attribute[NSUnderlineStyleAttributeName] = underline
+                }
             } else {
                 applyEffectIndexSet.remove(index)
             }
             
-            let attribute : [String : Any]
-            let font: UIFont
-            switch isApplyEffect {
-            case true:
-                attribute = setAttribute(effect: textEffect)
-                font = attribute[NSFontAttributeName] as! UIFont
-            case false where isSelectedCharacter:
-                attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title1)]
-                font = attribute[NSFontAttributeName] as! UIFont
-            default:
-                attribute = setAttribute(effect: .normal)
-                font = attribute[NSFontAttributeName] as! UIFont
-            }
+
             
+      
+            
+//            case false where isSelectedCharacter:
+//            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title1)]
+//            font = attribute[NSFontAttributeName] as! UIFont
+//            default:
+//            attribute = setAttribute(effect: .normal)
+//            font = attribute[NSFontAttributeName] as! UIFont
             
             //효과 입히기
             if x > -waveLength && x < waveLength {
-                
-                
-            
-                let size = s.size(attributes: [NSFontAttributeName: font])
+                let size = s.size(attributes: attribute)
                 let x = rect.origin.x
-                let y = rect.origin.y - (isSelectedCharacter ? 
-                    (y + size.height / 2) * progress  : 
-                    y * progress)
+                let y = rect.origin.y - y * progress
+//                let y = rect.origin.y - (isSelectedCharacter ? 
+//                    (y + size.height / 2) * progress  : 
+//                    y * progress)
                 let point = CGPoint(x: x, y: y)
                 let rect = CGRect(origin: point, size: size)
                 
@@ -144,7 +193,7 @@ class PianoLabel: UILabel {
         }
     }
     
-    func setAttribute(effect: TextEffectAttribute) -> [String : Any] {
+    func makeAttribute(by effect: TextEffectAttribute) -> [String : Any] {
         let attribute: [String : Any]
         switch effect {
         case .normal:
@@ -152,17 +201,13 @@ class PianoLabel: UILabel {
         case .headline:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .headline)]
         case .red:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSForegroundColorAttributeName : UIColor.red]
+            attribute = [NSForegroundColorAttributeName : UIColor.red]
         case .green:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSForegroundColorAttributeName : UIColor.green]
+            attribute = [NSForegroundColorAttributeName : UIColor.green]
         case .strike:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSStrikethroughStyleAttributeName : 1]
+            attribute = [NSStrikethroughStyleAttributeName : 1]
         case .underline:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSUnderlineStyleAttributeName : 1]
+            attribute = [NSUnderlineStyleAttributeName : 1]
         }
         return attribute
     }
@@ -196,12 +241,16 @@ extension PianoLabel {
                 isHidden = true
                 animateComplete()
                 applyEffectIndexSet.removeAll()
+                removeEffectIndexSet.removeAll()
                 leftEndTouchX = CGFloat.greatestFiniteMagnitude
+                rightEndTouchX = 0
             case .cancel:
                 isHidden = true
                 applyEffectIndexSet.removeAll()
+                removeEffectIndexSet.removeAll()
                 animateComplete()
                 leftEndTouchX = CGFloat.greatestFiniteMagnitude
+                rightEndTouchX = 0
             default:
                 ()
             }
@@ -210,6 +259,10 @@ extension PianoLabel {
 }
 
 extension PianoLabel: PianoControlDelegate {
+    
+    func attributesForText(_ attributes: [[String : Any]]) {
+        self.attributes = attributes
+    }
     func textFromTextView(text: String) {
         self.text = text
     }
@@ -222,8 +275,12 @@ extension PianoLabel: PianoControlDelegate {
         self.isHidden = !bool
     }
     
-    func getIndexes() -> [Int] {
+    func getIndexesForAdd() -> [Int] {
         return applyEffectIndexSet.sorted()
+    }
+    
+    func getIndexesForRemove() -> [Int] {
+        return removeEffectIndexSet.sorted()
     }
     
     func beginAnimating(at x: CGFloat) {

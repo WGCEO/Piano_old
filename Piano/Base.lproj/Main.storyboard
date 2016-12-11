@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11761" systemVersion="16C53a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1cp-ro-adI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11761" systemVersion="16C63a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1cp-ro-adI">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -27,21 +27,21 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FolderCell" textLabel="gUa-fO-Vyh" detailTextLabel="5Uy-46-0ZR" style="IBUITableViewCellStyleValue1" id="hsI-Ct-oSg">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsI-Ct-oSg" id="9nB-Ku-mJx">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="모든 메모" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUa-fO-Vyh">
-                                                    <rect key="frame" x="15" y="11" width="63" height="21"/>
+                                                    <rect key="frame" x="15" y="12" width="63" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="39" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5Uy-46-0ZR">
-                                                    <rect key="frame" x="318" y="11" width="22" height="21"/>
+                                                    <rect key="frame" x="318" y="12" width="22" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -249,18 +249,18 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0Y-6b-aHP" id="ug4-Xh-BSW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="투게더 업무 일지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwy-Ai-Gxy">
-                                                    <rect key="frame" x="15" y="16" width="112" height="21"/>
+                                                    <rect key="frame" x="15" y="16" width="111.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="오전 11:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wgU-LR-mQk">
-                                                    <rect key="frame" x="15" y="37" width="66" height="18"/>
+                                                    <rect key="frame" x="15" y="36.5" width="66" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -330,11 +330,11 @@
                                     <segue destination="gQW-Od-Zpc" kind="embed" id="xq4-0u-EcQ"/>
                                 </connections>
                             </containerView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Piano는 (우아한) 타이핑과 빠른 편집을 동시에 원하는 당신을 위해 제작되었습니다. Piano는 기존의 메모 앱들이 가지고 있는 모든 기능을 효율적으로 발전시킨 완전히 새로운 혁신의 시작입니다. 이 아름다운 메모 앱으로 직관적인 타이핑과 (모바일에서의 가장 빠른 편집)을 경험하세요. 당신은 메모를 하며 Piano를 연주하는 느낌을 받을 수 있습니다. 키보드는 건반이 되고 생각은 멜로디가 됩니다. 음악이 흐르듯 자연스럽게 당신의 생각이 텍스트로 옮겨집니다. 한눈에 들어오는 텍스트와 최소한의 터치로 당신의 소중한 눈과 손 끝에 행복한 경험을 선물하세요. 푹신한 소파에 파묻혀 흘러가는 생각을 관찰하듯 당신의 타이핑이 놀랍도록 편안해집니다. </string>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <string key="text">Piano는 (우아한) 타이핑과 빠른 편집을 동시에 원하는 당신을 위해 제작되었습니다.  Piano는 기존의 메모 앱들이 가지고 있는 모든 기능을 효율적으로 발전시킨 완전히 새로운 혁신의 시작입니다.  이 아름다운 메모 앱으로 직관적인 타이핑과 (모바일에서의 가장 빠른 편집)을 경험하세요.  당신은 메모를 하며 Piano를 연주하는 느낌을 받을 수 있습니다. 키보드는 건반이 되고 생각은 멜로디가 됩니다. 음악이 흐르듯 자연스럽게 당신의 생각이 텍스트로 옮겨집니다. 한눈에 들어오는 텍스트와 최소한의 터치로 당신의 소중한 눈과 손 끝에 행복한 경험을 선물하세요. 푹신한 소파에 파묻혀 흘러가는 생각을 관찰하듯 당신의 타이핑이 놀랍도록 편안해집니다. </string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                             </textView>

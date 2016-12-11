@@ -11,12 +11,14 @@ import UIKit
 protocol PianoControlDelegate: class {
     func textFromTextView(text: String)
     func rectForText(_ rect: CGRect)
-    func getIndexes() -> [Int]
+    func getIndexesForAdd() -> [Int]
+    func getIndexesForRemove() -> [Int]
     func beginAnimating(at x: CGFloat)
     func finishAnimating(at x: CGFloat, completion: @escaping () -> Void)
     func progressAnimating(at x: CGFloat)
     func cancelAnimating(completion: @escaping () -> Void)
     func set(effect: TextEffectAttribute)
+    func attributesForText(_ attributes: [[String : Any]])
 }
 
 class PianoControl: UIControl {
@@ -40,6 +42,17 @@ class PianoControl: UIControl {
         let (text, range) = textView.getTextAndRange(from: rect)
         delegate?.textFromTextView(text: text)
         selectedRange = range
+        
+        var attributes:[[String : Any]] = []
+        textView.attributedText.enumerateAttributes(in: range, options: []) { (attribute, range, _) in
+            print("attribute: \(attribute), location: \(range.location) length: \(range.length)")
+            //length가 1보다 크면 for문 돌아서 차례대로 더하기
+            for _ in 1...range.length {
+                attributes.append(attribute)
+            }
+        }
+        delegate?.attributesForText(attributes)
+        
         
         //TODO: ContainerViewHeight = 100 이걸 리터럴이 아닌 값으로 표현해야함
         let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
@@ -76,14 +89,24 @@ class PianoControl: UIControl {
         delegate?.finishAnimating(at: x, completion: { [unowned self] in 
             self.textView.removeEraseView()
             
-            guard let range = self.selectedRange, 
-                let indexs = self.delegate?.getIndexes(), 
-                let firstIndex = indexs.first,
-                let lastIndex = indexs.last else { return }
+            if let range = self.selectedRange,
+                let indexsForAdd = self.delegate?.getIndexesForAdd(),
+                let firstIndexForAdd = indexsForAdd.first,
+                let lastIndexForAdd = indexsForAdd.last {
+                let selectedTextRangeForAdd = NSRange(location: range.location + firstIndexForAdd, length: lastIndexForAdd - firstIndexForAdd + 1)
+                self.setAttribute(effect: self.textEffect, range: selectedTextRangeForAdd)
+                
+            }
             
-            let selectedTextRange = NSRange(location: range.location + firstIndex, length: lastIndex - firstIndex + 1)
+            if let range = self.selectedRange,
+                let indexsForRemove = self.delegate?.getIndexesForRemove(),
+                let firstIndexForRemove = indexsForRemove.first,
+                let lastIndexForRemove = indexsForRemove.last{
+                let selectedTextRangeForRemove = NSRange(location: range.location + firstIndexForRemove, length: lastIndexForRemove - firstIndexForRemove + 1)
+                
+                self.removeAttribute(effect: self.textEffect, range: selectedTextRangeForRemove)
+            }
             
-            self.setAttribute(effect: self.textEffect, range: selectedTextRange)
             self.selectedRange = nil
         }) 
     }
@@ -96,20 +119,36 @@ class PianoControl: UIControl {
         case .headline:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .headline)]
         case .red:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSForegroundColorAttributeName : UIColor.red]
+            attribute = [NSForegroundColorAttributeName : UIColor.red]
         case .green:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSForegroundColorAttributeName : UIColor.green]
+            attribute = [NSForegroundColorAttributeName : UIColor.green]
         case .strike:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSStrikethroughStyleAttributeName : 1]
+            attribute = [NSStrikethroughStyleAttributeName : 1]
         case .underline:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body),
-                         NSUnderlineStyleAttributeName : 1]
+            attribute = [NSUnderlineStyleAttributeName : 1]
         }
         
-        textView.layoutManager.textStorage?.setAttributes(attribute, range: range)
+        textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
+    }
+    
+    func removeAttribute(effect: TextEffectAttribute, range: NSRange) {
+        let attribute: [String : Any]
+        switch effect {
+        case .normal:
+            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
+        case .headline:
+            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
+        case .red:
+            attribute = [NSForegroundColorAttributeName : UIColor.black]
+        case .green:
+            attribute = [NSForegroundColorAttributeName : UIColor.black]
+        case .strike:
+            attribute = [NSStrikethroughStyleAttributeName : 0]
+        case .underline:
+            attribute = [NSUnderlineStyleAttributeName : 0]
+        }
+        
+        textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
     }
     
 

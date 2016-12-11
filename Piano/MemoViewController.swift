@@ -27,6 +27,9 @@ class MemoViewController: UIViewController {
 //    @IBOutlet weak var eraseTextButton: UIButton!
 //    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
     @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
+    
+    
+    lazy var parser = MarkdownParser()
 
     
     override func viewDidLoad() {
@@ -36,16 +39,39 @@ class MemoViewController: UIViewController {
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
         
+
+        //파싱이 오래걸리므로 비동기 처리
+//        DispatchQueue.global().async { [weak self] in
+//            guard let text = self?.textView.text else { return }
+//            let attributedText = self?.parser.parseMarkdown(text: text)
+//            
+//            DispatchQueue.main.async {
+//                self?.textView.attributedText = attributedText
+//            }
+//        }
         
 //        print("텍스트뷰의 스트링은 \(textView.text)")
 //        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
     }
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        makeTextViewStartFromTop(didAppear: false)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        makeTextViewStartFromTop(didAppear: true)
+    }
+    
+    func makeTextViewStartFromTop(didAppear: Bool) {
+        textView.isScrollEnabled = didAppear
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,6 +80,9 @@ class MemoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
+    
+    
+    
     @IBAction func tapLiveButton(_ sender: Any) {
         textView.isEditable = !textView.isEditable
     }
