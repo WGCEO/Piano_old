@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A0C1E7F1DFCE30C008EBFC1 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C1E7D1DFCE30C008EBFC1 /* Model.xcdatamodeld */; };
+		0A2C15BD1DFEE988000920B8 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C15BC1DFEE988000920B8 /* Memo.swift */; };
 		0AEDCEE01DF8FA56000D57C2 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */; };
 		0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */; };
 		3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		0A0C1E7E1DFCE30C008EBFC1 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		0A2C15BC1DFEE988000920B8 /* Memo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 		0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
 		3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderListViewController.swift; path = ../FolderListViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			children = (
 				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
 				310870911DE13B180044BA5D /* MemoListViewController.swift */,
+				0A2C15BC1DFEE988000920B8 /* Memo.swift */,
 			);
 			name = MemoList;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */,
 				0A0C1E7F1DFCE30C008EBFC1 /* Model.xcdatamodeld in Sources */,
 				310870A81DE172870044BA5D /* TextEffectCell.swift in Sources */,
+				0A2C15BD1DFEE988000920B8 /* Memo.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				310870961DE13BB40044BA5D /* TopViewController.swift in Sources */,
 				310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */,

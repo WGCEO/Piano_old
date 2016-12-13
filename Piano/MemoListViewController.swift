@@ -9,6 +9,9 @@
 
 import UIKit
 
+
+
+
 class MemoListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -71,6 +74,8 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)
         }

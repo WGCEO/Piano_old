@@ -12,6 +12,7 @@ class FolderListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var indicatingCell: () -> Void = {}
+//    var memoViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
