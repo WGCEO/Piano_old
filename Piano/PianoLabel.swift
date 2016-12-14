@@ -298,6 +298,15 @@ extension PianoLabel: PianoControlDelegate {
 
     }
     
+    //곧바로 움직인다면 디스플레이링크를 멈추고 프로그레스로 넘어가야함
+    func ismoveDirectly(bool: Bool) {
+        guard animatingState != .progress else { return }
+
+        animatingState = bool ? .progress : .begin
+        displayLink.isPaused = bool
+        
+    }
+    
     func cancelAnimating(completion: @escaping () -> Void) {
         animatingState = .cancel
         displayLink.isPaused = false

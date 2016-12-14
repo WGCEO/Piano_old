@@ -29,14 +29,14 @@ class TopViewController: UIViewController {
         parent.textView.mode = .typing
     }
     
-    @IBAction func tapCancelButton(_ sender: Any) {
-        guard let parent = parent as? MemoViewController else { return }
-        parent.showTopView(bool: false)
-        parent.textView.isSelectable = true
-        parent.textView.isEditable = true
-        parent.textView.canvas.removeFromSuperview()
-        parent.textView.mode = .typing
-    }
+//    @IBAction func tapCancelButton(_ sender: Any) {
+//        guard let parent = parent as? MemoViewController else { return }
+//        parent.showTopView(bool: false)
+//        parent.textView.isSelectable = true
+//        parent.textView.isEditable = true
+//        parent.textView.canvas.removeFromSuperview()
+//        parent.textView.mode = .typing
+//    }
 }
 
 extension TopViewController: UICollectionViewDataSource {

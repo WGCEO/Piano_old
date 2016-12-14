@@ -19,6 +19,7 @@ protocol PianoControlDelegate: class {
     func cancelAnimating(completion: @escaping () -> Void)
     func set(effect: TextEffectAttribute)
     func attributesForText(_ attributes: [[String : Any]])
+    func ismoveDirectly(bool : Bool)
 }
 
 class PianoControl: UIControl {
@@ -45,7 +46,6 @@ class PianoControl: UIControl {
         
         var attributes:[[String : Any]] = []
         textView.attributedText.enumerateAttributes(in: range, options: []) { (attribute, range, _) in
-            print("attribute: \(attribute), location: \(range.location) length: \(range.length)")
             //length가 1보다 크면 for문 돌아서 차례대로 더하기
             for _ in 1...range.length {
                 attributes.append(attribute)
@@ -69,6 +69,8 @@ class PianoControl: UIControl {
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         delegate?.progressAnimating(at: touch.location(in: self).x + textView.textContainerInset.left)
+        let isMoveDirectly = touch.previousLocation(in: self).x != touch.location(in: self).x
+        delegate?.ismoveDirectly(bool: isMoveDirectly)
         return true
     }
     

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11761" systemVersion="16C63a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XMS-7z-RUO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C63a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XMS-7z-RUO">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,21 +26,21 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FolderCell" textLabel="gUa-fO-Vyh" detailTextLabel="5Uy-46-0ZR" style="IBUITableViewCellStyleValue1" id="hsI-Ct-oSg">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsI-Ct-oSg" id="9nB-Ku-mJx">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="모든 메모" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUa-fO-Vyh">
-                                                    <rect key="frame" x="15" y="11" width="63" height="21"/>
+                                                    <rect key="frame" x="15" y="12" width="63" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="39" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5Uy-46-0ZR">
-                                                    <rect key="frame" x="318" y="11" width="22" height="21"/>
+                                                    <rect key="frame" x="318" y="12" width="22" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -160,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2uo-F5-p45" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2023" y="232"/>
+            <point key="canvasLocation" x="991" y="466"/>
         </scene>
         <!--Search Memo List View Controller-->
         <scene sceneID="q0C-qP-yit">
@@ -200,7 +199,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="2698.4000000000001" y="231.63418290854574"/>
+            <point key="canvasLocation" x="1668" y="466"/>
         </scene>
         <!--All-->
         <scene sceneID="Plu-P0-tMc">
@@ -222,18 +221,18 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0Y-6b-aHP" id="ug4-Xh-BSW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="투게더 업무 일지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwy-Ai-Gxy">
-                                                    <rect key="frame" x="15" y="16" width="112" height="21"/>
+                                                    <rect key="frame" x="15" y="16" width="111.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="오전 11:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wgU-LR-mQk">
-                                                    <rect key="frame" x="15" y="37" width="66" height="18"/>
+                                                    <rect key="frame" x="15" y="36.5" width="66" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -243,7 +242,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="selectedBackgroundView" destination="WKi-o9-Tww" id="5Gh-VV-8k7"/>
-                                            <segue destination="BxF-0e-dzh" kind="showDetail" id="zFJ-fd-pgy"/>
+                                            <segue destination="BxF-0e-dzh" kind="showDetail" id="jT9-UQ-RIg"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -295,7 +294,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uxc-Po-ywr">
-                                <rect key="frame" x="0.0" y="20" width="375" height="100"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="OQ9-h8-6dU"/>
                                 </constraints>
@@ -304,26 +303,15 @@
                                 </connections>
                             </containerView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjy-SL-eOr" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Piano는 (우아한) 타이핑과 빠른 편집을 동시에 원하는 당신을 위해 제작되었습니다.  Piano는 기존의 메모 앱들이 가지고 있는 모든 기능을 효율적으로 발전시킨 완전히 새로운 혁신의 시작입니다.  이 아름다운 메모 앱으로 직관적인 타이핑과 (모바일에서의 가장 빠른 편집)을 경험하세요.  당신은 메모를 하며 Piano를 연주하는 느낌을 받을 수 있습니다. 키보드는 건반이 되고 생각은 멜로디가 됩니다. 음악이 흐르듯 자연스럽게 당신의 생각이 텍스트로 옮겨집니다. 한눈에 들어오는 텍스트와 최소한의 터치로 당신의 소중한 눈과 손 끝에 행복한 경험을 선물하세요. 푹신한 소파에 파묻혀 흘러가는 생각을 관찰하듯 당신의 타이핑이 놀랍도록 편안해집니다. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                             </textView>
-                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYR-kG-epT">
-                                <rect key="frame" x="337" y="627" width="38" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="38" id="9hT-xR-isU"/>
-                                    <constraint firstAttribute="height" constant="40" id="vTL-Td-xqq"/>
-                                </constraints>
-                                <state key="normal" title="✔️"/>
-                                <connections>
-                                    <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="iPw-GN-Zu6"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1QZ-Ga-XjH" customClass="PianoLabel" customModule="Piano" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <nil key="textColor"/>
@@ -339,9 +327,7 @@
                             <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="Vjy-SL-eOr" secondAttribute="bottom" id="KuI-Sj-3v1"/>
                             <constraint firstItem="uxc-Po-ywr" firstAttribute="leading" secondItem="bRP-it-JW0" secondAttribute="leading" id="NdA-7D-Fge"/>
                             <constraint firstItem="1QZ-Ga-XjH" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="VAx-SS-MgZ"/>
-                            <constraint firstAttribute="trailing" secondItem="XYR-kG-epT" secondAttribute="trailing" id="amb-ys-oNM"/>
                             <constraint firstAttribute="trailing" secondItem="Vjy-SL-eOr" secondAttribute="trailing" id="d5Z-hV-1hC"/>
-                            <constraint firstItem="L47-1m-t3x" firstAttribute="top" secondItem="XYR-kG-epT" secondAttribute="bottom" id="lGB-AI-Iho"/>
                             <constraint firstItem="Vjy-SL-eOr" firstAttribute="top" secondItem="sFu-T0-Fa9" secondAttribute="bottom" id="v2q-xi-PHo"/>
                             <constraint firstAttribute="trailing" secondItem="uxc-Po-ywr" secondAttribute="trailing" id="wNH-AJ-Cfq"/>
                             <constraint firstAttribute="trailing" secondItem="1QZ-Ga-XjH" secondAttribute="trailing" id="yal-RR-a42"/>
@@ -349,36 +335,37 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem systemItem="trash" id="bHw-3e-GUU"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="7CH-vO-Qro"/>
-                        <barButtonItem image="checkIco" id="rjp-Ye-BYa"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="bZQ-vr-jPy"/>
+                        <barButtonItem image="pen" id="K5Z-c7-Tc8">
+                            <connections>
+                                <action selector="tapEffectButton:" destination="BxF-0e-dzh" id="JAI-cS-WzF"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="EbG-xs-cdo"/>
                         <barButtonItem image="cameraIco" id="uho-Ub-fgr"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="TST-UH-CA9"/>
+                        <barButtonItem image="communicationIcon" id="VMT-j9-3fg">
+                            <connections>
+                                <action selector="tapLiveButton:" destination="BxF-0e-dzh" id="G6e-HQ-OuM"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="3dr-0h-hTA"/>
-                        <barButtonItem image="voiceIco" id="9lI-6T-ssO"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="gLE-jL-4Zf"/>
-                        <barButtonItem systemItem="compose" id="DXQ-RP-hyL"/>
+                        <barButtonItem image="shareIcon" id="Pm2-Xi-uU6">
+                            <connections>
+                                <action selector="tapSendButton:" destination="BxF-0e-dzh" id="Nce-uL-lkq"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="7Xk-Vo-8Dh">
                         <nil key="title"/>
-                        <rightBarButtonItems>
-                            <barButtonItem image="shareIcon" id="Pm2-Xi-uU6"/>
-                            <barButtonItem image="communicationIcon" id="VMT-j9-3fg">
-                                <connections>
-                                    <action selector="tapLiveButton:" destination="BxF-0e-dzh" id="G6e-HQ-OuM"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="pen" id="K5Z-c7-Tc8">
-                                <connections>
-                                    <action selector="tapEffectButton:" destination="BxF-0e-dzh" id="JAI-cS-WzF"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="completeButton" destination="I4u-iK-75f" id="xOC-4u-uLW"/>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="t0k-Jc-TxO"/>
                         <outlet property="effectButton" destination="K5Z-c7-Tc8" id="pt0-w6-ZQD"/>
-                        <outlet property="hideKeyboardButton" destination="XYR-kG-epT" id="Nu9-E2-kNh"/>
-                        <outlet property="hideKeyboardButtonBottom" destination="lGB-AI-Iho" id="df1-ti-Ptk"/>
+                        <outlet property="focusButton" destination="vjy-zQ-IQh" id="QEG-cj-Qce"/>
                         <outlet property="label" destination="1QZ-Ga-XjH" id="FnW-XF-Lty"/>
                         <outlet property="sendButton" destination="Pm2-Xi-uU6" id="GF8-HX-Kle"/>
                         <outlet property="shareButton" destination="VMT-j9-3fg" id="2Uw-AD-RGb"/>
@@ -387,8 +374,18 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HX2-RA-s0u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem title="Focus" id="vjy-zQ-IQh">
+                    <connections>
+                        <action selector="tapFocusButton:" destination="BxF-0e-dzh" id="fC5-ny-7xs"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="done" id="I4u-iK-75f">
+                    <connections>
+                        <action selector="tapCompleteButton:" destination="BxF-0e-dzh" id="ITg-d1-ppw"/>
+                    </connections>
+                </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="190" y="248"/>
+            <point key="canvasLocation" x="48.799999999999997" y="331.48425787106447"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="K54-Vc-OuE">
@@ -396,7 +393,7 @@
                 <splitViewController id="XMS-7z-RUO" sceneMemberID="viewController">
                     <connections>
                         <segue destination="1cp-ro-adI" kind="relationship" relationship="masterViewController" id="WYi-zr-R6O"/>
-                        <segue destination="BxF-0e-dzh" kind="relationship" relationship="detailViewController" id="CT1-qC-Xfn"/>
+                        <segue destination="G9k-bd-fyn" kind="relationship" relationship="detailViewController" id="CT1-qC-Xfn"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ef0-Nq-byL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -412,7 +409,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.1727120536" green="0.42790178569999998" blue="0.6372209821" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -444,18 +441,8 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUg-kd-Rcw">
                                 <rect key="frame" x="0.0" y="7" width="375" height="30"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Fy-kO-rLc">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="tgh-xu-vrV"/>
-                                        </constraints>
-                                        <state key="normal" title="취소"/>
-                                        <connections>
-                                            <action selector="tapCancelButton:" destination="gQW-Od-Zpc" eventType="touchUpInside" id="jBh-q3-C0Q"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="텍스트 효과" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0t-cU-yz9">
-                                        <rect key="frame" x="50" y="0.0" width="275" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="325" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -530,20 +517,40 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KUl-yM-dhD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986" y="-7"/>
+            <point key="canvasLocation" x="812" y="-23"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fyk-sC-boM">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="G9k-bd-fyn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8Dv-hp-bOk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.1727120536" green="0.42790178569999998" blue="0.6372209821" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BxF-0e-dzh" kind="relationship" relationship="rootViewController" id="72r-6N-Ltu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nWj-gS-opC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-706" y="232"/>
         </scene>
     </scenes>
     <resources>
         <image name="b" width="12" height="15"/>
         <image name="cameraIco" width="27" height="20"/>
-        <image name="checkIco" width="21" height="21"/>
         <image name="communicationIcon" width="28" height="20"/>
         <image name="pen" width="19" height="20"/>
         <image name="shareIcon" width="19" height="19"/>
         <image name="test" width="37" height="37"/>
-        <image name="voiceIco" width="20" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zFJ-fd-pgy"/>
+        <segue reference="jT9-UQ-RIg"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.17271205357142858" green="0.42790178571428572" blue="0.63722098214285716" alpha="1" colorSpace="calibratedRGB"/>
 </document>

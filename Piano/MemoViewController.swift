@@ -14,6 +14,14 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textView: PianoTextView!
     
+    @IBOutlet var focusButton: UIBarButtonItem!
+    @IBAction func tapFocusButton(_ sender: Any) {
+        //TODO: 오타방지기능 On/Off
+    }
+    @IBOutlet var completeButton: UIBarButtonItem!
+    @IBAction func tapCompleteButton(_ sender: Any) {
+        textView.resignFirstResponder()
+    }
 
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
@@ -22,12 +30,11 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var sendButton: UIBarButtonItem!
     
-    @IBOutlet weak var hideKeyboardButton: UIButton!
+//    @IBOutlet weak var hideKeyboardButton: UIButton!
 
 //    @IBOutlet weak var eraseTextButton: UIButton!
 //    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
-    @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
-    
+//    @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
     
     lazy var parser = MarkdownParser()
 
@@ -54,8 +61,6 @@ class MemoViewController: UIViewController {
 //        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
     }
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -81,10 +86,12 @@ class MemoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    
+    @IBAction func tapSendButton(_ sender: Any) {
+        
+    }
     
     @IBAction func tapLiveButton(_ sender: Any) {
-        textView.isEditable = !textView.isEditable
+        
     }
 
     @IBAction func tapEffectButton(_ sender: Any) {
@@ -150,26 +157,29 @@ class MemoViewController: UIViewController {
         guard let userInfo = notification.userInfo,
             let toolbarHeight = navigationController?.toolbar.frame.height else { return }
         
+        
+        navigationItem.setRightBarButtonItems([completeButton, focusButton], animated: true)
         effectButton.isEnabled = false
         shareButton.isEnabled = false
-        sendButton.isEnabled = false
-        hideKeyboardButton.isHidden = false
+        sendButton.isEnabled = true
+//        hideKeyboardButton.isHidden = false
 //        eraseTextButton.isHidden = false
         let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
         let bottomDistance = kbHeight - toolbarHeight
         textView.bottomDistance = bottomDistance
         textView.cacheCursorPosition = CGPoint(x: 0, y: -10)
-        hideKeyboardButtonBottom.constant = bottomDistance + 4
+//        hideKeyboardButtonBottom.constant = bottomDistance + 4
 //        eraseTextButtonBottom.constant = bottomDistance + 4
     }
     
     func keyboardWillHide(notification: Notification){
         guard let userInfo = notification.userInfo,
            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
+        navigationItem.setRightBarButtonItems(nil, animated: true)
         effectButton.isEnabled = true
         shareButton.isEnabled = true
         sendButton.isEnabled = true
-        hideKeyboardButton.isHidden = true
+//        hideKeyboardButton.isHidden = true
 //        eraseTextButton.isHidden = true
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
