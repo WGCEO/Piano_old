@@ -39,8 +39,10 @@ class PianoControl: UIControl {
         let point = touch.location(in: self).move(x: 0, y: textView.contentOffset.y - textView.textContainerInset.top)
 
         let rect = textView.getRect(including: point)
-        textView.attachEraseView(rect: rect)
         let (text, range) = textView.getTextAndRange(from: rect)
+        guard !text.isEmptyOrWhitespace() else { return false }
+        
+        textView.attachEraseView(rect: rect)
         delegate?.textFromTextView(text: text)
         selectedRange = range
         
@@ -62,13 +64,13 @@ class PianoControl: UIControl {
         delegate?.rectForText(newRect)
         
         //여기서 레이블을 애니메이션으로 띄워야 함
-        delegate?.beginAnimating(at: point.x + textView.textContainerInset.left)
+        delegate?.beginAnimating(at: point.x)
         return true
     }
     
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        delegate?.progressAnimating(at: touch.location(in: self).x + textView.textContainerInset.left)
+        delegate?.progressAnimating(at: touch.location(in: self).x)
         let isMoveDirectly = touch.previousLocation(in: self).x != touch.location(in: self).x
         delegate?.ismoveDirectly(bool: isMoveDirectly)
         return true
@@ -87,8 +89,8 @@ class PianoControl: UIControl {
         //TODO: 코드가 너무 더러움... 완전 리펙토링하기
 
         guard let touch = touch else { return }
-        let x = touch.location(in: self).x + textView.textContainerInset.left
-        delegate?.finishAnimating(at: x, completion: { [unowned self] in 
+        let x = touch.location(in: self).x
+        delegate?.finishAnimating(at: x, completion: { [unowned self] in
             self.textView.removeEraseView()
             
             if let range = self.selectedRange,

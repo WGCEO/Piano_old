@@ -13,6 +13,7 @@ class PianoTextView: UITextView {
     var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
     var bottomDistance: CGFloat?
     var isAnimating: Bool = false
+    var isHardwareKeyboardConnected : Bool = true
     
     var mode: TextViewMode = .typing
     let canvas = PianoControl()
@@ -50,12 +51,10 @@ class PianoTextView: UITextView {
     
     func attachCanvas() {
         canvas.removeFromSuperview()
-        let left = textContainerInset.left
-        let right = textContainerInset.right
         let top = contentOffset.y
-        let canvasWidth = bounds.width - (left + right)
+        let canvasWidth = bounds.width
         let canvasHeight = bounds.height
-        canvas.frame = CGRect(x: left, y: top, width: canvasWidth, height: canvasHeight)
+        canvas.frame = CGRect(x: 0, y: top, width: canvasWidth, height: canvasHeight)
         self.addSubview(canvas)
     }
 }
@@ -64,7 +63,8 @@ extension PianoTextView: UITextViewDelegate {
     
     func textViewDidChangeSelection(_ textView: UITextView) {
         
-        guard let nowCursorPosition = textView.selectedTextRange?.start else { return } 
+        guard let nowCursorPosition = textView.selectedTextRange?.start,
+        !isHardwareKeyboardConnected else { return }
         let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
         
         

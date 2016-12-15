@@ -15,9 +15,7 @@ extension String {
         return NSRange(location: utf16.distance(from: utf16.startIndex, to: from),
                        length: utf16.distance(from: from, to: to))
     }
-}
-
-extension String {
+    
     func range(from nsRange: NSRange) -> Range<String.Index>? {
         guard
             let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex),
@@ -26,5 +24,13 @@ extension String {
             let to = String.Index(to16, within: self)
             else { return nil }
         return from ..< to
+    }
+    
+    func isEmptyOrWhitespace() -> Bool {
+        
+        if(self.isEmpty) {
+            return true
+        }
+        return (self.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0)
     }
 }
