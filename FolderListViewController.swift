@@ -7,17 +7,78 @@
 //
 
 import UIKit
+import CoreData
 
 class FolderListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var indicatingCell: () -> Void = {}
-//    var memoViewController
+    var context: NSManagedObjectContext!
+    
+    @IBOutlet var addFolderButton: UIButton!
+    @IBAction func tapAddFolderButton(_ sender: Any) {
+        let alert = UIAlertController(title: "새로운 폴더", message: "이 폴더의 이름을 입력하십시오.", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in }
+        let ok = UIAlertAction(title: "저장", style: .default) { (action) in
+            guard let text = alert.textFields?.first?.text else { return }
+            
+            do {
+                let newFolder = Folder(context: self.context)
+                newFolder.name = text
+                newFolder.date = NSDate()
+                newFolder.section = 1
+                newFolder.memos = []
+                newFolder.category = "Group"
+                
+                try self.context.save()
+            } catch {
+                print("Error importing folders: \(error.localizedDescription)")
+            }
+            
+        }
+        ok.isEnabled = false
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "이름"
+            textField.returnKeyType = .done
+            textField.enablesReturnKeyAutomatically = true
+            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
+        }
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func textChanged(sender: AnyObject) {
+        let tf = sender as! UITextField
+        var resp : UIResponder! = tf
+        while !(resp is UIAlertController) { resp = resp.next }
+        let alert = resp as! UIAlertController
+        alert.actions[1].isEnabled = (tf.text != "")
+    }
+    
+    
+    lazy var resultsController: NSFetchedResultsController<Folder> = {
+        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+        let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
+        let sectionSort = NSSortDescriptor(key: #keyPath(Folder.section), ascending: true)
+        request.sortDescriptors = [dateSort, sectionSort]
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: #keyPath(Folder.section), cacheName: "FolderList")
+        controller.delegate = self
+        return controller
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        do {
+            try resultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,7 +101,18 @@ class FolderListViewController: UIViewController {
     func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
+        if segue.identifier == "MemoList" {
+            guard let folder = sender as? Folder else { return }
+            let des = segue.destination as! MemoListViewController
+            des.context = context
+            des.folder = folder
+        }
+        
+    }
+    
 }
 
 extension FolderListViewController: UITableViewDataSource {
@@ -48,55 +120,34 @@ extension FolderListViewController: UITableViewDataSource {
         let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "FolderCell")
         //TODO: localization
         
-        switch indexPath.section {
-        case 0 where indexPath.row == 0:
-            cell?.textLabel?.text = "모든 메모"
-            cell?.detailTextLabel?.text = "40"
-            cell.textLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
-            cell.detailTextLabel?.textColor = #colorLiteral(red: 0.2901960784, green: 0.7843137255, blue: 0.6666666667, alpha: 1)
-        case 0 where indexPath.row == 1:
-            cell?.textLabel?.text = "최근 삭제된 메모"
-            cell?.detailTextLabel?.text = "12"
-            cell.textLabel?.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            cell.detailTextLabel?.textColor = #colorLiteral(red: 0.9725490196, green: 0.3215686275, blue: 0.4039215686, alpha: 1)
-        case 1 where indexPath.row != 3:
-            cell?.textLabel?.text = "흠\(indexPath.row)"
-            cell?.detailTextLabel?.text = "10"
-            cell.textLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
-            cell.detailTextLabel?.textColor = #colorLiteral(red: 0.2901960784, green: 0.7843137255, blue: 0.6666666667, alpha: 1)
-        default:
-            cell.textLabel?.text = "폴더 추가하기"
-            cell.textLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
-            cell.accessoryType = .none
-            cell.detailTextLabel?.text = ""
-        }
-        
+        configure(cell: cell, at: indexPath)
         return cell
     }
     
+    func configure(cell: UITableViewCell, at indexPath: IndexPath) {
+        let folder = resultsController.object(at: indexPath)
+        cell.textLabel?.text = folder.name
+        cell.detailTextLabel?.text = "\(folder.memos.count)"
+        cell.textLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
+        cell.detailTextLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return resultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 2
-        case 1:
-            return 4
-        default:
-            return 0
-        }
+        return resultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        //TODO: Localization
-        switch section {
-        case 0:
-            return "ALL"
-        case 1:
-            return "GROUP"
-        default:
+        return section != 0 ? "Group" : "All"
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section != 0 {
+            return addFolderButton
+        } else {
             return nil
         }
     }
@@ -104,17 +155,56 @@ extension FolderListViewController: UITableViewDataSource {
 
 
 extension FolderListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 44
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 43
+        return 44
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let folder = resultsController.object(at: indexPath)
+        performSegue(withIdentifier: "MemoList", sender: folder)
+        
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+}
+
+extension FolderListViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            if let cell = tableView.cellForRow(at: indexPath) {
+                configure(cell: cell, at: indexPath)
+            }
+        case .move:
+            guard let indexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }

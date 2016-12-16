@@ -6,22 +6,42 @@
 //  Copyright © 2016년 Piano. All rights reserved.
 //
 
-
+import CoreData
 import UIKit
-
-
-
 
 class MemoListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    lazy var folderPredicate: NSPredicate? = {
+        guard self.folder.category != "All" else { return nil }
+        return NSPredicate(format: "folder == %@", self.folder)
+    }()
+    
+    var context: NSManagedObjectContext!
+    var folder: Folder!
     
     var indicatingCell: () -> Void = {}
+    
+    lazy var resultsController: NSFetchedResultsController<Memo> = {
+        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        request.predicate = self.folderPredicate
+        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: true)
+        request.sortDescriptors = [dateSort]
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: "MemoList")
+        controller.delegate = self
+        return controller
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setTableViewCellHeight()
+        
+        do {
+            try resultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -61,23 +81,63 @@ class MemoListViewController: UIViewController {
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "MemoCell")
-        cell.textLabel?.text = "김찬기 업무 일지 입니다"
-        cell.detailTextLabel?.text = "오전 11:23"
+        configure(cell: cell, at: indexPath)
         
         return cell
     }
     
+    func configure(cell: UITableViewCell, at indexPath: IndexPath) {
+        let memo = resultsController.object(at: indexPath)
+        let firstLineText = memo.content.string.trimmingCharacters(in: .newlines)
+        cell.textLabel?.text = firstLineText
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return resultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return resultsController.sections?.count ?? 0
     }
 }
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }
+
+extension MemoListViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            if let cell = tableView.cellForRow(at: indexPath) {
+                configure(cell: cell, at: indexPath)
+            }
+        case .move:
+            guard let indexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+}
+

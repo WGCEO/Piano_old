@@ -7,16 +7,37 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    lazy var coreDataStack: NSPersistentContainer = {
+        return NSPersistentContainer(name: "PianoModel")
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+
+
+        //coreDataStack.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
+        coreDataStack.loadPersistentStores { (description, error) in
+            if let error = error {
+                print("Error creating persistent stores: \(error.localizedDescription)")
+                fatalError()
+            }
+        }
+        
+        coreDataStack.viewContext.automaticallyMergesChangesFromParent = true
+        
+        coreDataStack.importFolders()
+        
         if let split = window?.rootViewController as? UISplitViewController {
+            if let primaryNav = split.viewControllers.first as? UINavigationController,
+                let folderList = primaryNav.topViewController as? FolderListViewController {
+                folderList.context = coreDataStack.viewContext
+            }
             split.delegate = self
             split.preferredDisplayMode = .allVisible
         }

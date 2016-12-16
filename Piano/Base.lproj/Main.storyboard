@@ -29,7 +29,7 @@
                                         <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsI-Ct-oSg" id="9nB-Ku-mJx">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="모든 메모" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUa-fO-Vyh">
@@ -50,7 +50,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="selectedBackgroundView" destination="wTX-6K-Mfg" id="Msq-zM-K0h"/>
-                                            <segue destination="Myg-fF-NME" kind="show" id="2Bs-mS-rw8"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -77,7 +76,9 @@
                         <barButtonItem key="rightBarButtonItem" title="편집" id="giY-DO-5WP"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="addFolderButton" destination="u2z-AF-Boy" id="80p-Gf-4Iw"/>
                         <outlet property="tableView" destination="Cfc-Y1-5L8" id="y5s-9Q-CIG"/>
+                        <segue destination="Myg-fF-NME" kind="show" identifier="MemoList" id="ZiL-ED-UYs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -86,6 +87,15 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.2901960784" green="0.7843137255" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="u2z-AF-Boy">
+                    <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="폴더 추가하기"/>
+                    <connections>
+                        <action selector="tapAddFolderButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hsX-z9-rHP"/>
+                    </connections>
+                </button>
             </objects>
             <point key="canvasLocation" x="957.60000000000002" y="-531.18440779610194"/>
         </scene>
@@ -215,7 +225,8 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Poo-Uh-4Ee">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MemoCell" textLabel="xwy-Ai-Gxy" detailTextLabel="wgU-LR-mQk" rowHeight="71" style="IBUITableViewCellStyleSubtitle" id="j0Y-6b-aHP">
                                         <rect key="frame" x="0.0" y="28" width="375" height="71"/>
@@ -281,7 +292,7 @@
             </objects>
             <point key="canvasLocation" x="1765.5999999999999" y="-535.68215892053979"/>
         </scene>
-        <!--Memo View Controller-->
+        <!--2016년 12월 16일-->
         <scene sceneID="qR9-eK-nk7">
             <objects>
                 <viewController id="BxF-0e-dzh" customClass="MemoViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
@@ -354,9 +365,7 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="7Xk-Vo-8Dh">
-                        <nil key="title"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="2016년 12월 16일" id="7Xk-Vo-8Dh"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -397,9 +406,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8bI-vU-p1d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="0.1727120536" green="0.42790178569999998" blue="0.6372209821" alpha="1" colorSpace="calibratedRGB"/>
-                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="P6Q-Zr-Emd">

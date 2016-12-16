@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A0C1E7F1DFCE30C008EBFC1 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C1E7D1DFCE30C008EBFC1 /* Model.xcdatamodeld */; };
-		0A2C15BD1DFEE988000920B8 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C15BC1DFEE988000920B8 /* Memo.swift */; };
+		0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */; };
+		0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */; };
 		0AEDCEE01DF8FA56000D57C2 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */; };
 		0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */; };
 		3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */; };
@@ -56,8 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A0C1E7E1DFCE30C008EBFC1 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		0A2C15BC1DFEE988000920B8 /* Memo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		0A0C1E7E1DFCE30C008EBFC1 /* PianoModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PianoModel.xcdatamodel; sourceTree = "<group>"; };
+		0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer_Extension.swift; sourceTree = "<group>"; };
 		0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 		0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
 		3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderListViewController.swift; path = ../FolderListViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +144,7 @@
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */,
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
+				0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */,
 				316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */,
 				316F157B1DEC140A007693D9 /* UITextView_Extension.swift */,
 				315A53821DF311FA00BB7367 /* NSRange_Extension.swift */,
@@ -156,7 +157,7 @@
 				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
 				3131F6DA1DDD2E3D00EC4229 /* LaunchScreen.storyboard */,
 				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
-				0A0C1E7D1DFCE30C008EBFC1 /* Model.xcdatamodeld */,
+				0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */,
 			);
 			path = Piano;
 			sourceTree = "<group>";
@@ -194,7 +195,6 @@
 			children = (
 				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
 				310870911DE13B180044BA5D /* MemoListViewController.swift */,
-				0A2C15BC1DFEE988000920B8 /* Memo.swift */,
 			);
 			name = MemoList;
 			sourceTree = "<group>";
@@ -361,9 +361,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */,
-				0A0C1E7F1DFCE30C008EBFC1 /* Model.xcdatamodeld in Sources */,
+				0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */,
 				310870A81DE172870044BA5D /* TextEffectCell.swift in Sources */,
-				0A2C15BD1DFEE988000920B8 /* Memo.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				310870961DE13BB40044BA5D /* TopViewController.swift in Sources */,
 				310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */,
@@ -378,6 +377,7 @@
 				3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
+				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */,
 				315A53851DF4790200BB7367 /* PianoLabelAnimation.swift in Sources */,
 				310870A61DE1720A0044BA5D /* Constant.swift in Sources */,
@@ -659,13 +659,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0A0C1E7D1DFCE30C008EBFC1 /* Model.xcdatamodeld */ = {
+		0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0A0C1E7E1DFCE30C008EBFC1 /* Model.xcdatamodel */,
+				0A0C1E7E1DFCE30C008EBFC1 /* PianoModel.xcdatamodel */,
 			);
-			currentVersion = 0A0C1E7E1DFCE30C008EBFC1 /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
+			currentVersion = 0A0C1E7E1DFCE30C008EBFC1 /* PianoModel.xcdatamodel */;
+			path = PianoModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
