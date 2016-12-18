@@ -48,14 +48,14 @@ extension TopViewController: UICollectionViewDataSource {
             cell.imageView.image = UIImage(named: "b")
             cell.textEffect = .headline
         case 1:
-            cell.imageView.image = UIImage(named: "textColor")
+            cell.imageView.image = UIImage(named: "italic")
             cell.textEffect = .red
         case 2:
-            cell.imageView.image = UIImage(named: "textColor")
+            cell.imageView.image = UIImage(named: "textBg")
             cell.textEffect = .green
         case 3:
-            cell.imageView.image = UIImage(named: "textLine")
-            cell.textEffect = .underline
+            cell.imageView.image = UIImage(named: "textColor")
+            cell.textEffect = .red
         case 4:
             cell.imageView.image = UIImage(named: "textLine")
             cell.textEffect = .strike

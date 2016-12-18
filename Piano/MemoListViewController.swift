@@ -10,13 +10,12 @@ import CoreData
 import UIKit
 
 class MemoListViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!
-    lazy var folderPredicate: NSPredicate? = {
-        guard self.folder.category != "All" else { return nil }
-        return NSPredicate(format: "folder == %@", self.folder)
-    }()
     
+    @IBOutlet weak var tableView: UITableView!
+//    lazy var folderPredicate: NSPredicate = {
+//        return NSPredicate(format: "folder = %@", self.folder)
+//    }()
+    var coreDataStack: NSPersistentContainer!
     var context: NSManagedObjectContext!
     var folder: Folder!
     
@@ -24,10 +23,11 @@ class MemoListViewController: UIViewController {
     
     lazy var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = self.folderPredicate
+        request.predicate = NSPredicate(format: "folder = %@", self.folder)
+        
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: true)
         request.sortDescriptors = [dateSort]
-        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: "MemoList")
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller
     }()
@@ -65,7 +65,29 @@ class MemoListViewController: UIViewController {
         tableView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case "Memo":
+            guard let memo = sender as? Memo else { return }
+            let des = segue.destination as! MemoViewController
+            des.memo = memo
+            des.context = context
+            des.coreDataStack = coreDataStack
+        default:
+            ()
+        }
+    }
     
+    @IBAction func tapCreateMemoButton(_ sender: Any) {
+        let memo = Memo(context: context)
+        memo.content = NSAttributedString()
+        memo.date = NSDate()
+        memo.folder = self.folder
+        
+        performSegue(withIdentifier: "Memo", sender: memo)
+    }
     
     func setTableViewCellHeight() {
         let originalString: String = "ForBodySize"
@@ -103,6 +125,9 @@ extension MemoListViewController: UITableViewDataSource {
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let memo = resultsController.object(at: indexPath)
+        performSegue(withIdentifier: "Memo", sender: memo)
         
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)

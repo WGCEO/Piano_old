@@ -193,8 +193,8 @@
 		31575C971DE825FF00373ADD /* MemoList */ = {
 			isa = PBXGroup;
 			children = (
-				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
 				310870911DE13B180044BA5D /* MemoListViewController.swift */,
+				3108709F1DE14AD90044BA5D /* SearchMemoListViewController.swift */,
 			);
 			name = MemoList;
 			sourceTree = "<group>";

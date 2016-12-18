@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MemoViewController: UIViewController {
 
@@ -22,16 +23,18 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textView: PianoTextView!
     @IBOutlet var completeButton: UIBarButtonItem!
+    var coreDataStack: NSPersistentContainer!
     @IBAction func tapCompleteButton(_ sender: Any) {
         textView.resignFirstResponder()
     }
 
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
+    var memo: Memo!
     
+    var context: NSManagedObjectContext!
     
     lazy var parser = MarkdownParser()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,14 @@ class MemoViewController: UIViewController {
         containerViewHeight.constant = 0
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
+        
+        textView.attributedText = memo.content
+        title = String(describing: memo.date)
+        
+        if memo.content.string.characters.count == 0 {
+            textView.becomeFirstResponder()
+        }
+        
         
         //파싱이 오래걸리므로 비동기 처리
 //        DispatchQueue.global().async { [weak self] in
@@ -49,7 +60,6 @@ class MemoViewController: UIViewController {
 //                self?.textView.attributedText = attributedText
 //            }
 //        }
-        
 //        print("텍스트뷰의 스트링은 \(textView.text)")
 //        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
     }
@@ -79,8 +89,18 @@ class MemoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    @IBAction func tapSendButton(_ sender: Any) {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
+        do {
+            print("context.save()")
+            try context.save()
+        } catch {
+            print("error: \(error)")
+        }
+    }
+    
+    @IBAction func tapSendButton(_ sender: Any) {
     }
 
     @IBAction func tapEffectButton(_ sender: Any) {
@@ -191,6 +211,70 @@ extension MemoViewController: NSLayoutManagerDelegate {
     }
 }
 
+extension MemoViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        memo.content = textView.attributedText
+        memo.date = NSDate()
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        guard let nowCursorPosition = textView.selectedTextRange?.start,
+            !self.textView.isHardwareKeyboardConnected else { return }
+        let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
+        
+        if !isCursorAttachingKeyboard(cursorPosition: cursorPosition)
+            && textView.selectedRange.length < 1 {
+            moveCursor(from: cursorPosition)
+        }
+    }
+    
+    //현재 커서가 키보드에 붙어있는 지 아닌 지 체크 isCursorAttachingKeyboard
+    func isCursorAttachingKeyboard(cursorPosition: CGPoint) -> Bool{
+        return cursorPosition.y != textView.cacheCursorPosition.y ? false : true
+    }
+    
+    //커서를 이동시키는 메서드
+    func moveCursor(from: CGPoint) {
+        guard let bottomDistance = textView.bottomDistance
+            else { return }
+        
+        textView.cacheCursorPosition = from
+        let currentCursorY = textView.cacheCursorPosition.y
+        let textInsetTop = textView.textContainerInset.top
+        let padding2x = textView.textContainer.lineFragmentPadding * 2
+        let topInset = textView.bounds.height - (bottomDistance + padding2x + currentCursorY + textInsetTop)
+        //textView.textContainer.lineFragmentPadding * 2 이게 맞는 건지 확인해야함
+        textView.isAnimating = true
+        UIView.animate(withDuration: 0.3, animations: { [weak textView] in
+            if topInset > 0 {
+                textView?.contentInset.top = topInset
+            }
+            textView?.contentInset.bottom = bottomDistance
+            textView?.contentOffset.y = -topInset
+        }) { [weak textView](bool) in
+            if bool {
+                textView?.isAnimating = false
+            }
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if textView.mode != .typing {
+            textView.attachCanvas()
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if textView.mode != .typing {
+            textView.attachCanvas()
+        }
+    }
+}
+
+
+
+
 extension MemoViewController: UIImagePickerControllerDelegate , UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -219,9 +303,6 @@ extension MemoViewController: UIImagePickerControllerDelegate , UINavigationCont
             textView.font = font
             
         }
-        
         dismiss(animated: true, completion: nil)
-        
     }
 }
-

@@ -14,22 +14,21 @@ class FolderListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var indicatingCell: () -> Void = {}
     var context: NSManagedObjectContext!
+    var coreDataStack: NSPersistentContainer!
     
     @IBOutlet var addFolderButton: UIButton!
     @IBAction func tapAddFolderButton(_ sender: Any) {
         let alert = UIAlertController(title: "새로운 폴더", message: "이 폴더의 이름을 입력하십시오.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in }
-        let ok = UIAlertAction(title: "저장", style: .default) { (action) in
+        let ok = UIAlertAction(title: "저장", style: .default) { [unowned self](action) in
             guard let text = alert.textFields?.first?.text else { return }
             
             do {
                 let newFolder = Folder(context: self.context)
                 newFolder.name = text
                 newFolder.date = NSDate()
-                newFolder.section = 1
                 newFolder.memos = []
-                newFolder.category = "Group"
                 
                 try self.context.save()
             } catch {
@@ -64,9 +63,8 @@ class FolderListViewController: UIViewController {
     lazy var resultsController: NSFetchedResultsController<Folder> = {
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
         let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
-        let sectionSort = NSSortDescriptor(key: #keyPath(Folder.section), ascending: true)
-        request.sortDescriptors = [dateSort, sectionSort]
-        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: #keyPath(Folder.section), cacheName: "FolderList")
+        request.sortDescriptors = [dateSort]
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:self.context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller
     }()
@@ -101,16 +99,19 @@ class FolderListViewController: UIViewController {
     func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "MemoList" {
-            guard let folder = sender as? Folder else { return }
             let des = segue.destination as! MemoListViewController
             des.context = context
-            des.folder = folder
+            des.coreDataStack = coreDataStack
+            
+            if let folder = sender as? Folder {
+                des.folder = folder
+                des.title = folder.name
+            }
         }
-        
     }
     
 }
@@ -126,6 +127,7 @@ extension FolderListViewController: UITableViewDataSource {
     
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         let folder = resultsController.object(at: indexPath)
+        
         cell.textLabel?.text = folder.name
         cell.detailTextLabel?.text = "\(folder.memos.count)"
         cell.textLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
@@ -138,18 +140,15 @@ extension FolderListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return resultsController.sections?[section].numberOfObjects ?? 0
+
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section != 0 ? "Group" : "All"
+        return "Folder"
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section != 0 {
-            return addFolderButton
-        } else {
-            return nil
-        }
+        return addFolderButton
     }
 }
 

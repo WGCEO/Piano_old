@@ -13,15 +13,38 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
     lazy var coreDataStack: NSPersistentContainer = {
         return NSPersistentContainer(name: "PianoModel")
     }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        loadData()
+        
+        if let nav = window?.rootViewController as? UINavigationController,
+            let folderList  = nav.topViewController as? FolderListViewController {
+            folderList.context = coreDataStack.viewContext
+            folderList.coreDataStack = coreDataStack
+        }
 
-
-        //coreDataStack.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
+        
+//        if let split = window?.rootViewController as? UISplitViewController {
+//            if let primaryNav = split.viewControllers.first as? UINavigationController,
+//                let folderList = primaryNav.topViewController as? FolderListViewController {
+//                folderList.context = coreDataStack.viewContext
+//                folderList.coreDataStack = coreDataStack
+//            }
+//
+//            split.delegate = self
+//            split.preferredDisplayMode = .allVisible
+//        }
+        
+        return true
+    }
+    
+    func loadData() {
+        //        coreDataStack.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
         coreDataStack.loadPersistentStores { (description, error) in
             if let error = error {
                 print("Error creating persistent stores: \(error.localizedDescription)")
@@ -30,19 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         coreDataStack.viewContext.automaticallyMergesChangesFromParent = true
-        
         coreDataStack.importFolders()
-        
-        if let split = window?.rootViewController as? UISplitViewController {
-            if let primaryNav = split.viewControllers.first as? UINavigationController,
-                let folderList = primaryNav.topViewController as? FolderListViewController {
-                folderList.context = coreDataStack.viewContext
-            }
-            split.delegate = self
-            split.preferredDisplayMode = .allVisible
-        }
-        
-        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -53,6 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        coreDataStack.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -64,6 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        
+        coreDataStack.saveContext()
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
