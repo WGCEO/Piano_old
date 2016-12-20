@@ -34,8 +34,8 @@ class FolderListViewController: UIViewController {
             } catch {
                 print("Error importing folders: \(error.localizedDescription)")
             }
-            
         }
+        
         ok.isEnabled = false
         alert.addAction(cancel)
         alert.addAction(ok)
@@ -58,7 +58,6 @@ class FolderListViewController: UIViewController {
         let alert = resp as! UIAlertController
         alert.actions[1].isEnabled = (tf.text != "")
     }
-    
     
     lazy var resultsController: NSFetchedResultsController<Folder> = {
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
@@ -109,11 +108,9 @@ class FolderListViewController: UIViewController {
             
             if let folder = sender as? Folder {
                 des.folder = folder
-                des.title = folder.name
             }
         }
     }
-    
 }
 
 extension FolderListViewController: UITableViewDataSource {
@@ -140,7 +137,6 @@ extension FolderListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return resultsController.sections?[section].numberOfObjects ?? 0
-
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

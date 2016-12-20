@@ -18,30 +18,12 @@ class TopViewController: UIViewController {
         let indexPath = IndexPath(item: 0, section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
     }
-
-    @IBAction func tapApplyButton(_ sender: Any) {
-        //TODO: 중복코드 처리하기
-        guard let parent = parent as? MemoViewController else { return }
-        parent.showTopView(bool: false)
-        parent.textView.isSelectable = true
-        parent.textView.isEditable = true
-        parent.textView.canvas.removeFromSuperview()
-        parent.textView.mode = .typing
-    }
-    
-//    @IBAction func tapCancelButton(_ sender: Any) {
-//        guard let parent = parent as? MemoViewController else { return }
-//        parent.showTopView(bool: false)
-//        parent.textView.isSelectable = true
-//        parent.textView.isEditable = true
-//        parent.textView.canvas.removeFromSuperview()
-//        parent.textView.mode = .typing
-//    }
 }
 
 extension TopViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextEffectCell.reuseIdentifier, for: indexPath) as! TextEffectCell
+        cell.backgroundColor = UIColor.clear
         
         switch indexPath.item {
         case 0:

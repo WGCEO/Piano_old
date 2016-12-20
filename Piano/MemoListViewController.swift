@@ -25,7 +25,7 @@ class MemoListViewController: UIViewController {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
         request.predicate = NSPredicate(format: "folder = %@", self.folder)
         
-        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: true)
+        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         request.sortDescriptors = [dateSort]
         let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
@@ -44,11 +44,6 @@ class MemoListViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        indicatingCell()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -59,6 +54,29 @@ class MemoListViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        indicatingCell()
+        
+        
+        //이거 배열에 리터럴 숫자 넣어서 에러생기는 지 체크(메모가 아무것도 없을 때)
+        guard let count = resultsController.sections?[0].numberOfObjects, count != 0 else { return }
+        
+        for index in 0...count - 1 {
+            let memo = resultsController.object(at: IndexPath(row: index, section: 0))
+            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as! NSAttributedString
+            if attrText.string.isEmpty {
+                context.delete(memo)
+                do {
+                    try context.save()
+                } catch {
+                    print("error: \(error)")
+                }
+                return  //어차피 하나밖에 지울 게 없을 것이므로(제일 첫번 째 로우)
+            }
+        }
     }
     
     func preferredContentSizeChanged(notification: Notification) {
@@ -82,7 +100,7 @@ class MemoListViewController: UIViewController {
     
     @IBAction func tapCreateMemoButton(_ sender: Any) {
         let memo = Memo(context: context)
-        memo.content = NSAttributedString()
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
         memo.date = NSDate()
         memo.folder = self.folder
         
@@ -110,8 +128,7 @@ extension MemoListViewController: UITableViewDataSource {
     
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
-        let firstLineText = memo.content.string.trimmingCharacters(in: .newlines)
-        cell.textLabel?.text = firstLineText
+        cell.textLabel?.text = memo.firstLine
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -152,6 +169,7 @@ extension MemoListViewController: NSFetchedResultsControllerDelegate {
             guard let indexPath = indexPath else { return }
             if let cell = tableView.cellForRow(at: indexPath) {
                 configure(cell: cell, at: indexPath)
+                cell.setNeedsLayout()
             }
         case .move:
             guard let indexPath = indexPath,

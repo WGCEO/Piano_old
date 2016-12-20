@@ -11,6 +11,21 @@ import CoreData
 
 class MemoViewController: UIViewController {
 
+    @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
+    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
+
+    @IBOutlet var toolsCollection: [UIBarButtonItem]!
+
+    @IBOutlet var completeToolButton: UIBarButtonItem!
+
+    @IBAction func tapCompleteButton(_ sender: Any) {
+        showTopView(bool: false)
+        textView.isSelectable = true
+        textView.isEditable = true
+        textView.canvas.removeFromSuperview()
+        textView.mode = .typing
+        saveMemo()
+    }
 
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
     lazy var imagePicker: UIImagePickerController = {
@@ -22,31 +37,41 @@ class MemoViewController: UIViewController {
     }()
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textView: PianoTextView!
-    @IBOutlet var completeButton: UIBarButtonItem!
-    var coreDataStack: NSPersistentContainer!
-    @IBAction func tapCompleteButton(_ sender: Any) {
-        textView.resignFirstResponder()
-    }
 
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
     var memo: Memo!
     
+    var coreDataStack: NSPersistentContainer!
     var context: NSManagedObjectContext!
     
     lazy var parser = MarkdownParser()
     
+    func saveMemo() {
+        let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+        memo.content = data
+        coreDataStack.saveContext()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.delegate = self
+        setToolbarItems(toolsCollection, animated: false)
         containerViewHeight.constant = 0
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
+        guard let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
+        hideKeyboardButtonBottom.constant = -toolBarHeight
+        eraseTextButtonBottom.constant = -toolBarHeight
         
-        textView.attributedText = memo.content
-        title = String(describing: memo.date)
         
-        if memo.content.string.characters.count == 0 {
+        //비동기로 해보고 테스트해볼 것
+        let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+        textView.attributedText = attrText
+
+        
+        if attrText?.string.characters.count == 0 {
             textView.becomeFirstResponder()
         }
         
@@ -66,7 +91,6 @@ class MemoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         makeTextViewStartFromTop(didAppear: false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
@@ -88,22 +112,12 @@ class MemoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        do {
-            print("context.save()")
-            try context.save()
-        } catch {
-            print("error: \(error)")
-        }
-    }
-    
-    @IBAction func tapSendButton(_ sender: Any) {
+
+    @IBAction func tapHideKeyboardButton(_ sender: Any) {
+        textView.resignFirstResponder()
     }
 
-    @IBAction func tapEffectButton(_ sender: Any) {
+    @IBAction func tapEffectToolButton(_ sender: Any) {
         showTopView(bool: true)
         textView.resignFirstResponder()
         textView.isEditable = false
@@ -112,7 +126,13 @@ class MemoViewController: UIViewController {
         textView.attachCanvas()
     }
     
-    
+    @IBAction func tapTrashButton(_ sender: Any) {
+        context.delete(memo)
+        
+        coreDataStack.saveContextOnBackground()
+        let _ = navigationController?.popViewController(animated: true)
+    }
+
     @IBAction func tapEraseTextButton(_ sender: Any) {
         //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
@@ -143,7 +163,7 @@ class MemoViewController: UIViewController {
                 continue
             }
             
-            //whitespace발견! 
+            //whitespace발견!
             if findWord {
                 removeSubrange(from: offset)
                 break
@@ -153,56 +173,66 @@ class MemoViewController: UIViewController {
         }
     }
     
+
     func removeSubrange(from: Int) {
-        let start = textView.text.index(textView.text.startIndex, offsetBy: from)
-        let end = textView.text.index(textView.text.startIndex, offsetBy: textView.selectedRange.location - 1)
-        textView.text.removeSubrange(start...end)
+        //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
+        let range = NSMakeRange(from, textView.selectedRange.location - from)
+        textView.layoutManager.textStorage?.deleteCharacters(in: range)
+        
         textView.selectedRange = NSRange(location: from, length: 0)
     }
     
     func keyboardWillShow(notification: Notification){
         textView.isHardwareKeyboardConnected = false
-        navigationItem.setRightBarButtonItems([completeButton], animated: true)
         
         guard let userInfo = notification.userInfo,
-            let toolbarHeight = navigationController?.toolbar.frame.height else { return }
-    
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
+            let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
         let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
-        let bottomDistance = kbHeight - toolbarHeight
-        textView.bottomDistance = bottomDistance
-        textView.cacheCursorPosition = CGPoint(x: 0, y: -10)
+        
+        UIView.animate(withDuration: duration) { [weak self] in
+            //TODO: change literal constant
+            let bottom = kbHeight - toolBarHeight
+            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
+            self?.eraseTextButtonBottom.constant = bottom
+            self?.hideKeyboardButtonBottom.constant = bottom
+            self?.view.layoutIfNeeded()
+        }
     }
     
     func keyboardWillHide(notification: Notification){
         textView.isHardwareKeyboardConnected = true
-        navigationItem.setRightBarButtonItems(nil, animated: true)
-        
         resetTextViewInset(notification: notification)
     }
     
     func resetTextViewInset(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
+            let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
         
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+            self?.eraseTextButtonBottom.constant = -toolBarHeight
+            self?.hideKeyboardButtonBottom.constant = -toolBarHeight
+            self?.view.layoutIfNeeded()
         }
     }
     
     func showTopView(bool: Bool) {
         self.navigationController?.setNavigationBarHidden(bool, animated: true)
-        self.navigationController?.setToolbarHidden(bool, animated: true)
+        completeToolButton.width = UIScreen.main.bounds.width
+        let items = bool ? [completeToolButton] : toolsCollection
+        setToolbarItems(items, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.containerViewHeight.constant = bool ? 100 : 0
+            self.containerViewHeight.constant = bool ? 120 : 0
             self.textViewTop.constant = bool ? 100 : 0
             self.view.layoutIfNeeded()
         }
     }
     
-    @IBAction func tapAlbumButton(_ sender: Any) {
+    @IBAction func tapAlbumToolButton(_ sender: Any) {
         present(imagePicker, animated: true, completion: nil)
     }
-
 }
 
 extension MemoViewController: NSLayoutManagerDelegate {
@@ -212,51 +242,16 @@ extension MemoViewController: NSLayoutManagerDelegate {
 }
 
 extension MemoViewController: UITextViewDelegate {
-    
-    func textViewDidChange(_ textView: UITextView) {
-        memo.content = textView.attributedText
-        memo.date = NSDate()
-    }
-    
+ 
+    //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
-        guard let nowCursorPosition = textView.selectedTextRange?.start,
-            !self.textView.isHardwareKeyboardConnected else { return }
-        let cursorPosition = textView.caretRect(for: nowCursorPosition).origin
-        
-        if !isCursorAttachingKeyboard(cursorPosition: cursorPosition)
-            && textView.selectedRange.length < 1 {
-            moveCursor(from: cursorPosition)
-        }
+        //이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기
+        memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
     }
     
-    //현재 커서가 키보드에 붙어있는 지 아닌 지 체크 isCursorAttachingKeyboard
-    func isCursorAttachingKeyboard(cursorPosition: CGPoint) -> Bool{
-        return cursorPosition.y != textView.cacheCursorPosition.y ? false : true
-    }
-    
-    //커서를 이동시키는 메서드
-    func moveCursor(from: CGPoint) {
-        guard let bottomDistance = textView.bottomDistance
-            else { return }
-        
-        textView.cacheCursorPosition = from
-        let currentCursorY = textView.cacheCursorPosition.y
-        let textInsetTop = textView.textContainerInset.top
-        let padding2x = textView.textContainer.lineFragmentPadding * 2
-        let topInset = textView.bounds.height - (bottomDistance + padding2x + currentCursorY + textInsetTop)
-        //textView.textContainer.lineFragmentPadding * 2 이게 맞는 건지 확인해야함
-        textView.isAnimating = true
-        UIView.animate(withDuration: 0.3, animations: { [weak textView] in
-            if topInset > 0 {
-                textView?.contentInset.top = topInset
-            }
-            textView?.contentInset.bottom = bottomDistance
-            textView?.contentOffset.y = -topInset
-        }) { [weak textView](bool) in
-            if bool {
-                textView?.isAnimating = false
-            }
-        }
+    //이거 여기다가 넣는게 진정 맞을까..??
+    func textViewDidChange(_ textView: UITextView) {
+        memo.date = NSDate()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -272,10 +267,7 @@ extension MemoViewController: UITextViewDelegate {
     }
 }
 
-
-
-
-extension MemoViewController: UIImagePickerControllerDelegate , UINavigationControllerDelegate {
+extension MemoViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             //여기서 selectedRange에다가 NSTextAttachment로 붙여 넣어야 함 물론 이미지 크기 조절해서!
@@ -297,12 +289,21 @@ extension MemoViewController: UIImagePickerControllerDelegate , UINavigationCont
             let textAttachment = NSTextAttachment()
             textAttachment.image = scaledImage
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+            //
             attributedString.append(attrStringWithImage)
-            let font = textView.font
+            let newLine = NSAttributedString(string: " \n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
+            attributedString.append(newLine)
             textView.attributedText = attributedString;
-            textView.font = font
-            
+            textView.font = UIFont.preferredFont(forTextStyle: .body)
         }
         dismiss(animated: true, completion: nil)
     }
+}
+
+extension MemoViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        saveMemo()
+    }
+
 }
