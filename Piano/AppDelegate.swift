@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    lazy var coreDataStack: NSPersistentContainer = {
-        return NSPersistentContainer(name: "PianoModel")
+    lazy var coreDataStack: PianoPersistentContainer = {
+        return PianoPersistentContainer(name: "PianoModel")
     }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let nav = window?.rootViewController as? UINavigationController,
             let folderList  = nav.topViewController as? FolderListViewController {
-            folderList.context = coreDataStack.viewContext
             folderList.coreDataStack = coreDataStack
         }
 

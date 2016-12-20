@@ -41,42 +41,4 @@ extension NSPersistentContainer {
             }
         }
     }
-    
-    func saveContext() {
-        guard viewContext.hasChanges else { return }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print(error)
-        }
-    }
-    
-    func saveContextOnBackground() {
-        guard viewContext.hasChanges else { return }
-        
-        performBackgroundTask { (context) in
-            do {
-                try context.save()
-            } catch {
-                print("Error importing folders: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func addFolder(name: String) {
-        performBackgroundTask { (context) in
-            do {
-                let newFolder = Folder(context: context)
-                newFolder.name = name
-                newFolder.date = NSDate()
-                newFolder.memos = []
-                
-                try context.save()
-            } catch {
-                print("Error importing folders: \(error.localizedDescription)")
-            }
-
-        }
-    }
 }

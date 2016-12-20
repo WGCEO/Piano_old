@@ -24,7 +24,6 @@ class MemoViewController: UIViewController {
         textView.isEditable = true
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
-        saveMemo()
     }
 
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
@@ -40,21 +39,22 @@ class MemoViewController: UIViewController {
 
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
-    var memo: Memo!
+    var memo: Memo?
+    var folder: Folder!
     
-    var coreDataStack: NSPersistentContainer!
-    var context: NSManagedObjectContext!
-    
+    var coreDataStack: PianoPersistentContainer!
     lazy var parser = MarkdownParser()
     
-    func saveMemo() {
-        let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-        memo.content = data
-        coreDataStack.saveContext()
-    }
+//    func saveMemo() {
+//        let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+//        memo.content = data
+//        coreDataStack.saveContext()
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         navigationController?.delegate = self
         setToolbarItems(toolsCollection, animated: false)
@@ -67,14 +67,21 @@ class MemoViewController: UIViewController {
         
         
         //비동기로 해보고 테스트해볼 것
-        let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
-        textView.attributedText = attrText
-
         
-        if attrText?.string.characters.count == 0 {
+        if let memo = memo {
+            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+            textView.attributedText = attrText
+        } else {
+            let memo = Memo(context: coreDataStack.viewContext)
+            memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
+            memo.date = NSDate()
+            memo.folder = self.folder
+            self.memo = memo
             textView.becomeFirstResponder()
         }
         
+        coreDataStack.textView = textView
+        coreDataStack.memo = memo
         
         //파싱이 오래걸리므로 비동기 처리
 //        DispatchQueue.global().async { [weak self] in
@@ -127,12 +134,25 @@ class MemoViewController: UIViewController {
     }
     
     @IBAction func tapTrashButton(_ sender: Any) {
-        context.delete(memo)
+        guard let memo = self.memo else { return }
         
-        coreDataStack.saveContextOnBackground()
+        coreDataStack.performBackgroundTask { (context) in
+            memo.isInTrash = true
+            do {
+                try context.save()
+            } catch {
+                print("쓰레기 버튼 눌렀는데 에러: \(error)")
+            }
+        }
+        
+        
         let _ = navigationController?.popViewController(animated: true)
     }
 
+    
+    
+    
+    
     @IBAction func tapEraseTextButton(_ sender: Any) {
         //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
@@ -245,12 +265,14 @@ extension MemoViewController: UITextViewDelegate {
  
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
-        //이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기
+        //이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
+        guard let memo = self.memo else { return }
         memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
     }
     
-    //이거 여기다가 넣는게 진정 맞을까..??
+    //이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
     func textViewDidChange(_ textView: UITextView) {
+        guard let memo = memo else { return }
         memo.date = NSDate()
     }
     
@@ -303,7 +325,10 @@ extension MemoViewController: UIImagePickerControllerDelegate {
 extension MemoViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        saveMemo()
+        guard let memo = self.memo else { return }
+        let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+        memo.content = data
+        memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
     }
 
 }

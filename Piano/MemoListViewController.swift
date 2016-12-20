@@ -15,8 +15,7 @@ class MemoListViewController: UIViewController {
 //    lazy var folderPredicate: NSPredicate = {
 //        return NSPredicate(format: "folder = %@", self.folder)
 //    }()
-    var coreDataStack: NSPersistentContainer!
-    var context: NSManagedObjectContext!
+    var coreDataStack: PianoPersistentContainer!
     var folder: Folder!
     
     var indicatingCell: () -> Void = {}
@@ -24,10 +23,10 @@ class MemoListViewController: UIViewController {
     lazy var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
         request.predicate = NSPredicate(format: "folder = %@", self.folder)
-        
+        let context = self.coreDataStack.viewContext
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         request.sortDescriptors = [dateSort]
-        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller
     }()
@@ -68,6 +67,7 @@ class MemoListViewController: UIViewController {
             let memo = resultsController.object(at: IndexPath(row: index, section: 0))
             let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as! NSAttributedString
             if attrText.string.isEmpty {
+                let context = coreDataStack.viewContext
                 context.delete(memo)
                 do {
                     try context.save()
@@ -88,23 +88,19 @@ class MemoListViewController: UIViewController {
         
         switch identifier {
         case "Memo":
-            guard let memo = sender as? Memo else { return }
             let des = segue.destination as! MemoViewController
-            des.memo = memo
-            des.context = context
             des.coreDataStack = coreDataStack
+            des.folder = folder
+            
+            guard let memo = sender as? Memo else { return }
+            des.memo = memo
         default:
             ()
         }
     }
     
     @IBAction func tapCreateMemoButton(_ sender: Any) {
-        let memo = Memo(context: context)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-        memo.date = NSDate()
-        memo.folder = self.folder
-        
-        performSegue(withIdentifier: "Memo", sender: memo)
+        performSegue(withIdentifier: "Memo", sender: nil)
     }
     
     func setTableViewCellHeight() {

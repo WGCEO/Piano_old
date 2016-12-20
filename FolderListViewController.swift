@@ -13,8 +13,7 @@ class FolderListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var indicatingCell: () -> Void = {}
-    var context: NSManagedObjectContext!
-    var coreDataStack: NSPersistentContainer!
+    var coreDataStack: PianoPersistentContainer!
     
     @IBOutlet var addFolderButton: UIButton!
     @IBAction func tapAddFolderButton(_ sender: Any) {
@@ -23,14 +22,14 @@ class FolderListViewController: UIViewController {
         let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in }
         let ok = UIAlertAction(title: "저장", style: .default) { [unowned self](action) in
             guard let text = alert.textFields?.first?.text else { return }
-            
+            let context = self.coreDataStack.viewContext
             do {
-                let newFolder = Folder(context: self.context)
+                let newFolder = Folder(context: context)
                 newFolder.name = text
                 newFolder.date = NSDate()
                 newFolder.memos = []
                 
-                try self.context.save()
+                try context.save()
             } catch {
                 print("Error importing folders: \(error.localizedDescription)")
             }
@@ -60,10 +59,11 @@ class FolderListViewController: UIViewController {
     }
     
     lazy var resultsController: NSFetchedResultsController<Folder> = {
+        let context = self.coreDataStack.viewContext
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
         let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
         request.sortDescriptors = [dateSort]
-        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:self.context, sectionNameKeyPath: nil, cacheName: nil)
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
         return controller
     }()
@@ -103,7 +103,6 @@ class FolderListViewController: UIViewController {
 
         if segue.identifier == "MemoList" {
             let des = segue.destination as! MemoListViewController
-            des.context = context
             des.coreDataStack = coreDataStack
             
             if let folder = sender as? Folder {
