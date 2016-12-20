@@ -22,7 +22,7 @@ class MemoListViewController: UIViewController {
     
     lazy var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "folder = %@", self.folder)
+        request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", self.folder)
         let context = self.coreDataStack.viewContext
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         request.sortDescriptors = [dateSort]

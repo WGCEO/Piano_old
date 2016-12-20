@@ -125,7 +125,6 @@ extension FolderListViewController: UITableViewDataSource {
         let folder = resultsController.object(at: indexPath)
         
         cell.textLabel?.text = folder.name
-        cell.detailTextLabel?.text = "\(folder.memos.count)"
         cell.textLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
         cell.detailTextLabel?.textColor = #colorLiteral(red: 0.2558659911, green: 0.2558728456, blue: 0.2558691502, alpha: 1)
     }

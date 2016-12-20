@@ -45,17 +45,9 @@ class MemoViewController: UIViewController {
     var coreDataStack: PianoPersistentContainer!
     lazy var parser = MarkdownParser()
     
-//    func saveMemo() {
-//        let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-//        memo.content = data
-//        coreDataStack.saveContext()
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+
         navigationController?.delegate = self
         setToolbarItems(toolsCollection, animated: false)
         containerViewHeight.constant = 0
@@ -65,23 +57,24 @@ class MemoViewController: UIViewController {
         hideKeyboardButtonBottom.constant = -toolBarHeight
         eraseTextButtonBottom.constant = -toolBarHeight
         
-        
-        //비동기로 해보고 테스트해볼 것
-        
-        if let memo = memo {
-            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
-            textView.attributedText = attrText
+        if let memo = self.memo {
+            DispatchQueue.global().async { [unowned self] in
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+                DispatchQueue.main.async { [unowned self] in
+                    self.textView.attributedText = attrText
+                }
+            }
         } else {
-            let memo = Memo(context: coreDataStack.viewContext)
+            let memo = Memo(context: self.coreDataStack.viewContext)
             memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
             memo.date = NSDate()
             memo.folder = self.folder
             self.memo = memo
-            textView.becomeFirstResponder()
+            self.textView.becomeFirstResponder()
         }
         
-        coreDataStack.textView = textView
-        coreDataStack.memo = memo
+        self.coreDataStack.textView = self.textView
+        self.coreDataStack.memo = self.memo
         
         //파싱이 오래걸리므로 비동기 처리
 //        DispatchQueue.global().async { [weak self] in
@@ -115,7 +108,6 @@ class MemoViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -138,21 +130,16 @@ class MemoViewController: UIViewController {
         
         coreDataStack.performBackgroundTask { (context) in
             memo.isInTrash = true
+//            folder.removeFromMemos(memo)
             do {
                 try context.save()
             } catch {
                 print("쓰레기 버튼 눌렀는데 에러: \(error)")
             }
         }
-        
-        
         let _ = navigationController?.popViewController(animated: true)
     }
 
-    
-    
-    
-    
     @IBAction func tapEraseTextButton(_ sender: Any) {
         //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
@@ -193,7 +180,6 @@ class MemoViewController: UIViewController {
         }
     }
     
-
     func removeSubrange(from: Int) {
         //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
         let range = NSMakeRange(from, textView.selectedRange.location - from)
@@ -311,10 +297,7 @@ extension MemoViewController: UIImagePickerControllerDelegate {
             let textAttachment = NSTextAttachment()
             textAttachment.image = scaledImage
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
-            //
             attributedString.append(attrStringWithImage)
-            let newLine = NSAttributedString(string: " \n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
-            attributedString.append(newLine)
             textView.attributedText = attributedString;
             textView.font = UIFont.preferredFont(forTextStyle: .body)
         }
@@ -326,9 +309,19 @@ extension MemoViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         guard let memo = self.memo else { return }
-        let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
-        memo.content = data
-        memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+        
+        coreDataStack.performBackgroundTask { (context) in
+            let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+            memo.content = data
+            memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+            
+            do {
+                try context.save()
+            } catch {
+                print("쓰레기 버튼 눌렀는데 에러: \(error)")
+            }
+        }
+        
     }
 
 }
