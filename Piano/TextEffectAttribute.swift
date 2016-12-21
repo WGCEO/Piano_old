@@ -10,9 +10,10 @@ import Foundation
 
 enum TextEffectAttribute {
     case normal
-    case headline
+    case bold
     case red
     case green
     case strike
     case underline
+    case title3
 }

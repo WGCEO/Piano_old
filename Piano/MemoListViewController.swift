@@ -146,6 +146,11 @@ extension MemoListViewController: UITableViewDelegate {
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let memo = resultsController.object(at: indexPath)
+        coreDataStack.viewContext.delete(memo)
+    }
 }
 
 extension MemoListViewController: NSFetchedResultsControllerDelegate {

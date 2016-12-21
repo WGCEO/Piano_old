@@ -23,15 +23,15 @@ class TopViewController: UIViewController {
 extension TopViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextEffectCell.reuseIdentifier, for: indexPath) as! TextEffectCell
-        cell.backgroundColor = UIColor.clear
+        cell.backgroundColor = cell.isSelected ? #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         switch indexPath.item {
         case 0:
             cell.imageView.image = UIImage(named: "b")
-            cell.textEffect = .headline
+            cell.textEffect = .bold
         case 1:
             cell.imageView.image = UIImage(named: "italic")
-            cell.textEffect = .red
+            cell.textEffect = .title3
         case 2:
             cell.imageView.image = UIImage(named: "textBg")
             cell.textEffect = .green

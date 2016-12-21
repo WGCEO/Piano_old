@@ -11,7 +11,7 @@ import UIKit
 class TextEffectCell: UICollectionViewCell, Reusable {
     
     @IBOutlet weak var imageView: UIImageView!
-    var textEffect: TextEffectAttribute = .headline
+    var textEffect: TextEffectAttribute = .bold
     
     override var isSelected: Bool {
         didSet {

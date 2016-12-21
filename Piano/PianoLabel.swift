@@ -16,7 +16,7 @@ class PianoLabel: UILabel {
     var applyEffectIndexSet: Set<Int> = []
     var removeEffectIndexSet: Set<Int> = []
 
-    var textEffect: TextEffectAttribute = .headline
+    var textEffect: TextEffectAttribute = .bold
     var attributes: [[String : Any]] = []
     
     var waveLength: CGFloat = 70 //이거 Designable
@@ -41,8 +41,6 @@ class PianoLabel: UILabel {
             if touchPointX > rightEndTouchX {
                 rightEndTouchX = touchPointX
             }
-            
-            
             setNeedsDisplay()
         }
     }
@@ -195,11 +193,13 @@ class PianoLabel: UILabel {
     
     func makeAttribute(by effect: TextEffectAttribute) -> [String : Any] {
         let attribute: [String : Any]
+        
         switch effect {
         case .normal:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .headline:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .headline)]
+        case .bold:
+            let size = UIFont.preferredFont(forTextStyle: .body).pointSize
+            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         case .red:
             attribute = [NSForegroundColorAttributeName : UIColor.red]
         case .green:
@@ -208,10 +208,11 @@ class PianoLabel: UILabel {
             attribute = [NSStrikethroughStyleAttributeName : 1]
         case .underline:
             attribute = [NSUnderlineStyleAttributeName : 1]
+        case .title3:
+            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title3)]
         }
         return attribute
     }
-    
     
     
 }

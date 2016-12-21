@@ -169,6 +169,36 @@ extension FolderListViewController: UITableViewDelegate {
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
     }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        //폴더를 지우면 영원히 복구할 수 없다는 경고 메시지를 띄워주기
+        let alert = UIAlertController(title: "폴더를 삭제하겠습니까?", message: "폴더를 삭제하면 그 안에 있던 메모들을 복구할 방법이 없습니다.", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in }
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [unowned self](action) in
+            let folder = self.resultsController.object(at: indexPath)
+            
+            for item in folder.memos {
+                let memo = item as! Memo
+                self.coreDataStack.viewContext.delete(memo)
+            }
+            self.coreDataStack.viewContext.delete(folder)
+        }
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        
+
+        present(alert, animated: true, completion: nil)
+        
+        
+        
+        
+        
+       
+        
+    }
 }
 
 extension FolderListViewController: NSFetchedResultsControllerDelegate {

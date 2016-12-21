@@ -27,7 +27,7 @@ class PianoControl: UIControl {
     weak var delegate: PianoControlDelegate?
     weak var textView: PianoTextView!
     var selectedRange: NSRange?
-    var textEffect: TextEffectAttribute = .headline {
+    var textEffect: TextEffectAttribute = .bold {
         didSet {
             delegate?.set(effect: textEffect)
         }
@@ -120,8 +120,9 @@ class PianoControl: UIControl {
         switch effect {
         case .normal:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .headline:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .headline)]
+        case .bold:
+            let size = UIFont.preferredFont(forTextStyle: .body).pointSize
+            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         case .red:
             attribute = [NSForegroundColorAttributeName : UIColor.red]
         case .green:
@@ -130,6 +131,8 @@ class PianoControl: UIControl {
             attribute = [NSStrikethroughStyleAttributeName : 1]
         case .underline:
             attribute = [NSUnderlineStyleAttributeName : 1]
+        case .title3:
+            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title3)]
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
@@ -140,7 +143,7 @@ class PianoControl: UIControl {
         switch effect {
         case .normal:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .headline:
+        case .bold:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
         case .red:
             attribute = [NSForegroundColorAttributeName : UIColor.black]
@@ -150,6 +153,8 @@ class PianoControl: UIControl {
             attribute = [NSStrikethroughStyleAttributeName : 0]
         case .underline:
             attribute = [NSUnderlineStyleAttributeName : 0]
+        case .title3:
+            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
