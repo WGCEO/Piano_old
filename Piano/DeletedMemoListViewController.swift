@@ -1,28 +1,25 @@
 //
-//  MemoListViewController.swift
+//  DeletedMemoListViewController.swift
 //  Piano
 //
-//  Created by 김찬기 on 2016. 11. 20..
+//  Created by kevin on 2016. 12. 22..
 //  Copyright © 2016년 Piano. All rights reserved.
 //
 
-import CoreData
 import UIKit
+import CoreData
 
-class MemoListViewController: UIViewController {
-    
-    @IBOutlet weak var tableView: UITableView!
-//    lazy var folderPredicate: NSPredicate = {
-//        return NSPredicate(format: "folder = %@", self.folder)
-//    }()
+class DeletedMemoListViewController: UIViewController {
+
     var coreDataStack: PianoPersistentContainer!
     var folder: Folder!
+    @IBOutlet weak var tableView: UITableView!
     
     var indicatingCell: () -> Void = {}
     
     lazy var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", self.folder)
+        request.predicate = NSPredicate(format: "isInTrash == true AND folder = %@", self.folder)
         let context = self.coreDataStack.viewContext
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         request.sortDescriptors = [dateSort]
@@ -43,10 +40,20 @@ class MemoListViewController: UIViewController {
         }
     }
     
+    func setTableViewCellHeight() {
+        let originalString: String = "ForBodySize"
+        let myString = originalString
+        let bodySize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
+        let callOutSize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .callout)])
+        let margin: CGFloat = 10
+        
+        tableView.rowHeight = bodySize.height + callOutSize.height + (margin * 2)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(MemoListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DeletedMemoListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,68 +69,53 @@ class MemoListViewController: UIViewController {
         
         //이거 배열에 리터럴 숫자 넣어서 에러생기는 지 체크(메모가 아무것도 없을 때)
         /*
-        guard let count = resultsController.sections?[0].numberOfObjects, count != 0 else { return }
-        
-        for index in 0...count - 1 {
-            let memo = resultsController.object(at: IndexPath(row: index, section: 0))
-            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as! NSAttributedString
-            if attrText.string.isEmpty {
-                let context = coreDataStack.viewContext
-                context.delete(memo)
-                do {
-                    try context.save()
-                } catch {
-                    print("error: \(error)")
-                }
-                return  //어차피 하나밖에 지울 게 없을 것이므로(제일 첫번 째 로우)
-            }
-        }
-        */
+         guard let count = resultsController.sections?[0].numberOfObjects, count != 0 else { return }
+         
+         for index in 0...count - 1 {
+         let memo = resultsController.object(at: IndexPath(row: index, section: 0))
+         let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as! NSAttributedString
+         if attrText.string.isEmpty {
+         let context = coreDataStack.viewContext
+         context.delete(memo)
+         do {
+         try context.save()
+         } catch {
+         print("error: \(error)")
+         }
+         return  //어차피 하나밖에 지울 게 없을 것이므로(제일 첫번 째 로우)
+         }
+         }
+         */
     }
     
     func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
+    }
+
+    @IBAction func tapCancelButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }
         
         switch identifier {
-        case "Memo":
-            let des = segue.destination as! MemoViewController
+        case "DeletedMemo":
+            let des = segue.destination as! DeletedMemoViewController
             des.coreDataStack = coreDataStack
             des.folder = folder
             guard let memo = sender as? Memo else { return }
             des.memo = memo
-            
-        case "DeletedMemoList":
-            let des = segue.destination as! UINavigationController
-            let first = des.topViewController as! DeletedMemoListViewController
-            first.coreDataStack = coreDataStack
-            first.folder = folder
+
         default:
             ()
         }
     }
-    
-    @IBAction func tapCreateMemoButton(_ sender: Any) {
-        performSegue(withIdentifier: "Memo", sender: nil)
-    }
-    
-    func setTableViewCellHeight() {
-        let originalString: String = "ForBodySize"
-        let myString = originalString
-        let bodySize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
-        let callOutSize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .callout)])
-        let margin: CGFloat = 10
-        
-        tableView.rowHeight = bodySize.height + callOutSize.height + (margin * 2)
-    }
 }
 
-extension MemoListViewController: UITableViewDataSource {
+extension DeletedMemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "MemoCell")
+        let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "DeletedMemoCell")
         configure(cell: cell, at: indexPath)
         
         return cell
@@ -143,11 +135,11 @@ extension MemoListViewController: UITableViewDataSource {
     }
 }
 
-extension MemoListViewController: UITableViewDelegate {
+extension DeletedMemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let memo = resultsController.object(at: indexPath)
-        performSegue(withIdentifier: "Memo", sender: memo)
+        performSegue(withIdentifier: "DeletedMemo", sender: memo)
         
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)
@@ -156,11 +148,11 @@ extension MemoListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
-        memo.isInTrash = true
+        coreDataStack.viewContext.delete(memo)
     }
 }
 
-extension MemoListViewController: NSFetchedResultsControllerDelegate {
+extension DeletedMemoListViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -191,4 +183,3 @@ extension MemoListViewController: NSFetchedResultsControllerDelegate {
         tableView.endUpdates()
     }
 }
-

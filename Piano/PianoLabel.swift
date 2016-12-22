@@ -74,8 +74,6 @@ class PianoLabel: UILabel {
             return
         }
         
-        
-        
         backgroundColor = UIColor.white.withAlphaComponent(0.8 * progress)
         
         //TODO: 오른쪽부터 쓰는 글씨도 해결해야함
@@ -95,9 +93,10 @@ class PianoLabel: UILabel {
             let x = distance < 0 ? -distance : distance
             let leftLamda = (x + waveLength) / waveLength
             let rightLamda = (x - waveLength) / waveLength
-            
             // 4차식
             let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
+            
+//            let y = cos(x)
             
             //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
             //let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
@@ -134,8 +133,6 @@ class PianoLabel: UILabel {
                 removeEffectIndexSet.remove(index)
             }
             
-            
-            
             if isApplyEffect {
                 applyEffectIndexSet.insert(index)
                 
@@ -160,10 +157,6 @@ class PianoLabel: UILabel {
                 applyEffectIndexSet.remove(index)
             }
             
-
-            
-      
-            
 //            case false where isSelectedCharacter:
 //            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title1)]
 //            font = attribute[NSFontAttributeName] as! UIFont
@@ -173,6 +166,7 @@ class PianoLabel: UILabel {
             
             //효과 입히기
             if x > -waveLength && x < waveLength {
+            
                 let size = s.size(attributes: attribute)
                 let x = rect.origin.x
                 let y = rect.origin.y - y * progress
@@ -209,7 +203,8 @@ class PianoLabel: UILabel {
         case .underline:
             attribute = [NSUnderlineStyleAttributeName : 1]
         case .title3:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title3)]
+            let size = UIFont.preferredFont(forTextStyle: .title3).pointSize
+            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         }
         return attribute
     }

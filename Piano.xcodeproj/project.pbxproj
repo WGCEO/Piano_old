@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */; };
+		0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */; };
 		0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */; };
 		0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */; };
 		0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */; };
@@ -57,6 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoListViewController.swift; sourceTree = "<group>"; };
+		0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoViewController.swift; sourceTree = "<group>"; };
 		0A0C1E7E1DFCE30C008EBFC1 /* PianoModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PianoModel.xcdatamodel; sourceTree = "<group>"; };
 		0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer_Extension.swift; sourceTree = "<group>"; };
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
@@ -120,6 +124,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A08184E1E0B8D300001304F /* DeletedMemoList */ = {
+			isa = PBXGroup;
+			children = (
+				0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */,
+			);
+			name = DeletedMemoList;
+			sourceTree = "<group>";
+		};
+		0A0818511E0B96320001304F /* DeletedMemo */ = {
+			isa = PBXGroup;
+			children = (
+				0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */,
+			);
+			name = DeletedMemo;
+			sourceTree = "<group>";
+		};
 		3131F6C51DDD2E3D00EC4229 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +173,8 @@
 				0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */,
 				310870A91DE1729C0044BA5D /* Reusable.swift */,
 				31575C961DE825F600373ADD /* FolderList */,
+				0A08184E1E0B8D300001304F /* DeletedMemoList */,
+				0A0818511E0B96320001304F /* DeletedMemo */,
 				31575C971DE825FF00373ADD /* MemoList */,
 				31575C981DE8260700373ADD /* Memo */,
 				310870A51DE1720A0044BA5D /* Constant.swift */,
@@ -376,6 +398,7 @@
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				310870A01DE14AD90044BA5D /* SearchMemoListViewController.swift in Sources */,
+				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
@@ -385,6 +408,7 @@
 				315A53851DF4790200BB7367 /* PianoLabelAnimation.swift in Sources */,
 				310870A61DE1720A0044BA5D /* Constant.swift in Sources */,
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
+				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */,
 				31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */,
 				316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */,

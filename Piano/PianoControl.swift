@@ -132,7 +132,8 @@ class PianoControl: UIControl {
         case .underline:
             attribute = [NSUnderlineStyleAttributeName : 1]
         case .title3:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title3)]
+            let size = UIFont.preferredFont(forTextStyle: .title3).pointSize
+            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
