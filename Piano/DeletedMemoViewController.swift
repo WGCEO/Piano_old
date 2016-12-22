@@ -17,8 +17,9 @@ class DeletedMemoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         textView.layoutManager.delegate = self
+        textView.textContainerInset = UIEdgeInsetsMake(20, 20, 0, 20)
         
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
@@ -29,6 +30,34 @@ class DeletedMemoViewController: UIViewController {
             }
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        makeTextViewStartFromTop(didAppear: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        makeTextViewStartFromTop(didAppear: true)
+    }
+    
+    func makeTextViewStartFromTop(didAppear: Bool) {
+        textView.isScrollEnabled = didAppear
+    }
+    
+    @IBAction func tapRestoreBarButton(_ sender: Any) {
+        guard let memo = self.memo else { return }
+        coreDataStack.performBackgroundTask { (context) in
+            memo.isInTrash = false
+            do {
+                try context.save()
+            } catch {
+                print("쓰레기 버튼 눌렀는데 에러: \(error)")
+            }
+        }
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 extension DeletedMemoViewController: NSLayoutManagerDelegate {

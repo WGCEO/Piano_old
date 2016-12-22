@@ -27,14 +27,14 @@
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FolderCell" textLabel="gUa-fO-Vyh" style="IBUITableViewCellStyleDefault" id="hsI-Ct-oSg">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsI-Ct-oSg" id="9nB-Ku-mJx">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text=" 메모" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUa-fO-Vyh">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
@@ -252,17 +252,13 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem systemItem="trash" id="BSN-WL-Opd">
+                        <barButtonItem title="삭제된 메모" id="BSN-WL-Opd">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="2jT-vh-3MK" kind="presentation" identifier="DeletedMemoList" id="6wG-n6-ScY"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="aa1-pI-ZEo"/>
-                        <barButtonItem systemItem="search" id="TMI-5A-utL">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="vgT-LE-GM6"/>
                         <barButtonItem systemItem="compose" id="J7Y-rz-skl">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -298,9 +294,27 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="Wco-jf-XDC">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="메모가 30일 후에 영구적으로 삭제됩니다." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NBb-E1-rsZ">
+                                            <rect key="frame" x="16" y="13" width="343" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.89135044640000005" green="0.15686275059999999" blue="0.29219953910000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="NBb-E1-rsZ" secondAttribute="trailing" constant="16" id="1AN-5c-s7E"/>
+                                        <constraint firstItem="NBb-E1-rsZ" firstAttribute="leading" secondItem="Wco-jf-XDC" secondAttribute="leading" constant="16" id="Yqw-Ms-n2Q"/>
+                                        <constraint firstItem="NBb-E1-rsZ" firstAttribute="centerY" secondItem="Wco-jf-XDC" secondAttribute="centerY" id="vN5-QO-lEg"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeletedMemoCell" textLabel="rXe-JS-xhI" detailTextLabel="LxP-uq-lyv" style="IBUITableViewCellStyleSubtitle" id="Mj6-QQ-W2a">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mj6-QQ-W2a" id="u9w-Ov-U9I">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -386,7 +400,11 @@
                         </constraints>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="복구하기" id="1vh-h4-pmp"/>
+                        <barButtonItem title="복구하기" id="1vh-h4-pmp">
+                            <connections>
+                                <action selector="tapRestoreBarButton:" destination="3Bd-Df-dwd" id="B14-ij-I7h"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <connections>
                         <outlet property="textView" destination="v2A-fD-bXe" id="tNA-Rf-935"/>

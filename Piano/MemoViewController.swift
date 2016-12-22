@@ -67,7 +67,7 @@ class MemoViewController: UIViewController {
         } else {
             let memo = Memo(context: self.coreDataStack.viewContext)
             memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-            memo.date = NSDate()
+            memo.date = Date()
             memo.folder = self.folder
             self.memo = memo
             self.textView.becomeFirstResponder()
@@ -130,7 +130,6 @@ class MemoViewController: UIViewController {
         
         coreDataStack.performBackgroundTask { (context) in
             memo.isInTrash = true
-//            folder.removeFromMemos(memo)
             do {
                 try context.save()
             } catch {
@@ -259,7 +258,7 @@ extension MemoViewController: UITextViewDelegate {
     //이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo else { return }
-        memo.date = NSDate()
+        memo.date = Date()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -308,20 +307,28 @@ extension MemoViewController: UIImagePickerControllerDelegate {
 extension MemoViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard let memo = self.memo else { return }
+        guard let memo = self.memo, viewController is MemoListViewController else { return }
         
-        coreDataStack.performBackgroundTask { (context) in
-            let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
-            memo.content = data
-            memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
-            
+        if textView.attributedText.size().width == 0 {
+            coreDataStack.viewContext.delete(memo)
             do {
-                try context.save()
+                try coreDataStack.viewContext.save()
             } catch {
-                print("쓰레기 버튼 눌렀는데 에러: \(error)")
+                print("error: \(error)")
+            }
+        } else {
+            coreDataStack.performBackgroundTask { (context) in
+                let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+                memo.content = data
+                memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+                
+                do {
+                    try context.save()
+                } catch {
+                    print("쓰레기 버튼 눌렀는데 에러: \(error)")
+                }
             }
         }
-        
     }
 
 }

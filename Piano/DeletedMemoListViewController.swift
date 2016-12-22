@@ -17,6 +17,14 @@ class DeletedMemoListViewController: UIViewController {
     
     var indicatingCell: () -> Void = {}
     
+    lazy var formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        formatter.doesRelativeDateFormatting = true
+        return formatter
+    }()
+    
     lazy var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
         request.predicate = NSPredicate(format: "isInTrash == true AND folder = %@", self.folder)
@@ -65,27 +73,6 @@ class DeletedMemoListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         indicatingCell()
-        
-        
-        //이거 배열에 리터럴 숫자 넣어서 에러생기는 지 체크(메모가 아무것도 없을 때)
-        /*
-         guard let count = resultsController.sections?[0].numberOfObjects, count != 0 else { return }
-         
-         for index in 0...count - 1 {
-         let memo = resultsController.object(at: IndexPath(row: index, section: 0))
-         let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as! NSAttributedString
-         if attrText.string.isEmpty {
-         let context = coreDataStack.viewContext
-         context.delete(memo)
-         do {
-         try context.save()
-         } catch {
-         print("error: \(error)")
-         }
-         return  //어차피 하나밖에 지울 게 없을 것이므로(제일 첫번 째 로우)
-         }
-         }
-         */
     }
     
     func preferredContentSizeChanged(notification: Notification) {
@@ -124,6 +111,7 @@ extension DeletedMemoListViewController: UITableViewDataSource {
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
         cell.textLabel?.text = memo.firstLine
+        cell.detailTextLabel?.text = formatter.string(from: memo.date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -144,11 +132,6 @@ extension DeletedMemoListViewController: UITableViewDelegate {
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        let memo = resultsController.object(at: indexPath)
-        coreDataStack.viewContext.delete(memo)
     }
 }
 

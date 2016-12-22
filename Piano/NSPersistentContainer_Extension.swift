@@ -29,7 +29,7 @@ extension NSPersistentContainer {
                 
                     memo.firstLine = content.string.trimmingCharacters(in: CharacterSet.newlines)
                     memo.content = data
-                    memo.date = NSDate()
+                    memo.date = Date()
                     memo.folder = pianoFolder
                     
                     pianoFolder.memos = [memo]
