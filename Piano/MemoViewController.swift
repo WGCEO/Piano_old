@@ -16,7 +16,7 @@ class MemoViewController: UIViewController {
 
     @IBOutlet var toolsCollection: [UIBarButtonItem]!
 
-    @IBOutlet var completeToolButton: UIBarButtonItem!
+    @IBOutlet var completeToolsCollection: [UIBarButtonItem]!
 
     @IBAction func tapCompleteButton(_ sender: Any) {
         showTopView(bool: false)
@@ -225,8 +225,8 @@ class MemoViewController: UIViewController {
     
     func showTopView(bool: Bool) {
         self.navigationController?.setNavigationBarHidden(bool, animated: true)
-        completeToolButton.width = UIScreen.main.bounds.width
-        let items = bool ? [completeToolButton] : toolsCollection
+//        completeToolButton.width = UIScreen.main.bounds.width
+        let items = bool ? completeToolsCollection : toolsCollection
         setToolbarItems(items, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
             self.containerViewHeight.constant = bool ? 120 : 0

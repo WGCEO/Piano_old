@@ -102,7 +102,7 @@ class PianoLabel: UILabel {
             let y = cosMaxHeight * cos(CGFloat(M_PI_2) / cosQuarterPeriod * distance)
             
             //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
-            //let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
+            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
             
             //touchPointX < leftOffset || touchPointX > charSize.width + leftOffset
             //가장 왼쪽의 터치가 단어의 오른쪽 끝보다 왼쪽에 있어야 하고, 현재 터치포인트가 단어의 오른쪽 끝보다 크면 효과 적용
@@ -174,7 +174,7 @@ class PianoLabel: UILabel {
                 let size = s.size(attributes: attribute)
                 let x = rect.origin.x
                 let y = rect.origin.y - y * progress
-//                let y = rect.origin.y - (isSelectedCharacter ? 
+//                let y = rect.origin.y - (isSelectedCharacter ?
 //                    (y + size.height / 2) * progress  : 
 //                    y * progress)
                 let point = CGPoint(x: x, y: y)

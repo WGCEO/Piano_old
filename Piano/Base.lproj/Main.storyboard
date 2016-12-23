@@ -27,14 +27,14 @@
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FolderCell" textLabel="gUa-fO-Vyh" style="IBUITableViewCellStyleDefault" id="hsI-Ct-oSg">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsI-Ct-oSg" id="9nB-Ku-mJx">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text=" 메모" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUa-fO-Vyh">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
@@ -216,18 +216,18 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0Y-6b-aHP" id="ug4-Xh-BSW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="더 피아니스트 업무 일지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwy-Ai-Gxy">
-                                                    <rect key="frame" x="15" y="16" width="161" height="21"/>
+                                                    <rect key="frame" x="15" y="16" width="160.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="오전 11:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wgU-LR-mQk">
-                                                    <rect key="frame" x="15" y="37" width="66" height="18"/>
+                                                    <rect key="frame" x="15" y="36.5" width="66" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -317,18 +317,18 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mj6-QQ-W2a" id="u9w-Ov-U9I">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="삭제된 메모 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rXe-JS-xhI">
-                                                    <rect key="frame" x="15" y="4" width="90" height="21"/>
+                                                    <rect key="frame" x="15" y="5" width="90" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LxP-uq-lyv">
-                                                    <rect key="frame" x="15" y="25" width="44" height="15"/>
+                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -502,7 +502,6 @@
                     </view>
                     <toolbarItems/>
                     <connections>
-                        <outlet property="completeToolButton" destination="Zxj-vs-tN7" id="ohm-SZ-W47"/>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="t0k-Jc-TxO"/>
                         <outlet property="eraseTextButtonBottom" destination="Unb-8X-Huo" id="8s9-D7-9WH"/>
                         <outlet property="hideKeyboardButtonBottom" destination="vmo-jy-4Eq" id="wUX-OB-kL7"/>
@@ -516,6 +515,9 @@
                         <outletCollection property="toolsCollection" destination="4jK-CH-ySE" collectionClass="NSMutableArray" id="Q8K-4j-sAP"/>
                         <outletCollection property="toolsCollection" destination="ap0-4j-dvT" collectionClass="NSMutableArray" id="1s5-aG-IMK"/>
                         <outletCollection property="toolsCollection" destination="hpj-ZG-WZl" collectionClass="NSMutableArray" id="Mp8-Rk-ByW"/>
+                        <outletCollection property="completeToolsCollection" destination="ap0-4j-dvT" id="7GX-6b-Utk"/>
+                        <outletCollection property="completeToolsCollection" destination="Zxj-vs-tN7" id="l7Y-rn-hXw"/>
+                        <outletCollection property="completeToolsCollection" destination="PdM-PS-qFI" id="5dL-tq-M6j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HX2-RA-s0u" userLabel="First Responder" sceneMemberID="firstResponder"/>
