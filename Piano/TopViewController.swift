@@ -18,28 +18,27 @@ class TopViewController: UIViewController {
         let indexPath = IndexPath(item: 0, section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.performBatchUpdates(nil, completion: nil)
+    }
 }
 
 extension TopViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextEffectCell.reuseIdentifier, for: indexPath) as! TextEffectCell
-        cell.backgroundColor = cell.isSelected ? #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.awesomeLabel.textColor = cell.isSelected ? #colorLiteral(red: 0.8913504464, green: 0.1568627506, blue: 0.2921995391, alpha: 1) : #colorLiteral(red: 0.4078193307, green: 0.4078193307, blue: 0.4078193307, alpha: 1)
         
         switch indexPath.item {
         case 0:
             cell.awesomeLabel.text = "\u{f031}"
-            cell.awesomeLabel.textColor = UIColor.red
-            cell.awesomeLabel.font.withSize(17)
             cell.textEffect = .red
         case 1:
             cell.awesomeLabel.text = "\u{f1dc}"
-            cell.awesomeLabel.font.withSize(22)
-            cell.awesomeLabel.textColor = UIColor.black
             cell.textEffect = .title3
         case 2:
             cell.awesomeLabel.text = "\u{f0cc}"
-            cell.awesomeLabel.textColor = UIColor.black
-            cell.awesomeLabel.font.withSize(17)
             cell.textEffect = .strike
         default:
             ()
@@ -67,7 +66,7 @@ extension TopViewController: UICollectionViewDelegate {
 
 extension TopViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 3, height: 56)
+        return CGSize(width: UIScreen.main.bounds.width / 3, height: 50)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

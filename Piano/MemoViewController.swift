@@ -22,6 +22,7 @@ class MemoViewController: UIViewController {
     
     @IBOutlet var finishToolButton: UIBarButtonItem!
     
+
     @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
     @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
 
@@ -49,7 +50,10 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var textView: PianoTextView!
 
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
-    @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
+    
+    
+    
+    
     var memo: Memo?
     var folder: Folder!
     
@@ -63,7 +67,6 @@ class MemoViewController: UIViewController {
         
         navigationController?.delegate = self
         setToolbarItems(toolsCollection, animated: false)
-        containerViewHeight.constant = 0
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
         guard let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
@@ -124,6 +127,18 @@ class MemoViewController: UIViewController {
         keyboardHideButton.setTitle("\u{f11c}", for: .normal)
         
     }
+    
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: nil) {[unowned self] (_) in
+            if self.textView.mode != .typing {
+                self.textView.attachCanvas()
+            }
+        }
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -260,11 +275,9 @@ class MemoViewController: UIViewController {
     
     func showTopView(bool: Bool) {
         self.navigationController?.setNavigationBarHidden(bool, animated: true)
-//        completeToolButton.width = UIScreen.main.bounds.width
         let items = bool ? completeToolsCollection : toolsCollection
         setToolbarItems(items, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.containerViewHeight.constant = bool ? 120 : 0
             self.textViewTop.constant = bool ? 100 : 0
             self.view.layoutIfNeeded()
         }

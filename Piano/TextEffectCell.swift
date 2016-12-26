@@ -16,7 +16,7 @@ class TextEffectCell: UICollectionViewCell, Reusable {
     
     override var isSelected: Bool {
         didSet {
-            backgroundColor = isSelected ? #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            awesomeLabel.textColor = isSelected ? #colorLiteral(red: 0.8913504464, green: 0.1568627506, blue: 0.2921995391, alpha: 1) : #colorLiteral(red: 0.4078193307, green: 0.4078193307, blue: 0.4078193307, alpha: 1)
         }
     }
 }
