@@ -10,7 +10,7 @@ import Foundation
 
 enum TextEffectAttribute {
     case normal
-    case bold
+    case blue
     case red
     case green
     case strike

@@ -27,7 +27,7 @@ class PianoControl: UIControl {
     weak var delegate: PianoControlDelegate?
     weak var textView: PianoTextView!
     var selectedRange: NSRange?
-    var textEffect: TextEffectAttribute = .bold {
+    var textEffect: TextEffectAttribute = .red {
         didSet {
             delegate?.set(effect: textEffect)
         }
@@ -120,9 +120,8 @@ class PianoControl: UIControl {
         switch effect {
         case .normal:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .bold:
-            let size = UIFont.preferredFont(forTextStyle: .body).pointSize
-            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
+        case .blue:
+            attribute = [NSForegroundColorAttributeName : UIColor.blue]
         case .red:
             attribute = [NSForegroundColorAttributeName : UIColor.red]
         case .green:
@@ -144,8 +143,8 @@ class PianoControl: UIControl {
         switch effect {
         case .normal:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .bold:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
+        case .blue:
+            attribute = [NSForegroundColorAttributeName : UIColor.black]
         case .red:
             attribute = [NSForegroundColorAttributeName : UIColor.black]
         case .green:

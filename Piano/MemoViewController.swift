@@ -11,6 +11,17 @@ import CoreData
 
 class MemoViewController: UIViewController {
 
+    @IBOutlet weak var eraseButton: UIButton!
+    @IBOutlet weak var keyboardHideButton: UIButton!
+    @IBOutlet var trashToolButton: UIBarButtonItem!
+    @IBOutlet var penToolButton: UIBarButtonItem!
+    
+    @IBOutlet var albumToolButton: UIBarButtonItem!
+    
+    @IBOutlet var moreToolButton: UIBarButtonItem!
+    
+    @IBOutlet var finishToolButton: UIBarButtonItem!
+    
     @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
     @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
 
@@ -47,7 +58,9 @@ class MemoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setFontAwesomeIcon()
+        
         navigationController?.delegate = self
         setToolbarItems(toolsCollection, animated: false)
         containerViewHeight.constant = 0
@@ -87,6 +100,29 @@ class MemoViewController: UIViewController {
 //        }
 //        print("텍스트뷰의 스트링은 \(textView.text)")
 //        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
+    }
+    
+    func setFontAwesomeIcon(){
+        let attr = [NSFontAttributeName : UIFont.init(name: "fontawesome", size: 23)!]
+        
+        penToolButton.setTitleTextAttributes(attr, for: .normal)
+        penToolButton.title = "\u{f0d0}"
+        
+        albumToolButton.setTitleTextAttributes(attr, for: .normal)
+        albumToolButton.title = "\u{f03e}"
+        
+        trashToolButton.setTitleTextAttributes(attr, for: .normal)
+        trashToolButton.title = "\u{f1f8}"
+        
+        moreToolButton.setTitleTextAttributes(attr, for: .normal)
+        moreToolButton.title = "\u{f21e}"
+        
+        finishToolButton.setTitleTextAttributes(attr, for: .normal)
+        finishToolButton.title = "\u{f00c}"
+        
+        eraseButton.setTitle("\u{f12d}", for: .normal)
+        keyboardHideButton.setTitle("\u{f11c}", for: .normal)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -183,7 +219,6 @@ class MemoViewController: UIViewController {
         //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
         let range = NSMakeRange(from, textView.selectedRange.location - from)
         textView.layoutManager.textStorage?.deleteCharacters(in: range)
-        
         textView.selectedRange = NSRange(location: from, length: 0)
     }
     

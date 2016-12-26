@@ -16,7 +16,7 @@ class PianoLabel: UILabel {
     var applyEffectIndexSet: Set<Int> = []
     var removeEffectIndexSet: Set<Int> = []
 
-    var textEffect: TextEffectAttribute = .bold
+    var textEffect: TextEffectAttribute = .red
     var attributes: [[String : Any]] = []
     
     var cosQuarterPeriod: CGFloat = 70 //이거 Designable
@@ -102,11 +102,12 @@ class PianoLabel: UILabel {
             let y = cosMaxHeight * cos(CGFloat(M_PI_2) / cosQuarterPeriod * distance)
             
             //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
-            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
+//            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
             
             //touchPointX < leftOffset || touchPointX > charSize.width + leftOffset
             //가장 왼쪽의 터치가 단어의 오른쪽 끝보다 왼쪽에 있어야 하고, 현재 터치포인트가 단어의 오른쪽 끝보다 크면 효과 적용
-            let isApplyEffect = leftOffset + charSize.width > leftEndTouchX && touchPointX > leftOffset + charSize.width //&& !isSelectedCharacter ? true : false
+            let isApplyEffect = leftOffset + charSize.width > leftEndTouchX
+                && touchPointX > leftOffset + charSize.width //&& !isSelectedCharacter ? true : false
             
             // 가장 오른쪽의 터치가 단어의 왼쪽 끝보다 오른쪽에 있어야 하고, 현재 터치 포인트가 단어의 왼쪽 끝보다 작으면 효과 제거
             let isRemoveEffect = leftOffset > touchPointX && leftOffset < rightEndTouchX
@@ -171,14 +172,20 @@ class PianoLabel: UILabel {
 //            if x > -waveLength && x < waveLength {
             if distance > -cosQuarterPeriod && distance < cosQuarterPeriod {
             
+                let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
                 let size = s.size(attributes: attribute)
                 let x = rect.origin.x
-                let y = rect.origin.y - y * progress
-//                let y = rect.origin.y - (isSelectedCharacter ?
-//                    (y + size.height / 2) * progress  : 
-//                    y * progress)
+//                let y = rect.origin.y - y * progress
+                let y = rect.origin.y - (isSelectedCharacter ?
+                    (y + size.height / 2) * progress  : 
+                    y * progress)
                 let point = CGPoint(x: x, y: y)
                 let rect = CGRect(origin: point, size: size)
+                
+                if isSelectedCharacter {
+                    let font = attribute[NSFontAttributeName] as! UIFont
+                    attribute[NSFontAttributeName] = UIFont.boldSystemFont(ofSize: font.pointSize)
+                }
                 
                 s.draw(in: rect, withAttributes: attribute)
             } else {
@@ -195,9 +202,8 @@ class PianoLabel: UILabel {
         switch effect {
         case .normal:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .bold:
-            let size = UIFont.preferredFont(forTextStyle: .body).pointSize
-            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
+        case .blue:
+            attribute = [NSForegroundColorAttributeName : UIColor.blue]
         case .red:
             attribute = [NSForegroundColorAttributeName : UIColor.red]
         case .green:

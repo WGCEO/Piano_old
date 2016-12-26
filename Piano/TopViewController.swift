@@ -23,34 +23,24 @@ class TopViewController: UIViewController {
 extension TopViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextEffectCell.reuseIdentifier, for: indexPath) as! TextEffectCell
-        cell.backgroundColor = cell.isSelected ? #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        cell.backgroundColor = cell.isSelected ? #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         switch indexPath.item {
         case 0:
-            cell.imageView.image = UIImage(named: "b")
-            cell.textEffect = .bold
+            cell.awesomeLabel.text = "\u{f031}"
+            cell.awesomeLabel.textColor = UIColor.red
+            cell.awesomeLabel.font.withSize(17)
+            cell.textEffect = .red
         case 1:
-            cell.imageView.image = UIImage(named: "italic")
+            cell.awesomeLabel.text = "\u{f1dc}"
+            cell.awesomeLabel.font.withSize(22)
+            cell.awesomeLabel.textColor = UIColor.black
             cell.textEffect = .title3
         case 2:
-            cell.imageView.image = UIImage(named: "textBg")
-            cell.textEffect = .green
-        case 3:
-            cell.imageView.image = UIImage(named: "textColor")
-            cell.textEffect = .red
-        case 4:
-            cell.imageView.image = UIImage(named: "textLine")
+            cell.awesomeLabel.text = "\u{f0cc}"
+            cell.awesomeLabel.textColor = UIColor.black
+            cell.awesomeLabel.font.withSize(17)
             cell.textEffect = .strike
-        case 5:
-            cell.imageView.image = UIImage(named: "textColor")
-        case 6:
-            cell.imageView.image = UIImage(named: "textBg")
-        case 7:
-            cell.imageView.image = UIImage(named: "textLine")
-        case 8:
-            cell.imageView.image = UIImage(named: "italic")
-        case 9:
-            cell.imageView.image = UIImage(named: "b")
         default:
             ()
         }
@@ -60,7 +50,7 @@ extension TopViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 3
     }
 }
 
@@ -77,7 +67,7 @@ extension TopViewController: UICollectionViewDelegate {
 
 extension TopViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 5, height: 56)
+        return CGSize(width: UIScreen.main.bounds.width / 3, height: 56)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -93,6 +83,6 @@ extension TopViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        label.text = scrollView.contentOffset.x != 0.0 ? "텍스트 스타일" : "텍스트 효과"
+//        label.text = scrollView.contentOffset.x != 0.0 ? "텍스트 스타일" : "텍스트 효과"
     }
 }

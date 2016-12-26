@@ -8,6 +8,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="fontawesome-webfont.ttf">
+            <string>FontAwesome</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Folder List View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -27,14 +32,14 @@
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="FolderCell" textLabel="gUa-fO-Vyh" style="IBUITableViewCellStyleDefault" id="hsI-Ct-oSg">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsI-Ct-oSg" id="9nB-Ku-mJx">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text=" 메모" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUa-fO-Vyh">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
@@ -216,18 +221,18 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0Y-6b-aHP" id="ug4-Xh-BSW">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="더 피아니스트 업무 일지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xwy-Ai-Gxy">
-                                                    <rect key="frame" x="15" y="16" width="160.5" height="20.5"/>
+                                                    <rect key="frame" x="15" y="16" width="161" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="오전 11:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wgU-LR-mQk">
-                                                    <rect key="frame" x="15" y="36.5" width="66" height="18"/>
+                                                    <rect key="frame" x="15" y="37" width="66" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -317,18 +322,18 @@
                                         <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mj6-QQ-W2a" id="u9w-Ov-U9I">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="삭제된 메모 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rXe-JS-xhI">
-                                                    <rect key="frame" x="15" y="5" width="90" height="20.5"/>
+                                                    <rect key="frame" x="15" y="4" width="90" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LxP-uq-lyv">
-                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
+                                                    <rect key="frame" x="15" y="25" width="44" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -459,8 +464,9 @@
                                     <constraint firstAttribute="height" constant="36" id="124-Q5-P4a"/>
                                     <constraint firstAttribute="width" constant="36" id="PLW-CH-UXZ"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="23"/>
                                 <state key="normal" title="✔︎">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="tapHideKeyboardButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="Ly0-MO-ynI"/>
@@ -472,8 +478,9 @@
                                     <constraint firstAttribute="width" constant="36" id="Jie-2J-re2"/>
                                     <constraint firstAttribute="height" constant="36" id="hDB-wp-WKX"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="23"/>
                                 <state key="normal" title="↩︎">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="tapEraseTextButton:" destination="BxF-0e-dzh" eventType="touchUpInside" id="FWq-wm-HyD"/>
@@ -502,12 +509,19 @@
                     </view>
                     <toolbarItems/>
                     <connections>
+                        <outlet property="albumToolButton" destination="4jK-CH-ySE" id="9CE-x1-y6c"/>
                         <outlet property="containerViewHeight" destination="OQ9-h8-6dU" id="t0k-Jc-TxO"/>
+                        <outlet property="eraseButton" destination="XDR-a9-Y71" id="mWj-3j-1wz"/>
                         <outlet property="eraseTextButtonBottom" destination="Unb-8X-Huo" id="8s9-D7-9WH"/>
+                        <outlet property="finishToolButton" destination="Zxj-vs-tN7" id="jCs-ht-Uzf"/>
                         <outlet property="hideKeyboardButtonBottom" destination="vmo-jy-4Eq" id="wUX-OB-kL7"/>
+                        <outlet property="keyboardHideButton" destination="OWL-Ia-14B" id="Pyj-AB-1X5"/>
                         <outlet property="label" destination="1QZ-Ga-XjH" id="FnW-XF-Lty"/>
+                        <outlet property="moreToolButton" destination="hpj-ZG-WZl" id="Iu3-e9-gSD"/>
+                        <outlet property="penToolButton" destination="kc6-sB-iIy" id="Xg5-LC-mlk"/>
                         <outlet property="textView" destination="Vjy-SL-eOr" id="7fT-rV-aJn"/>
                         <outlet property="textViewTop" destination="v2q-xi-PHo" id="4XL-5X-iDx"/>
+                        <outlet property="trashToolButton" destination="iWR-nk-S2a" id="r4t-41-8An"/>
                         <outletCollection property="toolsCollection" destination="iWR-nk-S2a" collectionClass="NSMutableArray" id="a6S-v8-3ps"/>
                         <outletCollection property="toolsCollection" destination="25x-xa-txS" collectionClass="NSMutableArray" id="hy1-p2-5mp"/>
                         <outletCollection property="toolsCollection" destination="kc6-sB-iIy" collectionClass="NSMutableArray" id="4wG-h8-B7e"/>
@@ -515,38 +529,41 @@
                         <outletCollection property="toolsCollection" destination="4jK-CH-ySE" collectionClass="NSMutableArray" id="Q8K-4j-sAP"/>
                         <outletCollection property="toolsCollection" destination="ap0-4j-dvT" collectionClass="NSMutableArray" id="1s5-aG-IMK"/>
                         <outletCollection property="toolsCollection" destination="hpj-ZG-WZl" collectionClass="NSMutableArray" id="Mp8-Rk-ByW"/>
-                        <outletCollection property="completeToolsCollection" destination="ap0-4j-dvT" id="7GX-6b-Utk"/>
-                        <outletCollection property="completeToolsCollection" destination="Zxj-vs-tN7" id="l7Y-rn-hXw"/>
-                        <outletCollection property="completeToolsCollection" destination="PdM-PS-qFI" id="5dL-tq-M6j"/>
+                        <outletCollection property="completeToolsCollection" destination="ap0-4j-dvT" collectionClass="NSMutableArray" id="7GX-6b-Utk"/>
+                        <outletCollection property="completeToolsCollection" destination="Zxj-vs-tN7" collectionClass="NSMutableArray" id="l7Y-rn-hXw"/>
+                        <outletCollection property="completeToolsCollection" destination="PdM-PS-qFI" collectionClass="NSMutableArray" id="5dL-tq-M6j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HX2-RA-s0u" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem systemItem="trash" id="iWR-nk-S2a">
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <barButtonItem title="Item" id="iWR-nk-S2a">
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="tapTrashButton:" destination="BxF-0e-dzh" id="cCL-JS-7CC"/>
                     </connections>
                 </barButtonItem>
                 <barButtonItem style="plain" systemItem="flexibleSpace" id="25x-xa-txS"/>
-                <barButtonItem image="pen" id="kc6-sB-iIy">
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <barButtonItem id="kc6-sB-iIy">
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="tapEffectToolButton:" destination="BxF-0e-dzh" id="i5l-qy-GD7"/>
                     </connections>
                 </barButtonItem>
                 <barButtonItem style="plain" systemItem="flexibleSpace" id="PdM-PS-qFI"/>
-                <barButtonItem image="cameraIco" id="4jK-CH-ySE">
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <barButtonItem style="done" id="4jK-CH-ySE">
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="title" value="\u{f2c5}"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="tapAlbumToolButton:" destination="BxF-0e-dzh" id="Cnx-ZH-skD"/>
                     </connections>
                 </barButtonItem>
                 <barButtonItem style="plain" systemItem="flexibleSpace" id="ap0-4j-dvT"/>
-                <barButtonItem image="shareIcon" id="hpj-ZG-WZl">
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <barButtonItem title="Item" id="hpj-ZG-WZl">
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </barButtonItem>
-                <barButtonItem title="완료" id="Zxj-vs-tN7">
-                    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <barButtonItem title="Item" width="200" id="Zxj-vs-tN7">
+                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <action selector="tapCompleteButton:" destination="BxF-0e-dzh" id="nuo-je-224"/>
                     </connections>
@@ -559,7 +576,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="1cp-ro-adI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="8bI-vU-p1d">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="8bI-vU-p1d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -593,7 +610,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" text="텍스트 효과" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0t-cU-yz9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="내 생각을 연주한다면" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q0t-cU-yz9">
                                 <rect key="frame" x="0.0" y="15.5" width="375" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -619,18 +636,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="78" height="42"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b" translatesAutoresizingMaskIntoConstraints="NO" id="N2u-aR-3cP">
-                                                    <rect key="frame" x="33" y="14" width="12" height="15"/>
-                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mg1-ox-RPf">
+                                                    <rect key="frame" x="34" y="13" width="10" height="17"/>
+                                                    <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="N2u-aR-3cP" firstAttribute="centerY" secondItem="dku-3O-8rq" secondAttribute="centerY" id="L0z-Fd-OvQ"/>
-                                            <constraint firstItem="N2u-aR-3cP" firstAttribute="centerX" secondItem="dku-3O-8rq" secondAttribute="centerX" id="r0M-3e-Lwa"/>
+                                            <constraint firstItem="Mg1-ox-RPf" firstAttribute="centerY" secondItem="dku-3O-8rq" secondAttribute="centerY" id="LFX-aY-Ify"/>
+                                            <constraint firstItem="Mg1-ox-RPf" firstAttribute="centerX" secondItem="dku-3O-8rq" secondAttribute="centerX" id="f2d-A0-cw4"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imageView" destination="N2u-aR-3cP" id="xgJ-dQ-sHR"/>
+                                            <outlet property="awesomeLabel" destination="Mg1-ox-RPf" id="H6d-Pc-3uZ"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -664,7 +684,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="2jT-vh-3MK" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cmr-nw-THc">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="cmr-nw-THc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -684,10 +704,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="b" width="12" height="15"/>
-        <image name="cameraIco" width="27" height="20"/>
-        <image name="pen" width="19" height="20"/>
-        <image name="shareIcon" width="19" height="19"/>
         <image name="test" width="37" height="37"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
