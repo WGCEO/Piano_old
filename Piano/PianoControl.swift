@@ -17,7 +17,7 @@ protocol PianoControlDelegate: class {
     func finishAnimating(at x: CGFloat, completion: @escaping () -> Void)
     func progressAnimating(at x: CGFloat)
     func cancelAnimating(completion: @escaping () -> Void)
-    func set(effect: TextEffectAttribute)
+    func set(effect: TextEffect)
     func attributesForText(_ attributes: [[String : Any]])
     func ismoveDirectly(bool : Bool)
 }
@@ -27,7 +27,7 @@ class PianoControl: UIControl {
     weak var delegate: PianoControlDelegate?
     weak var textView: PianoTextView!
     var selectedRange: NSRange?
-    var textEffect: TextEffectAttribute = .red {
+    var textEffect: TextEffect = .color(.red) {
         didSet {
             delegate?.set(effect: textEffect)
         }
@@ -115,46 +115,34 @@ class PianoControl: UIControl {
         }) 
     }
     
-    func setAttribute(effect:TextEffectAttribute, range: NSRange) {
+    func setAttribute(effect:TextEffect, range: NSRange) {
         let attribute: [String : Any]
         switch effect {
-        case .normal:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .blue:
-            attribute = [NSForegroundColorAttributeName : UIColor.blue]
-        case .red:
-            attribute = [NSForegroundColorAttributeName : UIColor.red]
-        case .green:
-            attribute = [NSForegroundColorAttributeName : UIColor.green]
-        case .strike:
-            attribute = [NSStrikethroughStyleAttributeName : 1]
-        case .underline:
-            attribute = [NSUnderlineStyleAttributeName : 1]
-        case .title3:
-            let size = UIFont.preferredFont(forTextStyle: .title3).pointSize
+        case .color(let x):
+            attribute = [NSForegroundColorAttributeName : x]
+        case .title(let x):
+            let size = UIFont.preferredFont(forTextStyle: x).pointSize
             attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
+        case .line(.underline):
+            attribute = [NSUnderlineStyleAttributeName : 1]
+        case .line(.strikethrough):
+            attribute = [NSStrikethroughStyleAttributeName : 1]
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
     }
     
-    func removeAttribute(effect: TextEffectAttribute, range: NSRange) {
+    func removeAttribute(effect: TextEffect, range: NSRange) {
         let attribute: [String : Any]
         switch effect {
-        case .normal:
+        case .color:
+            attribute = [NSForegroundColorAttributeName : UIColor.black]
+        case .title:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .blue:
-            attribute = [NSForegroundColorAttributeName : UIColor.black]
-        case .red:
-            attribute = [NSForegroundColorAttributeName : UIColor.black]
-        case .green:
-            attribute = [NSForegroundColorAttributeName : UIColor.black]
-        case .strike:
+        case .line(.strikethrough):
             attribute = [NSStrikethroughStyleAttributeName : 0]
-        case .underline:
+        case .line(.underline):
             attribute = [NSUnderlineStyleAttributeName : 0]
-        case .title3:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)

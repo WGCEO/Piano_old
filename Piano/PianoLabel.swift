@@ -16,7 +16,7 @@ class PianoLabel: UILabel {
     var applyEffectIndexSet: Set<Int> = []
     var removeEffectIndexSet: Set<Int> = []
 
-    var textEffect: TextEffectAttribute = .red
+    var textEffect: TextEffect = .color(.red)
     var attributes: [[String : Any]] = []
     
     var cosQuarterPeriod: CGFloat = 70 //이거 Designable
@@ -161,12 +161,7 @@ class PianoLabel: UILabel {
                 applyEffectIndexSet.remove(index)
             }
             
-//            case false where isSelectedCharacter:
-//            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .title1)]
-//            font = attribute[NSFontAttributeName] as! UIFont
-//            default:
-//            attribute = setAttribute(effect: .normal)
-//            font = attribute[NSFontAttributeName] as! UIFont
+
             
             //효과 입히기
 //            if x > -waveLength && x < waveLength {
@@ -196,25 +191,19 @@ class PianoLabel: UILabel {
         }
     }
     
-    func makeAttribute(by effect: TextEffectAttribute) -> [String : Any] {
+    func makeAttribute(by effect: TextEffect) -> [String : Any] {
         let attribute: [String : Any]
         
         switch effect {
-        case .normal:
-            attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
-        case .blue:
-            attribute = [NSForegroundColorAttributeName : UIColor.blue]
-        case .red:
-            attribute = [NSForegroundColorAttributeName : UIColor.red]
-        case .green:
-            attribute = [NSForegroundColorAttributeName : UIColor.green]
-        case .strike:
-            attribute = [NSStrikethroughStyleAttributeName : 1]
-        case .underline:
-            attribute = [NSUnderlineStyleAttributeName : 1]
-        case .title3:
-            let size = UIFont.preferredFont(forTextStyle: .title3).pointSize
+        case .color(let x):
+            attribute = [NSForegroundColorAttributeName : x]
+        case .title(let x):
+            let size = UIFont.preferredFont(forTextStyle: x).pointSize
             attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
+        case .line(.strikethrough):
+            attribute = [NSStrikethroughStyleAttributeName : 1]
+        case .line(.underline):
+            attribute = [NSUnderlineStyleAttributeName : 1]
         }
         return attribute
     }
@@ -324,7 +313,7 @@ extension PianoLabel: PianoControlDelegate {
         touchPointX = x
     }
     
-    func set(effect: TextEffectAttribute) {
+    func set(effect: TextEffect) {
         textEffect = effect
     }
 

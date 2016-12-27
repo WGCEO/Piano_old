@@ -51,7 +51,46 @@ class MemoViewController: UIViewController {
 
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     
+    @IBOutlet weak var colorEffectButton: EffectButton!
+    @IBAction func tapColorEffectButton(_ sender: EffectButton) {
+        
+        if colorEffectButton.isSelected {
+            //기존에 이미 선택되어 있다면 색깔 선택화면 띄워주기
+            performSegue(withIdentifier: "TextEffect", sender: sender)
+        }
+        
+        textView.canvas.textEffect = sender.textEffect
+        
+        colorEffectButton.isSelected = true
+        sizeEffectButton.isSelected = false
+        lineEffectButton.isSelected = false
+    }
+    @IBOutlet weak var sizeEffectButton: EffectButton!
+    @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
+        if sizeEffectButton.isSelected {
+            //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
+            performSegue(withIdentifier: "TextEffect", sender: sender)
+        }
+        
+        textView.canvas.textEffect = sender.textEffect
+        
+        colorEffectButton.isSelected = false
+        sizeEffectButton.isSelected = true
+        lineEffectButton.isSelected = false
+    }
     
+    @IBOutlet weak var lineEffectButton: EffectButton!
+    @IBAction func tapLineEffectButton(_ sender: EffectButton) {
+        if lineEffectButton.isSelected {
+            //기존에 이미 선택되어 있다면 라인 선택화면 띄워주기
+            performSegue(withIdentifier: "TextEffect", sender: sender)
+        }
+        
+        textView.canvas.textEffect = sender.textEffect
+        colorEffectButton.isSelected = false
+        sizeEffectButton.isSelected = false
+        lineEffectButton.isSelected = true
+    }
     
     
     var memo: Memo?
@@ -62,7 +101,7 @@ class MemoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setEffectButton()
         setFontAwesomeIcon()
         
         navigationController?.delegate = self
@@ -105,6 +144,17 @@ class MemoViewController: UIViewController {
 //        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
     }
     
+    func setEffectButton() {
+        //TODO: 여기에 코어데이터에 저장되어 있는 속성 값 대입해 넣기
+        colorEffectButton.textEffect = .color(.red)
+        sizeEffectButton.textEffect = .title(.title3)
+        lineEffectButton.textEffect = .line(.strikethrough)
+        
+        colorEffectButton.textView = textView
+        sizeEffectButton.textView = textView
+        lineEffectButton.textView = textView
+    }
+    
     func setFontAwesomeIcon(){
         let attr = [NSFontAttributeName : UIFont.init(name: "fontawesome", size: 23)!]
         
@@ -125,6 +175,9 @@ class MemoViewController: UIViewController {
         
         eraseButton.setTitle("\u{f12d}", for: .normal)
         keyboardHideButton.setTitle("\u{f11c}", for: .normal)
+        colorEffectButton.setTitle("\u{f031}", for: .normal)
+        sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
+        lineEffectButton.setTitle("\u{f0cc}", for: .normal)
         
     }
     
@@ -136,6 +189,15 @@ class MemoViewController: UIViewController {
             if self.textView.mode != .typing {
                 self.textView.attachCanvas()
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "TextEffect" {
+            let selectedButton = sender as! EffectButton
+            let des = segue.destination as! SelectEffectViewController
+            des.selectedButton = selectedButton
+            
         }
     }
 

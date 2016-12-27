@@ -25,33 +25,21 @@ class TopViewController: UIViewController {
     }
 }
 
-extension TopViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextEffectCell.reuseIdentifier, for: indexPath) as! TextEffectCell
-        cell.awesomeLabel.textColor = cell.isSelected ? #colorLiteral(red: 0.8913504464, green: 0.1568627506, blue: 0.2921995391, alpha: 1) : #colorLiteral(red: 0.4078193307, green: 0.4078193307, blue: 0.4078193307, alpha: 1)
-        
-        switch indexPath.item {
-        case 0:
-            cell.awesomeLabel.text = "\u{f031}"
-            cell.textEffect = .red
-        case 1:
-            cell.awesomeLabel.text = "\u{f1dc}"
-            cell.textEffect = .title3
-        case 2:
-            cell.awesomeLabel.text = "\u{f0cc}"
-            cell.textEffect = .strike
-        default:
-            ()
-        }
-        
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-}
+//extension TopViewController: UICollectionViewDataSource {
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextEffectCell.reuseIdentifier, for: indexPath) as! TextEffectCell
+//        cell.awesomeLabel.textColor = cell.isSelected ? #colorLiteral(red: 0.8913504464, green: 0.1568627506, blue: 0.2921995391, alpha: 1) : #colorLiteral(red: 0.4078193307, green: 0.4078193307, blue: 0.4078193307, alpha: 1)
+//        
+//
+//        
+//        
+//        return cell
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return 3
+//    }
+//}
 
 extension TopViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -59,8 +47,8 @@ extension TopViewController: UICollectionViewDelegate {
             let cell = collectionView.cellForItem(at: indexPath) as? TextEffectCell
         else { return }
         
-        let control = parent.textView.canvas
-        control.textEffect = cell.textEffect 
+//        let control = parent.textView.canvas
+//        control.textEffect = cell.textEffect 
     }
 }
 
