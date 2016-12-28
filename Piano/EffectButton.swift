@@ -20,8 +20,12 @@ class EffectButton: UIButton {
             case .color(let x):
                 self.setTitleColor(x, for: .selected)
                 self.setTitleColor(x.withAlphaComponent(0.3), for: .normal)
-            default:
+            case .line(let x):
+                self.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .selected)
+                self.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .normal)
+            case .title(let x):
                 ()
+                
             }
         }
     }

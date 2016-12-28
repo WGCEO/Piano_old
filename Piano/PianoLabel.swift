@@ -20,7 +20,7 @@ class PianoLabel: UILabel {
     var attributes: [[String : Any]] = []
     
     var cosQuarterPeriod: CGFloat = 70 //이거 Designable
-    var cosMaxHeight: CGFloat = 70  //이것도 Designable
+    var cosMaxHeight: CGFloat = 60  //이것도 Designable
     
     var textRect = CGRect.zero
     
@@ -170,22 +170,20 @@ class PianoLabel: UILabel {
                 let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
                 let size = s.size(attributes: attribute)
                 let x = rect.origin.x
-//                let y = rect.origin.y - y * progress
                 let y = rect.origin.y - (isSelectedCharacter ?
                     (y + size.height / 2) * progress  : 
                     y * progress)
                 let point = CGPoint(x: x, y: y)
-                let rect = CGRect(origin: point, size: size)
                 
                 if isSelectedCharacter {
                     let font = attribute[NSFontAttributeName] as! UIFont
                     attribute[NSFontAttributeName] = UIFont.boldSystemFont(ofSize: font.pointSize)
                 }
                 
-                s.draw(in: rect, withAttributes: attribute)
+                s.draw(at: point, withAttributes: attribute)
             } else {
-                
-                s.draw(in: rect, withAttributes: attribute)
+                let point = CGPoint(x: rect.origin.x, y: rect.origin.y)
+                s.draw(at: point, withAttributes: attribute)
             }
             leftOffset += charSize.width
         }

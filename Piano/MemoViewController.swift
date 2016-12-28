@@ -340,7 +340,7 @@ class MemoViewController: UIViewController {
         let items = bool ? completeToolsCollection : toolsCollection
         setToolbarItems(items, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.textViewTop.constant = bool ? 100 : 0
+            self.textViewTop.constant = bool ? 80 : 0
             self.view.layoutIfNeeded()
         }
     }

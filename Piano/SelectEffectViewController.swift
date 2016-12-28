@@ -49,11 +49,13 @@ extension SelectEffectViewController: UICollectionViewDataSource {
             cell.awesomeLabel.text = "\u{f031}"
             cell.awesomeLabel.textColor = x
         case .title(let x):
-            cell.awesomeLabel.text = "\u{f1dc} + \(x._rawValue)"
+
+            cell.awesomeLabel.text = "\u{f1dc}"
             cell.awesomeLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             
         case .line(let x):
-            cell.awesomeLabel.text = "\u{f0cc} + \(x.hashValue)"
+            
+            cell.awesomeLabel.text = x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}"
             cell.awesomeLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         }
         
