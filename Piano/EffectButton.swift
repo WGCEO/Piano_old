@@ -24,8 +24,9 @@ class EffectButton: UIButton {
                 self.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .selected)
                 self.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .normal)
             case .title(let x):
-                ()
-                
+                let font = UIFont.preferredFont(forTextStyle: x)
+                let size = font.pointSize + CGFloat(6)
+                titleLabel?.font = titleLabel?.font.withSize(size)
             }
         }
     }

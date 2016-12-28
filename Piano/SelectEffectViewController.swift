@@ -49,7 +49,10 @@ extension SelectEffectViewController: UICollectionViewDataSource {
             cell.awesomeLabel.text = "\u{f031}"
             cell.awesomeLabel.textColor = x
         case .title(let x):
-
+            
+            let font = UIFont.preferredFont(forTextStyle: x)
+            let size = font.pointSize + CGFloat(6)
+            cell.awesomeLabel.font = cell.awesomeLabel.font.withSize(size)
             cell.awesomeLabel.text = "\u{f1dc}"
             cell.awesomeLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             
