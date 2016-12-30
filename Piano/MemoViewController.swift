@@ -11,6 +11,7 @@ import CoreData
 
 class MemoViewController: UIViewController {
 
+    @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var eraseButton: UIButton!
     @IBOutlet weak var keyboardHideButton: UIButton!
     @IBOutlet var trashToolButton: UIBarButtonItem!
@@ -22,9 +23,7 @@ class MemoViewController: UIViewController {
     
     @IBOutlet var finishToolButton: UIBarButtonItem!
     
-
-    @IBOutlet weak var hideKeyboardButtonBottom: NSLayoutConstraint!
-    @IBOutlet weak var eraseTextButtonBottom: NSLayoutConstraint!
+    @IBOutlet weak var accessoryViewBottom: NSLayoutConstraint!
 
     @IBOutlet var toolsCollection: [UIBarButtonItem]!
 
@@ -109,9 +108,8 @@ class MemoViewController: UIViewController {
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
         guard let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
-        hideKeyboardButtonBottom.constant = -toolBarHeight
-        eraseTextButtonBottom.constant = -toolBarHeight
-        
+        accessoryViewBottom.constant = -toolBarHeight
+    
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
                 let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
@@ -178,7 +176,7 @@ class MemoViewController: UIViewController {
         colorEffectButton.setTitle("\u{f031}", for: .normal)
         sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
         lineEffectButton.setTitle("\u{f0cc}", for: .normal)
-        
+        albumButton.setTitle("\u{f03e}", for: .normal)
     }
     
 
@@ -302,6 +300,8 @@ class MemoViewController: UIViewController {
     func keyboardWillShow(notification: Notification){
         textView.isHardwareKeyboardConnected = false
         
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
             let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
@@ -310,15 +310,17 @@ class MemoViewController: UIViewController {
         UIView.animate(withDuration: duration) { [weak self] in
             //TODO: change literal constant
             let bottom = kbHeight - toolBarHeight
-            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, bottom, 0)
-            self?.eraseTextButtonBottom.constant = bottom
-            self?.hideKeyboardButtonBottom.constant = bottom
+            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, kbHeight, 0)
+            self?.accessoryViewBottom.constant = bottom
+            print("toolBarHeight: \(toolBarHeight)")
             self?.view.layoutIfNeeded()
         }
     }
     
     func keyboardWillHide(notification: Notification){
         textView.isHardwareKeyboardConnected = true
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
         resetTextViewInset(notification: notification)
     }
     
@@ -329,8 +331,7 @@ class MemoViewController: UIViewController {
         
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-            self?.eraseTextButtonBottom.constant = -toolBarHeight
-            self?.hideKeyboardButtonBottom.constant = -toolBarHeight
+            self?.accessoryViewBottom.constant = -toolBarHeight
             self?.view.layoutIfNeeded()
         }
     }
@@ -343,6 +344,9 @@ class MemoViewController: UIViewController {
             self.textViewTop.constant = bool ? 80 : 0
             self.view.layoutIfNeeded()
         }
+    }
+    @IBAction func tapAlbumButton(_ sender: Any) {
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func tapAlbumToolButton(_ sender: Any) {
