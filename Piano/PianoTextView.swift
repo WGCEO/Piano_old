@@ -26,7 +26,7 @@ class PianoTextView: UITextView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.textContainerInset = UIEdgeInsetsMake(20, 20, 0, 20)
+        self.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
         canvas.textView = self
     }
     
@@ -65,6 +65,7 @@ class PianoTextView: UITextView {
         let top = textContainerInset.top
         eraseTextView.frame = rect.offsetBy(dx: left, dy: top)
         self.addSubview(eraseTextView)
+        
     }
     
     func removeEraseView() {

@@ -168,16 +168,18 @@ class PianoLabel: UILabel {
             if distance > -cosQuarterPeriod && distance < cosQuarterPeriod {
             
                 let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
-                let size = s.size(attributes: attribute)
+//                let size = s.size(attributes: attribute)
                 let x = rect.origin.x
-                let y = rect.origin.y - (isSelectedCharacter ?
-                    (y + size.height / 2) * progress  : 
-                    y * progress)
+                let y = rect.origin.y - y * progress
+//                let y = rect.origin.y - (isSelectedCharacter ?
+//                    (y + size.height / 2) * progress  :
+//                    y * progress)
                 let point = CGPoint(x: x, y: y)
                 
                 if isSelectedCharacter {
                     let font = attribute[NSFontAttributeName] as! UIFont
                     attribute[NSFontAttributeName] = UIFont.boldSystemFont(ofSize: font.pointSize)
+                    
                 }
                 
                 s.draw(at: point, withAttributes: attribute)
