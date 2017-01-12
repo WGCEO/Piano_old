@@ -11,15 +11,13 @@ import CoreData
 
 class MemoViewController: UIViewController {
 
+    @IBOutlet var createMemoToolButton: UIBarButtonItem!
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var eraseButton: UIButton!
     @IBOutlet weak var keyboardHideButton: UIButton!
-    @IBOutlet var trashToolButton: UIBarButtonItem!
     @IBOutlet var penToolButton: UIBarButtonItem!
     
     @IBOutlet var albumToolButton: UIBarButtonItem!
-    
-    @IBOutlet var moreToolButton: UIBarButtonItem!
     
     @IBOutlet var finishToolButton: UIBarButtonItem!
     
@@ -91,18 +89,19 @@ class MemoViewController: UIViewController {
         lineEffectButton.isSelected = true
     }
     
-    
     var memo: Memo?
-    var folder: Folder!
+    var folder: Folder?
     
-    var coreDataStack: PianoPersistentContainer!
+    let coreDataStack = PianoData.coreDataStack
     lazy var parser = MarkdownParser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setEffectButton()
         setFontAwesomeIcon()
         
+        //TODO: 네비게이션 컨트롤러가 아직 생성되지 않았음
         navigationController?.delegate = self
         setToolbarItems(toolsCollection, animated: false)
         textView.canvas.delegate = label
@@ -115,31 +114,11 @@ class MemoViewController: UIViewController {
                 let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
                     self.textView.attributedText = attrText
+                    self.coreDataStack.textView = self.textView
+                    self.coreDataStack.memo = memo
                 }
             }
-        } else {
-            let memo = Memo(context: self.coreDataStack.viewContext)
-            memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-            memo.date = Date()
-            memo.folder = self.folder
-            self.memo = memo
-            self.textView.becomeFirstResponder()
         }
-        
-        self.coreDataStack.textView = self.textView
-        self.coreDataStack.memo = self.memo
-        
-        //파싱이 오래걸리므로 비동기 처리
-//        DispatchQueue.global().async { [weak self] in
-//            guard let text = self?.textView.text else { return }
-//            let attributedText = self?.parser.parseMarkdown(text: text)
-//            
-//            DispatchQueue.main.async {
-//                self?.textView.attributedText = attributedText
-//            }
-//        }
-//        print("텍스트뷰의 스트링은 \(textView.text)")
-//        print("텍스트뷰의 어트리뷰트스트링은 \(textView.attributedText)")
     }
     
     func setEffectButton() {
@@ -162,14 +141,8 @@ class MemoViewController: UIViewController {
         albumToolButton.setTitleTextAttributes(attr, for: .normal)
         albumToolButton.title = "\u{f03e}"
         
-        trashToolButton.setTitleTextAttributes(attr, for: .normal)
-        trashToolButton.title = "\u{f1f8}"
-        
-        moreToolButton.setTitleTextAttributes(attr, for: .normal)
-        moreToolButton.title = "\u{f21e}"
-        
-        finishToolButton.setTitleTextAttributes(attr, for: .normal)
-        finishToolButton.title = "\u{f00c}"
+//        finishToolButton.setTitleTextAttributes(attr, for: .normal)
+//        finishToolButton.title = "\u{f00c}"
         
         eraseButton.setTitle("\u{f12d}", for: .normal)
         keyboardHideButton.setTitle("\u{f11c}", for: .normal)
@@ -195,7 +168,6 @@ class MemoViewController: UIViewController {
             let selectedButton = sender as! EffectButton
             let des = segue.destination as! SelectEffectViewController
             des.selectedButton = selectedButton
-            
         }
     }
 
@@ -211,6 +183,30 @@ class MemoViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         makeTextViewStartFromTop(didAppear: true)
+        
+        //Create New Memo
+        
+        
+        guard self.memo != nil else {
+            
+            showKeyboardIfNewMemo()
+            return
+        }
+    }
+    
+    func showKeyboardIfNewMemo() {
+        
+        guard let folder = self.folder else { return }
+        let memo = Memo(context: self.coreDataStack.viewContext)
+        let attrString = NSAttributedString()
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
+        memo.date = Date()
+        memo.folder = folder
+        memo.firstLine = ""
+        self.memo = memo
+        textView.attributedText = attrString
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.becomeFirstResponder()
     }
     
     func makeTextViewStartFromTop(didAppear: Bool) {
@@ -300,8 +296,6 @@ class MemoViewController: UIViewController {
     func keyboardWillShow(notification: Notification){
         textView.isHardwareKeyboardConnected = false
         
-        navigationController?.setNavigationBarHidden(true, animated: true)
-        
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
             let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
@@ -319,7 +313,6 @@ class MemoViewController: UIViewController {
     
     func keyboardWillHide(notification: Notification){
         textView.isHardwareKeyboardConnected = true
-        navigationController?.setNavigationBarHidden(false, animated: true)
 
         resetTextViewInset(notification: notification)
     }
@@ -345,6 +338,30 @@ class MemoViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
+    //TODO: 새로글쓰기 활성화 유무 -> 텍스트 글자 길이
+    //TODO: 새로 메모 쓰면 기존에 새로 쓰려고 했던
+    @IBAction func tapCreateNewMemo(_ sender: Any) {
+        DispatchQueue.global().async { [unowned self] in
+            guard let memo = self.memo else { return }
+            let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+            memo.content = data
+            memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+            
+            guard self.coreDataStack.viewContext.hasChanges else { return }
+            
+            do {
+                try self.coreDataStack.viewContext.save()
+            } catch {
+                print(error)
+            }
+            
+            DispatchQueue.main.async { [unowned self] in
+                self.showKeyboardIfNewMemo()
+            }
+        }
+    }
+    
     @IBAction func tapAlbumButton(_ sender: Any) {
         present(imagePicker, animated: true, completion: nil)
     }
@@ -356,7 +373,7 @@ class MemoViewController: UIViewController {
 
 extension MemoViewController: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-        return 8
+        return 5
     }
 }
 
@@ -365,6 +382,8 @@ extension MemoViewController: UITextViewDelegate {
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
         //이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
+        
+        
         guard let memo = self.memo else { return }
         memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
     }
@@ -410,7 +429,7 @@ extension MemoViewController: UIImagePickerControllerDelegate {
             let textAttachment = NSTextAttachment()
             textAttachment.image = scaledImage
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
-            attributedString.append(attrStringWithImage)
+            attributedString.insert(attrStringWithImage, at: textView.selectedRange.location)
             textView.attributedText = attributedString;
             textView.font = UIFont.preferredFont(forTextStyle: .body)
         }
@@ -444,5 +463,53 @@ extension MemoViewController: UINavigationControllerDelegate {
             }
         }
     }
+}
 
+extension MemoViewController {
+    override func encodeRestorableState(with coder: NSCoder) {
+        guard let folder = self.folder else { return }
+        let folderID = folder.objectID
+        coder.encode(folderID.uriRepresentation(), forKey: "folder")
+        
+        
+        let memoID = memo?.objectID
+        coder.encode(memoID?.uriRepresentation(), forKey: "memo")
+        
+        super.encodeRestorableState(with: coder)
+        
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        
+        //TODO: 여기선 생성됨
+        let folderURI = coder.decodeObject(forKey: "folder")
+        let memoURI = coder.decodeObject(forKey: "memo")
+        
+        guard let folderURL = folderURI as? URL,
+            let memoURL = memoURI as? URL,
+            let memoID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: memoURL),
+            let folderID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: folderURL)
+            else { return }
+        let folderObject = self.coreDataStack.viewContext.object(with: folderID)
+        let memoObject = self.coreDataStack.viewContext.object(with: memoID)
+        let memo = memoObject as! Memo
+        let folder = folderObject as! Folder
+        self.folder = folder
+        self.memo = memo
+        
+        super.decodeRestorableState(with: coder)
+    }
+    
+    override func applicationFinishedRestoringState() {
+        if let memo = self.memo {
+            DispatchQueue.global().async { [unowned self] in
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+                DispatchQueue.main.async { [unowned self] in
+                    self.textView.attributedText = attrText
+                    self.coreDataStack.textView = self.textView
+                    self.coreDataStack.memo = memo
+                }
+            }
+        }
+    }
 }

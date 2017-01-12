@@ -49,13 +49,14 @@ class DeletedMemoViewController: UIViewController {
         guard let memo = self.memo else { return }
         coreDataStack.performBackgroundTask { (context) in
             memo.isInTrash = false
+            memo.date = Date()
             do {
                 try context.save()
             } catch {
                 print("쓰레기 버튼 눌렀는데 에러: \(error)")
             }
         }
-        let _ = navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
 }

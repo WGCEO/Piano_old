@@ -12,8 +12,8 @@ import UIKit
 class MemoListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var coreDataStack: PianoPersistentContainer!
-    var folder: Folder!
+    let coreDataStack = PianoData.coreDataStack
+    var folder: Folder?
     
     var indicatingCell: () -> Void = {}
     
@@ -25,27 +25,33 @@ class MemoListViewController: UIViewController {
         return formatter
     }()
     
-    lazy var resultsController: NSFetchedResultsController<Memo> = {
+    var resultsController: NSFetchedResultsController<Memo>?
+    
+    func setAndPerformResultsController() {
+        guard let folder = self.folder else { return }
+        
+        setTableViewCellHeight()
+        
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", self.folder)
+        request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", folder)
         let context = self.coreDataStack.viewContext
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         request.sortDescriptors = [dateSort]
-        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
-        controller.delegate = self
-        return controller
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setTableViewCellHeight()
+        resultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+        resultsController?.delegate = self
         
         do {
-            try resultsController.performFetch()
+            try resultsController?.performFetch()
         } catch {
             print("Error performing fetch \(error.localizedDescription)")
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setAndPerformResultsController()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,7 +81,6 @@ class MemoListViewController: UIViewController {
         switch identifier {
         case "Memo":
             let des = segue.destination as! MemoViewController
-            des.coreDataStack = coreDataStack
             des.folder = folder
             guard let memo = sender as? Memo else { return }
             des.memo = memo
@@ -83,7 +88,6 @@ class MemoListViewController: UIViewController {
         case "DeletedMemoList":
             let des = segue.destination as! UINavigationController
             let first = des.topViewController as! DeletedMemoListViewController
-            first.coreDataStack = coreDataStack
             first.folder = folder
         default:
             ()
@@ -114,24 +118,27 @@ extension MemoListViewController: UITableViewDataSource {
     }
     
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
-        let memo = resultsController.object(at: indexPath)
+        guard let controller = resultsController else { return }
+        let memo = controller.object(at: indexPath)
         cell.textLabel?.text = memo.firstLine
         cell.detailTextLabel?.text = formatter.string(from: memo.date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return resultsController.sections?[section].numberOfObjects ?? 0
+        guard let controller = resultsController else { return 0 }
+        return controller.sections?[section].numberOfObjects ?? 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return resultsController.sections?.count ?? 0
+        guard let controller = resultsController else { return 0 }
+        return controller.sections?.count ?? 0
     }
 }
 
 extension MemoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let memo = resultsController.object(at: indexPath)
+        guard let controller = resultsController else { return }
+        let memo = controller.object(at: indexPath)
         performSegue(withIdentifier: "Memo", sender: memo)
         
         indicatingCell = { [unowned self] in
@@ -140,7 +147,8 @@ extension MemoListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        let memo = resultsController.object(at: indexPath)
+        guard let controller = resultsController else { return }
+        let memo = controller.object(at: indexPath)
         memo.isInTrash = true
     }
 }
@@ -174,6 +182,35 @@ extension MemoListViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+}
+
+extension MemoListViewController {
+    override func encodeRestorableState(with coder: NSCoder) {
+        guard let folder = self.folder else { return }
+        let id = folder.objectID
+        coder.encode(id.uriRepresentation(), forKey: "folder")
+        super.encodeRestorableState(with: coder)
+        
+    }
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        
+        let objectURI = coder.decodeObject(forKey: "folder")
+        
+        guard let url = objectURI as? URL,
+            let objectID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: url)
+            else { return }
+        let object = self.coreDataStack.viewContext.object(with: objectID)
+        let folder = object as! Folder
+        self.folder = folder
+    
+        super.decodeRestorableState(with: coder)
+    }
+    
+    override func applicationFinishedRestoringState() {
+        setAndPerformResultsController()
+        title = folder?.name
     }
 }
 

@@ -11,7 +11,7 @@ import CoreData
 
 class DeletedMemoListViewController: UIViewController {
 
-    var coreDataStack: PianoPersistentContainer!
+    let coreDataStack = PianoData.coreDataStack
     var folder: Folder!
     @IBOutlet weak var tableView: UITableView!
     
@@ -40,11 +40,27 @@ class DeletedMemoListViewController: UIViewController {
         super.viewDidLoad()
 
         setTableViewCellHeight()
+        //TODO: 이거 비동기로 처리하지 않아도 되는 것인가?
+        deleteMemosIfPassOneMonth()
         
         do {
             try resultsController.performFetch()
         } catch {
             print("Error performing fetch \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteMemosIfPassOneMonth() {
+        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        request.predicate = NSPredicate(format: "isInTrash == true AND date < %@", NSDate())
+        let batchDelete = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
+        batchDelete.affectedStores = coreDataStack.viewContext.persistentStoreCoordinator?.persistentStores
+        batchDelete.resultType = .resultTypeCount
+        do {
+            let batchResult = try coreDataStack.viewContext.execute(batchDelete) as! NSBatchDeleteResult
+            print("record deleted \(batchResult.result)")
+        } catch {
+            print("could not delete \(error.localizedDescription)")
         }
     }
     

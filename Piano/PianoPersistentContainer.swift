@@ -16,9 +16,10 @@ class PianoPersistentContainer: NSPersistentContainer {
     
     func saveContext() {
         
-        if let textview = self.textView, let memo = self.memo {
-            let data = NSKeyedArchiver.archivedData(withRootObject: textview.attributedText)
+        if let textView = self.textView, let memo = self.memo {
+            let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
             memo.content = data
+            memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
         }
         
         guard viewContext.hasChanges else { return }

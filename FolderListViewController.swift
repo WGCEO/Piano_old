@@ -11,9 +11,10 @@ import CoreData
 
 class FolderListViewController: UIViewController {
     
+    var isRestoreState: Bool = true
     @IBOutlet weak var tableView: UITableView!
     var indicatingCell: () -> Void = {}
-    var coreDataStack: PianoPersistentContainer!
+    let coreDataStack = PianoData.coreDataStack
     
     @IBOutlet var addFolderButton: UIButton!
     @IBAction func tapAddFolderButton(_ sender: Any) {
@@ -70,11 +71,20 @@ class FolderListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         do {
             try resultsController.performFetch()
         } catch {
             print("Error performing fetch \(error.localizedDescription)")
+        }
+        
+        
+        if !isRestoreState {
+            //갯수가 0보다 크다면 맨 위에 폴더를 넘겨 세그웨이 실행
+            if let objects = resultsController.fetchedObjects, objects.count > 0 {
+                let indexPath = IndexPath(row: 0, section: 0)
+                performSegue(withIdentifier: "MemoList", sender: resultsController.object(at: indexPath))
+            }
         }
     }
     
@@ -102,10 +112,10 @@ class FolderListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "MemoList" {
-            let des = segue.destination as! MemoListViewController
-            des.coreDataStack = coreDataStack
             
             if let folder = sender as? Folder {
+                let des = segue.destination as! MemoListViewController
+                des.title = folder.name
                 des.folder = folder
             }
         }
@@ -145,7 +155,6 @@ extension FolderListViewController: UITableViewDataSource {
         return addFolderButton
     }
 }
-
 
 extension FolderListViewController: UITableViewDelegate {
     
@@ -191,13 +200,6 @@ extension FolderListViewController: UITableViewDelegate {
         
 
         present(alert, animated: true, completion: nil)
-        
-        
-        
-        
-        
-       
-        
     }
 }
 
@@ -229,5 +231,17 @@ extension FolderListViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+}
+
+extension FolderListViewController {
+    override func applicationFinishedRestoringState() {
+        
+        do {
+            try resultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
+        
     }
 }
