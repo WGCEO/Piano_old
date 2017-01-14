@@ -12,7 +12,6 @@ import CoreData
 class DeletedMemoListViewController: UIViewController {
 
     let coreDataStack = PianoData.coreDataStack
-    var folder: Folder!
     @IBOutlet weak var tableView: UITableView!
     
     var indicatingCell: () -> Void = {}
@@ -27,7 +26,7 @@ class DeletedMemoListViewController: UIViewController {
     
     lazy var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == true AND folder = %@", self.folder)
+        request.predicate = NSPredicate(format: "isInTrash == true")
         let context = self.coreDataStack.viewContext
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
         request.sortDescriptors = [dateSort]
@@ -106,9 +105,9 @@ class DeletedMemoListViewController: UIViewController {
         case "DeletedMemo":
             let des = segue.destination as! DeletedMemoViewController
             des.coreDataStack = coreDataStack
-            des.folder = folder
             guard let memo = sender as? Memo else { return }
             des.memo = memo
+            des.folder = memo.folder
 
         default:
             ()
@@ -128,6 +127,7 @@ extension DeletedMemoListViewController: UITableViewDataSource {
         let memo = resultsController.object(at: indexPath)
         cell.textLabel?.text = memo.firstLine
         cell.detailTextLabel?.text = formatter.string(from: memo.date)
+        cell.imageView?.image = UIImage(named: "select" + "\(memo.folder.order)")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

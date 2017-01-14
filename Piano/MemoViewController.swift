@@ -10,14 +10,6 @@ import UIKit
 import CoreData
 
 class MemoViewController: UIViewController {
-
-    @IBOutlet var createMemoToolButton: UIBarButtonItem!
-    @IBOutlet weak var albumButton: UIButton!
-    @IBOutlet weak var eraseButton: UIButton!
-    @IBOutlet weak var keyboardHideButton: UIButton!
-    @IBOutlet var penToolButton: UIBarButtonItem!
-    
-    @IBOutlet var albumToolButton: UIBarButtonItem!
     
     @IBOutlet var finishToolButton: UIBarButtonItem!
     
@@ -52,7 +44,7 @@ class MemoViewController: UIViewController {
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
         
         if colorEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 색깔 선택화면 띄워주기
+            //기존에 이미 선택되어 있다면 효과 선택화면 띄워주기
             performSegue(withIdentifier: "TextEffect", sender: sender)
         }
         
@@ -90,13 +82,15 @@ class MemoViewController: UIViewController {
     }
     
     var memo: Memo?
-    var folder: Folder?
+    var folder: Folder!
     
     let coreDataStack = PianoData.coreDataStack
     lazy var parser = MarkdownParser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         setEffectButton()
         setFontAwesomeIcon()
@@ -106,8 +100,6 @@ class MemoViewController: UIViewController {
         setToolbarItems(toolsCollection, animated: false)
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
-        guard let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
-        accessoryViewBottom.constant = -toolBarHeight
     
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
@@ -133,23 +125,11 @@ class MemoViewController: UIViewController {
     }
     
     func setFontAwesomeIcon(){
-        let attr = [NSFontAttributeName : UIFont.init(name: "fontawesome", size: 23)!]
+//        let attr = [NSFontAttributeName : UIFont.init(name: "fontawesome", size: 23)!]
         
-        penToolButton.setTitleTextAttributes(attr, for: .normal)
-        penToolButton.title = "\u{f0d0}"
-        
-        albumToolButton.setTitleTextAttributes(attr, for: .normal)
-        albumToolButton.title = "\u{f03e}"
-        
-//        finishToolButton.setTitleTextAttributes(attr, for: .normal)
-//        finishToolButton.title = "\u{f00c}"
-        
-        eraseButton.setTitle("\u{f12d}", for: .normal)
-        keyboardHideButton.setTitle("\u{f11c}", for: .normal)
         colorEffectButton.setTitle("\u{f031}", for: .normal)
         sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
         lineEffectButton.setTitle("\u{f0cc}", for: .normal)
-        albumButton.setTitle("\u{f03e}", for: .normal)
     }
     
 
@@ -185,8 +165,6 @@ class MemoViewController: UIViewController {
         makeTextViewStartFromTop(didAppear: true)
         
         //Create New Memo
-        
-        
         guard self.memo != nil else {
             
             showKeyboardIfNewMemo()
@@ -196,7 +174,6 @@ class MemoViewController: UIViewController {
     
     func showKeyboardIfNewMemo() {
         
-        guard let folder = self.folder else { return }
         let memo = Memo(context: self.coreDataStack.viewContext)
         let attrString = NSAttributedString()
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
@@ -206,6 +183,9 @@ class MemoViewController: UIViewController {
         self.memo = memo
         textView.attributedText = attrString
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        
+        coreDataStack.saveContext()
+        
         textView.becomeFirstResponder()
     }
     
@@ -297,16 +277,13 @@ class MemoViewController: UIViewController {
         textView.isHardwareKeyboardConnected = false
         
         guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
-            let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
         let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
         
         UIView.animate(withDuration: duration) { [weak self] in
             //TODO: change literal constant
-            let bottom = kbHeight - toolBarHeight
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, kbHeight, 0)
-            self?.accessoryViewBottom.constant = bottom
-            print("toolBarHeight: \(toolBarHeight)")
+            self?.accessoryViewBottom.constant = kbHeight
             self?.view.layoutIfNeeded()
         }
     }
@@ -319,12 +296,11 @@ class MemoViewController: UIViewController {
     
     func resetTextViewInset(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
-            let toolBarHeight = navigationController?.toolbar.bounds.height else { return }
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
         
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-            self?.accessoryViewBottom.constant = -toolBarHeight
+            self?.accessoryViewBottom.constant = 0
             self?.view.layoutIfNeeded()
         }
     }
@@ -347,14 +323,7 @@ class MemoViewController: UIViewController {
             let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
             memo.content = data
             memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
-            
-            guard self.coreDataStack.viewContext.hasChanges else { return }
-            
-            do {
-                try self.coreDataStack.viewContext.save()
-            } catch {
-                print(error)
-            }
+            self.coreDataStack.saveContext()
             
             DispatchQueue.main.async { [unowned self] in
                 self.showKeyboardIfNewMemo()
@@ -382,7 +351,6 @@ extension MemoViewController: UITextViewDelegate {
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
         //이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
-        
         
         guard let memo = self.memo else { return }
         memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
@@ -440,7 +408,7 @@ extension MemoViewController: UIImagePickerControllerDelegate {
 extension MemoViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard let memo = self.memo, viewController is MemoListViewController else { return }
+        guard let memo = self.memo, viewController is BaseViewController else { return }
         
         if textView.attributedText.size().width == 0 {
             coreDataStack.viewContext.delete(memo)
@@ -465,51 +433,51 @@ extension MemoViewController: UINavigationControllerDelegate {
     }
 }
 
-extension MemoViewController {
-    override func encodeRestorableState(with coder: NSCoder) {
-        guard let folder = self.folder else { return }
-        let folderID = folder.objectID
-        coder.encode(folderID.uriRepresentation(), forKey: "folder")
-        
-        
-        let memoID = memo?.objectID
-        coder.encode(memoID?.uriRepresentation(), forKey: "memo")
-        
-        super.encodeRestorableState(with: coder)
-        
-    }
-    
-    override func decodeRestorableState(with coder: NSCoder) {
-        
-        //TODO: 여기선 생성됨
-        let folderURI = coder.decodeObject(forKey: "folder")
-        let memoURI = coder.decodeObject(forKey: "memo")
-        
-        guard let folderURL = folderURI as? URL,
-            let memoURL = memoURI as? URL,
-            let memoID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: memoURL),
-            let folderID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: folderURL)
-            else { return }
-        let folderObject = self.coreDataStack.viewContext.object(with: folderID)
-        let memoObject = self.coreDataStack.viewContext.object(with: memoID)
-        let memo = memoObject as! Memo
-        let folder = folderObject as! Folder
-        self.folder = folder
-        self.memo = memo
-        
-        super.decodeRestorableState(with: coder)
-    }
-    
-    override func applicationFinishedRestoringState() {
-        if let memo = self.memo {
-            DispatchQueue.global().async { [unowned self] in
-                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
-                DispatchQueue.main.async { [unowned self] in
-                    self.textView.attributedText = attrText
-                    self.coreDataStack.textView = self.textView
-                    self.coreDataStack.memo = memo
-                }
-            }
-        }
-    }
-}
+//extension MemoViewController {
+//    override func encodeRestorableState(with coder: NSCoder) {
+//        guard let folder = self.folder else { return }
+//        let folderID = folder.objectID
+//        coder.encode(folderID.uriRepresentation(), forKey: "folder")
+//        
+//        
+//        let memoID = memo?.objectID
+//        coder.encode(memoID?.uriRepresentation(), forKey: "memo")
+//        
+//        super.encodeRestorableState(with: coder)
+//        
+//    }
+//    
+//    override func decodeRestorableState(with coder: NSCoder) {
+//        
+//        //TODO: 여기선 생성됨
+//        let folderURI = coder.decodeObject(forKey: "folder")
+//        let memoURI = coder.decodeObject(forKey: "memo")
+//        
+//        guard let folderURL = folderURI as? URL,
+//            let memoURL = memoURI as? URL,
+//            let memoID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: memoURL),
+//            let folderID = coreDataStack.persistentStoreCoordinator.managedObjectID(forURIRepresentation: folderURL)
+//            else { return }
+//        let folderObject = self.coreDataStack.viewContext.object(with: folderID)
+//        let memoObject = self.coreDataStack.viewContext.object(with: memoID)
+//        let memo = memoObject as! Memo
+//        let folder = folderObject as! Folder
+//        self.folder = folder
+//        self.memo = memo
+//        
+//        super.decodeRestorableState(with: coder)
+//    }
+//    
+//    override func applicationFinishedRestoringState() {
+//        if let memo = self.memo {
+//            DispatchQueue.global().async { [unowned self] in
+//                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+//                DispatchQueue.main.async { [unowned self] in
+//                    self.textView.attributedText = attrText
+//                    self.coreDataStack.textView = self.textView
+//                    self.coreDataStack.memo = memo
+//                }
+//            }
+//        }
+//    }
+//}

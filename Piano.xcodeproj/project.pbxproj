@@ -10,12 +10,18 @@
 		0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */; };
 		0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */; };
 		0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */; };
+		0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */; };
+		0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1812831E29DF1300272080 /* TextEffectCell.swift */; };
+		0A1812861E2A012400272080 /* DeletedMemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1812851E2A012400272080 /* DeletedMemoCell.swift */; };
 		0A2CE6841E10FC610003F3CB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */; };
-		0A2CE6881E1213790003F3CB /* SelectEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE6871E1213790003F3CB /* SelectEffectViewController.swift */; };
 		0A2CE68A1E1217920003F3CB /* TextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE6891E1217920003F3CB /* TextEffect.swift */; };
 		0A2CE68E1E121CBB0003F3CB /* LineFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */; };
 		0A2CE6901E1227D50003F3CB /* EffectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE68F1E1227D50003F3CB /* EffectButton.swift */; };
 		0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */; };
+		0A5D10E51E27640F001CAC1E /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D10E41E27640F001CAC1E /* GroupListViewController.swift */; };
+		0A5D10E71E27641F001CAC1E /* SheetListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D10E61E27641F001CAC1E /* SheetListViewController.swift */; };
+		0A5D10EB1E27645A001CAC1E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D10EA1E27645A001CAC1E /* BaseViewController.swift */; };
+		0A5D10ED1E277098001CAC1E /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D10EC1E277098001CAC1E /* GroupCell.swift */; };
 		0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A638E661E16A7A00006FFEA /* Date_Extension.swift */; };
 		0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8150E21E1CB1D100F2EDFE /* PianoData.swift */; };
 		0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */; };
@@ -26,10 +32,8 @@
 		310870901DE13AF20044BA5D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3108708F1DE13AF20044BA5D /* MoreViewController.swift */; };
 		310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870911DE13B180044BA5D /* MemoListViewController.swift */; };
 		310870941DE13B270044BA5D /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870931DE13B270044BA5D /* MemoViewController.swift */; };
-		310870961DE13BB40044BA5D /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870951DE13BB40044BA5D /* TopViewController.swift */; };
 		310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A11DE14D6A0044BA5D /* PianoTextView.swift */; };
 		310870A61DE1720A0044BA5D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A51DE1720A0044BA5D /* Constant.swift */; };
-		310870A81DE172870044BA5D /* TextEffectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A71DE172870044BA5D /* TextEffectCell.swift */; };
 		310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A91DE1729C0044BA5D /* Reusable.swift */; };
 		3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */; };
 		3131F6D71DDD2E3D00EC4229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3131F6D51DDD2E3D00EC4229 /* Main.storyboard */; };
@@ -69,12 +73,18 @@
 		0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoListViewController.swift; sourceTree = "<group>"; };
 		0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoViewController.swift; sourceTree = "<group>"; };
 		0A0C1E7E1DFCE30C008EBFC1 /* PianoModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PianoModel.xcdatamodel; sourceTree = "<group>"; };
+		0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEffectViewController.swift; sourceTree = "<group>"; };
+		0A1812831E29DF1300272080 /* TextEffectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEffectCell.swift; sourceTree = "<group>"; };
+		0A1812851E2A012400272080 /* DeletedMemoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoCell.swift; sourceTree = "<group>"; };
 		0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
-		0A2CE6871E1213790003F3CB /* SelectEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEffectViewController.swift; sourceTree = "<group>"; };
 		0A2CE6891E1217920003F3CB /* TextEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEffect.swift; sourceTree = "<group>"; };
 		0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineFamily.swift; sourceTree = "<group>"; };
 		0A2CE68F1E1227D50003F3CB /* EffectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectButton.swift; sourceTree = "<group>"; };
 		0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer_Extension.swift; sourceTree = "<group>"; };
+		0A5D10E41E27640F001CAC1E /* GroupListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupListViewController.swift; path = ../GroupListViewController.swift; sourceTree = "<group>"; };
+		0A5D10E61E27641F001CAC1E /* SheetListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetListViewController.swift; sourceTree = "<group>"; };
+		0A5D10EA1E27645A001CAC1E /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		0A5D10EC1E277098001CAC1E /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		0A638E661E16A7A00006FFEA /* Date_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
 		0A8150E21E1CB1D100F2EDFE /* PianoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoData.swift; sourceTree = "<group>"; };
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
@@ -85,10 +95,8 @@
 		3108708F1DE13AF20044BA5D /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreViewController.swift; path = ../MoreViewController.swift; sourceTree = "<group>"; };
 		310870911DE13B180044BA5D /* MemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
 		310870931DE13B270044BA5D /* MemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
-		310870951DE13BB40044BA5D /* TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		310870A11DE14D6A0044BA5D /* PianoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView.swift; sourceTree = "<group>"; };
 		310870A51DE1720A0044BA5D /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		310870A71DE172870044BA5D /* TextEffectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEffectCell.swift; sourceTree = "<group>"; };
 		310870A91DE1729C0044BA5D /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		3131F6CE1DDD2E3D00EC4229 /* Piano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Piano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */,
+				0A1812851E2A012400272080 /* DeletedMemoCell.swift */,
 			);
 			name = DeletedMemoList;
 			sourceTree = "<group>";
@@ -152,6 +161,18 @@
 				0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */,
 			);
 			name = DeletedMemo;
+			sourceTree = "<group>";
+		};
+		0A5D10DF1E276003001CAC1E /* New Implement */ = {
+			isa = PBXGroup;
+			children = (
+				0A5D10EA1E27645A001CAC1E /* BaseViewController.swift */,
+				0A5D10E41E27640F001CAC1E /* GroupListViewController.swift */,
+				0A5D10EC1E277098001CAC1E /* GroupCell.swift */,
+				0A5D10E61E27641F001CAC1E /* SheetListViewController.swift */,
+				310870931DE13B270044BA5D /* MemoViewController.swift */,
+			);
+			name = "New Implement";
 			sourceTree = "<group>";
 		};
 		3131F6C51DDD2E3D00EC4229 = {
@@ -178,9 +199,11 @@
 			isa = PBXGroup;
 			children = (
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
-				0A2CE6871E1213790003F3CB /* SelectEffectViewController.swift */,
+				0A5D10DF1E276003001CAC1E /* New Implement */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
 				0A2CE6891E1217920003F3CB /* TextEffect.swift */,
+				0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */,
+				0A1812831E29DF1300272080 /* TextEffectCell.swift */,
 				0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */,
 				3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */,
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
@@ -252,21 +275,10 @@
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				31575C921DE808FA00373ADD /* TextViewMode.swift */,
 				315A53881DF6729F00BB7367 /* TextEffectAttribute.swift */,
-				310870931DE13B270044BA5D /* MemoViewController.swift */,
 				0A2CE68F1E1227D50003F3CB /* EffectButton.swift */,
 				0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */,
-				31575C991DE8261E00373ADD /* TopView */,
 			);
 			name = Memo;
-			sourceTree = "<group>";
-		};
-		31575C991DE8261E00373ADD /* TopView */ = {
-			isa = PBXGroup;
-			children = (
-				310870951DE13BB40044BA5D /* TopViewController.swift */,
-				310870A71DE172870044BA5D /* TextEffectCell.swift */,
-			);
-			name = TopView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -408,24 +420,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */,
+				0A1812861E2A012400272080 /* DeletedMemoCell.swift in Sources */,
 				0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */,
-				310870A81DE172870044BA5D /* TextEffectCell.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
-				310870961DE13BB40044BA5D /* TopViewController.swift in Sources */,
+				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
 				310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */,
+				0A5D10E51E27640F001CAC1E /* GroupListViewController.swift in Sources */,
 				310870901DE13AF20044BA5D /* MoreViewController.swift in Sources */,
 				0AEDCEE01DF8FA56000D57C2 /* MarkdownParser.swift in Sources */,
 				310870941DE13B270044BA5D /* MemoViewController.swift in Sources */,
 				3175A8011DEEC81700C1A02E /* PianoTextStorage.swift in Sources */,
-				0A2CE6881E1213790003F3CB /* SelectEffectViewController.swift in Sources */,
+				0A5D10EB1E27645A001CAC1E /* BaseViewController.swift in Sources */,
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
 				0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */,
+				0A5D10E71E27641F001CAC1E /* SheetListViewController.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
 				0A2CE68A1E1217920003F3CB /* TextEffect.swift in Sources */,
+				0A5D10ED1E277098001CAC1E /* GroupCell.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */,
+				0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
