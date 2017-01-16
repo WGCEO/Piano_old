@@ -43,16 +43,17 @@ class BaseViewController: UIViewController {
     @IBAction func tapAddMemoButton(_ sender: Any) {
         
         performSegue(withIdentifier: "GoToMemo", sender: nil)
-        
-        
-        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let groupListVC = childViewControllers.first as? GroupListViewController,
-            let selectedRow = groupListVC.tableView.indexPathForSelectedRow,
-            let folder = groupListVC.resultsController?.object(at: selectedRow),
-            let identifier = segue.identifier else { return }
         
+        guard let identifier = segue.identifier else {
+            //스토리보드에서 초기화할 때 컨테이너 뷰를 만들기 위해 segue를 거치므로 이 코드가 실행되기 때문에 이때에는 조기 탈출!
+            return
+        }
+        
+        let groupListVC = childViewControllers.first as! GroupListViewController
+        let selectedRow = groupListVC.tableView.indexPathForSelectedRow ?? IndexPath(row: 0, section: 0)
+        let folder = groupListVC.resultsController!.object(at: selectedRow)
         
         if identifier == "GoToMemo" {
             

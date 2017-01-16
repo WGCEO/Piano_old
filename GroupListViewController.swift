@@ -30,7 +30,7 @@ class GroupListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//        tableView.setEditing(true, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,6 +105,7 @@ extension GroupListViewController: UITableViewDataSource {
     func configure(cell: GroupCell, at indexPath: IndexPath) {
 //        let folder = resultsController.object(at: indexPath)
         cell.ibImageView.image = UIImage(named: "select" + "\(indexPath.row)")
+        cell.showsReorderControl = true
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,8 +119,16 @@ extension GroupListViewController: UITableViewDataSource {
 
 extension GroupListViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        //
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 50
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -133,9 +142,9 @@ extension GroupListViewController: UITableViewDelegate {
         sheetListVC.folder = folder
         
         //TODO2: SheetListViewController에 데이터 소스를 넣고 갱신시켜야함
-        
-        
+    
     }
+    
     //SheetList에 folder: Folder? 프로퍼티가 있고, 거기에 전달하기 -> 전달하면 거기서 didSet프로퍼티에 따라 NSFetchedResultsController를 업데이트하여 fetch를 진행하도록 세팅해놓기
     
     

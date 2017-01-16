@@ -90,8 +90,7 @@ class MemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
+
         setEffectButton()
         setFontAwesomeIcon()
         
