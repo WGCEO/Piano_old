@@ -15,30 +15,17 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         guard let groupListVC = childViewControllers.first as? GroupListViewController else { return }
         
         let context = self.coreDataStack.viewContext
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
-        let dateSort = NSSortDescriptor(key: #keyPath(Folder.order), ascending: true)
+        let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
         request.sortDescriptors = [dateSort]
         groupListVC.resultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
         
     }
-    
-    @IBAction func tapAddGroupButton(_ sender: Any) {
-        
-        guard let groupListVC = childViewControllers.first as? GroupListViewController,
-            let section = groupListVC.resultsController?.sections, section.count > 0 else { return }
-        
-        //TODO: 폴더 갯수가 10개보다 작아야 추가 가능!
-        if section[0].numberOfObjects < 10 {
-            showAddGroupAlertViewController(order: section[0].numberOfObjects)
-        } else {
-            showDenyAlertViewController()
-        }
-    }
-
     
     @IBAction func tapAddMemoButton(_ sender: Any) {
         
@@ -83,8 +70,10 @@ class BaseViewController: UIViewController {
             do {
                 let newFolder = Folder(context: context)
                 newFolder.name = text
-                newFolder.order = Int16(order)
+                newFolder.date = Date()
                 newFolder.memos = []
+                //TODO: 아래 수정
+                newFolder.imageName = "select0"
                 
                 try context.save()
                 
@@ -109,10 +98,10 @@ class BaseViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showDenyAlertViewController() {
-        let alert = UIAlertController(title: "추가할 수 없음", message: "폴더의 갯수는 최대 10개입니다.", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        present(alert, animated: true, completion: nil)
-    }
+//    func showDenyAlertViewController() {
+//        let alert = UIAlertController(title: "추가할 수 없음", message: "폴더의 갯수는 최대 10개입니다.", preferredStyle: .alert)
+//        let ok = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+//        alert.addAction(ok)
+//        present(alert, animated: true, completion: nil)
+//    }
 }

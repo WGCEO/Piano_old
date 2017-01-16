@@ -18,7 +18,8 @@ extension NSPersistentContainer {
                     
                     let pianoFolder = Folder(context: context)
                     pianoFolder.name = "Piano"
-                    pianoFolder.order = 0
+                    pianoFolder.date = Date()
+                    pianoFolder.imageName = "select0"
                     
                     let memo = Memo(context: context)
 
