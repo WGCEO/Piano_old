@@ -21,11 +21,10 @@ struct PianoData {
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
-        container.importFolders()
+        container.importPianoFolder()
         
         return container
     }()
-    
     
     static func deleteMemosIfPassOneMonth() {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
@@ -41,16 +40,7 @@ struct PianoData {
         }
     }
     
-    static func loadData() {
-        //        coreDataStack.persistentStoreDescriptions.first?.shouldAddStoreAsynchronously = true
-        PianoData.coreDataStack.loadPersistentStores { (description, error) in
-            if let error = error {
-                print("Error creating persistent stores: \(error.localizedDescription)")
-                fatalError()
-            }
-        }
-        
-        PianoData.coreDataStack.viewContext.automaticallyMergesChangesFromParent = true
-        PianoData.coreDataStack.importFolders()
+    static func save() {
+        PianoData.coreDataStack.save()
     }
 }

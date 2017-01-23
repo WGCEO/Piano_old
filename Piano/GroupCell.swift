@@ -11,6 +11,7 @@ import UIKit
 class GroupCell: UITableViewCell, Reusable {
 
     @IBOutlet weak var ibImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,5 +23,4 @@ class GroupCell: UITableViewCell, Reusable {
         
         ibImageView.alpha = selected ? 1 : 0.1
     }
-
 }

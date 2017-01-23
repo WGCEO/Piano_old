@@ -12,6 +12,7 @@ class SelectEffectViewController: UIViewController {
     
     //TODO: 코어데이터에서 불러와야함
     weak var selectedButton: EffectButton!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     lazy var dataSource: [TextEffect] = {
         switch self.selectedButton.textEffect {
@@ -30,8 +31,24 @@ class SelectEffectViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let effect = selectedButton.textEffect
+        
+        switch effect {
+        case .color:
+            descriptionLabel.text = "색상을 선택해주세요."
+        case .title:
+            descriptionLabel.text = "제목의 크기를 선택해주세요."
+        case .line:
+            descriptionLabel.text = "선의 종류를 선택해주세요."
+        }
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        dismiss(animated: true, completion: nil)
     }
 
 }
@@ -46,7 +63,8 @@ extension SelectEffectViewController: UICollectionViewDataSource {
         
         switch data {
         case .color(let x):
-            cell.awesomeLabel.text = "\u{f031}"
+            cell.backgroundColor = x
+            cell.awesomeLabel.text = ""
             cell.awesomeLabel.textColor = x
         case .title(let x):
             
@@ -54,12 +72,12 @@ extension SelectEffectViewController: UICollectionViewDataSource {
             let size = font.pointSize + CGFloat(6)
             cell.awesomeLabel.font = cell.awesomeLabel.font.withSize(size)
             cell.awesomeLabel.text = "\u{f1dc}"
-            cell.awesomeLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            cell.awesomeLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             
         case .line(let x):
             
             cell.awesomeLabel.text = x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}"
-            cell.awesomeLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            cell.awesomeLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         }
         
         return cell
@@ -85,18 +103,14 @@ extension SelectEffectViewController: UICollectionViewDelegate {
 
 extension SelectEffectViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.width / 4)
+        return CGSize(width: 40, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(0, 0, 0, 0)
+        return UIEdgeInsetsMake(0, 16, 0, 16)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 16
     }
 }

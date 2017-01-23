@@ -17,9 +17,14 @@ class PianoPersistentContainer: NSPersistentContainer {
     func saveContext() {
         
         if let textView = self.textView, let memo = self.memo {
-            let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-            memo.content = data
-            memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+            
+            if textView.attributedText.size().width == 0 {
+                viewContext.delete(memo)
+            } else {
+                let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+                memo.content = data
+                memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+            }
         }
         
         guard viewContext.hasChanges else { return }
@@ -30,5 +35,5 @@ class PianoPersistentContainer: NSPersistentContainer {
             print(error)
         }
     }
-
+    
 }

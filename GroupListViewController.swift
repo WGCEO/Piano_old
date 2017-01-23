@@ -13,6 +13,11 @@ class GroupListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    var lastTableViewIndexPath: IndexPath? {
+        guard let objects = self.resultsController?.fetchedObjects, objects.count > 0 else { return nil }
+        
+        return IndexPath(row: objects.count - 1, section: 0)
+    }
     let coreDataStack = PianoData.coreDataStack
     var resultsController: NSFetchedResultsController<Folder>? {
         didSet {
@@ -24,8 +29,15 @@ class GroupListViewController: UIViewController {
                 print("Error performing fetch \(error.localizedDescription)")
             }
             
-            self.selectSpecificRow(indexPath: IndexPath(row: 0, section: 0))
+            if !self.isResultsControllerEmpty() {
+                self.selectSpecificRow(indexPath: IndexPath(row: 0, section: 0))
+            }
         }
+    }
+    
+    func isResultsControllerEmpty() -> Bool {
+        guard let objects = resultsController?.fetchedObjects else { return true }
+        return objects.count > 0 ? false : true
     }
     
     override func viewDidLoad() {
@@ -48,6 +60,30 @@ class GroupListViewController: UIViewController {
     func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
+    
+    @IBAction func tapLongGesture(_ sender: Any) {
+        let longGesture = sender as! UIGestureRecognizer
+        
+        if longGesture.state == .began {
+            //ConfigureFolderViewController를 열고 거기다가 현재 눌러진 셀의 폴더 객체를 전달해야함
+            //ConfigureFolderViewController에서 폴더가 있다면 수정모드로 가고, 없다면 생성하는 컨셉으로 가기
+            
+            let touchPoint = longGesture.location(in: self.view)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                
+                selectSpecificRow(indexPath: indexPath)
+                
+                //제일 첫 번째 폴더는 지우지 말기
+                if indexPath.row != 0 {
+                    guard let folder = resultsController?.object(at: indexPath),
+                        let baseVC = parent as? BaseViewController  else { return }
+                    
+                    baseVC.performSegue(withIdentifier: "GoToConfigureFolder", sender: folder)
+                }
+            }
+        }
+    }
+    
 }
 
 extension GroupListViewController: NSFetchedResultsControllerDelegate {
@@ -103,9 +139,9 @@ extension GroupListViewController: UITableViewDataSource {
     }
     
     func configure(cell: GroupCell, at indexPath: IndexPath) {
-//        let folder = resultsController.object(at: indexPath)
-        cell.ibImageView.image = UIImage(named: "select" + "\(indexPath.row)")
-        cell.showsReorderControl = true
+        guard let folder = resultsController?.object(at: indexPath) else { return }
+        cell.ibImageView.image = UIImage(named: folder.imageName)
+//        cell.showsReorderControl = true
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -175,10 +211,22 @@ extension GroupListViewController: UITableViewDelegate {
 //    }
     
     func selectSpecificRow(indexPath: IndexPath){
-        guard let objects = resultsController?.fetchedObjects, objects.count > 0 else { return }
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
         self.tableView(tableView, didSelectRowAt: indexPath)
     }
+    
+    func getIndexPath(with: Folder) -> IndexPath? {
+        guard let folders = resultsController?.fetchedObjects else { return nil }
+        
+        for (index, folder) in folders.enumerated() {
+            if with == folder {
+                return IndexPath(row: index, section: 0)
+            }
+        }
+        return nil
+    }
+    
+    
 }
 
 

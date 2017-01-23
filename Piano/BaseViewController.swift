@@ -12,12 +12,13 @@ import CoreData
 class BaseViewController: UIViewController {
     
     let coreDataStack = PianoData.coreDataStack
-
+    var memoViewController: MemoViewController!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        guard let groupListVC = childViewControllers.first as? GroupListViewController else { return }
+        let groupListVC = childViewControllers.first as! GroupListViewController
         
         let context = self.coreDataStack.viewContext
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
@@ -25,29 +26,34 @@ class BaseViewController: UIViewController {
         request.sortDescriptors = [dateSort]
         groupListVC.resultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
         
+
     }
     
     @IBAction func tapAddMemoButton(_ sender: Any) {
         
-        performSegue(withIdentifier: "GoToMemo", sender: nil)
+        let memoListViewController = childViewControllers.last as! SheetListViewController
+        
+        memoListViewController.delegate?.newMemo(with: memoListViewController.folder)
+        
+        if let memoViewController = memoListViewController.delegate as? MemoViewController {
+            splitViewController?.showDetailViewController(memoViewController.navigationController!, sender: nil)
+        }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         
         guard let identifier = segue.identifier else {
             //스토리보드에서 초기화할 때 컨테이너 뷰를 만들기 위해 segue를 거치므로 이 코드가 실행되기 때문에 이때에는 조기 탈출!
             return
         }
         
-        let groupListVC = childViewControllers.first as! GroupListViewController
-        let selectedRow = groupListVC.tableView.indexPathForSelectedRow ?? IndexPath(row: 0, section: 0)
-        let folder = groupListVC.resultsController!.object(at: selectedRow)
-        
-        if identifier == "GoToMemo" {
-            
-            let des = segue.destination as! MemoViewController
-            des.folder = folder
-            guard let memo = sender as? Memo else { return }
-            des.memo = memo
+        switch identifier {
+        case "GoToConfigureFolder":
+            let des = segue.destination as! ConfigureFolderViewController
+//            des.delegate = self
+            des.folder = sender as? Folder
+        default:
+            ()
             
         }
     }
@@ -73,7 +79,7 @@ class BaseViewController: UIViewController {
                 newFolder.date = Date()
                 newFolder.memos = []
                 //TODO: 아래 수정
-                newFolder.imageName = "select0"
+                newFolder.imageName = "folder0"
                 
                 try context.save()
                 
@@ -105,3 +111,28 @@ class BaseViewController: UIViewController {
 //        present(alert, animated: true, completion: nil)
 //    }
 }
+
+
+//extension BaseViewController: ConfigureFolderViewControllerDelegate {
+//    func selectLastIndexCell() {
+//        let groupListVC = childViewControllers.first as! GroupListViewController
+//        guard let indexPath = groupListVC.lastTableViewIndexPath else { return }
+//        groupListVC.selectSpecificRow(indexPath: indexPath)
+//        
+//    }
+//    
+//    func refreshTableViewWithSelectFolder(folder: Folder) {
+//        let groupListVC = childViewControllers.first as! GroupListViewController
+//        guard let indexPath = groupListVC.getIndexPath(with: folder) else { return }
+//        groupListVC.tableView.reloadData()
+//        groupListVC.selectSpecificRow(indexPath: indexPath)
+//        
+//    }
+//    
+//    func refreshTableView() {
+//        let groupListVC = childViewControllers.first as! GroupListViewController
+//        groupListVC.tableView.reloadData()
+//    }
+//}
+
+

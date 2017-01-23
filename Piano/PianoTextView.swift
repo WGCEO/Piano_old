@@ -26,7 +26,7 @@ class PianoTextView: UITextView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
+        self.textContainerInset = UIEdgeInsetsMake(20, 25, 60, 25)
         canvas.textView = self
     }
     

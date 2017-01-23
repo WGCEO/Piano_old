@@ -7,22 +7,48 @@
 //
 
 import UIKit
+import CoreData
+
+protocol ConfigureFolderViewControllerDelegate: class {
+    func configureFolderViewController(_ controller: ConfigureFolderViewController, deleteFolder: Folder)
+    func configureFolderViewController(_ controller: ConfigureFolderViewController, completeFolder: Folder)
+}
 
 class ConfigureFolderViewController: UIViewController {
 
+    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var completeButton: UIButton!
     @IBOutlet weak var bottomViewBottom: NSLayoutConstraint!
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var textField: UITextField!
     let coreDataStack = PianoData.coreDataStack
-
+    weak var delegate: ConfigureFolderViewControllerDelegate?
     
+    //폴더 있을 때: (폴더 삭제, 수정하기) 폴더 없을 때: (취소, 폴더 생성)
+    var folder: Folder!
+    var isNewFolder: Bool = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        settingUI()
         textField.becomeFirstResponder()
-//        setCollectionViewLayout()
+        setCollectionViewLayout()
+    }
+    
+    func settingUI(){
+        if isNewFolder {
+            deleteButton.setTitle("취소", for: .normal)
+            deleteButton.setTitleColor(.white, for: .normal)
+            completeButton.setTitle("폴더 생성", for: .normal)
+        } else {
+            textField.text = folder.name
+            //TODO: 컬렉션뷰를 폴더의 해당 이미지에 일치하는 곳으로 이동시키기
+            deleteButton.setTitle("폴더 영구 삭제", for: .normal)
+            deleteButton.setTitleColor(.red, for: .normal)
+            completeButton.setTitle("수정하기", for: .normal)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,42 +85,18 @@ class ConfigureFolderViewController: UIViewController {
     }
     
     @IBAction func tapDeleteButton(_ sender: Any) {
-        
+
+        delegate?.configureFolderViewController(self, deleteFolder: folder)
+        textField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func tapCompleteButton(_ sender: Any) {
-        guard let text = textField.text else { return }
         
-        do {
-            
-            let context = coreDataStack.viewContext
-            let newFolder = Folder(context: context)
-            newFolder.name = text
-            newFolder.date = Date()
-            newFolder.memos = []
-            //TODO: 아래 수정
-            newFolder.imageName = "select0"
-            
-            try context.save()
-            
-//            guard let groupListVC = self.childViewControllers.first as? GroupListViewController else { return }
-//            groupListVC.selectSpecificRow(indexPath: IndexPath(row: order, section: 0))
-        } catch {
-            print("Error importing folders: \(error.localizedDescription)")
-        }
-
-//        guard let groupListVC = self.childViewControllers.first as? GroupListViewController else { return }
-//        groupListVC.selectSpecificRow(indexPath: IndexPath(row: order, section: 0))
-        
-        
+        delegate?.configureFolderViewController(self, completeFolder: folder)
+        textField.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
-    
-    
-   
-    
-    
 }
 
 extension ConfigureFolderViewController: UICollectionViewDataSource {
