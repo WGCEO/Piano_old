@@ -40,26 +40,12 @@ class DeletedMemoListViewController: UIViewController {
 
         setTableViewCellHeight()
         //TODO: 이거 비동기로 처리하지 않아도 되는 것인가?
-        deleteMemosIfPassOneMonth()
+        PianoData.deleteMemosIfPassOneMonth()
         
         do {
             try resultsController.performFetch()
         } catch {
             print("Error performing fetch \(error.localizedDescription)")
-        }
-    }
-    
-    func deleteMemosIfPassOneMonth() {
-        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == true AND date < %@", NSDate())
-        let batchDelete = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
-        batchDelete.affectedStores = coreDataStack.viewContext.persistentStoreCoordinator?.persistentStores
-        batchDelete.resultType = .resultTypeCount
-        do {
-            let batchResult = try coreDataStack.viewContext.execute(batchDelete) as! NSBatchDeleteResult
-            print("record deleted \(batchResult.result)")
-        } catch {
-            print("could not delete \(error.localizedDescription)")
         }
     }
     
@@ -88,6 +74,8 @@ class DeletedMemoListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         indicatingCell()
+        
+        
     }
     
     func preferredContentSizeChanged(notification: Notification) {
@@ -107,7 +95,6 @@ class DeletedMemoListViewController: UIViewController {
             des.coreDataStack = coreDataStack
             guard let memo = sender as? Memo else { return }
             des.memo = memo
-            des.folder = memo.folder
 
         default:
             ()

@@ -38,10 +38,18 @@ class DetailViewController: UIViewController {
         if let memo = memo {
             DispatchQueue.global().async {
                 let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [unowned self] in
                     textView.attributedText = attrText
                     PianoData.coreDataStack.textView = textView
                     PianoData.coreDataStack.memo = memo
+                    
+                    //새 메모이면 키보드 올리고 새 메모가 아니면 키보드 내리기
+                    if textView.attributedText.size().width != 0 {
+                        textView.resignFirstResponder()
+                    } else {
+                        self.resetTextViewAttribute()
+                        textView.becomeFirstResponder()
+                    }
                 }
             }
         } else {
@@ -61,7 +69,18 @@ class DetailViewController: UIViewController {
         setEffectButton()
         setFontAwesomeIcon()
         
-        updateTextView(memo: memo)
+        accessoryView.frame.size.height = navigationController!.toolbar.frame.height
+        
+        
+        //viewDidLoad() 에서 memo == nil 일 때는 아이패드에서 맨 처음 실행했을 경우에만이므로 이때에는 최상위의 폴더에서 최상위 메모를 선택하게 함
+        if let memo = memo {
+            updateTextView(memo: memo)
+        } else {
+            let nav = splitViewController?.viewControllers.first as! UINavigationController
+            let masterViewController = nav.topViewController as! MasterViewController
+            let memoListViewController = masterViewController.childViewControllers.last as! MemoListViewController
+            memoListViewController.selectTableViewCell(with: IndexPath(row: 0, section: 0))
+        }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -105,6 +124,12 @@ class DetailViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("뷰 나타난당")
+    }
+    
     func resetTextViewAttribute(){
         textView.attributedText = NSAttributedString()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -112,6 +137,7 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillShow(notification: Notification){
+        accessoryView.isHidden = false
         textView.isHardwareKeyboardConnected = false
         
         guard let userInfo = notification.userInfo,
@@ -126,6 +152,7 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: Notification){
+        accessoryView.isHidden = true
         textView.isHardwareKeyboardConnected = true
         
         guard let userInfo = notification.userInfo,
@@ -211,8 +238,10 @@ class DetailViewController: UIViewController {
     @IBAction func tapTrashButton(_ sender: Any) {
         //기존 memo 코어데이터에서 isInTrash = true로 바꿔버리기
         memo?.isInTrash = true
+        PianoData.save()
         
-        //TODO: 메모 생성해서 메모리스트에서 선택하게 하기
+        //데이터 소스에 nil 대입하면 알아서 초기화됨.
+        memo = nil
     }
     
     @IBAction func tapEffectButton(_ sender: Any) {
@@ -224,7 +253,14 @@ class DetailViewController: UIViewController {
         textView.attachCanvas()
     }
     
+    func addNewMemo() {
+        let nav = splitViewController?.viewControllers.first as! UINavigationController
+        let masterViewController = nav.topViewController as! MasterViewController
+        masterViewController.addNewMemo()
+    }
+    
     @IBAction func tapComposeButton(_ sender: Any) {
+        addNewMemo()
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
@@ -284,8 +320,9 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: MemoListViewControllerDelegate {
     func memoListViewController(_ controller: MemoListViewController, send memo: Memo) {
-        //기존에 메모 프로퍼티가 있다면 메모 내용을 코어데이터에 저장시키기
         
+        
+        //기존에 메모 프로퍼티가 있다면 메모 내용을 코어데이터에 저장시키기
         if let oldMemo = self.memo,
             let textView = self.textView {
             
@@ -296,17 +333,14 @@ extension DetailViewController: MemoListViewControllerDelegate {
             } else {
                 let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
                 oldMemo.content = data
-                oldMemo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+                let text = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+                oldMemo.firstLine = text.characters.count != 0 ? text : "새로운 메모"
             }
-            guard PianoData.coreDataStack.viewContext.hasChanges else { return }
-            do {
-                try PianoData.coreDataStack.viewContext.save()
-            } catch {
-                print(error)
-            }
+            PianoData.save()
         }
         
         self.memo = memo
+        
     }
 }
 
@@ -317,12 +351,27 @@ extension DetailViewController: NSLayoutManagerDelegate {
 }
 
 extension DetailViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        guard memo != nil else {
+            //TODO: 메모 생성하기
+            addNewMemo()
+            return
+        }
+    }
+    
+    
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
         //TODO: 이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
         
         guard let memo = self.memo else { return }
-        memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+        let text = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+        if text.characters.count != 0 {
+            memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+        } else {
+            memo.firstLine = "새로운 메모"
+        }
     }
     
     //TODO: 이거 여기다가 넣는게 진정 맞을까..?? 비용문제..

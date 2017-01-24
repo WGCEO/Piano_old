@@ -28,7 +28,7 @@ struct PianoData {
     
     static func deleteMemosIfPassOneMonth() {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == true AND date < %@", NSDate())
+        request.predicate = NSPredicate(format: "isInTrash == true AND date < %@", NSDate(timeIntervalSinceNow: -3600 * 24 * 30))
         let batchDelete = NSBatchDeleteRequest(fetchRequest: request as! NSFetchRequest<NSFetchRequestResult>)
         batchDelete.affectedStores = PianoData.coreDataStack.viewContext.persistentStoreCoordinator?.persistentStores
         batchDelete.resultType = .resultTypeCount

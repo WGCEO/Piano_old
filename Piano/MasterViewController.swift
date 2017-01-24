@@ -77,7 +77,9 @@ class MasterViewController: UIViewController {
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
         memo.date = Date()
         memo.folder = folder
-        memo.firstLine = ""
+        memo.firstLine = "새로운 메모"
+        
+        PianoData.save()
         
         //select하면 디테일뷰에 데이터 전달
         memoListViewController.selectTableViewCell(with: IndexPath(row: 0, section: 0))

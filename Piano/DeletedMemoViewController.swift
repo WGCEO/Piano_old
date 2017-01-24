@@ -12,7 +12,6 @@ class DeletedMemoViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
     var memo: Memo?
-    var folder: Folder!
     var coreDataStack: PianoPersistentContainer!
     
     override func viewDidLoad() {
@@ -56,7 +55,7 @@ class DeletedMemoViewController: UIViewController {
                 print("쓰레기 버튼 눌렀는데 에러: \(error)")
             }
         }
-        dismiss(animated: true, completion: nil)
+        let _ = navigationController?.popViewController(animated: true)
     }
     
 }

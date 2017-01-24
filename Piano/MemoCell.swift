@@ -8,8 +8,11 @@
 
 import UIKit
 
-class MemoCell: UITableViewCell {
+class MemoCell: UITableViewCell, Reusable {
 
+    @IBOutlet weak var ibTitleLabel: UILabel!
+    @IBOutlet weak var ibSubTitleLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -17,6 +20,10 @@ class MemoCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        ibTitleLabel.textColor = selected ? .white : .black
+        ibSubTitleLabel.textColor = selected ? .white : .lightGray
+        contentView.backgroundColor = selected ? .black : .white
     }
 
 }

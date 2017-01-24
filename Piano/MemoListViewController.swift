@@ -79,13 +79,13 @@ class MemoListViewController: UIViewController {
         let myString = originalString
         let bodySize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
         let subHeadSize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .subheadline)])
-        let margin: CGFloat = 10
+        let margin: CGFloat = 12
         
         tableView.rowHeight = bodySize.height + subHeadSize.height + (margin * 2)
     }
 
     func selectTableViewCell(with indexPath: IndexPath){
-        guard let objects = resultsController.fetchedObjects, objects.count > 0 else { return }
+        guard let objects = resultsController?.fetchedObjects, objects.count > 0 else { return }
         
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: indexPath)
@@ -107,7 +107,7 @@ extension MemoListViewController: NSFetchedResultsControllerDelegate {
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
             guard let indexPath = indexPath else { return }
-            if let cell = tableView.cellForRow(at: indexPath) {
+            if let cell = tableView.cellForRow(at: indexPath) as? MemoCell {
                 configure(cell: cell, at: indexPath)
                 cell.setNeedsLayout()
             }
@@ -126,17 +126,17 @@ extension MemoListViewController: NSFetchedResultsControllerDelegate {
 
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as! MemoCell
         configure(cell: cell, at: indexPath)
         
         return cell
     }
     
-    func configure(cell: UITableViewCell, at indexPath: IndexPath) {
+    func configure(cell: MemoCell, at indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
         //TODO: Localizing
-        cell.textLabel?.text = memo.firstLine
-        cell.detailTextLabel?.text = formatter.string(from: memo.date)
+        cell.ibTitleLabel.text = memo.firstLine
+        cell.ibSubTitleLabel.text = formatter.string(from: memo.date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

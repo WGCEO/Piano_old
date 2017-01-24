@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         let splitViewController = window!.rootViewController as! UISplitViewController
+        
+        let navigationController = splitViewController.viewControllers.last as! UINavigationController
+        let detailViewController = navigationController.topViewController as! DetailViewController
+        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        detailViewController.navigationItem.leftItemsSupplementBackButton = true
+        splitViewController.preferredDisplayMode = .allVisible
         splitViewController.delegate = self
         return true
     }
