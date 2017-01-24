@@ -41,6 +41,22 @@ class FolderListViewController: UIViewController {
         setTableViewCellHeight()
     }
     
+    func selectTableView(with selectedFolder: Folder) {
+        guard let tableView = self.tableView, let folders = resultsController.fetchedObjects else {
+            return
+        }
+        
+        for (index, folder) in folders.enumerated() {
+            if selectedFolder == folder {
+                let indexPath = IndexPath(row: index, section: 0)
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+                self.tableView(tableView, didSelectRowAt: indexPath)
+                return
+            }
+        
+        }
+    }
+    
     func setTableViewCellHeight() {
         let originalString: String = "ForBodySize"
         let myString = originalString

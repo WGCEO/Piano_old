@@ -66,6 +66,24 @@ class MemoListViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let memo = resultsController?.fetchedObjects?.first else { return }
+        
+        DispatchQueue.global().async {
+            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+            DispatchQueue.main.async {
+                let textView = UITextView()
+                textView.attributedText = attrText
+                if textView.attributedText.size().width == 0 {
+                    PianoData.coreDataStack.viewContext.delete(memo)
+                    PianoData.save()
+                }
+            }
+        }
+    }
+    
     func registerNotificationForAjustTextSize(){
         NotificationCenter.default.addObserver(self, selector: #selector(MemoListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }

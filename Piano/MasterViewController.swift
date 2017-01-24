@@ -13,6 +13,7 @@ class MasterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
         guard let splitViewController = splitViewController else { return }
         let detailNav = splitViewController.viewControllers.last as! UINavigationController
         let detailViewController = detailNav.topViewController as! DetailViewController
@@ -114,7 +115,7 @@ extension MasterViewController: ConfigureFolderViewControllerDelegate {
         completeFolder.imageName = "folder0"
         PianoData.save()
         
-        let memoListViewController = childViewControllers.last as! MemoListViewController
-        memoListViewController.folderNameLabel.text = text
+        let folderListViewController = childViewControllers.first as! FolderListViewController
+        folderListViewController.selectTableView(with: completeFolder)
     }
 }

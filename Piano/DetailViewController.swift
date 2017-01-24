@@ -22,6 +22,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var colorEffectButton: EffectButton!
     @IBOutlet weak var sizeEffectButton: EffectButton!
     @IBOutlet weak var lineEffectButton: EffectButton!
+    weak var memoListViewController: MemoListViewController?
+    var isAfterViewDidAppear: Bool = false
     
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
     lazy var imagePicker: UIImagePickerController = {
@@ -39,6 +41,7 @@ class DetailViewController: UIViewController {
             DispatchQueue.global().async {
                 let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
+                    textView.contentOffset = CGPoint.zero
                     textView.attributedText = attrText
                     PianoData.coreDataStack.textView = textView
                     PianoData.coreDataStack.memo = memo
@@ -47,16 +50,19 @@ class DetailViewController: UIViewController {
                     if textView.attributedText.size().width != 0 {
                         textView.resignFirstResponder()
                     } else {
+                        //첫 메모 시작일 때
                         self.resetTextViewAttribute()
-                        textView.becomeFirstResponder()
+                        
+                        //아이패드, 아이폰 구분해서 처리해야함
+                        if self.isIpad() {
+                            textView.becomeFirstResponder()
+                        }
                     }
                 }
             }
         } else {
             resetTextViewAttribute()
         }
-        
-        
     }
     
     override func viewDidLoad() {
@@ -95,6 +101,7 @@ class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.view.endEditing(false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -102,9 +109,12 @@ class DetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
+
+        textView.resignFirstResponder()
+        self.view.endEditing(true)
+        
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
-        textView.resignFirstResponder()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -126,8 +136,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        print("뷰 나타난당")
+        if !isIpad() && textView.attributedText.size().width == 0 {
+            textView.becomeFirstResponder()
+        }
     }
     
     func resetTextViewAttribute(){
@@ -138,25 +149,33 @@ class DetailViewController: UIViewController {
     
     func keyboardWillShow(notification: Notification){
         accessoryView.isHidden = false
-        textView.isHardwareKeyboardConnected = false
         
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
-        let kbHeight = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue.size.height
+        let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboard = self.view.convert(kbFrame!, from: self.view.window)
+        
+        
+        guard keyboard.origin.y + keyboard.size.height <= self.view.frame.size.height else { return }
         
         UIView.animate(withDuration: duration) { [weak self] in
             //TODO: change literal constant
-            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, kbHeight, 0)
+            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, keyboard.height, 0)
             self?.view.layoutIfNeeded()
         }
     }
     
     func keyboardWillHide(notification: Notification){
+        
         accessoryView.isHidden = true
-        textView.isHardwareKeyboardConnected = true
         
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
+        let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboard = self.view.convert(kbFrame!, from: self.view.window)
+        
+        
+        guard keyboard.origin.y + keyboard.size.height <= self.view.frame.size.height else { return }
         
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -253,10 +272,35 @@ class DetailViewController: UIViewController {
         textView.attachCanvas()
     }
     
+    func isIpad() -> Bool {
+        guard let nav = splitViewController?.viewControllers.first as? UINavigationController,
+            let _ = nav.topViewController as? MasterViewController else { return false }
+        return true
+    }
+    
     func addNewMemo() {
-        let nav = splitViewController?.viewControllers.first as! UINavigationController
-        let masterViewController = nav.topViewController as! MasterViewController
-        masterViewController.addNewMemo()
+        //아이패드, 아이폰 구분 하여 로직 처리
+        
+        if let nav = splitViewController?.viewControllers.first as? UINavigationController,
+            let masterViewController = nav.topViewController as? MasterViewController {
+            masterViewController.addNewMemo()
+        } else {
+            
+            //폴더를 먼저 추가해야 메모를 생성할 수 있음
+            //TODO: 여기에 폴더를 먼저 추가하라는 팝업 창 띄워줘야함
+            guard let memoListViewController = memoListViewController,
+                let folder = memoListViewController.folder else { return }
+            
+            let memo = Memo(context: PianoData.coreDataStack.viewContext)
+            memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
+            memo.date = Date()
+            memo.folder = folder
+            memo.firstLine = "새로운 메모"
+            
+            PianoData.save()
+            
+            self.memoListViewController(memoListViewController, send: memo)
+        }
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
@@ -320,7 +364,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: MemoListViewControllerDelegate {
     func memoListViewController(_ controller: MemoListViewController, send memo: Memo) {
-        
+        memoListViewController = controller
         
         //기존에 메모 프로퍼티가 있다면 메모 내용을 코어데이터에 저장시키기
         if let oldMemo = self.memo,
@@ -360,6 +404,12 @@ extension DetailViewController: UITextViewDelegate {
         }
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard let memo = memo else { return }
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+        PianoData.save()
+    }
+    
     
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
@@ -378,6 +428,10 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.date = Date()
+        
+        if textView.attributedText.size().width == 0 {
+            resetTextViewAttribute()
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -423,3 +477,4 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
     }
 
 }
+
