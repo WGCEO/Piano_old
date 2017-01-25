@@ -76,10 +76,8 @@ class BaseViewController: UIViewController {
             do {
                 let newFolder = Folder(context: context)
                 newFolder.name = text
-                newFolder.date = Date()
+                newFolder.date = NSDate()
                 newFolder.memos = []
-                //TODO: 아래 수정
-                newFolder.imageName = "folder0"
                 
                 try context.save()
                 
@@ -95,7 +93,7 @@ class BaseViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "이름"
+            textField.placeholder = "메모 그룹 이름을 입력하세요"
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)

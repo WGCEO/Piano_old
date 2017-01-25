@@ -140,7 +140,6 @@ extension GroupListViewController: UITableViewDataSource {
     
     func configure(cell: GroupCell, at indexPath: IndexPath) {
         guard let folder = resultsController?.object(at: indexPath) else { return }
-        cell.ibImageView.image = UIImage(named: folder.imageName)
 //        cell.showsReorderControl = true
     }
     

@@ -63,6 +63,9 @@ class MasterViewController: UIViewController {
     }()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var pageBarButton: UIBarButtonItem!
+    @IBOutlet weak var leftPageBarButton: UIBarButtonItem!
+    @IBOutlet weak var rightPageBarButton: UIBarButtonItem!
     
     func registerNotificationForAjustTextSize(){
         NotificationCenter.default.addObserver(self, selector: #selector(MasterViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
@@ -77,12 +80,7 @@ class MasterViewController: UIViewController {
         
         setTableViewCellHeight()
         
-        //폴더 fetch
-        do {
-            try folderResultsController.performFetch()
-        } catch {
-            print("Error performing fetch \(error.localizedDescription)")
-        }
+        fetchFolderResultsController()
         
         //첫번째 폴더의 메모들 fetch
         if let folder = folderResultsController.fetchedObjects?.first {
@@ -100,6 +98,15 @@ class MasterViewController: UIViewController {
         delegate = detailNav.topViewController as! DetailViewController
     }
     
+    func fetchFolderResultsController() {
+        //폴더 fetch
+        do {
+            try folderResultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -110,7 +117,7 @@ class MasterViewController: UIViewController {
         guard let memo = memoResultsController?.fetchedObjects?.first else { return }
         
         DispatchQueue.global().async {
-            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
             DispatchQueue.main.async {
                 let textView = UITextView()
                 textView.attributedText = attrText
@@ -138,6 +145,109 @@ class MasterViewController: UIViewController {
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: indexPath)
     }
+    
+    @IBAction func tapLeftPageBarButton(_ sender: UIBarButtonItem) {
+        guard let folders = folderResultsController.fetchedObjects else { return }
+        
+        //일단 왼쪽 폴더 넣고 페이지 타이틀 갱신 + 더이상 왼쪽으로 갈 수 있는 지 체크해서 enabled 세팅하기
+        for (index, folder) in folders.enumerated() {
+            if self.folder == folder, index > 0 {
+                let leftIndex = index - 1
+                let leftFolder = folders[leftIndex]
+                self.folder = leftFolder
+                self.pageBarButton.title = "\(leftIndex + 1) page"
+                sender.isEnabled = leftIndex > 0 ? true : false
+                return
+            }
+        }
+    }
+    
+    @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
+        guard let folders = folderResultsController.fetchedObjects else { return }
+        
+        for (index, folder) in folders.enumerated() {
+            if self.folder == folder {
+                let rightIndex = index + 1
+                
+                guard rightIndex < folders.count else {
+                    //폴더 생성 알럿 뷰
+                    showAddGroupAlertViewController()
+                    return
+                }
+                
+                let rightFolder = folders[rightIndex]
+                self.folder = rightFolder
+                self.pageBarButton.title = "\(rightIndex + 1) page"
+                leftPageBarButton.isEnabled = true
+                return
+            }
+        }
+    }
+    
+    func selectSpecificFolder(selectedFolder: Folder) {
+        guard let folders = folderResultsController.fetchedObjects else { return }
+        
+        self.folder = selectedFolder
+        
+        for (index, folder) in folders.enumerated() {
+            if self.folder == folder {
+                
+                self.pageBarButton.title = "\(index + 1) page"
+                leftPageBarButton.isEnabled = index > 0 ? true : false
+                return
+                
+            }
+        }
+        
+        
+        
+    }
+    
+    func textChanged(sender: AnyObject) {
+        let tf = sender as! UITextField
+        var resp : UIResponder! = tf
+        while !(resp is UIAlertController) { resp = resp.next }
+        let alert = resp as! UIAlertController
+        alert.actions[1].isEnabled = (tf.text != "")
+    }
+    
+    func showAddGroupAlertViewController() {
+        let alert = UIAlertController(title: "그룹 만들기", message: "그룹의 이름을 정해주세요.", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
+            guard let text = alert.textFields?.first?.text else { return }
+            let context = PianoData.coreDataStack.viewContext
+            do {
+                let newFolder = Folder(context: context)
+                newFolder.name = text
+                newFolder.date = NSDate()
+                newFolder.memos = []
+                
+                try context.save()
+                
+                //TODO: 한칸 오른쪽으로 이동하기
+                self.fetchFolderResultsController()
+                self.selectSpecificFolder(selectedFolder: newFolder)
+            } catch {
+                print("Error importing folders: \(error.localizedDescription)")
+            }
+        }
+        
+        ok.isEnabled = false
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "그룹 이름"
+            textField.returnKeyType = .done
+            textField.enablesReturnKeyAutomatically = true
+            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
+        }
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        //스토리보드에서 초기화할 때 컨테이너 뷰를 만들기 위해 segue를 거치므로 이 코드가 실행되기 때문에 이때에는 조기 탈출!
@@ -194,8 +304,8 @@ class MasterViewController: UIViewController {
             return }
         
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-        memo.date = Date()
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
+        memo.date = NSDate()
         memo.folder = folder
         memo.firstLine = "새로운 메모"
         
@@ -204,8 +314,6 @@ class MasterViewController: UIViewController {
         //select하면 디테일뷰에 데이터 전달
         selectTableViewCell(with: IndexPath(row: 0, section: 0))
     }
-
-
 }
 
 //extension MasterViewController: ConfigureFolderViewControllerDelegate {
@@ -285,7 +393,7 @@ extension MasterViewController: UITableViewDataSource {
         let memo = memoResultsController.object(at: indexPath)
         //TODO: Localizing
         cell.ibTitleLabel.text = memo.firstLine
-        cell.ibSubTitleLabel.text = formatter.string(from: memo.date)
+        cell.ibSubTitleLabel.text = formatter.string(from: memo.date as! Date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

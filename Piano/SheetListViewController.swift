@@ -72,7 +72,7 @@ class SheetListViewController: UIViewController {
             guard let memos = self.resultsController?.fetchedObjects else { return }
             let textView = UITextView()
             for memo in memos {
-                guard let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString else { continue }
+                guard let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString else { continue }
                 textView.attributedText = attrText
                 
                 if textView.attributedText.length == 0 {
@@ -112,7 +112,7 @@ extension SheetListViewController: UITableViewDataSource {
         let memo = controller.object(at: indexPath)
         //TODO: Localizing
         cell.textLabel?.text = memo.firstLine
-        cell.detailTextLabel?.text = formatter.string(from: memo.date)
+        cell.detailTextLabel?.text = formatter.string(from: memo.date as! Date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

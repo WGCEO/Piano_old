@@ -86,7 +86,7 @@ class MemoViewController: UIViewController {
             
             if let oldMemo = oldValue {
                 let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-                oldMemo.content = data
+                oldMemo.content = data as NSData
                 oldMemo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
                 DispatchQueue.global().async { [unowned self] in
                     self.coreDataStack.saveContext()
@@ -127,7 +127,7 @@ class MemoViewController: UIViewController {
     func updateUI() {
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
-                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
                     self.textView.attributedText = attrText
                     self.coreDataStack.textView = self.textView
@@ -198,8 +198,8 @@ class MemoViewController: UIViewController {
     
     func setNewMemo() {
         let memo = Memo(context: self.coreDataStack.viewContext)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-        memo.date = Date()
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
+        memo.date = NSDate()
         memo.folder = folder
         memo.firstLine = ""
         self.memo = memo
@@ -232,7 +232,7 @@ class MemoViewController: UIViewController {
         } else {
             coreDataStack.performBackgroundTask { (context) in
                 let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
-                memo.content = data
+                memo.content = data as NSData
                 memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
                 
                 do {
@@ -409,7 +409,7 @@ extension MemoViewController: UITextViewDelegate {
     //이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo else { return }
-        memo.date = Date()
+        memo.date = NSDate()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

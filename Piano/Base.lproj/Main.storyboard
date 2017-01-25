@@ -1340,9 +1340,17 @@
                     <toolbarItems>
                         <barButtonItem image="piano" id="Q7Y-Sz-JOI"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="V90-PE-4XH"/>
-                        <barButtonItem enabled="NO" title="&lt;" id="5f6-Xd-nOx"/>
+                        <barButtonItem enabled="NO" title="&lt;" id="5f6-Xd-nOx">
+                            <connections>
+                                <action selector="tapLeftPageBarButton:" destination="1PD-UR-tuG" id="QmL-9V-5bq"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem title="1 page" id="KtL-bh-2Fz"/>
-                        <barButtonItem title="&gt;" id="2Na-Fw-RpN"/>
+                        <barButtonItem title="&gt;" id="2Na-Fw-RpN">
+                            <connections>
+                                <action selector="tapRightPageBarButton:" destination="1PD-UR-tuG" id="jz1-g1-nQU"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="fPo-DV-PgO"/>
                         <barButtonItem systemItem="compose" id="6cv-UT-ROS">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1353,6 +1361,9 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="yc3-Vq-7cd"/>
                     <connections>
+                        <outlet property="leftPageBarButton" destination="5f6-Xd-nOx" id="xmT-Er-BOD"/>
+                        <outlet property="pageBarButton" destination="KtL-bh-2Fz" id="BDQ-Os-S0d"/>
+                        <outlet property="rightPageBarButton" destination="2Na-Fw-RpN" id="mXu-Tv-rq1"/>
                         <outlet property="tableView" destination="FrX-I6-VnQ" id="V8S-po-XT8"/>
                     </connections>
                 </viewController>

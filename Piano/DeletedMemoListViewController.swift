@@ -113,9 +113,7 @@ extension DeletedMemoListViewController: UITableViewDataSource {
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
         cell.textLabel?.text = memo.firstLine
-        cell.detailTextLabel?.text = formatter.string(from: memo.date)
-        //TODO: 
-        cell.imageView?.image = UIImage(named: memo.folder.imageName)
+        cell.detailTextLabel?.text = formatter.string(from: memo.date as! Date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
