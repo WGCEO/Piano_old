@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol MasterViewControllerDelegate: class {
-    func masterViewController(_ controller: MasterViewController, send memo: Memo)
+    func masterViewController(_ controller: MasterViewController?, send memo: Memo)
 }
 
 class MasterViewController: UIViewController {
@@ -51,6 +51,14 @@ class MasterViewController: UIViewController {
             memoResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
             
             self.title = folder?.name ?? " "
+            
+            guard let nav = splitViewController?.viewControllers.last as? UINavigationController,
+                let detailViewController = nav.topViewController as? DetailViewController else {
+                return
+            }
+            
+            detailViewController.memo = nil
+            
         }
     }
     
@@ -95,7 +103,9 @@ class MasterViewController: UIViewController {
 
         guard let splitViewController = splitViewController else { return }
         let detailNav = splitViewController.viewControllers.last as! UINavigationController
-        delegate = detailNav.topViewController as! DetailViewController
+        let detailViewController = detailNav.topViewController as! DetailViewController
+        delegate = detailViewController
+        detailViewController.delegate = self
     }
     
     func fetchFolderResultsController() {
@@ -198,9 +208,6 @@ class MasterViewController: UIViewController {
                 
             }
         }
-        
-        
-        
     }
     
     func textChanged(sender: AnyObject) {
@@ -424,5 +431,17 @@ extension MasterViewController: UITableViewDelegate {
             }
         }
         
+    }
+}
+
+extension MasterViewController: DetailViewControllerDelegate {
+    func detailViewController(_ controller: DetailViewController, addMemo: Memo) {
+        guard let memos = memoResultsController.fetchedObjects else { return }
+        
+        for (index, memo) in memos.enumerated() {
+            if memo == addMemo {
+                tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .none)
+            }
+        }
     }
 }

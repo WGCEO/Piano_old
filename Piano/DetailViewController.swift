@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol DetailViewControllerDelegate: class {
+    func detailViewController(_ controller: DetailViewController, addMemo: Memo)
+}
+
 class DetailViewController: UIViewController {
     
     var memo: Memo? {
@@ -15,6 +19,7 @@ class DetailViewController: UIViewController {
             updateTextView(memo: memo)
         }
     }
+    weak var delegate: DetailViewControllerDelegate?
     @IBOutlet weak var topView: UIStackView!
     @IBOutlet var accessoryView: UIStackView!
     @IBOutlet weak var label: PianoLabel!
@@ -291,8 +296,7 @@ class DetailViewController: UIViewController {
             
             //폴더를 먼저 추가해야 메모를 생성할 수 있음
             //TODO: 여기에 폴더를 먼저 추가하라는 팝업 창 띄워줘야함
-            guard let masterViewController = masterViewController,
-                let folder = masterViewController.folder else { return }
+            guard let folder = self.memo?.folder else { return }
             
             let memo = Memo(context: PianoData.coreDataStack.viewContext)
             memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
@@ -302,8 +306,8 @@ class DetailViewController: UIViewController {
             
             PianoData.save()
             
-            self.masterViewController(masterViewController, send: memo)
-            self.masterViewController?.tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+            self.masterViewController(nil, send: memo)
+            delegate?.detailViewController(self, addMemo: memo)
         }
     }
     
@@ -367,7 +371,7 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: MasterViewControllerDelegate {
-    func masterViewController(_ controller: MasterViewController, send memo: Memo) {
+    func masterViewController(_ controller: MasterViewController?, send memo: Memo) {
         masterViewController = controller
         
         guard self.memo != memo else { return }
