@@ -13,7 +13,6 @@ class PianoTextView: UITextView {
 //    var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
 //    var bottomDistance: CGFloat?
 //    var isAnimating: Bool = false
-    var isHardwareKeyboardConnected : Bool = true
     var memo: Memo!
     
     var mode: TextViewMode = .typing
@@ -28,6 +27,7 @@ class PianoTextView: UITextView {
         super.init(coder: aDecoder)
         self.textContainerInset = UIEdgeInsetsMake(20, 25, 60, 25)
         canvas.textView = self
+        self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1, NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body), NSForegroundColorAttributeName : UIColor.lightGray]
     }
     
     //애니메이션중이면 액션을 실행하면 안됨, 실행하게 된다면 둘다 애니메이션이라 blocking이 됨 

@@ -188,7 +188,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCe-Vb-4bA">
-                                                    <rect key="frame" x="76" y="12" width="15" height="26"/>
+                                                    <rect key="frame" x="76" y="12.5" width="15" height="26"/>
                                                     <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="26"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -342,14 +342,16 @@
                                     <constraint firstAttribute="height" constant="100" id="wSb-fx-zm5"/>
                                 </constraints>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PGI-CO-T9n" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PGI-CO-T9n" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="nsS-aP-t1B" id="bUX-iK-Ggx"/>
+                                    <outletCollection property="gestureRecognizers" destination="WMl-dn-vp4" appends="YES" id="pEo-fk-udC"/>
                                 </connections>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLu-3r-qhB" customClass="PianoLabel" customModule="Piano" customModuleProvider="target">
@@ -473,6 +475,11 @@
                     </subviews>
                 </stackView>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Rz-Wy-Pe0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="WMl-dn-vp4">
+                    <connections>
+                        <action selector="tapTextViewGesture:" destination="nsS-aP-t1B" id="ZSf-nd-ZBC"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-2423.1999999999998" y="1332.6836581709147"/>
         </scene>

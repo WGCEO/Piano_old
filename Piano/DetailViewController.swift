@@ -44,6 +44,7 @@ class DetailViewController: UIViewController {
         guard let textView = self.textView else { return }
         
         if let memo = memo {
+            
             DispatchQueue.global().async {
                 let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
@@ -55,14 +56,14 @@ class DetailViewController: UIViewController {
                     
                     //새 메모이면 키보드 올리고 새 메모가 아니면 키보드 내리기
                     if textView.attributedText.length != 0 {
-                        textView.resignFirstResponder()
+                        self.showKeyboard(bool: false)
                     } else {
                         //첫 메모 시작일 때
                         self.resetTextViewAttribute()
                         
                         //아이패드, 아이폰 구분해서 처리해야함
                         if self.isIpad() {
-                            textView.becomeFirstResponder()
+                            self.showKeyboard(bool: true)
                         }
                     }
                 }
@@ -70,6 +71,15 @@ class DetailViewController: UIViewController {
         } else {
             resetTextViewAttribute()
         }
+    }
+    
+    func showKeyboard(bool: Bool){
+        textView.isEditable = bool
+        
+        if bool {
+            textView.becomeFirstResponder()
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -109,7 +119,6 @@ class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.view.endEditing(false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -118,8 +127,7 @@ class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
 
-        textView.resignFirstResponder()
-        self.view.endEditing(true)
+        showKeyboard(bool: false)
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -146,9 +154,13 @@ class DetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !isIpad() && textView.attributedText.length == 0 {
-            textView.becomeFirstResponder()
+            showKeyboard(bool: true)
         }
     }
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//    }
     
     func resetTextViewAttribute(){
         textView.attributedText = NSAttributedString()
@@ -215,8 +227,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
         showTopView(bool: false)
-        textView.isSelectable = true
-        textView.isEditable = true
+        textView.isEditable = false
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
         
@@ -237,6 +248,9 @@ class DetailViewController: UIViewController {
         lineEffectButton.isSelected = false
     }
     
+    @IBAction func tapTextViewGesture(_ sender: UITapGestureRecognizer) {
+        showKeyboard(bool: true)
+    }
     @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
         if sizeEffectButton.isSelected {
             //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
@@ -273,9 +287,8 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapEffectButton(_ sender: Any) {
         showTopView(bool: true)
+        textView.isEditable = true
         textView.resignFirstResponder()
-        textView.isEditable = false
-        textView.isSelectable = false
         textView.mode = .effect
         textView.attachCanvas()
     }
@@ -313,7 +326,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapComposeButton(_ sender: Any) {
         addNewMemo()
-        textView.becomeFirstResponder()
+        showKeyboard(bool: true)
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
@@ -365,7 +378,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
-        textView.resignFirstResponder()
+        showKeyboard(bool: false)
     }
     
 }
@@ -384,7 +397,7 @@ extension DetailViewController: MasterViewControllerDelegate {
         
         
         if let textView = textView {
-            textView.resignFirstResponder()
+            showKeyboard(bool: false)
             textView.isHidden = true
         }
         
@@ -412,6 +425,8 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
+        
+        textView.isEditable = false
     }
     
     
