@@ -22,7 +22,7 @@ class DeletedMemoViewController: UIViewController {
         
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
-                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
                     self.textView.attributedText = attrText
                 }
@@ -48,7 +48,7 @@ class DeletedMemoViewController: UIViewController {
         guard let memo = self.memo else { return }
         coreDataStack.performBackgroundTask { (context) in
             memo.isInTrash = false
-            memo.date = Date()
+            memo.date = NSDate()
             do {
                 try context.save()
             } catch {

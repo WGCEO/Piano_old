@@ -23,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         detailViewController.navigationItem.leftItemsSupplementBackButton = true
         splitViewController.preferredDisplayMode = .allVisible
+        
+
+        splitViewController.minimumPrimaryColumnWidth = 375
+        splitViewController.maximumPrimaryColumnWidth = 375
         splitViewController.delegate = self
         return true
     }

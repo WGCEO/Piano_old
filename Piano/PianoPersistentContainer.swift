@@ -22,7 +22,7 @@ class PianoPersistentContainer: NSPersistentContainer {
                 viewContext.delete(memo)
             } else {
                 let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-                memo.content = data
+                memo.content = data as NSData
                 memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
             }
         }
