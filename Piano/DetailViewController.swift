@@ -40,7 +40,7 @@ class DetailViewController: UIViewController {
         
         if let memo = memo {
             DispatchQueue.global().async {
-                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
                     textView.contentOffset = CGPoint.zero
                     textView.attributedText = attrText
@@ -216,7 +216,7 @@ class DetailViewController: UIViewController {
         textView.mode = .typing
         
         guard let memo = memo else { return }
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -295,8 +295,8 @@ class DetailViewController: UIViewController {
                 let folder = masterViewController.folder else { return }
             
             let memo = Memo(context: PianoData.coreDataStack.viewContext)
-            memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-            memo.date = Date()
+            memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
+            memo.date = NSDate()
             memo.folder = folder
             memo.firstLine = "새로운 메모"
             
@@ -407,7 +407,7 @@ extension DetailViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let memo = memo else { return }
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
     }
     
     
@@ -437,7 +437,7 @@ extension DetailViewController: UITextViewDelegate {
     //TODO: 이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo else { return }
-        memo.date = Date()
+        memo.date = NSDate()
         
     }
     
@@ -483,7 +483,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
                 addNewMemo()
             }
             
-            memo!.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+            memo!.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
         }
         dismiss(animated: true, completion: nil)
     }
