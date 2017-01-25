@@ -56,9 +56,9 @@ class PianoControl: UIControl {
         delegate?.attributesForText(attributes)
         
         
-        //TODO: TopView = 80 이걸 리터럴이 아닌 값으로 표현해야함
+        //TODO: TopView = 100 이걸 리터럴이 아닌 값으로 표현해야함
         let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
-        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 80
+        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 100
         let newRect = rect.offsetBy(dx: shiftX, dy: shiftY)
 
         delegate?.rectForText(newRect)

@@ -11,14 +11,13 @@ import CoreData
 
 class MemoViewController: UIViewController {
     
-    @IBOutlet var finishToolButton: UIBarButtonItem!
+    //TODO: UIUpdate하는 코드를 하나의 함수로 만들어서 거기서 공통으로 관리하게 하기
     
-    @IBOutlet weak var accessoryViewBottom: NSLayoutConstraint!
-
+    @IBOutlet var accessoryView: UIStackView!
+    @IBOutlet var finishToolButton: UIBarButtonItem!
     @IBOutlet var toolsCollection: [UIBarButtonItem]!
-
     @IBOutlet var completeToolsCollection: [UIBarButtonItem]!
-
+    
     @IBAction func tapCompleteButton(_ sender: Any) {
         showTopView(bool: false)
         textView.isSelectable = true
@@ -35,11 +34,10 @@ class MemoViewController: UIViewController {
         controller.sourceType = .savedPhotosAlbum
         return controller
     }()
+
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textView: PianoTextView!
-
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
-    
     @IBOutlet weak var colorEffectButton: EffectButton!
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
         
@@ -81,7 +79,29 @@ class MemoViewController: UIViewController {
         lineEffectButton.isSelected = true
     }
     
-    var memo: Memo?
+    var memo: Memo? {
+        //TODO: 현재 텍스트 뷰에 있는 스트링을 다 코어데이터에 저장한 후 그다음 받아들이기
+        didSet {
+            guard let textView = self.textView, memo != oldValue else { return }
+            
+            if let oldMemo = oldValue {
+                let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+                oldMemo.content = data as NSData
+                oldMemo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+                DispatchQueue.global().async { [unowned self] in
+                    self.coreDataStack.saveContext()
+                }
+            }
+            
+            if let memo = self.memo {
+                self.folder = memo.folder
+                updateUI()
+            } else {
+                
+            }
+            
+        }
+    }
     var folder: Folder!
     
     let coreDataStack = PianoData.coreDataStack
@@ -89,9 +109,8 @@ class MemoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+        textView.inputAccessoryView = accessoryView
+
         setEffectButton()
         setFontAwesomeIcon()
         
@@ -101,9 +120,14 @@ class MemoViewController: UIViewController {
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
     
+
+        updateUI()
+    }
+    
+    func updateUI() {
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
-                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
                     self.textView.attributedText = attrText
                     self.coreDataStack.textView = self.textView
@@ -132,7 +156,6 @@ class MemoViewController: UIViewController {
         lineEffectButton.setTitle("\u{f0cc}", for: .normal)
     }
     
-
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
@@ -154,49 +177,71 @@ class MemoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        makeTextViewStartFromTop(didAppear: false)
+//        makeTextViewStartFromTop(didAppear: false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MemoViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        makeTextViewStartFromTop(didAppear: true)
+//        makeTextViewStartFromTop(didAppear: true)
         
-        //Create New Memo
-        guard self.memo != nil else {
-            
-            showKeyboardIfNewMemo()
-            return
+        if memo == nil {
+            setNewMemo()
+            updateUI()
+            resetTextViewAttribute()
+            textView.becomeFirstResponder()
         }
     }
     
-    func showKeyboardIfNewMemo() {
-        
+    func setNewMemo() {
         let memo = Memo(context: self.coreDataStack.viewContext)
-        let attrString = NSAttributedString()
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
-        memo.date = Date()
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
+        memo.date = NSDate()
         memo.folder = folder
         memo.firstLine = ""
         self.memo = memo
-        textView.attributedText = attrString
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        
-        coreDataStack.saveContext()
-        
-        textView.becomeFirstResponder()
     }
     
-    func makeTextViewStartFromTop(didAppear: Bool) {
-        textView.isScrollEnabled = didAppear
+    func resetTextViewAttribute(){
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.textColor = UIColor.black
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+        DispatchQueue.main.async { [unowned self] in
+            self.saveCoreData()
+        }
+        textView.resignFirstResponder()
+    }
+    
+    func saveCoreData() {
+        guard let memo = memo else { return }
+        if textView.attributedText.length == 0 {
+            coreDataStack.viewContext.delete(memo)
+            do {
+                try coreDataStack.viewContext.save()
+            } catch {
+                print("error: \(error)")
+            }
+        } else {
+            coreDataStack.performBackgroundTask { (context) in
+                let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+                memo.content = data as NSData
+                memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+                
+                do {
+                    try context.save()
+                } catch {
+                    print("뒤로 가기 에러: \(error)")
+                }
+            }
+        }
     }
 
     @IBAction func tapHideKeyboardButton(_ sender: Any) {
@@ -215,6 +260,7 @@ class MemoViewController: UIViewController {
     @IBAction func tapTrashButton(_ sender: Any) {
         guard let memo = self.memo else { return }
         
+        
         coreDataStack.performBackgroundTask { (context) in
             memo.isInTrash = true
             do {
@@ -222,8 +268,14 @@ class MemoViewController: UIViewController {
             } catch {
                 print("쓰레기 버튼 눌렀는데 에러: \(error)")
             }
+            
+            //새로운 메모를 만들어주자.
+            DispatchQueue.main.async { [unowned self] in
+                self.setNewMemo()
+                self.updateUI()
+                self.resetTextViewAttribute()
+            }
         }
-        let _ = navigationController?.popViewController(animated: true)
     }
 
     @IBAction func tapEraseTextButton(_ sender: Any) {
@@ -283,7 +335,6 @@ class MemoViewController: UIViewController {
         UIView.animate(withDuration: duration) { [weak self] in
             //TODO: change literal constant
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, kbHeight, 0)
-            self?.accessoryViewBottom.constant = kbHeight
             self?.view.layoutIfNeeded()
         }
     }
@@ -300,7 +351,6 @@ class MemoViewController: UIViewController {
         
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-            self?.accessoryViewBottom.constant = 0
             self?.view.layoutIfNeeded()
         }
     }
@@ -317,19 +367,19 @@ class MemoViewController: UIViewController {
     
     //TODO: 새로글쓰기 활성화 유무 -> 텍스트 글자 길이
     //TODO: 새로 메모 쓰면 기존에 새로 쓰려고 했던
-    @IBAction func tapCreateNewMemo(_ sender: Any) {
-        DispatchQueue.global().async { [unowned self] in
-            guard let memo = self.memo else { return }
-            let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
-            memo.content = data
-            memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
-            self.coreDataStack.saveContext()
-            
-            DispatchQueue.main.async { [unowned self] in
-                self.showKeyboardIfNewMemo()
-            }
-        }
-    }
+//    @IBAction func tapCreateNewMemo(_ sender: Any) {
+//        DispatchQueue.global().async { [unowned self] in
+//            guard let memo = self.memo else { return }
+//            let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+//            memo.content = data
+//            memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+//            self.coreDataStack.saveContext()
+//            
+//            DispatchQueue.main.async { [unowned self] in
+//                self.showKeyboardIfNewMemo()
+//            }
+//        }
+//    }
     
     @IBAction func tapAlbumButton(_ sender: Any) {
         present(imagePicker, animated: true, completion: nil)
@@ -359,7 +409,7 @@ extension MemoViewController: UITextViewDelegate {
     //이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo else { return }
-        memo.date = Date()
+        memo.date = NSDate()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -407,30 +457,42 @@ extension MemoViewController: UIImagePickerControllerDelegate {
 
 extension MemoViewController: UINavigationControllerDelegate {
     
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard let memo = self.memo, viewController is BaseViewController else { return }
-        
-        if textView.attributedText.size().width == 0 {
-            coreDataStack.viewContext.delete(memo)
-            do {
-                try coreDataStack.viewContext.save()
-            } catch {
-                print("error: \(error)")
-            }
-        } else {
-            coreDataStack.performBackgroundTask { (context) in
-                let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
-                memo.content = data
-                memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
-                
-                do {
-                    try context.save()
-                } catch {
-                    print("쓰레기 버튼 눌렀는데 에러: \(error)")
-                }
-            }
-        }
+//    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+//        guard let memo = self.memo, viewController is BaseViewController else { return }
+//        
+//        if textView.attributedText.size().width == 0 {
+//            coreDataStack.viewContext.delete(memo)
+//            do {
+//                try coreDataStack.viewContext.save()
+//            } catch {
+//                print("error: \(error)")
+//            }
+//        } else {
+//            coreDataStack.performBackgroundTask { (context) in
+//                let data = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText)
+//                memo.content = data
+//                memo.firstLine = self.textView.text.trimmingCharacters(in: CharacterSet.newlines)
+//                
+//                do {
+//                    try context.save()
+//                } catch {
+//                    print("뒤로 가기 에러: \(error)")
+//                }
+//            }
+//        }
+//    }
+}
+
+extension MemoViewController: MemoSelectionDelegate {
+    func memoSelected(_ newMemo: Memo?) {
+        memo = newMemo
     }
+    
+    func newMemo(with folder: Folder?) {
+        self.folder = folder!
+        self.memo = nil
+    }
+    
 }
 
 //extension MemoViewController {

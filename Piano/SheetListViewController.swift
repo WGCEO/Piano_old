@@ -9,8 +9,14 @@
 import UIKit
 import CoreData
 
+protocol MemoSelectionDelegate: class {
+    func memoSelected(_ newMemo: Memo?)
+    func newMemo(with folder: Folder?)
+}
+
 class SheetListViewController: UIViewController {
     
+    weak var delegate: MemoSelectionDelegate?
     let coreDataStack = PianoData.coreDataStack
     var resultsController: NSFetchedResultsController<Memo>? {
         didSet {
@@ -24,6 +30,7 @@ class SheetListViewController: UIViewController {
             }
         }
     }
+    
     @IBOutlet weak var tableView: UITableView!
     var folder: Folder? {
         didSet {
@@ -35,8 +42,6 @@ class SheetListViewController: UIViewController {
             let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
             request.sortDescriptors = [dateSort]
             resultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
-            
-            
         }
     }
     
@@ -50,13 +55,36 @@ class SheetListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(SheetListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        //비동기로 지우기
+        
+        DispatchQueue.main.async { [unowned self] in
+            guard let memos = self.resultsController?.fetchedObjects else { return }
+            let textView = UITextView()
+            for memo in memos {
+                guard let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString else { continue }
+                textView.attributedText = attrText
+                
+                if textView.attributedText.length == 0 {
+                    self.coreDataStack.viewContext.delete(memo)
+                    do {
+                        try self.coreDataStack.viewContext.save()
+                    } catch {
+                        print("error: \(error)")
+                    }
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,7 +96,6 @@ class SheetListViewController: UIViewController {
     func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
-
 }
 
 extension SheetListViewController: UITableViewDataSource {
@@ -83,8 +110,9 @@ extension SheetListViewController: UITableViewDataSource {
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         guard let controller = resultsController else { return }
         let memo = controller.object(at: indexPath)
+        //TODO: Localizing
         cell.textLabel?.text = memo.firstLine
-        cell.detailTextLabel?.text = formatter.string(from: memo.date)
+        cell.detailTextLabel?.text = formatter.string(from: memo.date as! Date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -100,19 +128,22 @@ extension SheetListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return folder?.name
     }
-    
-
-
 }
 
 extension SheetListViewController: UITableViewDelegate {
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let controller = resultsController,
             let baseVC = parent as? BaseViewController else { return }
         let memo = controller.object(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
-        baseVC.performSegue(withIdentifier: "GoToMemo", sender: memo)
+        
+        delegate?.memoSelected(memo)
+        
+        if let memoViewController = delegate as? MemoViewController {
+            baseVC.splitViewController?.showDetailViewController(memoViewController.navigationController!, sender: nil)
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

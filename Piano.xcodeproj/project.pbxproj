@@ -24,13 +24,22 @@
 		0A5D10ED1E277098001CAC1E /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D10EC1E277098001CAC1E /* GroupCell.swift */; };
 		0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A638E661E16A7A00006FFEA /* Date_Extension.swift */; };
 		0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8150E21E1CB1D100F2EDFE /* PianoData.swift */; };
+		0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A51E31F75500ABEB98 /* MasterViewController.swift */; };
+		0A8815A91E31FB1D00ABEB98 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */; };
+		0A8815AB1E32003500ABEB98 /* FolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815AA1E32003500ABEB98 /* FolderListViewController.swift */; };
+		0A8815AD1E32006000ABEB98 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815AC1E32006000ABEB98 /* MemoListViewController.swift */; };
+		0A8815AF1E32008800ABEB98 /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815AE1E32008800ABEB98 /* FolderCell.swift */; };
+		0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815B21E35A92200ABEB98 /* MemoCell.swift */; };
 		0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */; };
+		0AD241C61E2C5D5600CE7727 /* UPCarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD241C51E2C5D5600CE7727 /* UPCarouselFlowLayout.swift */; };
+		0AD241C81E2C641500CE7727 /* ConfigureFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD241C71E2C641500CE7727 /* ConfigureFolderViewController.swift */; };
+		0AD241CA1E2C851C00CE7727 /* ConfigureFolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD241C91E2C851C00CE7727 /* ConfigureFolderCell.swift */; };
 		0AEDCEE01DF8FA56000D57C2 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */; };
 		0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */; };
 		0AEE6D851E123FD8009C98F4 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */; };
-		3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */; };
+		3108708E1DE13ABF0044BA5D /* FolderListViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3108708D1DE13ABF0044BA5D /* FolderListViewController_old.swift */; };
 		310870901DE13AF20044BA5D /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3108708F1DE13AF20044BA5D /* MoreViewController.swift */; };
-		310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870911DE13B180044BA5D /* MemoListViewController.swift */; };
+		310870921DE13B180044BA5D /* MemoListViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870911DE13B180044BA5D /* MemoListViewController_old.swift */; };
 		310870941DE13B270044BA5D /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870931DE13B270044BA5D /* MemoViewController.swift */; };
 		310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A11DE14D6A0044BA5D /* PianoTextView.swift */; };
 		310870A61DE1720A0044BA5D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A51DE1720A0044BA5D /* Constant.swift */; };
@@ -87,13 +96,22 @@
 		0A5D10EC1E277098001CAC1E /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		0A638E661E16A7A00006FFEA /* Date_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
 		0A8150E21E1CB1D100F2EDFE /* PianoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoData.swift; sourceTree = "<group>"; };
+		0A8815A51E31F75500ABEB98 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		0A8815AA1E32003500ABEB98 /* FolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderListViewController.swift; sourceTree = "<group>"; };
+		0A8815AC1E32006000ABEB98 /* MemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
+		0A8815AE1E32008800ABEB98 /* FolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderCell.swift; path = ../FolderCell.swift; sourceTree = "<group>"; };
+		0A8815B21E35A92200ABEB98 /* MemoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
+		0AD241C51E2C5D5600CE7727 /* UPCarouselFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UPCarouselFlowLayout.swift; sourceTree = "<group>"; };
+		0AD241C71E2C641500CE7727 /* ConfigureFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureFolderViewController.swift; sourceTree = "<group>"; };
+		0AD241C91E2C851C00CE7727 /* ConfigureFolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureFolderCell.swift; sourceTree = "<group>"; };
 		0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 		0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
 		0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
-		3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderListViewController.swift; path = ../FolderListViewController.swift; sourceTree = "<group>"; };
+		3108708D1DE13ABF0044BA5D /* FolderListViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderListViewController_old.swift; path = ../FolderListViewController_old.swift; sourceTree = "<group>"; };
 		3108708F1DE13AF20044BA5D /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreViewController.swift; path = ../MoreViewController.swift; sourceTree = "<group>"; };
-		310870911DE13B180044BA5D /* MemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoListViewController.swift; sourceTree = "<group>"; };
+		310870911DE13B180044BA5D /* MemoListViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoListViewController_old.swift; sourceTree = "<group>"; };
 		310870931DE13B270044BA5D /* MemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
 		310870A11DE14D6A0044BA5D /* PianoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView.swift; sourceTree = "<group>"; };
 		310870A51DE1720A0044BA5D /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -166,13 +184,31 @@
 		0A5D10DF1E276003001CAC1E /* New Implement */ = {
 			isa = PBXGroup;
 			children = (
+				0AD241C91E2C851C00CE7727 /* ConfigureFolderCell.swift */,
 				0A5D10EA1E27645A001CAC1E /* BaseViewController.swift */,
 				0A5D10E41E27640F001CAC1E /* GroupListViewController.swift */,
 				0A5D10EC1E277098001CAC1E /* GroupCell.swift */,
 				0A5D10E61E27641F001CAC1E /* SheetListViewController.swift */,
 				310870931DE13B270044BA5D /* MemoViewController.swift */,
+				0AD241C51E2C5D5600CE7727 /* UPCarouselFlowLayout.swift */,
 			);
 			name = "New Implement";
+			sourceTree = "<group>";
+		};
+		0A8815A71E31F76000ABEB98 /* Final Version */ = {
+			isa = PBXGroup;
+			children = (
+				0A8815A51E31F75500ABEB98 /* MasterViewController.swift */,
+				0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */,
+				0A8815AA1E32003500ABEB98 /* FolderListViewController.swift */,
+				0A8815AC1E32006000ABEB98 /* MemoListViewController.swift */,
+				0A8815B21E35A92200ABEB98 /* MemoCell.swift */,
+				0A8815AE1E32008800ABEB98 /* FolderCell.swift */,
+				0AD241C71E2C641500CE7727 /* ConfigureFolderViewController.swift */,
+				0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */,
+				0A1812831E29DF1300272080 /* TextEffectCell.swift */,
+			);
+			name = "Final Version";
 			sourceTree = "<group>";
 		};
 		3131F6C51DDD2E3D00EC4229 = {
@@ -199,11 +235,10 @@
 			isa = PBXGroup;
 			children = (
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
+				0A8815A71E31F76000ABEB98 /* Final Version */,
 				0A5D10DF1E276003001CAC1E /* New Implement */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
 				0A2CE6891E1217920003F3CB /* TextEffect.swift */,
-				0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */,
-				0A1812831E29DF1300272080 /* TextEffectCell.swift */,
 				0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */,
 				3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */,
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
@@ -251,7 +286,7 @@
 		31575C961DE825F600373ADD /* FolderList */ = {
 			isa = PBXGroup;
 			children = (
-				3108708D1DE13ABF0044BA5D /* FolderListViewController.swift */,
+				3108708D1DE13ABF0044BA5D /* FolderListViewController_old.swift */,
 				3108708F1DE13AF20044BA5D /* MoreViewController.swift */,
 				0AEDCEDF1DF8FA56000D57C2 /* MarkdownParser.swift */,
 			);
@@ -261,7 +296,7 @@
 		31575C971DE825FF00373ADD /* MemoList */ = {
 			isa = PBXGroup;
 			children = (
-				310870911DE13B180044BA5D /* MemoListViewController.swift */,
+				310870911DE13B180044BA5D /* MemoListViewController_old.swift */,
 			);
 			name = MemoList;
 			sourceTree = "<group>";
@@ -424,14 +459,20 @@
 				0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
-				310870921DE13B180044BA5D /* MemoListViewController.swift in Sources */,
+				0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */,
+				310870921DE13B180044BA5D /* MemoListViewController_old.swift in Sources */,
 				0A5D10E51E27640F001CAC1E /* GroupListViewController.swift in Sources */,
 				310870901DE13AF20044BA5D /* MoreViewController.swift in Sources */,
+				0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */,
 				0AEDCEE01DF8FA56000D57C2 /* MarkdownParser.swift in Sources */,
+				0A8815AB1E32003500ABEB98 /* FolderListViewController.swift in Sources */,
+				0A8815AF1E32008800ABEB98 /* FolderCell.swift in Sources */,
 				310870941DE13B270044BA5D /* MemoViewController.swift in Sources */,
+				0AD241CA1E2C851C00CE7727 /* ConfigureFolderCell.swift in Sources */,
 				3175A8011DEEC81700C1A02E /* PianoTextStorage.swift in Sources */,
 				0A5D10EB1E27645A001CAC1E /* BaseViewController.swift in Sources */,
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
+				0A8815AD1E32006000ABEB98 /* MemoListViewController.swift in Sources */,
 				0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */,
 				0A5D10E71E27641F001CAC1E /* SheetListViewController.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
@@ -440,9 +481,12 @@
 				0A2CE68A1E1217920003F3CB /* TextEffect.swift in Sources */,
 				0A5D10ED1E277098001CAC1E /* GroupCell.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
-				3108708E1DE13ABF0044BA5D /* FolderListViewController.swift in Sources */,
+				3108708E1DE13ABF0044BA5D /* FolderListViewController_old.swift in Sources */,
+				0AD241C61E2C5D5600CE7727 /* UPCarouselFlowLayout.swift in Sources */,
 				0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
+				0A8815A91E31FB1D00ABEB98 /* DetailViewController.swift in Sources */,
+				0AD241C81E2C641500CE7727 /* ConfigureFolderViewController.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */,

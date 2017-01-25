@@ -14,33 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        //30일 지났고 && 삭제된 메모라면 지워버리기
+        let splitViewController = window!.rootViewController as! UISplitViewController
         
-        
-//        if let split = window?.rootViewController as? UISplitViewController,
-//            let nav = split.viewControllers.first as? UINavigationController,
-//            let memo = split.viewControllers.last as? MemoViewController,
-//            let folderList = nav.topViewController as? FolderListViewController{
-//            folderList.coreDataStack = coreDataStack
-//            memo.coreDataStack = coreDataStack
-//        }
-        
-//        if !isRestoreState {
-//            if let nav = window?.rootViewController as? UINavigationController,
-//                let top = nav.topViewController as? FolderListViewController {
-//                top.isRestoreState = false
-//            }
-//        }
-        
-        
+        let navigationController = splitViewController.viewControllers.last as! UINavigationController
+        let detailViewController = navigationController.topViewController as! DetailViewController
+        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        detailViewController.navigationItem.leftItemsSupplementBackButton = true
+        splitViewController.preferredDisplayMode = .allVisible
+        splitViewController.delegate = self
         return true
     }
     
-    //deltedMemoListViewController에 코드 중복됨
+    //TODO: deltedMemoListViewController에 코드 중복됨
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -50,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
-        PianoData.coreDataStack.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

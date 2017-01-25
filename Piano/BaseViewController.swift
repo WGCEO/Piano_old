@@ -12,54 +12,48 @@ import CoreData
 class BaseViewController: UIViewController {
     
     let coreDataStack = PianoData.coreDataStack
-
+    var memoViewController: MemoViewController!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        guard let groupListVC = childViewControllers.first as? GroupListViewController else { return }
+        
+        let groupListVC = childViewControllers.first as! GroupListViewController
         
         let context = self.coreDataStack.viewContext
         let request: NSFetchRequest<Folder> = Folder.fetchRequest()
-        let dateSort = NSSortDescriptor(key: #keyPath(Folder.order), ascending: true)
+        let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
         request.sortDescriptors = [dateSort]
         groupListVC.resultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
         
-    }
-    
-    @IBAction func tapAddGroupButton(_ sender: Any) {
-        
-        guard let groupListVC = childViewControllers.first as? GroupListViewController,
-            let section = groupListVC.resultsController?.sections, section.count > 0 else { return }
-        
-        //TODO: 폴더 갯수가 10개보다 작아야 추가 가능!
-        if section[0].numberOfObjects < 10 {
-            showAddGroupAlertViewController(order: section[0].numberOfObjects)
-        } else {
-            showDenyAlertViewController()
-        }
-    }
 
+    }
     
     @IBAction func tapAddMemoButton(_ sender: Any) {
         
-        performSegue(withIdentifier: "GoToMemo", sender: nil)
+        let memoListViewController = childViewControllers.last as! SheetListViewController
         
+        memoListViewController.delegate?.newMemo(with: memoListViewController.folder)
         
-        
+        if let memoViewController = memoListViewController.delegate as? MemoViewController {
+            splitViewController?.showDetailViewController(memoViewController.navigationController!, sender: nil)
+        }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let groupListVC = childViewControllers.first as? GroupListViewController,
-            let selectedRow = groupListVC.tableView.indexPathForSelectedRow,
-            let folder = groupListVC.resultsController?.object(at: selectedRow),
-            let identifier = segue.identifier else { return }
         
         
-        if identifier == "GoToMemo" {
-            
-            let des = segue.destination as! MemoViewController
-            des.folder = folder
-            guard let memo = sender as? Memo else { return }
-            des.memo = memo
+        guard let identifier = segue.identifier else {
+            //스토리보드에서 초기화할 때 컨테이너 뷰를 만들기 위해 segue를 거치므로 이 코드가 실행되기 때문에 이때에는 조기 탈출!
+            return
+        }
+        
+        switch identifier {
+        case "GoToConfigureFolder":
+            let des = segue.destination as! ConfigureFolderViewController
+//            des.delegate = self
+            des.folder = sender as? Folder
+        default:
+            ()
             
         }
     }
@@ -82,7 +76,7 @@ class BaseViewController: UIViewController {
             do {
                 let newFolder = Folder(context: context)
                 newFolder.name = text
-                newFolder.order = Int16(order)
+                newFolder.date = NSDate()
                 newFolder.memos = []
                 
                 try context.save()
@@ -99,7 +93,7 @@ class BaseViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "이름"
+            textField.placeholder = "메모 그룹 이름을 입력하세요"
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
@@ -108,10 +102,35 @@ class BaseViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showDenyAlertViewController() {
-        let alert = UIAlertController(title: "추가할 수 없음", message: "폴더의 갯수는 최대 10개입니다.", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        present(alert, animated: true, completion: nil)
-    }
+//    func showDenyAlertViewController() {
+//        let alert = UIAlertController(title: "추가할 수 없음", message: "폴더의 갯수는 최대 10개입니다.", preferredStyle: .alert)
+//        let ok = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+//        alert.addAction(ok)
+//        present(alert, animated: true, completion: nil)
+//    }
 }
+
+
+//extension BaseViewController: ConfigureFolderViewControllerDelegate {
+//    func selectLastIndexCell() {
+//        let groupListVC = childViewControllers.first as! GroupListViewController
+//        guard let indexPath = groupListVC.lastTableViewIndexPath else { return }
+//        groupListVC.selectSpecificRow(indexPath: indexPath)
+//        
+//    }
+//    
+//    func refreshTableViewWithSelectFolder(folder: Folder) {
+//        let groupListVC = childViewControllers.first as! GroupListViewController
+//        guard let indexPath = groupListVC.getIndexPath(with: folder) else { return }
+//        groupListVC.tableView.reloadData()
+//        groupListVC.selectSpecificRow(indexPath: indexPath)
+//        
+//    }
+//    
+//    func refreshTableView() {
+//        let groupListVC = childViewControllers.first as! GroupListViewController
+//        groupListVC.tableView.reloadData()
+//    }
+//}
+
+
