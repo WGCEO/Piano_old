@@ -119,11 +119,19 @@ class MasterViewController: UIViewController {
         DispatchQueue.global().async {
             let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
             DispatchQueue.main.async {
-                let textView = UITextView()
-                textView.attributedText = attrText
-                if textView.attributedText.length == 0 {
+                if attrText?.length == 0 {
                     PianoData.coreDataStack.viewContext.delete(memo)
                     PianoData.save()
+                    
+                    guard let splitViewController = self.splitViewController else { return }
+                    let detailNav = splitViewController.viewControllers.last as! UINavigationController
+                    let detailViewController = detailNav.topViewController as! DetailViewController
+                    guard let textView = detailViewController.textView else { return }
+                    if detailViewController.memo == memo {
+                        detailViewController.memo = nil
+                    }
+                    textView.resignFirstResponder()
+                    
                 }
             }
         }
