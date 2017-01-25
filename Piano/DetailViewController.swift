@@ -75,7 +75,7 @@ class DetailViewController: UIViewController {
     
     func showKeyboard(bool: Bool){
         textView.isEditable = bool
-        
+        accessoryView.isHidden = !bool
         if bool {
             textView.becomeFirstResponder()
         }
@@ -126,8 +126,6 @@ class DetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-
-        showKeyboard(bool: false)
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -188,11 +186,6 @@ class DetailViewController: UIViewController {
         
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
-        let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboard = self.view.convert(kbFrame!, from: self.view.window)
-        
-        
-        guard keyboard.origin.y + keyboard.size.height <= self.view.frame.size.height else { return }
         
         UIView.animate(withDuration: duration) { [weak self] in
             self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -228,6 +221,7 @@ class DetailViewController: UIViewController {
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
         showTopView(bool: false)
         textView.isEditable = false
+        accessoryView.isHidden = false
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
         
@@ -286,9 +280,10 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapEffectButton(_ sender: Any) {
-        showTopView(bool: true)
         textView.isEditable = true
+        accessoryView.isHidden = true
         textView.resignFirstResponder()
+        showTopView(bool: true)
         textView.mode = .effect
         textView.attachCanvas()
     }
@@ -425,7 +420,7 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
-        
+        accessoryView.isHidden = true
         textView.isEditable = false
     }
     
@@ -434,14 +429,14 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         //TODO: 이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
         
-        guard let memo = self.memo,
-            let text = textView.text.components(separatedBy: CharacterSet.newlines).first else { return }
+        guard let memo = self.memo else { return }
 
+        let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
         let firstLine: String
         switch text {
         case let x where x.characters.count > 50:
             firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
-        case let x where x.characters.count == 0 || text.trimmingCharacters(in: .symbols).characters.count == 0:
+        case let x where x.characters.count == 0:
             //이미지만 있는 경우에도 해당됨
             firstLine = "새로운 메모"
         default:

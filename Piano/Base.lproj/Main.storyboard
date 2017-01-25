@@ -580,7 +580,7 @@
                                 <action selector="tapLeftPageBarButton:" destination="1PD-UR-tuG" id="QmL-9V-5bq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem title="1 page" id="KtL-bh-2Fz"/>
+                        <barButtonItem title="1" id="KtL-bh-2Fz"/>
                         <barButtonItem title="&gt;" id="2Na-Fw-RpN">
                             <connections>
                                 <action selector="tapRightPageBarButton:" destination="1PD-UR-tuG" id="jz1-g1-nQU"/>

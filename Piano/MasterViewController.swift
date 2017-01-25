@@ -85,6 +85,7 @@ class MasterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0)
         
         setTableViewCellHeight()
         
@@ -165,7 +166,7 @@ class MasterViewController: UIViewController {
                 let leftIndex = index - 1
                 let leftFolder = folders[leftIndex]
                 self.folder = leftFolder
-                self.pageBarButton.title = "\(leftIndex + 1) page"
+                self.pageBarButton.title = "\(leftIndex + 1)"
                 sender.isEnabled = leftIndex > 0 ? true : false
                 return
             }
@@ -187,7 +188,7 @@ class MasterViewController: UIViewController {
                 
                 let rightFolder = folders[rightIndex]
                 self.folder = rightFolder
-                self.pageBarButton.title = "\(rightIndex + 1) page"
+                self.pageBarButton.title = "\(rightIndex + 1)"
                 leftPageBarButton.isEnabled = true
                 return
             }
@@ -202,7 +203,7 @@ class MasterViewController: UIViewController {
         for (index, folder) in folders.enumerated() {
             if self.folder == folder {
                 
-                self.pageBarButton.title = "\(index + 1) page"
+                self.pageBarButton.title = "\(index + 1)"
                 leftPageBarButton.isEnabled = index > 0 ? true : false
                 return
                 

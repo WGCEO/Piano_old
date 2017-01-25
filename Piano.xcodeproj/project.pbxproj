@@ -33,7 +33,6 @@
 		3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */; };
 		3131F6D71DDD2E3D00EC4229 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3131F6D51DDD2E3D00EC4229 /* Main.storyboard */; };
 		3131F6D91DDD2E3D00EC4229 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */; };
-		3131F6DC1DDD2E3D00EC4229 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3131F6DA1DDD2E3D00EC4229 /* LaunchScreen.storyboard */; };
 		3131F6E71DDD2E3D00EC4229 /* PianoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6E61DDD2E3D00EC4229 /* PianoTests.swift */; };
 		3131F6F21DDD2E3D00EC4229 /* PianoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6F11DDD2E3D00EC4229 /* PianoUITests.swift */; };
 		31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C921DE808FA00373ADD /* TextViewMode.swift */; };
@@ -92,7 +91,6 @@
 		3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3131F6D61DDD2E3D00EC4229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3131F6DB1DDD2E3D00EC4229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3131F6DD1DDD2E3D00EC4229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3131F6E21DDD2E3D00EC4229 /* PianoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3131F6E61DDD2E3D00EC4229 /* PianoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoTests.swift; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 				310870A51DE1720A0044BA5D /* Constant.swift */,
 				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
 				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
-				3131F6DA1DDD2E3D00EC4229 /* LaunchScreen.storyboard */,
 				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
 				0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */,
 			);
@@ -361,7 +358,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A2CE6841E10FC610003F3CB /* fontawesome-webfont.ttf in Resources */,
-				3131F6DC1DDD2E3D00EC4229 /* LaunchScreen.storyboard in Resources */,
 				3131F6D91DDD2E3D00EC4229 /* Assets.xcassets in Resources */,
 				3131F6D71DDD2E3D00EC4229 /* Main.storyboard in Resources */,
 			);
@@ -461,14 +457,6 @@
 				3131F6D61DDD2E3D00EC4229 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		3131F6DA1DDD2E3D00EC4229 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3131F6DB1DDD2E3D00EC4229 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
