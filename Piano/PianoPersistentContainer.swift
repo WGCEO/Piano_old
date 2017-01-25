@@ -18,7 +18,7 @@ class PianoPersistentContainer: NSPersistentContainer {
         
         if let textView = self.textView, let memo = self.memo {
             
-            if textView.attributedText.size().width == 0 {
+            if textView.attributedText.length == 0 {
                 viewContext.delete(memo)
             } else {
                 let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)

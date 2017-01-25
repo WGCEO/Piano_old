@@ -75,7 +75,7 @@ class SheetListViewController: UIViewController {
                 guard let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content) as? NSAttributedString else { continue }
                 textView.attributedText = attrText
                 
-                if textView.attributedText.size().width == 0 {
+                if textView.attributedText.length == 0 {
                     self.coreDataStack.viewContext.delete(memo)
                     do {
                         try self.coreDataStack.viewContext.save()

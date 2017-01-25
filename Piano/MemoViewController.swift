@@ -222,7 +222,7 @@ class MemoViewController: UIViewController {
     
     func saveCoreData() {
         guard let memo = memo else { return }
-        if textView.attributedText.size().width == 0 {
+        if textView.attributedText.length == 0 {
             coreDataStack.viewContext.delete(memo)
             do {
                 try coreDataStack.viewContext.save()

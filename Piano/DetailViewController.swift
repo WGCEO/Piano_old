@@ -15,6 +15,7 @@ class DetailViewController: UIViewController {
             updateTextView(memo: memo)
         }
     }
+    @IBOutlet weak var topView: UIStackView!
     @IBOutlet var accessoryView: UIStackView!
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textView: PianoTextView!
@@ -22,7 +23,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var colorEffectButton: EffectButton!
     @IBOutlet weak var sizeEffectButton: EffectButton!
     @IBOutlet weak var lineEffectButton: EffectButton!
-    weak var memoListViewController: MemoListViewController?
+    weak var masterViewController: MasterViewController?
     var isAfterViewDidAppear: Bool = false
     
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
@@ -43,11 +44,12 @@ class DetailViewController: UIViewController {
                 DispatchQueue.main.async { [unowned self] in
                     textView.contentOffset = CGPoint.zero
                     textView.attributedText = attrText
+                    textView.isHidden = false
                     PianoData.coreDataStack.textView = textView
                     PianoData.coreDataStack.memo = memo
                     
                     //새 메모이면 키보드 올리고 새 메모가 아니면 키보드 내리기
-                    if textView.attributedText.size().width != 0 {
+                    if textView.attributedText.length != 0 {
                         textView.resignFirstResponder()
                     } else {
                         //첫 메모 시작일 때
@@ -67,6 +69,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let nav = splitViewController?.viewControllers.first as! UINavigationController
+        masterViewController = nav.topViewController as? MasterViewController
 
         textView.inputAccessoryView = accessoryView
         textView.canvas.delegate = label
@@ -82,10 +87,8 @@ class DetailViewController: UIViewController {
         if let memo = memo {
             updateTextView(memo: memo)
         } else {
-            let nav = splitViewController?.viewControllers.first as! UINavigationController
-            let masterViewController = nav.topViewController as! MasterViewController
-            let memoListViewController = masterViewController.childViewControllers.last as! MemoListViewController
-            memoListViewController.selectTableViewCell(with: IndexPath(row: 0, section: 0))
+            //이런 경우는 아이패드만 가능하기때문에 이렇게 전달이 가능(아이폰에서 이렇게 하면 에러남)
+            masterViewController?.selectTableViewCell(with: IndexPath(row: 0, section: 0))
         }
     }
     
@@ -126,6 +129,7 @@ class DetailViewController: UIViewController {
     }
     
     func showTopView(bool: Bool) {
+        topView.isHidden = bool ? false : true
         navigationController?.setNavigationBarHidden(bool, animated: true)
         navigationController?.setToolbarHidden(bool, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
@@ -136,7 +140,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if !isIpad() && textView.attributedText.size().width == 0 {
+        if !isIpad() && textView.attributedText.length == 0 {
             textView.becomeFirstResponder()
         }
     }
@@ -148,13 +152,11 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillShow(notification: Notification){
-        accessoryView.isHidden = false
         
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
         let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
         let keyboard = self.view.convert(kbFrame!, from: self.view.window)
-        
         
         guard keyboard.origin.y + keyboard.size.height <= self.view.frame.size.height else { return }
         
@@ -166,8 +168,6 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: Notification){
-        
-        accessoryView.isHidden = true
         
         guard let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
@@ -214,6 +214,9 @@ class DetailViewController: UIViewController {
         textView.isEditable = true
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
+        
+        guard let memo = memo else { return }
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -288,8 +291,8 @@ class DetailViewController: UIViewController {
             
             //폴더를 먼저 추가해야 메모를 생성할 수 있음
             //TODO: 여기에 폴더를 먼저 추가하라는 팝업 창 띄워줘야함
-            guard let memoListViewController = memoListViewController,
-                let folder = memoListViewController.folder else { return }
+            guard let masterViewController = masterViewController,
+                let folder = masterViewController.folder else { return }
             
             let memo = Memo(context: PianoData.coreDataStack.viewContext)
             memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
@@ -299,12 +302,14 @@ class DetailViewController: UIViewController {
             
             PianoData.save()
             
-            self.memoListViewController(memoListViewController, send: memo)
+            self.masterViewController(masterViewController, send: memo)
+            self.masterViewController?.tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         }
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
         addNewMemo()
+        textView.becomeFirstResponder()
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
@@ -359,28 +364,24 @@ class DetailViewController: UIViewController {
         textView.resignFirstResponder()
     }
     
-    
 }
 
-extension DetailViewController: MemoListViewControllerDelegate {
-    func memoListViewController(_ controller: MemoListViewController, send memo: Memo) {
-        memoListViewController = controller
+extension DetailViewController: MasterViewControllerDelegate {
+    func masterViewController(_ controller: MasterViewController, send memo: Memo) {
+        masterViewController = controller
         
-        //기존에 메모 프로퍼티가 있다면 메모 내용을 코어데이터에 저장시키기
-        if let oldMemo = self.memo,
-            let textView = self.textView {
-            
-            guard oldMemo != memo else { return }
-            
-            if textView.attributedText.size().width == 0 {
-                PianoData.coreDataStack.viewContext.delete(oldMemo)
-            } else {
-                let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-                oldMemo.content = data
-                let text = textView.text.trimmingCharacters(in: CharacterSet.newlines)
-                oldMemo.firstLine = text.characters.count != 0 ? text : "새로운 메모"
-            }
+        guard self.memo != memo else { return }
+        
+        if let oldMemo = self.memo, textView.attributedText.length == 0 {
+            PianoData.coreDataStack.viewContext.delete(oldMemo)
             PianoData.save()
+        }
+        
+        
+        
+        if let textView = textView {
+            textView.resignFirstResponder()
+            textView.isHidden = true
         }
         
         self.memo = memo
@@ -407,7 +408,6 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-        PianoData.save()
     }
     
     
@@ -415,13 +415,23 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         //TODO: 이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
         
-        guard let memo = self.memo else { return }
-        let text = textView.text.trimmingCharacters(in: CharacterSet.newlines)
-        if text.characters.count != 0 {
-            memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
-        } else {
-            memo.firstLine = "새로운 메모"
+        guard let memo = self.memo,
+            let text = textView.text.components(separatedBy: CharacterSet.newlines).first else { return }
+
+        let firstLine: String
+        switch text {
+        case let x where x.characters.count > 50:
+            firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
+        case let x where x.characters.count == 0 || text.trimmingCharacters(in: .symbols).characters.count == 0:
+            //이미지만 있는 경우에도 해당됨
+            firstLine = "새로운 메모"
+        default:
+            firstLine = text
         }
+        
+        memo.firstLine = firstLine
+        
+        
     }
     
     //TODO: 이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
@@ -429,9 +439,6 @@ extension DetailViewController: UITextViewDelegate {
         guard let memo = memo else { return }
         memo.date = Date()
         
-        if textView.attributedText.size().width == 0 {
-            resetTextViewAttribute()
-        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -453,7 +460,6 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             //여기서 selectedRange에다가 NSTextAttachment로 붙여 넣어야 함 물론 이미지 크기 조절해서!
             var attributedString :NSMutableAttributedString!
             attributedString = NSMutableAttributedString(attributedString:textView.attributedText)
-            
             let oldWidth = pickedImage.size.width;
             
             //I'm subtracting 10px to make the image display nicely, accounting
@@ -472,6 +478,12 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             attributedString.insert(attrStringWithImage, at: textView.selectedRange.location)
             textView.attributedText = attributedString;
             textView.font = UIFont.preferredFont(forTextStyle: .body)
+            
+            if memo == nil {
+                addNewMemo()
+            }
+            
+            memo!.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
         }
         dismiss(animated: true, completion: nil)
     }
