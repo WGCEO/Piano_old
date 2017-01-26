@@ -294,10 +294,10 @@ class DetailViewController: UIViewController {
     @IBAction func tapEffectButton(_ sender: Any) {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        textView.sizeToFit()
         
         
         DispatchQueue.main.async { [unowned self] in
+            self.textView.sizeToFit()
             self.textView.isEditable = false
             self.textView.isSelectable = false
             self.showTopView(bool: true)
