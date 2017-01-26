@@ -30,6 +30,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var lineEffectButton: EffectButton!
     weak var masterViewController: MasterViewController?
     var isAfterViewDidAppear: Bool = false
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
     lazy var imagePicker: UIImagePickerController = {
@@ -56,14 +58,14 @@ class DetailViewController: UIViewController {
                     
                     //새 메모이면 키보드 올리고 새 메모가 아니면 키보드 내리기
                     if textView.attributedText.length != 0 {
-                        self.showKeyboard(bool: false)
+                        textView.resignFirstResponder()
                     } else {
                         //첫 메모 시작일 때
                         self.resetTextViewAttribute()
                         
                         //아이패드, 아이폰 구분해서 처리해야함
                         if self.isIpad() {
-                            self.showKeyboard(bool: true)
+                            textView.appearKeyboard()
                         }
                     }
                 }
@@ -71,16 +73,6 @@ class DetailViewController: UIViewController {
         } else {
             resetTextViewAttribute()
         }
-    }
-    
-    func showKeyboard(bool: Bool){
-        textView.isEditable = bool
-        if bool {
-            textView.becomeFirstResponder()
-        } else {
-            textView.resignFirstResponder()
-        }
-        
     }
     
     override func viewDidLoad() {
@@ -123,6 +115,7 @@ class DetailViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -130,6 +123,7 @@ class DetailViewController: UIViewController {
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -153,7 +147,7 @@ class DetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !isIpad() && textView.attributedText.length == 0 {
-            showKeyboard(bool: true)
+            textView.appearKeyboard()
         }
     }
     
@@ -166,28 +160,28 @@ class DetailViewController: UIViewController {
     func keyboardWillShow(notification: Notification){
         
         guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
             let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue else { return }
         
         
        //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
+        let inset = UIEdgeInsetsMake(0, 0, UIScreen.main.bounds.height - kbFrame.origin.y, 0)
+        textView.contentInset = inset
+        textView.scrollIndicatorInsets = inset
+        textView.scrollRangeToVisible(textView.selectedRange)
+    }
+    
+    func keyboardDidHide(notification: Notification) {
+        textView.isWaitingState = false
         
-        UIView.animate(withDuration: duration) { [unowned self] in
-            //TODO: change literal constant
-            self.textView.contentInset.bottom = UIScreen.main.bounds.height - kbFrame.origin.y + 4 - self.textView.textContainerInset.bottom
-            self.view.layoutIfNeeded()
-        }
+        textView.isEditable = false
+        textView.isSelectable = true
     }
     
     func keyboardWillHide(notification: Notification){
+        textView.isWaitingState = true
         
-        guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
-        
-        UIView.animate(withDuration: duration) { [weak self] in
-            self?.textView.contentInset.bottom = 0
-            self?.view.layoutIfNeeded()
-        }
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
     func removeSubrange(from: Int) {
@@ -239,26 +233,30 @@ class DetailViewController: UIViewController {
         lineEffectButton.isSelected = false
     }
     
-    @IBAction func tapTextViewGesture(_ sender: UITapGestureRecognizer) {
-        let location = sender.location(in: textView)
-        print("터치위치: \(location), 텍스트뷰 오프셋: \(textView.contentOffset)")
-        guard let textPosition = textView.closestPosition(to: location) else {
-            print("설마 여기가?")
-            return
-        }
-        
-        let textLocation = textView.offset(from: textView.beginningOfDocument, to: textPosition)
-
-        if let textRange = textView.tokenizer.rangeEnclosingPosition(textPosition, with: .word, inDirection: UITextLayoutDirection.right.rawValue) {
-            let textLocation = textView.offset(from: textView.beginningOfDocument, to: textRange.end)
-            textView.selectedRange = NSMakeRange(textLocation, 0)
-            
-        } else {
-            textView.selectedRange = NSMakeRange(textLocation, 0)
-        }
-        
-        showKeyboard(bool: true)
-    }
+//    @IBAction func tapTextViewGesture(_ sender: UITapGestureRecognizer) {
+//        let location = sender.location(in: textView)
+//        print("터치위치: \(location), 텍스트뷰 오프셋: \(textView.contentOffset)")
+//        guard let textPosition = textView.closestPosition(to: location) else {
+//            print("설마 여기가?")
+//            return
+//        }
+//        
+//        let textLocation = textView.offset(from: textView.beginningOfDocument, to: textPosition)
+//        
+//        textView.selectedRange = NSMakeRange(textLocation, 0)
+//
+////        if let textRange = textView.tokenizer.rangeEnclosingPosition(textPosition, with: .word, inDirection: UITextLayoutDirection.right.rawValue) {
+////            let textLocation = textView.offset(from: textView.beginningOfDocument, to: textRange.end)
+////            textView.selectedRange = NSMakeRange(textLocation, 0)
+////            
+////        } else {
+////            textView.selectedRange = NSMakeRange(textLocation, 0)
+////        }
+//        
+//        showKeyboard(bool: true)
+//    }
+    
+    
     @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
         if sizeEffectButton.isSelected {
             //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
@@ -294,11 +292,19 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapEffectButton(_ sender: Any) {
-        textView.isEditable = true
-        textView.isSelectable = false
-        showTopView(bool: true)
-        textView.mode = .effect
-        textView.attachCanvas()
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        textView.sizeToFit()
+        
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.textView.isEditable = false
+            self.textView.isSelectable = false
+            self.showTopView(bool: true)
+            self.textView.mode = .effect
+            self.textView.attachCanvas()
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     func isIpad() -> Bool {
@@ -334,7 +340,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapComposeButton(_ sender: Any) {
         addNewMemo()
-        showKeyboard(bool: true)
+        textView.appearKeyboard()
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
@@ -386,7 +392,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
-        showKeyboard(bool: false)
+        textView.resignFirstResponder()
     }
     
 }
@@ -405,7 +411,7 @@ extension DetailViewController: MasterViewControllerDelegate {
         
         
         if let textView = textView {
-            showKeyboard(bool: false)
+            textView.resignFirstResponder()
             textView.isHidden = true
         }
         
@@ -433,9 +439,9 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
-
-        textView.isEditable = false
     }
+    
+ 
     
     
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
@@ -457,8 +463,6 @@ extension DetailViewController: UITextViewDelegate {
         }
         
         memo.firstLine = firstLine
-        
-        
     }
     
     //TODO: 이거 여기다가 넣는게 진정 맞을까..?? 비용문제..

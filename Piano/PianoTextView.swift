@@ -14,6 +14,7 @@ class PianoTextView: UITextView {
 //    var bottomDistance: CGFloat?
 //    var isAnimating: Bool = false
     var memo: Memo!
+    var isWaitingState: Bool = false
     
     var mode: TextViewMode = .typing
     let canvas = PianoControl()
@@ -29,7 +30,6 @@ class PianoTextView: UITextView {
         canvas.textView = self
         self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1, NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body), NSForegroundColorAttributeName : UIColor.lightGray]
     }
-    
     
     
     //애니메이션중이면 액션을 실행하면 안됨, 실행하게 된다면 둘다 애니메이션이라 blocking이 됨 
@@ -80,7 +80,41 @@ class PianoTextView: UITextView {
         let canvasWidth = bounds.width
         let canvasHeight = bounds.height
         canvas.frame = CGRect(x: 0, y: top, width: canvasWidth, height: canvasHeight)
-        canvas.backgroundColor = UIColor.red.withAlphaComponent(0.5)
         self.addSubview(canvas)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        guard let firstTouch = touches.first, isEditable != true else { return }
+        
+        let location = firstTouch.location(in: self)
+        
+        guard let textPosition = self.closestPosition(to: location) else {
+            print("설마 여기가?")
+            return
+        }
+        
+        let textLocation = self.offset(from: self.beginningOfDocument, to: textPosition)
+        
+        self.selectedRange = NSMakeRange(textLocation, 0)
+        
+        appearKeyboard()
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return isWaitingState ? false : true
+        }
+    }
+    
+
+    func appearKeyboard(){
+        isSelectable = true
+        isEditable = true
+        becomeFirstResponder()
+    }
+
+    
+
+
 }

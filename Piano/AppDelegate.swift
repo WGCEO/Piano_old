@@ -16,7 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        let splitViewController = window!.rootViewController as! UISplitViewController
+        guard let window = window, let splitViewController = window.rootViewController as? UISplitViewController else {
+            return true
+        }
+        
+        
         
         let navigationController = splitViewController.viewControllers.last as! UINavigationController
         let detailViewController = navigationController.topViewController as! DetailViewController
@@ -30,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         splitViewController.delegate = self
         return true
     }
+    
     
     //TODO: deltedMemoListViewController에 코드 중복됨
 

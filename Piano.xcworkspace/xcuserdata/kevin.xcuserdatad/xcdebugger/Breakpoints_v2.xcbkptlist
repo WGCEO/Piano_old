@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507094377.167105"
+            timestampString = "507142952.308249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
-            landmarkName = "tapTextViewGesture(_:)"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
+            landmarkName = "tapEffectButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,45 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507094377.167105"
+            timestampString = "507142554.76135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
-            landmarkName = "keyboardWillShow(notification:)"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "viewDidAppear(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Piano.DetailViewController.keyboardWillShow (notification : Foundation.Notification) -&gt; ()"
-                  moduleName = "Piano"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kevin/Desktop/Piano/Piano/DetailViewController.swift"
-                  timestampString = "507092760.877742"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "174"
-                  endingLineNumber = "174"
-                  offsetFromSymbolStart = "1116">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Piano.DetailViewController.(keyboardWillShow (notification : Foundation.Notification) -&gt; ()).(closure #1)"
-                  moduleName = "Piano"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kevin/Desktop/Piano/Piano/DetailViewController.swift"
-                  timestampString = "507092760.879243"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "174"
-                  endingLineNumber = "174"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
