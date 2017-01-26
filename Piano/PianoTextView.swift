@@ -83,9 +83,9 @@ class PianoTextView: UITextView {
         self.addSubview(canvas)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        guard let firstTouch = touches.first, isEditable != true else { return }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touchesEnded")
+        guard let firstTouch = touches.first else { return }
         
         let location = firstTouch.location(in: self)
         
@@ -100,6 +100,7 @@ class PianoTextView: UITextView {
         
         appearKeyboard()
     }
+    
     
     override var canBecomeFirstResponder: Bool {
         get {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol DetailViewControllerDelegate: class {
     func detailViewController(_ controller: DetailViewController, addMemo: Memo)
@@ -158,7 +159,7 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillShow(notification: Notification){
-        
+        textView.isWaitingState = true
         guard let userInfo = notification.userInfo,
             let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue else { return }
         
@@ -383,8 +384,17 @@ class DetailViewController: UIViewController {
         }
     }
     
+    
     @IBAction func tapAlbumButton(_ sender: Any) {
-        present(imagePicker, animated: true, completion: nil)
+        
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        switch status {
+        case .restricted, .denied:
+            presentPermissionErrorAlert()
+        default:
+            present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     @IBAction func tapAlbumButton2(_ sender: Any) {
@@ -393,6 +403,19 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
         textView.resignFirstResponder()
+    }
+    
+    func presentPermissionErrorAlert() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "앨범 열 수 없음", message: "설정으로 이동하여 앨범에 체크해주세요.", preferredStyle: .alert)
+            let openSettingsAction = UIAlertAction(title: "Settings", style: .default, handler: { _ in
+                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+            })
+            let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alert.addAction(openSettingsAction)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }
@@ -427,6 +450,21 @@ extension DetailViewController: NSLayoutManagerDelegate {
 }
 
 extension DetailViewController: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        print("shouldInteractWith")
+        return true
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        print("textViewShouldBeginEditing")
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        print("shouldChangeTextIn")
+        return true
+    }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard memo != nil else {
