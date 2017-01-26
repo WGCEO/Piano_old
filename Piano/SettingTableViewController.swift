@@ -52,6 +52,7 @@ class SettingTableViewController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    
     func sendEmail() {
         let mailComposeViewController = configuredMailComposeViewController()
         if MFMailComposeViewController.canSendMail() {

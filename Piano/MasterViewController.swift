@@ -78,11 +78,6 @@ class MasterViewController: UIViewController {
     @IBOutlet weak var leftPageButton: UIButton!
     @IBOutlet weak var pageLabel: LTMorphingLabel!
     
-    
-//    @IBOutlet weak var pageBarButton: UIBarButtonItem!
-//    @IBOutlet weak var leftPageBarButton: UIBarButtonItem!
-//    @IBOutlet weak var rightPageBarButton: UIBarButtonItem!
-    
     func registerNotificationForAjustTextSize(){
         NotificationCenter.default.addObserver(self, selector: #selector(MasterViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
@@ -165,6 +160,42 @@ class MasterViewController: UIViewController {
         tableView(tableView, didSelectRowAt: indexPath)
     }
     
+    @IBAction func tapTitleButton(_ sender: Any) {
+        //경고창 띄워서 페이지 이름 수정, 취소
+        
+        guard let folder = self.folder else { return }
+        
+        showModifyPageAlertViewController(with: folder)
+    }
+    
+    func showModifyPageAlertViewController(with folder: Folder) {
+        let alert = UIAlertController(title: "페이지 이름 변경", message: "변경할 페이지의 이름을 적어주세요.", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "확인", style: .default) { [unowned self](_) in
+            guard let text = alert.textFields?.first?.text else { return }
+            
+            folder.name = text
+            self.titleLabel.text = text
+            PianoData.save()
+        }
+        
+        ok.isEnabled = folder.name?.characters.count != 0 ? true : false
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "페이지 이름"
+            textField.text = folder.name
+            textField.returnKeyType = .done
+            textField.enablesReturnKeyAutomatically = true
+            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
+        }
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
     @IBAction func tapLeftPageButton(_ sender: UIButton) {
         guard let folders = folderResultsController.fetchedObjects else { return }
         
@@ -180,7 +211,6 @@ class MasterViewController: UIViewController {
             }
         }
     }
-    
     
     @IBAction func tapRightPageButton(_ sender: UIButton) {
         guard let folders = folderResultsController.fetchedObjects else { return }
@@ -229,7 +259,7 @@ class MasterViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "그룹 만들기", message: "그룹의 이름을 정해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "페이지 만들기", message: "페이지의 이름을 정해주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
@@ -256,7 +286,7 @@ class MasterViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "그룹 이름"
+            textField.placeholder = "페이지 이름"
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
