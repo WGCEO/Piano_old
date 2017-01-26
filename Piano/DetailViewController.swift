@@ -75,9 +75,10 @@ class DetailViewController: UIViewController {
     
     func showKeyboard(bool: Bool){
         textView.isEditable = bool
-        accessoryView.isHidden = !bool
         if bool {
             textView.becomeFirstResponder()
+        } else {
+            textView.resignFirstResponder()
         }
         
     }
@@ -156,10 +157,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//    }
-    
     func resetTextViewAttribute(){
         textView.attributedText = NSAttributedString()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -169,16 +166,16 @@ class DetailViewController: UIViewController {
     func keyboardWillShow(notification: Notification){
         
         guard let userInfo = notification.userInfo,
-            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
-        let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboard = self.view.convert(kbFrame!, from: self.view.window)
+            let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue,
+            let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue else { return }
         
-        guard keyboard.origin.y + keyboard.size.height <= self.view.frame.size.height else { return }
         
-        UIView.animate(withDuration: duration) { [weak self] in
+       //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
+        
+        UIView.animate(withDuration: duration) { [unowned self] in
             //TODO: change literal constant
-            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, keyboard.height, 0)
-            self?.view.layoutIfNeeded()
+            self.textView.contentInset.bottom = UIScreen.main.bounds.height - kbFrame.origin.y + 4 - self.textView.textContainerInset.bottom
+            self.view.layoutIfNeeded()
         }
     }
     
@@ -188,7 +185,7 @@ class DetailViewController: UIViewController {
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue else { return }
         
         UIView.animate(withDuration: duration) { [weak self] in
-            self?.textView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+            self?.textView.contentInset.bottom = 0
             self?.view.layoutIfNeeded()
         }
     }
@@ -221,7 +218,7 @@ class DetailViewController: UIViewController {
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
         showTopView(bool: false)
         textView.isEditable = false
-        accessoryView.isHidden = false
+        textView.isSelectable = true
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
         
@@ -243,6 +240,23 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapTextViewGesture(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: textView)
+        print("터치위치: \(location), 텍스트뷰 오프셋: \(textView.contentOffset)")
+        guard let textPosition = textView.closestPosition(to: location) else {
+            print("설마 여기가?")
+            return
+        }
+        
+        let textLocation = textView.offset(from: textView.beginningOfDocument, to: textPosition)
+
+        if let textRange = textView.tokenizer.rangeEnclosingPosition(textPosition, with: .word, inDirection: UITextLayoutDirection.right.rawValue) {
+            let textLocation = textView.offset(from: textView.beginningOfDocument, to: textRange.end)
+            textView.selectedRange = NSMakeRange(textLocation, 0)
+            
+        } else {
+            textView.selectedRange = NSMakeRange(textLocation, 0)
+        }
+        
         showKeyboard(bool: true)
     }
     @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
@@ -281,8 +295,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapEffectButton(_ sender: Any) {
         textView.isEditable = true
-        accessoryView.isHidden = true
-        textView.resignFirstResponder()
+        textView.isSelectable = false
         showTopView(bool: true)
         textView.mode = .effect
         textView.attachCanvas()
@@ -420,7 +433,7 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
-        accessoryView.isHidden = true
+
         textView.isEditable = false
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import LTMorphingLabel
 
 protocol MasterViewControllerDelegate: class {
     func masterViewController(_ controller: MasterViewController?, send memo: Memo)
@@ -15,6 +16,7 @@ protocol MasterViewControllerDelegate: class {
 
 class MasterViewController: UIViewController {
     
+    @IBOutlet weak var titleLabel: LTMorphingLabel!
     weak var delegate: MasterViewControllerDelegate?
     
     lazy var folderResultsController: NSFetchedResultsController<Folder> = {
@@ -50,7 +52,7 @@ class MasterViewController: UIViewController {
             request.sortDescriptors = [dateSort]
             memoResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
             
-            self.title = folder?.name ?? " "
+            titleLabel.text = folder?.name ?? " "
             
             guard let nav = splitViewController?.viewControllers.last as? UINavigationController,
                 let detailViewController = nav.topViewController as? DetailViewController else {
@@ -71,9 +73,15 @@ class MasterViewController: UIViewController {
     }()
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var pageBarButton: UIBarButtonItem!
-    @IBOutlet weak var leftPageBarButton: UIBarButtonItem!
-    @IBOutlet weak var rightPageBarButton: UIBarButtonItem!
+    
+    
+    @IBOutlet weak var leftPageButton: UIButton!
+    @IBOutlet weak var pageLabel: LTMorphingLabel!
+    
+    
+//    @IBOutlet weak var pageBarButton: UIBarButtonItem!
+//    @IBOutlet weak var leftPageBarButton: UIBarButtonItem!
+//    @IBOutlet weak var rightPageBarButton: UIBarButtonItem!
     
     func registerNotificationForAjustTextSize(){
         NotificationCenter.default.addObserver(self, selector: #selector(MasterViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
@@ -157,7 +165,7 @@ class MasterViewController: UIViewController {
         tableView(tableView, didSelectRowAt: indexPath)
     }
     
-    @IBAction func tapLeftPageBarButton(_ sender: UIBarButtonItem) {
+    @IBAction func tapLeftPageButton(_ sender: UIButton) {
         guard let folders = folderResultsController.fetchedObjects else { return }
         
         //일단 왼쪽 폴더 넣고 페이지 타이틀 갱신 + 더이상 왼쪽으로 갈 수 있는 지 체크해서 enabled 세팅하기
@@ -166,14 +174,15 @@ class MasterViewController: UIViewController {
                 let leftIndex = index - 1
                 let leftFolder = folders[leftIndex]
                 self.folder = leftFolder
-                self.pageBarButton.title = "\(leftIndex + 1)"
+                self.pageLabel.text = "\(leftIndex + 1)"
                 sender.isEnabled = leftIndex > 0 ? true : false
                 return
             }
         }
     }
     
-    @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
+    
+    @IBAction func tapRightPageButton(_ sender: UIButton) {
         guard let folders = folderResultsController.fetchedObjects else { return }
         
         for (index, folder) in folders.enumerated() {
@@ -188,8 +197,8 @@ class MasterViewController: UIViewController {
                 
                 let rightFolder = folders[rightIndex]
                 self.folder = rightFolder
-                self.pageBarButton.title = "\(rightIndex + 1)"
-                leftPageBarButton.isEnabled = true
+                pageLabel.text = "\(rightIndex + 1)"
+                leftPageButton.isEnabled = true
                 return
             }
         }
@@ -203,8 +212,8 @@ class MasterViewController: UIViewController {
         for (index, folder) in folders.enumerated() {
             if self.folder == folder {
                 
-                self.pageBarButton.title = "\(index + 1)"
-                leftPageBarButton.isEnabled = index > 0 ? true : false
+                pageLabel.text = "\(index + 1)"
+                leftPageButton.isEnabled = index > 0 ? true : false
                 return
                 
             }
@@ -294,9 +303,6 @@ class MasterViewController: UIViewController {
 //        }
 //    }
     
-//    @IBAction func tapAddFolderButton(_ sender: Any) {
-//        performSegue(withIdentifier: "GoToConfigureFolder", sender: nil)
-//    }
     
     @IBAction func tapAddMemoButton(_ sender: Any) {
         addNewMemo()

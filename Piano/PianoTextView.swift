@@ -30,6 +30,8 @@ class PianoTextView: UITextView {
         self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1, NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body), NSForegroundColorAttributeName : UIColor.lightGray]
     }
     
+    
+    
     //애니메이션중이면 액션을 실행하면 안됨, 실행하게 된다면 둘다 애니메이션이라 blocking이 됨 
 //    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
 //        
@@ -78,6 +80,7 @@ class PianoTextView: UITextView {
         let canvasWidth = bounds.width
         let canvasHeight = bounds.height
         canvas.frame = CGRect(x: 0, y: top, width: canvasWidth, height: canvasHeight)
+        canvas.backgroundColor = UIColor.red.withAlphaComponent(0.5)
         self.addSubview(canvas)
     }
 }

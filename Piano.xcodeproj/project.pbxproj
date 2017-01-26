@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000E4D93C5598134BA6820B6 /* Pods_Piano.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188DDF387D6455DD6E5AC450 /* Pods_Piano.framework */; };
 		0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */; };
 		0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */; };
 		0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A0C1E7D1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld */; };
@@ -84,6 +85,8 @@
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
 		0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
 		0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		188DDF387D6455DD6E5AC450 /* Pods_Piano.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Piano.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		193106AF621BA7D70CA1AADB /* Pods-Piano.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.release.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.release.xcconfig"; sourceTree = "<group>"; };
 		310870A11DE14D6A0044BA5D /* PianoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextView.swift; sourceTree = "<group>"; };
 		310870A51DE1720A0044BA5D /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		310870A91DE1729C0044BA5D /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
@@ -107,6 +110,7 @@
 		316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint_Extension.swift; sourceTree = "<group>"; };
 		316F157B1DEC140A007693D9 /* UITextView_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView_Extension.swift; sourceTree = "<group>"; };
 		3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextStorage.swift; sourceTree = "<group>"; };
+		AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000E4D93C5598134BA6820B6 /* Pods_Piano.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +176,8 @@
 				3131F6E51DDD2E3D00EC4229 /* PianoTests */,
 				3131F6F01DDD2E3D00EC4229 /* PianoUITests */,
 				3131F6CF1DDD2E3D00EC4229 /* Products */,
+				58EBA85A8C5B7C2CE2F8007C /* Pods */,
+				78E52CA9315D0A1E534F585D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,6 +254,23 @@
 			name = Memo;
 			sourceTree = "<group>";
 		};
+		58EBA85A8C5B7C2CE2F8007C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */,
+				193106AF621BA7D70CA1AADB /* Pods-Piano.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		78E52CA9315D0A1E534F585D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				188DDF387D6455DD6E5AC450 /* Pods_Piano.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -254,9 +278,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3131F6F61DDD2E3D00EC4229 /* Build configuration list for PBXNativeTarget "Piano" */;
 			buildPhases = (
+				8DE16AA2F74DBBE33BCA0481 /* [CP] Check Pods Manifest.lock */,
 				3131F6CA1DDD2E3D00EC4229 /* Sources */,
 				3131F6CB1DDD2E3D00EC4229 /* Frameworks */,
 				3131F6CC1DDD2E3D00EC4229 /* Resources */,
+				75DBC7CC78894868DCD76184 /* [CP] Embed Pods Frameworks */,
+				EFD04C4E11F2130D072C24DC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -378,6 +405,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		75DBC7CC78894868DCD76184 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Piano/Pods-Piano-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8DE16AA2F74DBBE33BCA0481 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EFD04C4E11F2130D072C24DC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Piano/Pods-Piano-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3131F6CA1DDD2E3D00EC4229 /* Sources */ = {
@@ -557,6 +632,7 @@
 		};
 		3131F6F71DDD2E3D00EC4229 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
@@ -571,6 +647,7 @@
 		};
 		3131F6F81DDD2E3D00EC4229 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 193106AF621BA7D70CA1AADB /* Pods-Piano.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = U9KHV9D7LV;
