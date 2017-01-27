@@ -11,11 +11,25 @@ import UIKit
 
 extension NSPersistentContainer {
     
-    func importPianoFolder() {
+    func checkCoreData() {
         do {
-            let request: NSFetchRequest<Folder> = Folder.fetchRequest()
-            let count = try viewContext.count(for: request)
-            if count == 0 {
+            let preferenceRequest: NSFetchRequest<Preference> = Preference.fetchRequest()
+            let preferenceCount = try viewContext.count(for: preferenceRequest)
+            if preferenceCount == 0 {
+                let preference = Preference(context: viewContext)
+                preference.isFirstLaunching = true
+                preference.isPaidUser = true
+            
+            } else {
+                guard let preference = try viewContext.fetch(preferenceRequest).first else { return }
+                preference.isFirstLaunching = false
+                preference.isPaidUser = true
+            }
+            
+            
+            let folderRequest: NSFetchRequest<Folder> = Folder.fetchRequest()
+            let folderCount = try viewContext.count(for: folderRequest)
+            if folderCount == 0 {
                 let pianoFolder = Folder(context: viewContext)
                 pianoFolder.name = "Piano"
                 pianoFolder.date = NSDate()
@@ -32,13 +46,12 @@ extension NSPersistentContainer {
                 memo.folder = pianoFolder
                 
                 pianoFolder.memos = [memo]
-                
-                try viewContext.save()
             }
+            
+            try viewContext.save()
         } catch {
-            print("Error importing folders: \(error.localizedDescription)")
+            print("Error importing preference: \(error.localizedDescription)")
         }
-        
     }
     
     func save() {

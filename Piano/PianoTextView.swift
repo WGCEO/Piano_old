@@ -28,7 +28,7 @@ class PianoTextView: UITextView {
         super.init(coder: aDecoder)
         self.textContainerInset = UIEdgeInsetsMake(20, 25, 60, 25)
         canvas.textView = self
-        self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1, NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body), NSForegroundColorAttributeName : UIColor.lightGray]
+        self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1, NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
     }
     
     

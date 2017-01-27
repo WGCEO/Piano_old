@@ -32,6 +32,7 @@ class DetailViewController: UIViewController {
     weak var masterViewController: MasterViewController?
     var isAfterViewDidAppear: Bool = false
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var composeBarButton: UIBarButtonItem!
     
     
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
@@ -147,6 +148,10 @@ class DetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isWaitingState = false
+        
         if !isIpad() && textView.attributedText.length == 0 {
             textView.appearKeyboard()
         }
@@ -158,8 +163,16 @@ class DetailViewController: UIViewController {
         textView.textColor = UIColor.black
     }
     
+    func setComposedButtonEnabled(){
+        let canMakeNewMemo = textView.attributedText.length != 0 ? true : false
+        composeBarButton.isEnabled = canMakeNewMemo
+        masterViewController?.composeBarButton.isEnabled = canMakeNewMemo
+    }
+    
     func keyboardWillShow(notification: Notification){
         textView.isWaitingState = true
+        setComposedButtonEnabled()
+        
         guard let userInfo = notification.userInfo,
             let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue else { return }
         
@@ -179,6 +192,7 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: Notification){
+        setComposedButtonEnabled()
         textView.isWaitingState = true
         
         textView.contentInset = UIEdgeInsets.zero
@@ -290,6 +304,10 @@ class DetailViewController: UIViewController {
         
         //데이터 소스에 nil 대입하면 알아서 초기화됨.
         memo = nil
+        
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isWaitingState = false
     }
     
     @IBAction func tapEffectButton(_ sender: Any) {
@@ -324,7 +342,8 @@ class DetailViewController: UIViewController {
             
             //폴더를 먼저 추가해야 메모를 생성할 수 있음
             //TODO: 여기에 폴더를 먼저 추가하라는 팝업 창 띄워줘야함
-            guard let folder = self.memo?.folder else { return }
+            guard let masterViewController = delegate as? MasterViewController else { return }
+            let folder = masterViewController.folder
             
             let memo = Memo(context: PianoData.coreDataStack.viewContext)
             memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
@@ -507,6 +526,7 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo else { return }
         memo.date = NSDate()
+        setComposedButtonEnabled()
         
     }
     
@@ -554,7 +574,19 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             
             memo!.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
         }
+        backToDetailViewControllerFromImagePickerViewController()
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        backToDetailViewControllerFromImagePickerViewController()
+    }
+    
+    func backToDetailViewControllerFromImagePickerViewController() {
         dismiss(animated: true, completion: nil)
+        textView.isEditable = false
+        textView.isSelectable = true
+        textView.isWaitingState = false
+        setComposedButtonEnabled()
     }
 
 }

@@ -44,7 +44,6 @@ class SettingTableViewController: UITableViewController {
             return
         }
         
-        
         performSegue(withIdentifier: "GoToDetail", sender: sender)
     }
     

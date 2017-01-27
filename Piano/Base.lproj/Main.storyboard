@@ -431,7 +431,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Xvq-cj-0uo"/>
-                        <barButtonItem image="playPiano" id="EcO-QV-0RL">
+                        <barButtonItem image="textEffect" id="EcO-QV-0RL">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="tapEffectButton:" destination="nsS-aP-t1B" id="kdY-1r-FiQ"/>
@@ -457,6 +457,7 @@
                         <outlet property="accessoryView" destination="spq-VJ-xUg" id="b24-Qs-lqw"/>
                         <outlet property="activityIndicator" destination="8Hz-3b-vcn" id="jfK-7L-B6K"/>
                         <outlet property="colorEffectButton" destination="HJX-5n-Yrg" id="aEI-ZD-5dq"/>
+                        <outlet property="composeBarButton" destination="IBU-zX-uge" id="8Hx-9I-utc"/>
                         <outlet property="label" destination="GLu-3r-qhB" id="yv3-7M-Tp3"/>
                         <outlet property="lineEffectButton" destination="jZ3-cX-YdD" id="XYF-vA-fJS"/>
                         <outlet property="sizeEffectButton" destination="dwK-Rd-jsC" id="dct-yZ-RwY"/>
@@ -472,9 +473,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="feS-pb-r0S">
                             <rect key="frame" x="0.0" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" image="pianoEraser">
-                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" title=" 단어 지우개" image="pianoEraser">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="tapEraseButton:" destination="nsS-aP-t1B" eventType="touchUpInside" id="EM4-DZ-UsD"/>
@@ -484,18 +485,18 @@
                             <rect key="frame" x="125" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" image="pianoAlbum">
-                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" title="  앨범" image="pianoAlbum">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="tapAlbumButton2:" destination="nsS-aP-t1B" eventType="touchUpInside" id="Ukq-be-3oQ"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcl-gj-8uN">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcl-gj-8uN">
                             <rect key="frame" x="250" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="완료">
+                            <state key="normal" title="완료" image="keyboardDown">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -512,7 +513,7 @@
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -793,21 +794,39 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wWv-91-V8M">
-                                        <rect key="frame" x="16" y="7" width="30" height="30"/>
-                                        <state key="normal" image="pianoSettingIcon"/>
+                                        <rect key="frame" x="9" y="0.0" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="Jd3-fw-J8Q"/>
+                                            <constraint firstAttribute="height" constant="44" id="Kpd-G1-TXh"/>
+                                        </constraints>
+                                        <state key="normal" image="settingsIcon"/>
                                         <connections>
                                             <segue destination="f7I-Rl-2ip" kind="presentation" id="AL3-kJ-B9j"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgK-QR-PUp">
-                                        <rect key="frame" x="334" y="10" width="25" height="24"/>
+                                        <rect key="frame" x="329" y="0.0" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="86N-ss-FF6"/>
+                                            <constraint firstAttribute="height" constant="44" id="Rxx-PC-UhV"/>
+                                        </constraints>
                                         <state key="normal" image="write"/>
                                         <connections>
                                             <action selector="tapAddMemoButton:" destination="1PD-UR-tuG" eventType="touchUpInside" id="PAk-ad-gld"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cA3-Ad-KIG" customClass="LTMorphingLabel" customModule="LTMorphingLabel">
+                                        <rect key="frame" x="167.5" y="12" width="40" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="pHL-9Q-htO"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYh-lJ-PP2">
                                         <rect key="frame" x="121" y="7" width="46" height="30"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="46" id="5Sa-Kf-mUt"/>
                                         </constraints>
@@ -817,7 +836,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aix-bU-25r">
-                                        <rect key="frame" x="207.5" y="7" width="46" height="30"/>
+                                        <rect key="frame" x="207" y="7" width="46" height="30"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="46" id="zCd-w3-06t"/>
                                         </constraints>
@@ -826,19 +846,10 @@
                                             <action selector="tapRightPageButton:" destination="1PD-UR-tuG" eventType="touchUpInside" id="fM3-gq-cTV"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cA3-Ad-KIG" customClass="LTMorphingLabel" customModule="LTMorphingLabel">
-                                        <rect key="frame" x="167.5" y="12" width="40" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="pHL-9Q-htO"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="WgK-QR-PUp" secondAttribute="trailing" constant="16" id="9bh-I8-imu"/>
+                                    <constraint firstAttribute="trailing" secondItem="WgK-QR-PUp" secondAttribute="trailing" constant="2" id="9bh-I8-imu"/>
                                     <constraint firstAttribute="height" constant="44" id="As5-6q-yPw"/>
                                     <constraint firstItem="cA3-Ad-KIG" firstAttribute="leading" secondItem="fYh-lJ-PP2" secondAttribute="trailing" id="E4s-ts-eVe"/>
                                     <constraint firstItem="GtI-2d-b5E" firstAttribute="top" secondItem="2dI-cA-jz1" secondAttribute="top" id="Pj7-Tl-BB9"/>
@@ -850,7 +861,7 @@
                                     <constraint firstItem="aix-bU-25r" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="gbQ-SL-X8l"/>
                                     <constraint firstItem="WgK-QR-PUp" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="oX5-0I-keG"/>
                                     <constraint firstItem="fYh-lJ-PP2" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="opF-LG-RaK"/>
-                                    <constraint firstItem="wWv-91-V8M" firstAttribute="leading" secondItem="2dI-cA-jz1" secondAttribute="leading" constant="16" id="qkQ-Vs-pwg"/>
+                                    <constraint firstItem="wWv-91-V8M" firstAttribute="leading" secondItem="2dI-cA-jz1" secondAttribute="leading" constant="9" id="qkQ-Vs-pwg"/>
                                     <constraint firstItem="cA3-Ad-KIG" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="wFz-GT-1h3"/>
                                 </constraints>
                             </view>
@@ -901,6 +912,7 @@
                         </view>
                     </navigationItem>
                     <connections>
+                        <outlet property="composeBarButton" destination="WgK-QR-PUp" id="ZEe-OE-Gg4"/>
                         <outlet property="leftPageButton" destination="fYh-lJ-PP2" id="s35-Or-ccq"/>
                         <outlet property="pageLabel" destination="cA3-Ad-KIG" id="YXD-Y7-Gsq"/>
                         <outlet property="tableView" destination="FrX-I6-VnQ" id="V8S-po-XT8"/>
@@ -929,7 +941,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -954,7 +966,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="f7I-Rl-2ip" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="YVS-sa-Ntb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YVS-sa-Ntb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -974,10 +986,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="keyboardDown" width="30" height="22"/>
         <image name="pianoAlbum" width="25" height="19"/>
         <image name="pianoEraser" width="20" height="20"/>
-        <image name="pianoSettingIcon" width="30" height="30"/>
-        <image name="playPiano" width="33" height="21"/>
+        <image name="settingsIcon" width="30" height="30"/>
+        <image name="textEffect" width="33" height="24"/>
         <image name="write" width="25" height="24"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

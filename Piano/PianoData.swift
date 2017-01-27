@@ -21,7 +21,7 @@ struct PianoData {
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
-        container.importPianoFolder()
+        container.checkCoreData()
         
         return container
     }()

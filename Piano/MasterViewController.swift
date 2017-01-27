@@ -16,6 +16,7 @@ protocol MasterViewControllerDelegate: class {
 
 class MasterViewController: UIViewController {
     
+    @IBOutlet weak var composeBarButton: UIButton!
     @IBOutlet weak var titleLabel: LTMorphingLabel!
     weak var delegate: MasterViewControllerDelegate?
     
