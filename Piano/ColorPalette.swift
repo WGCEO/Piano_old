@@ -15,6 +15,7 @@ struct ColorPalette {
                               .color(UIColor(colorLiteralRed: 139/255, green: 87/255, blue: 42/255, alpha: 1)),
                               .color(UIColor(colorLiteralRed: 13/255, green: 212/255, blue: 83/255, alpha: 1)),
                               .color(UIColor(colorLiteralRed: 246/255, green: 166/255, blue: 35/255, alpha: 1)),
+                              .color(.lightGray),
                               .color(.black)]
                               
 }

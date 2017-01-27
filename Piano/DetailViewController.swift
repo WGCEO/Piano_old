@@ -470,21 +470,6 @@ extension DetailViewController: NSLayoutManagerDelegate {
 
 extension DetailViewController: UITextViewDelegate {
     
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("shouldInteractWith")
-        return true
-    }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        print("textViewShouldBeginEditing")
-        return true
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        print("shouldChangeTextIn")
-        return true
-    }
-    
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard memo != nil else {
             //TODO: 메모 생성하기

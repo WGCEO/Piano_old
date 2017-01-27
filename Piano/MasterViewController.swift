@@ -348,6 +348,8 @@ class MasterViewController: UIViewController {
             //폴더가 없다는 말이므로 폴더를 먼저 추가해달라고 말하기
             return }
         
+        deleteTopMemoIfEmpty()
+        
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
         memo.date = NSDate()

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
+        
         PianoData.deleteMemosIfPassOneMonth()
         
         let navigationController = splitViewController.viewControllers.last as! UINavigationController

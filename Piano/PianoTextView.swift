@@ -28,7 +28,7 @@ class PianoTextView: UITextView {
         super.init(coder: aDecoder)
         self.textContainerInset = UIEdgeInsetsMake(20, 25, 60, 25)
         canvas.textView = self
-        self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1, NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
+        self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1]
     }
     
     
@@ -98,9 +98,47 @@ class PianoTextView: UITextView {
         
         self.selectedRange = NSMakeRange(textLocation, 0)
         
-        appearKeyboard()
+        
+        if let attr = self.textStyling(at: textPosition, in: .forward), let url = attr[NSLinkAttributeName] as? URL {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+        
+        if !tappedOnLink(textPosition: textPosition) {
+            appearKeyboard()
+        }
+        
+        
     }
     
+    func tappedOnLink(textPosition: UITextPosition) -> Bool{
+        //주의!!! 이거하면 아래 공간 누르기만 하면 무조건 실행되므로 이거 하면 안됌!!!!
+//        if let textPosition1 = self.position(from: textPosition, offset: -1),
+//            let range = textRange(from: textPosition1, to: textPosition) {
+//            
+//            let startOffset = offset(from: beginningOfDocument, to: range.start)
+//            let endOffset = offset(from: beginningOfDocument, to: range.end)
+//            let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
+//            let attrSubString = attributedText.attributedSubstring(from: offsetRange)
+//            if let url = attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//                return true
+//            }
+//        }
+        
+        if let textPosition2 = self.position(from: textPosition, offset: 1),
+            let range = textRange(from: textPosition, to: textPosition2) {
+                
+                let startOffset = offset(from: beginningOfDocument, to: range.start)
+                let endOffset = offset(from: beginningOfDocument, to: range.end)
+                let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
+                let attrSubString = attributedText.attributedSubstring(from: offsetRange)
+                if let url = attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    return true
+            }
+        }
+        return false
+    }
     
     override var canBecomeFirstResponder: Bool {
         get {
