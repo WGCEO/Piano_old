@@ -130,6 +130,8 @@ class DetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
+        
+        saveCoreDataSoftly()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -245,7 +247,7 @@ class DetailViewController: UIViewController {
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
         
-        saveMemoContentToCoreData()
+        saveCoreDataSoftly()
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -508,6 +510,9 @@ extension DetailViewController: MasterViewControllerDelegate {
         if let oldMemo = self.memo, textView.attributedText.length == 0 {
             PianoData.coreDataStack.viewContext.delete(oldMemo)
             PianoData.save()
+        } else if let _ = self.memo {
+            //기존 메모가 존재한다면
+            saveCoreDataSoftly()
         }
         
         
@@ -538,21 +543,26 @@ extension DetailViewController: UITextViewDelegate {
         }
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        saveMemoContentToCoreData()
-    }
-    
-    func saveMemoContentToCoreData() {
-        guard let memo = memo else { return }
+    func saveCoreDataSoftly(){
+        guard let memo = self.memo,
+            let textView = self.textView else { return }
         PianoData.coreDataStack.performBackgroundTask { (context) in
-            memo.content = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText) as NSData
-            self.setFirstLine()
-            memo.date = NSDate()
+            let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
+            memo.content = data as NSData
             do {
                 try context.save()
             } catch {
-                print("키보드 내려서 메모 저장하는데 에러 \(error.localizedDescription)")
+                print("쓰레기 버튼 눌렀는데 에러: \(error)")
             }
+        }
+    }
+    
+    func saveCoreDataHardly(){
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        DispatchQueue.main.async { [unowned self] in
+            PianoData.coreDataStack.saveContext()
+            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -583,9 +593,36 @@ extension DetailViewController: UITextViewDelegate {
     
     //TODO: 이거 여기다가 넣는게 진정 맞을까..?? 비용문제..
     func textViewDidChange(_ textView: UITextView) {
-        guard let memo = memo else { return }
+        guard let memo = memo, let attrText = textView.attributedText else { return }
         memo.date = NSDate()
         setComposedButtonEnabled()
+        
+        if attrText.containsAttachments(in: NSMakeRange(0, attrText.length)) && memo.imageData == nil {
+            attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+                
+                guard let attachment = value as? NSTextAttachment,
+                    let image = attachment.image else { return }
+                
+                let oldWidth = image.size.width;
+                
+                //I'm subtracting 10px to make the image display nicely, accounting
+                //for the padding inside the textView
+                let ratio = 60 / oldWidth;
+                
+                let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+                UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+                image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+                    memo.imageData = data as NSData
+                    stop.pointee = true
+                }
+                
+            }
+        } else if !attrText.containsAttachments(in: NSMakeRange(0, attrText.length)){
+            memo.imageData = nil
+        }
         
     }
     
@@ -632,7 +669,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             textView.attributedText = attributedString;
             textView.font = UIFont.preferredFont(forTextStyle: .body)
             
-            saveMemoContentToCoreData()
+            saveCoreDataHardly()
             
             
         }

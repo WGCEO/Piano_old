@@ -23,7 +23,7 @@ class PianoPersistentContainer: NSPersistentContainer {
             } else {
                 let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
                 memo.content = data as NSData
-                setFirstLine()
+                setFirstLineAndImage()
             }
         }
         
@@ -36,8 +36,10 @@ class PianoPersistentContainer: NSPersistentContainer {
         }
     }
     
-    func setFirstLine() {
-        guard let memo = self.memo, let textView = self.textView else { return }
+    func setFirstLineAndImage() {
+        guard let memo = self.memo,
+            let textView = self.textView,
+            let attrText = textView.attributedText else { return }
         
         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
         let firstLine: String
@@ -52,6 +54,34 @@ class PianoPersistentContainer: NSPersistentContainer {
         }
         
         memo.firstLine = firstLine
+        
+        
+        if attrText.containsAttachments(in: NSMakeRange(0, attrText.length)) && memo.imageData == nil {
+            attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+                
+                guard let attachment = value as? NSTextAttachment,
+                    let image = attachment.image else { return }
+                
+                let oldWidth = image.size.width;
+                
+                //I'm subtracting 10px to make the image display nicely, accounting
+                //for the padding inside the textView
+                let ratio = 60 / oldWidth;
+                
+                let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+                UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+                image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+                    memo.imageData = data as NSData
+                    stop.pointee = true
+                }
+                
+            }
+        } else if !attrText.containsAttachments(in: NSMakeRange(0, attrText.length)) {
+            memo.imageData = nil
+        }
     }
     
 }

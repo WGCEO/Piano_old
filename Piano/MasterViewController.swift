@@ -418,8 +418,8 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
         case .move:
             guard let indexPath = indexPath,
                 let newIndexPath = newIndexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.moveRow(at: indexPath, to: newIndexPath)
+            
         }
     }
     
@@ -441,6 +441,10 @@ extension MasterViewController: UITableViewDataSource {
         //TODO: Localizing
         cell.ibTitleLabel.text = memo.firstLine
         cell.ibSubTitleLabel.text = formatter.string(from: memo.date as! Date)
+        if let data = memo.imageData {
+            let image = UIImage(data: data as Data)
+            cell.ibImageView.image = image
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

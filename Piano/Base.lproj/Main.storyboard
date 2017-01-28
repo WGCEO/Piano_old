@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -523,7 +524,7 @@
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -566,29 +567,49 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsdssdsds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-If-nh9">
-                                                    <rect key="frame" x="16" y="16" width="343" height="21"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-pg-62g">
-                                                    <rect key="frame" x="16" y="37" width="343" height="15"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SJL-xN-hG3">
+                                                    <rect key="frame" x="16" y="8" width="343" height="53"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0S1-0f-h2d">
+                                                            <rect key="frame" x="0.0" y="9" width="290" height="35"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsdssdsds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-If-nh9">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-pg-62g">
+                                                                    <rect key="frame" x="0.0" y="20.5" width="290" height="14.5"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yUX-ya-8Ro">
+                                                            <rect key="frame" x="290" y="0.0" width="53" height="53"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="yUX-ya-8Ro" secondAttribute="height" multiplier="1:1" id="KOp-MV-jNh"/>
+                                                            </constraints>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="8"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </imageView>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="LQF-pg-62g" firstAttribute="top" secondItem="qbU-If-nh9" secondAttribute="bottom" id="4nk-hF-q5f"/>
-                                                <constraint firstAttribute="trailing" secondItem="qbU-If-nh9" secondAttribute="trailing" constant="16" id="6ik-Sz-c0s"/>
-                                                <constraint firstItem="qbU-If-nh9" firstAttribute="top" secondItem="8Eg-Eu-b6r" secondAttribute="top" constant="16" id="JwL-YQ-ryM"/>
-                                                <constraint firstItem="LQF-pg-62g" firstAttribute="leading" secondItem="8Eg-Eu-b6r" secondAttribute="leading" constant="16" id="L57-fR-McL"/>
-                                                <constraint firstItem="qbU-If-nh9" firstAttribute="leading" secondItem="8Eg-Eu-b6r" secondAttribute="leading" constant="16" id="QeC-ef-h4n"/>
-                                                <constraint firstAttribute="trailing" secondItem="LQF-pg-62g" secondAttribute="trailing" constant="16" id="zqT-hT-2ed"/>
+                                                <constraint firstItem="SJL-xN-hG3" firstAttribute="top" secondItem="8Eg-Eu-b6r" secondAttribute="top" constant="8" id="EzJ-aQ-RD5"/>
+                                                <constraint firstItem="SJL-xN-hG3" firstAttribute="leading" secondItem="8Eg-Eu-b6r" secondAttribute="leading" constant="16" id="PaF-I2-e7I"/>
+                                                <constraint firstAttribute="trailing" secondItem="SJL-xN-hG3" secondAttribute="trailing" constant="16" id="Sg6-4v-1wE"/>
+                                                <constraint firstAttribute="bottom" secondItem="SJL-xN-hG3" secondAttribute="bottom" constant="8" id="dYE-bH-vH9"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="ibImageView" destination="yUX-ya-8Ro" id="AIG-Aj-QeE"/>
                                             <outlet property="ibSubTitleLabel" destination="LQF-pg-62g" id="1Ud-sK-H6i"/>
                                             <outlet property="ibTitleLabel" destination="qbU-If-nh9" id="kaS-2h-DZj"/>
                                         </connections>
@@ -757,7 +778,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -866,7 +887,7 @@
                     <navigationItem key="navigationItem" id="IXN-Oq-85f"/>
                     <connections>
                         <outlet property="collectionView" destination="YfF-sf-u27" id="dfO-G1-6rh"/>
-                        <segue destination="kgB-v3-UJh" kind="modal" identifier="GoToOpenSource" id="T4w-Vo-JrY"/>
+                        <segue destination="kgB-v3-UJh" kind="presentation" identifier="GoToOpenSource" id="T4w-Vo-JrY"/>
                         <segue destination="ZsM-Sh-Zx6" kind="presentation" identifier="GoToDeleteMemo" id="IvB-hB-u4J"/>
                     </connections>
                 </viewController>
@@ -879,7 +900,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" toolbarHidden="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -902,7 +923,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ZsM-Sh-Zx6" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lm1-6Z-z2I">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Lm1-6Z-z2I">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -925,7 +946,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="kgB-v3-UJh" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="v9z-yU-l1d">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="v9z-yU-l1d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
