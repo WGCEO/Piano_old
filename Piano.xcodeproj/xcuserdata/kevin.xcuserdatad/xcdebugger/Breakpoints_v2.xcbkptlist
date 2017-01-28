@@ -324,11 +324,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507302249.642123"
+            timestampString = "507302597.84912"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "509"
+            endingLineNumber = "509"
             landmarkName = "masterViewController(_:send:)"
             landmarkType = "7">
          </BreakpointContent>

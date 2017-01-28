@@ -20,7 +20,7 @@ class DetailViewController: UIViewController {
     var memo: Memo? {
         didSet {
             updateTextView(memo: memo)
-            setComposedButtonEnabled()
+//            setComposedButtonEnabled()
         }
     }
     weak var delegate: DetailViewControllerDelegate?
@@ -187,7 +187,7 @@ class DetailViewController: UIViewController {
     
     func keyboardWillShow(notification: Notification){
         textView.isWaitingState = true
-        setComposedButtonEnabled()
+//        setComposedButtonEnabled()
         
         guard let userInfo = notification.userInfo,
             let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue else { return }
@@ -208,7 +208,7 @@ class DetailViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: Notification){
-        setComposedButtonEnabled()
+//        setComposedButtonEnabled()
         textView.isWaitingState = true
         
         textView.contentInset = UIEdgeInsets.zero
@@ -321,7 +321,7 @@ class DetailViewController: UIViewController {
             self.textView.isEditable = false
             self.textView.isSelectable = true
             self.textView.isWaitingState = false
-            self.setComposedButtonEnabled()
+//            self.setComposedButtonEnabled()
         }
     }
     
@@ -420,8 +420,12 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
-        addNewMemo()
-        textView.appearKeyboard()
+        saveCoreDataHardly()
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.addNewMemo()
+            self.textView.appearKeyboard()
+        }
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
@@ -594,7 +598,7 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let memo = memo, let attrText = textView.attributedText else { return }
         memo.date = NSDate()
-        setComposedButtonEnabled()
+//        setComposedButtonEnabled()
         
         if attrText.containsAttachments(in: NSMakeRange(0, attrText.length)) && memo.imageData == nil {
             attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
@@ -684,7 +688,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
         textView.isEditable = false
         textView.isSelectable = true
         textView.isWaitingState = false
-        setComposedButtonEnabled()
+//        setComposedButtonEnabled()
     }
 
 }
