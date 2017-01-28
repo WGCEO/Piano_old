@@ -19,8 +19,8 @@ class PianoLabel: UILabel {
     var textEffect: TextEffect = .color(.red)
     var attributes: [[String : Any]] = []
     
-    var cosQuarterPeriod: CGFloat = 70 //이거 Designable
-    var cosMaxHeight: CGFloat = 60  //이것도 Designable
+    var cosQuarterPeriod: CGFloat = 80 //이거 Designable
+    var cosMaxHeight: CGFloat = 70  //이것도 Designable
     
     var textRect = CGRect.zero
     

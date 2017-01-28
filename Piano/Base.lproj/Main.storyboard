@@ -453,7 +453,7 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="kIA-Ld-OAb">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="UPd-oc-iFy">
+                        <barButtonItem key="rightBarButtonItem" image="mailIcon" id="UPd-oc-iFy">
                             <connections>
                                 <action selector="tapSendEmail:" destination="nsS-aP-t1B" id="O3a-C0-32S"/>
                             </connections>
@@ -967,6 +967,74 @@
             </objects>
             <point key="canvasLocation" x="-3319" y="1333"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="EWr-Uh-A53">
+            <objects>
+                <viewController id="JWS-Gb-Mhx" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RHF-SQ-zWt"/>
+                        <viewControllerLayoutGuide type="bottom" id="MJN-KT-uLB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KjA-bf-8Vs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YfF-sf-u27">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rML-O7-8D2">
+                                    <size key="itemSize" width="172" height="171"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="t4L-WR-jpF">
+                                        <rect key="frame" x="0.0" y="0.0" width="172" height="171"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="172" height="171"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kdn-8i-4Wo">
+                                                    <rect key="frame" x="36" y="36" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="1uu-Fr-t4M"/>
+                                                        <constraint firstAttribute="height" constant="100" id="Nhz-se-2xF"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNx-Kd-0Wl">
+                                                    <rect key="frame" x="67" y="136" width="38" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="QNx-Kd-0Wl" firstAttribute="centerX" secondItem="t4L-WR-jpF" secondAttribute="centerX" id="KOk-jH-Kyh"/>
+                                            <constraint firstItem="QNx-Kd-0Wl" firstAttribute="top" secondItem="kdn-8i-4Wo" secondAttribute="bottom" id="MKY-wd-5qX"/>
+                                            <constraint firstItem="kdn-8i-4Wo" firstAttribute="centerY" secondItem="t4L-WR-jpF" secondAttribute="centerY" id="k2A-fb-ayI"/>
+                                            <constraint firstItem="kdn-8i-4Wo" firstAttribute="centerX" secondItem="t4L-WR-jpF" secondAttribute="centerX" id="wVi-M3-7En"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="YfF-sf-u27" firstAttribute="leading" secondItem="KjA-bf-8Vs" secondAttribute="leading" id="BSj-ba-Y9R"/>
+                            <constraint firstAttribute="trailing" secondItem="YfF-sf-u27" secondAttribute="trailing" id="dJm-h8-K9i"/>
+                            <constraint firstItem="YfF-sf-u27" firstAttribute="top" secondItem="RHF-SQ-zWt" secondAttribute="bottom" id="ozT-Hx-gue"/>
+                            <constraint firstItem="MJN-KT-uLB" firstAttribute="top" secondItem="YfF-sf-u27" secondAttribute="bottom" id="sbI-Hf-tzx"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A8i-j5-9Bf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1616.8" y="-1108.6956521739132"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="mAz-5k-EvD">
             <objects>
@@ -993,6 +1061,7 @@
     </scenes>
     <resources>
         <image name="keyboardDown" width="30" height="22"/>
+        <image name="mailIcon" width="25" height="16"/>
         <image name="pianoAlbum" width="25" height="19"/>
         <image name="pianoEraser" width="20" height="20"/>
         <image name="settingsIcon" width="30" height="30"/>

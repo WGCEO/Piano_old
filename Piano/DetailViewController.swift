@@ -302,34 +302,19 @@ class DetailViewController: UIViewController {
             }
             
             mail.setMessageBody(self.parseToHTMLString(from: mutableAttrText), isHTML:true)
-            self.present(mail, animated: true, completion:nil)
+            
+            if MFMailComposeViewController.canSendMail() {
+                self.present(mail, animated: true, completion:nil)
+            } else {
+                self.showSendMailErrorAlert()
+            }
             
             self.activityIndicator.stopAnimating()
+            self.textView.isEditable = false
+            self.textView.isSelectable = true
+            self.textView.isWaitingState = false
+            self.setComposedButtonEnabled()
         }
-        
-        
-
-    }
-    
-    func sendEmail(with string: String) {
-        let mailComposeViewController = configuredMailComposeViewController(with: string)
-        if MFMailComposeViewController.canSendMail() {
-            self.present(mailComposeViewController, animated: true, completion: nil)
-        } else {
-            self.showSendMailErrorAlert()
-        }
-    }
-    
-    func configuredMailComposeViewController(with string: String) -> MFMailComposeViewController {
-        let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
-        
-//        mailComposerVC.setToRecipients(["wepiano@naver.com"])
-//        mailComposerVC.setSubject("we love piano")
-        
-        mailComposerVC.setMessageBody(string, isHTML: true)
-        
-        return mailComposerVC
     }
     
     func showSendMailErrorAlert() {
@@ -338,9 +323,6 @@ class DetailViewController: UIViewController {
         sendMailErrorAlert.addAction(cancel)
         present(sendMailErrorAlert, animated: true, completion: nil)
     }
-    
-    
-    
     
     @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
         if sizeEffectButton.isSelected {
