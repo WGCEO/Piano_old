@@ -109,8 +109,9 @@ class DetailViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: nil) {[unowned self] (_) in
-            if self.textView.mode != .typing {
-                self.textView.attachCanvas()
+            guard let textView = self.textView else { return }
+            if textView.mode != .typing {
+                textView.attachCanvas()
             }
         }
     }
@@ -169,6 +170,12 @@ class DetailViewController: UIViewController {
     func setComposedButtonEnabled(){
         guard let textView = self.textView,
             let composeBarButton = self.composeBarButton else { return }
+        
+        guard let _ = self.memo else {
+            composeBarButton.isEnabled = true
+            masterViewController?.composeBarButton.isEnabled = true
+            return
+        }
         
         let canMakeNewMemo = textView.attributedText.length != 0 ? true : false
         composeBarButton.isEnabled = canMakeNewMemo
@@ -355,11 +362,12 @@ class DetailViewController: UIViewController {
         PianoData.save()
         
         //데이터 소스에 nil 대입하면 알아서 초기화됨.
-        memo = nil
+        addNewMemo()
         
         textView.isEditable = false
         textView.isSelectable = true
         textView.isWaitingState = false
+        
     }
     
     @IBAction func tapEffectButton(_ sender: Any) {
@@ -538,6 +546,8 @@ extension DetailViewController: UITextViewDelegate {
         guard let memo = memo else { return }
         PianoData.coreDataStack.performBackgroundTask { (context) in
             memo.content = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText) as NSData
+            self.setFirstLine()
+            memo.date = NSDate()
             do {
                 try context.save()
             } catch {
@@ -550,8 +560,12 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         //TODO: 이걸 해야 아이패드에서 메모 리스트가 실시간 갱신됨, 이것때문에 느린지 체크하기 -> 아이패드에서만 이 기능 사용할 수 있도록 만들기
         
+        setFirstLine()
+    }
+    
+    func setFirstLine() {
         guard let memo = self.memo else { return }
-
+        
         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
         let firstLine: String
         switch text {
@@ -591,6 +605,11 @@ extension DetailViewController: UITextViewDelegate {
 extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            textView.font = UIFont.preferredFont(forTextStyle: .body)
+            if memo == nil {
+                addNewMemo()
+            }
+            
             //여기서 selectedRange에다가 NSTextAttachment로 붙여 넣어야 함 물론 이미지 크기 조절해서!
             var attributedString :NSMutableAttributedString!
             attributedString = NSMutableAttributedString(attributedString:textView.attributedText)
@@ -613,11 +632,9 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             textView.attributedText = attributedString;
             textView.font = UIFont.preferredFont(forTextStyle: .body)
             
-            if memo == nil {
-                addNewMemo()
-            }
-            
             saveMemoContentToCoreData()
+            
+            
         }
         backToDetailViewControllerFromImagePickerViewController()
     }

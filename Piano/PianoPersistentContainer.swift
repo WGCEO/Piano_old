@@ -23,7 +23,7 @@ class PianoPersistentContainer: NSPersistentContainer {
             } else {
                 let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
                 memo.content = data as NSData
-                memo.firstLine = textView.text.trimmingCharacters(in: CharacterSet.newlines)
+                setFirstLine()
             }
         }
         
@@ -34,6 +34,24 @@ class PianoPersistentContainer: NSPersistentContainer {
         } catch {
             print(error)
         }
+    }
+    
+    func setFirstLine() {
+        guard let memo = self.memo, let textView = self.textView else { return }
+        
+        let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
+        let firstLine: String
+        switch text {
+        case let x where x.characters.count > 50:
+            firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
+        case let x where x.characters.count == 0:
+            //이미지만 있는 경우에도 해당됨
+            firstLine = "새로운 메모"
+        default:
+            firstLine = text
+        }
+        
+        memo.firstLine = firstLine
     }
     
 }

@@ -25,11 +25,11 @@
 		0A8815A91E31FB1D00ABEB98 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */; };
 		0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815B21E35A92200ABEB98 /* MemoCell.swift */; };
 		0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */; };
-		0AEC95841E39DB1A0039A47F /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC95831E39DB1A0039A47F /* SettingTableViewController.swift */; };
 		0AEC95861E39EC710039A47F /* SettingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */; };
 		0AEC95881E3A001E0039A47F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */; };
 		0AEC95921E3C7CCD0039A47F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEC95911E3C7CCD0039A47F /* CloudKit.framework */; };
 		0AEC95941E3C86580039A47F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC95931E3C86580039A47F /* SettingViewController.swift */; };
+		0AEC95961E3C89E50039A47F /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC95951E3C89E50039A47F /* SettingCell.swift */; };
 		0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */; };
 		0AEE6D851E123FD8009C98F4 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */; };
 		310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310870A11DE14D6A0044BA5D /* PianoTextView.swift */; };
@@ -86,12 +86,12 @@
 		0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0A8815B21E35A92200ABEB98 /* MemoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
-		0AEC95831E39DB1A0039A47F /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingDetailViewController.swift; sourceTree = "<group>"; };
 		0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		0AEC95891E3B2F240039A47F /* Piano.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Piano.entitlements; sourceTree = "<group>"; };
 		0AEC95911E3C7CCD0039A47F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		0AEC95931E3C86580039A47F /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		0AEC95951E3C89E50039A47F /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
 		0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		188DDF387D6455DD6E5AC450 /* Pods_Piano.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Piano.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,8 +207,8 @@
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				0AEC95931E3C86580039A47F /* SettingViewController.swift */,
+				0AEC95951E3C89E50039A47F /* SettingCell.swift */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
-				0AEC95831E39DB1A0039A47F /* SettingTableViewController.swift */,
 				0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */,
 				0A8815A71E31F76000ABEB98 /* Final Version */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
@@ -501,8 +501,8 @@
 				0A2CE68A1E1217920003F3CB /* TextEffect.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */,
+				0AEC95961E3C89E50039A47F /* SettingCell.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
-				0AEC95841E39DB1A0039A47F /* SettingTableViewController.swift in Sources */,
 				0A8815A91E31FB1D00ABEB98 /* DetailViewController.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,

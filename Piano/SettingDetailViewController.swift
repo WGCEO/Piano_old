@@ -9,17 +9,15 @@
 import UIKit
 
 class SettingDetailViewController: UIViewController {
-    
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var imageView: UIImageView!
-    var dataSource: (UIImage, String)!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.image = dataSource.0
-        textView.text = dataSource.1
 
+
+    }
+    @IBAction func tapBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
 
 }
