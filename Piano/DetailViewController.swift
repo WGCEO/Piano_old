@@ -425,6 +425,7 @@ class DetailViewController: UIViewController {
         DispatchQueue.main.async { [unowned self] in
             self.addNewMemo()
             self.textView.appearKeyboard()
+    
         }
     }
     
