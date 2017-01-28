@@ -8,6 +8,8 @@
 
 import UIKit
 import Photos
+import MessageUI
+
 
 protocol DetailViewControllerDelegate: class {
     func detailViewController(_ controller: DetailViewController, addMemo: Memo)
@@ -18,6 +20,7 @@ class DetailViewController: UIViewController {
     var memo: Memo? {
         didSet {
             updateTextView(memo: memo)
+            setComposedButtonEnabled()
         }
     }
     weak var delegate: DetailViewControllerDelegate?
@@ -164,9 +167,13 @@ class DetailViewController: UIViewController {
     }
     
     func setComposedButtonEnabled(){
+        guard let textView = self.textView,
+            let composeBarButton = self.composeBarButton else { return }
+        
         let canMakeNewMemo = textView.attributedText.length != 0 ? true : false
         composeBarButton.isEnabled = canMakeNewMemo
         masterViewController?.composeBarButton.isEnabled = canMakeNewMemo
+        
     }
     
     func keyboardWillShow(notification: Notification){
@@ -231,8 +238,7 @@ class DetailViewController: UIViewController {
         textView.canvas.removeFromSuperview()
         textView.mode = .typing
         
-        guard let memo = memo else { return }
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
+        saveMemoContentToCoreData()
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -248,28 +254,92 @@ class DetailViewController: UIViewController {
         lineEffectButton.isSelected = false
     }
     
-//    @IBAction func tapTextViewGesture(_ sender: UITapGestureRecognizer) {
-//        let location = sender.location(in: textView)
-//        print("터치위치: \(location), 텍스트뷰 오프셋: \(textView.contentOffset)")
-//        guard let textPosition = textView.closestPosition(to: location) else {
-//            print("설마 여기가?")
-//            return
-//        }
-//        
-//        let textLocation = textView.offset(from: textView.beginningOfDocument, to: textPosition)
-//        
-//        textView.selectedRange = NSMakeRange(textLocation, 0)
-//
-////        if let textRange = textView.tokenizer.rangeEnclosingPosition(textPosition, with: .word, inDirection: UITextLayoutDirection.right.rawValue) {
-////            let textLocation = textView.offset(from: textView.beginningOfDocument, to: textRange.end)
-////            textView.selectedRange = NSMakeRange(textLocation, 0)
-////            
-////        } else {
-////            textView.selectedRange = NSMakeRange(textLocation, 0)
-////        }
-//        
-//        showKeyboard(bool: true)
-//    }
+    func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
+        let imgData = UIImagePNGRepresentation(image)!
+        let dataString = imgData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
+        return dataString
+    }
+    
+    func parseToHTMLString(from: NSAttributedString) -> String {
+        let attr = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
+        do {
+            let data = try from.data(from: NSMakeRange(0, from.length), documentAttributes: attr)
+            guard let htmlString = String(data: data, encoding: String.Encoding.utf8) else { return ""}
+            return htmlString
+        } catch {
+            print(error.localizedDescription)
+        }
+        return ""
+    }
+    
+    @IBAction func tapSendEmail(_ sender: Any) {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        DispatchQueue.main.async { [unowned self] in
+            guard let attrText = self.textView.attributedText else { return }
+            let mail:MFMailComposeViewController = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setSubject("We Love Piano")
+            
+            let mutableAttrText = NSMutableAttributedString(attributedString: attrText)
+            
+            attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+                
+                guard let attachment = value as? NSTextAttachment,
+                    let image = attachment.image,
+                    let data = UIImagePNGRepresentation(image) else { return }
+                
+                mail.addAttachmentData(data, mimeType: "image/png", fileName: "piano\(range.location).png")
+                mutableAttrText.replaceCharacters(in: range, with: NSAttributedString(string: "\n"))
+            }
+            
+            attrText.enumerateAttribute(NSFontAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+                guard let font = value as? UIFont else { return }
+                
+                let newFont = font.withSize(font.pointSize - 4)
+                mutableAttrText.addAttributes([NSFontAttributeName : newFont], range: range)
+            }
+            
+            mail.setMessageBody(self.parseToHTMLString(from: mutableAttrText), isHTML:true)
+            self.present(mail, animated: true, completion:nil)
+            
+            self.activityIndicator.stopAnimating()
+        }
+        
+        
+
+    }
+    
+    func sendEmail(with string: String) {
+        let mailComposeViewController = configuredMailComposeViewController(with: string)
+        if MFMailComposeViewController.canSendMail() {
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            self.showSendMailErrorAlert()
+        }
+    }
+    
+    func configuredMailComposeViewController(with string: String) -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+//        mailComposerVC.setToRecipients(["wepiano@naver.com"])
+//        mailComposerVC.setSubject("we love piano")
+        
+        mailComposerVC.setMessageBody(string, isHTML: true)
+        
+        return mailComposerVC
+    }
+    
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController(title: "메일을 보낼 수 없습니다.", message: "디바이스 혹은 인터넷 상태를 확인해주세요", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        sendMailErrorAlert.addAction(cancel)
+        present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+    
+    
     
     
     @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
@@ -479,12 +549,20 @@ extension DetailViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard let memo = memo else { return }
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
+        saveMemoContentToCoreData()
     }
     
- 
-    
+    func saveMemoContentToCoreData() {
+        guard let memo = memo else { return }
+        PianoData.coreDataStack.performBackgroundTask { (context) in
+            memo.content = NSKeyedArchiver.archivedData(withRootObject: self.textView.attributedText) as NSData
+            do {
+                try context.save()
+            } catch {
+                print("키보드 내려서 메모 저장하는데 에러 \(error.localizedDescription)")
+            }
+        }
+    }
     
     //TextViewDidChange는 지우는 erase버튼이 실행될 때 호출이 되지 않아 이 코드에서 코어데이터에 메모를 삽입하게 함
     func textViewDidChangeSelection(_ textView: UITextView) {
@@ -557,7 +635,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
                 addNewMemo()
             }
             
-            memo!.content = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText) as NSData
+            saveMemoContentToCoreData()
         }
         backToDetailViewControllerFromImagePickerViewController()
     }
@@ -576,3 +654,10 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
 
 }
 
+
+extension DetailViewController: MFMailComposeViewControllerDelegate {
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}

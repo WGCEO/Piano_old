@@ -23,7 +23,6 @@
 		0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8150E21E1CB1D100F2EDFE /* PianoData.swift */; };
 		0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A51E31F75500ABEB98 /* MasterViewController.swift */; };
 		0A8815A91E31FB1D00ABEB98 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */; };
-		0A8815AF1E32008800ABEB98 /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815AE1E32008800ABEB98 /* FolderCell.swift */; };
 		0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815B21E35A92200ABEB98 /* MemoCell.swift */; };
 		0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */; };
 		0AEC95841E39DB1A0039A47F /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC95831E39DB1A0039A47F /* SettingTableViewController.swift */; };
@@ -84,7 +83,6 @@
 		0A8150E21E1CB1D100F2EDFE /* PianoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoData.swift; sourceTree = "<group>"; };
 		0A8815A51E31F75500ABEB98 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		0A8815AE1E32008800ABEB98 /* FolderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FolderCell.swift; path = ../FolderCell.swift; sourceTree = "<group>"; };
 		0A8815B21E35A92200ABEB98 /* MemoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
 		0AEC95831E39DB1A0039A47F /* SettingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
@@ -172,7 +170,6 @@
 				0A8815A51E31F75500ABEB98 /* MasterViewController.swift */,
 				0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */,
 				0A8815B21E35A92200ABEB98 /* MemoCell.swift */,
-				0A8815AE1E32008800ABEB98 /* FolderCell.swift */,
 				0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */,
 				0A1812831E29DF1300272080 /* TextEffectCell.swift */,
 			);
@@ -208,8 +205,8 @@
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
-				0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */,
 				0AEC95831E39DB1A0039A47F /* SettingTableViewController.swift */,
+				0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */,
 				0A8815A71E31F76000ABEB98 /* Final Version */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
 				0A2CE6891E1217920003F3CB /* TextEffect.swift */,
@@ -490,7 +487,6 @@
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
 				0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */,
 				0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */,
-				0A8815AF1E32008800ABEB98 /* FolderCell.swift in Sources */,
 				0AEC95861E39EC710039A47F /* SettingDetailViewController.swift in Sources */,
 				3175A8011DEEC81700C1A02E /* PianoTextStorage.swift in Sources */,
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,

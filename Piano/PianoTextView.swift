@@ -84,13 +84,12 @@ class PianoTextView: UITextView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touchesEnded")
         guard let firstTouch = touches.first else { return }
         
         let location = firstTouch.location(in: self)
         
         guard let textPosition = self.closestPosition(to: location) else {
-            print("설마 여기가?")
+            appearKeyboard()
             return
         }
         

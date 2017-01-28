@@ -235,7 +235,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCe-Vb-4bA">
-                                                    <rect key="frame" x="76" y="12.5" width="15" height="26"/>
+                                                    <rect key="frame" x="76" y="12" width="15" height="26"/>
                                                     <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="26"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -366,7 +366,7 @@
                                     <constraint firstAttribute="height" constant="100" id="wSb-fx-zm5"/>
                                 </constraints>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PGI-CO-T9n" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PGI-CO-T9n" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
@@ -452,7 +452,13 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="kIA-Ld-OAb"/>
+                    <navigationItem key="navigationItem" id="kIA-Ld-OAb">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="UPd-oc-iFy">
+                            <connections>
+                                <action selector="tapSendEmail:" destination="nsS-aP-t1B" id="O3a-C0-32S"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="accessoryView" destination="spq-VJ-xUg" id="b24-Qs-lqw"/>
                         <outlet property="activityIndicator" destination="8Hz-3b-vcn" id="jfK-7L-B6K"/>
@@ -474,7 +480,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title=" 단어 지우개" image="pianoEraser">
+                            <state key="normal" image="pianoEraser">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -485,7 +491,7 @@
                             <rect key="frame" x="125" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="  앨범" image="pianoAlbum">
+                            <state key="normal" image="pianoAlbum">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -496,7 +502,7 @@
                             <rect key="frame" x="250" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="완료" image="keyboardDown">
+                            <state key="normal" image="keyboardDown">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -513,7 +519,7 @@
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -544,22 +550,22 @@
                         <sections>
                             <tableViewSection headerTitle="설정" id="ODY-Oy-UWo">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="wvj-q1-SYO" imageView="0ik-qE-Z3J" rowHeight="44" style="IBUITableViewCellStyleDefault" id="d9h-0D-D9X">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="wvj-q1-SYO" imageView="0ik-qE-Z3J" rowHeight="80" style="IBUITableViewCellStyleDefault" id="d9h-0D-D9X">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d9h-0D-D9X" id="Nln-Za-gDb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="삭제된 메모함" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wvj-q1-SYO">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="0ik-qE-Z3J">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -572,22 +578,22 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="팁" id="SHL-wU-rUl">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="oFl-DJ-UBB" imageView="6Zs-Qc-eWq" rowHeight="44" style="IBUITableViewCellStyleDefault" id="eEb-xw-SGJ">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="oFl-DJ-UBB" imageView="6Zs-Qc-eWq" rowHeight="80" style="IBUITableViewCellStyleDefault" id="eEb-xw-SGJ">
+                                        <rect key="frame" x="0.0" y="136" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eEb-xw-SGJ" id="Kng-Pa-vZU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="가장 아름답고 빠른 피아노 기능들" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oFl-DJ-UBB">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="6Zs-Qc-eWq">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -597,106 +603,106 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="피아노 정보" id="bez-UZ-HHd">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Upa-iO-UGL" imageView="QD6-8G-CMu" rowHeight="44" style="IBUITableViewCellStyleDefault" id="zfU-70-dTK">
-                                        <rect key="frame" x="0.0" y="172" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Upa-iO-UGL" imageView="QD6-8G-CMu" rowHeight="80" style="IBUITableViewCellStyleDefault" id="zfU-70-dTK">
+                                        <rect key="frame" x="0.0" y="244" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zfU-70-dTK" id="VKo-Uc-Nej">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="피아노 철학 및 다음 업데이트 정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Upa-iO-UGL">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="QD6-8G-CMu">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="9OT-Ed-B30" imageView="KQM-yW-HQA" rowHeight="44" style="IBUITableViewCellStyleDefault" id="axy-rE-A4K">
-                                        <rect key="frame" x="0.0" y="216" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="9OT-Ed-B30" imageView="KQM-yW-HQA" rowHeight="80" style="IBUITableViewCellStyleDefault" id="axy-rE-A4K">
+                                        <rect key="frame" x="0.0" y="324" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="axy-rE-A4K" id="WeU-EI-j9U">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="피아노를 좋아한다면" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9OT-Ed-B30">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="KQM-yW-HQA">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="MUV-Ze-7ZW" imageView="koO-bt-dmS" rowHeight="44" style="IBUITableViewCellStyleDefault" id="Jh3-Yn-vcw">
-                                        <rect key="frame" x="0.0" y="260" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="MUV-Ze-7ZW" imageView="koO-bt-dmS" rowHeight="80" style="IBUITableViewCellStyleDefault" id="Jh3-Yn-vcw">
+                                        <rect key="frame" x="0.0" y="404" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jh3-Yn-vcw" id="LBO-LQ-DXJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="아이디어 제안,  버그 문의" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MUV-Ze-7ZW">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="koO-bt-dmS">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="hI3-Xq-bWg" imageView="5uE-hj-8lE" rowHeight="44" style="IBUITableViewCellStyleDefault" id="780-GT-z0w">
-                                        <rect key="frame" x="0.0" y="304" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="hI3-Xq-bWg" imageView="5uE-hj-8lE" rowHeight="80" style="IBUITableViewCellStyleDefault" id="780-GT-z0w">
+                                        <rect key="frame" x="0.0" y="484" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="780-GT-z0w" id="T4x-FU-q9G">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="피아노 세계" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hI3-Xq-bWg">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="5uE-hj-8lE">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ChJ-tl-Ijc" imageView="SdA-bo-FGa" rowHeight="44" style="IBUITableViewCellStyleDefault" id="7eL-LP-R0I">
-                                        <rect key="frame" x="0.0" y="348" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="ChJ-tl-Ijc" imageView="SdA-bo-FGa" rowHeight="80" style="IBUITableViewCellStyleDefault" id="7eL-LP-R0I">
+                                        <rect key="frame" x="0.0" y="564" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7eL-LP-R0I" id="y1V-UE-qc9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="오픈소스 라이브러리" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ChJ-tl-Ijc">
-                                                    <rect key="frame" x="50" y="0.0" width="310" height="43"/>
+                                                    <rect key="frame" x="50" y="0.0" width="310" height="79"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="pianoEraser" id="SdA-bo-FGa">
-                                                    <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="29" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </imageView>
                                             </subviews>
@@ -743,7 +749,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MemoCell" rowHeight="70" id="Ki0-lo-BS6" customClass="MemoCell" customModule="Piano" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MemoCell" rowHeight="70" id="Ki0-lo-BS6" customClass="MemoCell" customModule="Piano" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ki0-lo-BS6" id="8Eg-Eu-b6r">
@@ -941,7 +947,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -966,7 +972,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="f7I-Rl-2ip" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="YVS-sa-Ntb">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YVS-sa-Ntb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

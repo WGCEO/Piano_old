@@ -472,6 +472,7 @@ extension MasterViewController: UITableViewDelegate {
         }
         
     }
+    
 }
 
 extension MasterViewController: DetailViewControllerDelegate {
