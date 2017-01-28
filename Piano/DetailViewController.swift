@@ -289,7 +289,6 @@ class DetailViewController: UIViewController {
             guard let attrText = self.textView.attributedText else { return }
             let mail:MFMailComposeViewController = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.setSubject("We Love Piano")
             
             let mutableAttrText = NSMutableAttributedString(attributedString: attrText)
             
