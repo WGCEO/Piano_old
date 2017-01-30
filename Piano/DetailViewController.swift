@@ -656,9 +656,15 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             let textAttachment = NSTextAttachment()
             textAttachment.image = scaledImage
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
-            attributedString.insert(attrStringWithImage, at: textView.selectedRange.location)
-            attributedString.addAttributes([NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 1))
+            let spaceString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
+            attributedString.insert(spaceString, at: textView.selectedRange.location)
+            
+            
+            attributedString.insert(attrStringWithImage, at: textView.selectedRange.location + 1)
+            attributedString.insert(spaceString, at: textView.selectedRange.location + 2)
+            attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 3))
             textView.attributedText = attributedString;
+            textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
             
             updateCellInfo()
         }

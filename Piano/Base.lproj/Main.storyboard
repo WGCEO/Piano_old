@@ -659,7 +659,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="yc3-Vq-7cd">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" id="wgd-yR-Ewr"/>
+                        <barButtonItem key="leftBarButtonItem" title="    " id="wgd-yR-Ewr"/>
                         <view key="titleView" contentMode="scaleToFill" id="LrJ-eh-7wO">
                             <rect key="frame" x="56" y="6" width="261" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
