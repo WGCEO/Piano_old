@@ -193,6 +193,7 @@ class PianoTextView: UITextView {
     func makeEffectable() {
         isEditable = false
         isSelectable = false
+        isWaitingState = true
         mode = .effect
     }
 
