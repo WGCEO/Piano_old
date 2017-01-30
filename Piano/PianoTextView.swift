@@ -53,7 +53,12 @@ class PianoTextView: UITextView {
                 let oldWidth = image.size.width
                 let ratio = (textContainer.size.width - 10) / oldWidth
                 let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+                UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+                image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
                 attachment.bounds.size = size
+                attachment.image = scaledImage
             }
             
 

@@ -65,6 +65,7 @@ class DetailViewController: UIViewController {
             PianoData.save()
         } else {
             PianoData.coreDataStack.viewContext.delete(unWrapOldMemo)
+            self.memo = nil
         }
         
     }
@@ -364,6 +365,8 @@ class DetailViewController: UIViewController {
         self.memo = unwrapFirstMemo
         delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
     }
+    
+    
     
     @IBAction func tapEffectButton(_ sender: Any) {
         textView.isEdited = true

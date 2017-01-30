@@ -117,7 +117,10 @@ class MasterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        detailViewController.saveCoreDataIfNeed()
+        //아이폰일때만 지워라잉?
+        if !detailViewController.isVisible {
+            detailViewController.saveCoreDataIfNeed()
+        }
     }
     
     func fetchFolderResultsController() {
@@ -430,6 +433,11 @@ extension MasterViewController: UITableViewDataSource {
         //TODO: Localizing
         cell.ibTitleLabel.text = memo.firstLine
         cell.ibSubTitleLabel.text = formatter.string(from: memo.date as! Date)
+        
+        let view = UIView()
+        view.backgroundColor = .black
+        cell.selectedBackgroundView = view
+        
         if let data = memo.imageData {
             let image = UIImage(data: data as Data)
             cell.ibImageView.image = image

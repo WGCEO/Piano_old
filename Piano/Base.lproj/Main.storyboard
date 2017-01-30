@@ -525,7 +525,7 @@
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -572,16 +572,16 @@
                                                     <rect key="frame" x="16" y="8" width="343" height="53"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0S1-0f-h2d">
-                                                            <rect key="frame" x="0.0" y="9" width="290" height="36"/>
+                                                            <rect key="frame" x="0.0" y="9" width="290" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsdssdsds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-If-nh9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="21"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-pg-62g">
-                                                                    <rect key="frame" x="0.0" y="21" width="290" height="15"/>
+                                                                    <rect key="frame" x="0.0" y="20.5" width="290" height="14.5"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -807,7 +807,7 @@
             <objects>
                 <navigationController toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -843,24 +843,24 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="skG-Xp-umG">
-                                        <rect key="frame" x="0.0" y="0.0" width="188" height="603"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="603"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obn-ad-m1A">
-                                                <rect key="frame" x="0.0" y="0.0" width="188" height="201"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="201"/>
                                                 <state key="normal" title="삭제된 메모함"/>
                                                 <connections>
                                                     <action selector="tapDeletedMemo:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="eea-59-q01"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ews-az-vvO">
-                                                <rect key="frame" x="0.0" y="201" width="188" height="201"/>
+                                                <rect key="frame" x="0.0" y="201" width="187.5" height="201"/>
                                                 <state key="normal" title="피아노 전시회"/>
                                                 <connections>
                                                     <action selector="tapPianoExhibition:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="I8O-O5-VRZ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szN-wQ-2wG">
-                                                <rect key="frame" x="0.0" y="402" width="188" height="201"/>
+                                                <rect key="frame" x="0.0" y="402" width="187.5" height="201"/>
                                                 <state key="normal" title="아이디어/버그 제보"/>
                                                 <connections>
                                                     <action selector="tapReportIdeaAndBug:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="jIx-m0-d7L"/>
@@ -869,24 +869,24 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="4mb-97-WYO">
-                                        <rect key="frame" x="188" y="0.0" width="187" height="603"/>
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="603"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aoQ-Mx-bBy">
-                                                <rect key="frame" x="0.0" y="0.0" width="187" height="201"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="201"/>
                                                 <state key="normal" title="팁"/>
                                                 <connections>
                                                     <action selector="tapTip:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="2dE-XN-yeQ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCk-Ga-ka0">
-                                                <rect key="frame" x="0.0" y="201" width="187" height="201"/>
+                                                <rect key="frame" x="0.0" y="201" width="187.5" height="201"/>
                                                 <state key="normal" title="i love piano"/>
                                                 <connections>
                                                     <action selector="tapILovePiano:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="z96-1I-ypE"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tV0-rQ-XXV">
-                                                <rect key="frame" x="0.0" y="402" width="187" height="201"/>
+                                                <rect key="frame" x="0.0" y="402" width="187.5" height="201"/>
                                                 <state key="normal" title="기타 정보"/>
                                                 <connections>
                                                     <action selector="tapExtraInfo:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="v0c-qG-xGP"/>
@@ -927,7 +927,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -950,7 +950,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RX5-sF-fZk" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2W-iI-EOR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="l2W-iI-EOR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1040,7 +1040,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZGw-Kp-iZC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLW-2Y-oDZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nLW-2Y-oDZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
