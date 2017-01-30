@@ -45,7 +45,7 @@ class SettingViewController: UIViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
-        mailComposerVC.setToRecipients(["wepiano@naver.com"])
+        mailComposerVC.setToRecipients(["OurLovePiano@gmail.com"])
         mailComposerVC.setSubject(withTitle)
         mailComposerVC.setMessageBody("hi. i like piano app.", isHTML: false)
         

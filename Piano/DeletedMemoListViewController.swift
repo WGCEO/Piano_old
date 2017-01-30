@@ -81,10 +81,6 @@ class DeletedMemoListViewController: UIViewController {
     func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
-
-    @IBAction func tapCancelButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ac9-P3-yTo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E144f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ac9-P3-yTo">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -42,7 +42,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.89135044640000005" green="0.15686275059999999" blue="0.29219953910000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.8901960784313725" green="0.15686274509803921" blue="0.29411764705882354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="NBb-E1-rsZ" secondAttribute="trailing" constant="16" id="1AN-5c-s7E"/>
                                         <constraint firstItem="NBb-E1-rsZ" firstAttribute="leading" secondItem="Wco-jf-XDC" secondAttribute="leading" constant="16" id="Yqw-Ms-n2Q"/>
@@ -93,13 +93,7 @@
                             <constraint firstAttribute="trailing" secondItem="qYZ-X6-HhS" secondAttribute="trailing" id="ttP-dk-tfo"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem systemItem="cancel" id="zi2-9P-WgJ">
-                            <connections>
-                                <action selector="tapCancelButton:" destination="Zwb-q2-C91" id="Egb-ME-jD9"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="삭제된 메모" id="ueM-AL-IOh"/>
                     <connections>
                         <outlet property="tableView" destination="qYZ-X6-HhS" id="7Ro-fU-s10"/>
@@ -159,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mIh-gz-ht8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-838" y="414"/>
+            <point key="canvasLocation" x="472.80000000000001" y="384.55772113943033"/>
         </scene>
         <!--Deleted Memo View Controller-->
         <scene sceneID="1qG-zr-g2e">
@@ -297,7 +291,7 @@
         <!--Detail View Controller-->
         <scene sceneID="36L-xo-RUa">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nsS-aP-t1B" customClass="DetailViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="nsS-aP-t1B" customClass="DetailViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JYV-8S-nnG"/>
                         <viewControllerLayoutGuide type="bottom" id="WHf-QJ-klZ"/>
@@ -376,7 +370,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="nsS-aP-t1B" id="bUX-iK-Ggx"/>
@@ -450,7 +444,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="oiy-Yg-SfW"/>
-                        <barButtonItem image="write" id="IBU-zX-uge">
+                        <barButtonItem systemItem="compose" id="IBU-zX-uge">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="tapComposeButton:" destination="nsS-aP-t1B" id="jCa-Xx-lYI"/>
@@ -485,7 +479,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" image="pianoEraser">
+                            <state key="normal" title="단어 지우개">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -496,7 +490,7 @@
                             <rect key="frame" x="125" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" image="pianoAlbum">
+                            <state key="normal" title="이미지">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -507,7 +501,7 @@
                             <rect key="frame" x="250" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" image="keyboardDown">
+                            <state key="normal" title="완료">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -524,7 +518,7 @@
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -571,16 +565,16 @@
                                                     <rect key="frame" x="16" y="8" width="343" height="53"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0S1-0f-h2d">
-                                                            <rect key="frame" x="0.0" y="9" width="290" height="35"/>
+                                                            <rect key="frame" x="0.0" y="9" width="290" height="36"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsdssdsds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-If-nh9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="21"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-pg-62g">
-                                                                    <rect key="frame" x="0.0" y="20.5" width="290" height="14.5"/>
+                                                                    <rect key="frame" x="0.0" y="21" width="290" height="15"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -620,105 +614,53 @@
                                     <outlet property="delegate" destination="1PD-UR-tuG" id="eDZ-4j-YMw"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2dI-cA-jz1">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rof-P1-jf0">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GtI-2d-b5E">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="0.29999999999999999" id="pYV-xe-EDa"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wWv-91-V8M">
-                                        <rect key="frame" x="9" y="0.0" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="Jd3-fw-J8Q"/>
-                                            <constraint firstAttribute="height" constant="44" id="Kpd-G1-TXh"/>
-                                        </constraints>
-                                        <state key="normal" image="settingsIcon"/>
+                                <items>
+                                    <barButtonItem enabled="NO" title="◁" id="tst-dc-tI6">
                                         <connections>
-                                            <segue destination="Ktz-Fy-ZHu" kind="presentation" id="3EY-j5-vAZ"/>
+                                            <action selector="tapLeftPageBarButton:" destination="1PD-UR-tuG" id="RnH-bS-5AD"/>
                                         </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgK-QR-PUp">
-                                        <rect key="frame" x="329" y="0.0" width="44" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="86N-ss-FF6"/>
-                                            <constraint firstAttribute="height" constant="44" id="Rxx-PC-UhV"/>
-                                        </constraints>
-                                        <state key="normal" image="write"/>
+                                    </barButtonItem>
+                                    <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="ea9-b5-GDn"/>
+                                    <barButtonItem systemItem="organize" id="PjY-82-OaM">
                                         <connections>
-                                            <action selector="tapAddMemoButton:" destination="1PD-UR-tuG" eventType="touchUpInside" id="PAk-ad-gld"/>
+                                            <action selector="tapFolderBarButton:" destination="1PD-UR-tuG" id="kU0-ix-Q62"/>
+                                            <segue destination="RX5-sF-fZk" kind="presentation" identifier="ConfigureFolderViewController" id="txg-yx-VR4"/>
                                         </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cA3-Ad-KIG" customClass="LTMorphingLabel" customModule="LTMorphingLabel">
-                                        <rect key="frame" x="167.5" y="12" width="40" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="pHL-9Q-htO"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYh-lJ-PP2">
-                                        <rect key="frame" x="121" y="7" width="46" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="46" id="5Sa-Kf-mUt"/>
-                                        </constraints>
-                                        <state key="normal" title="◀︎"/>
+                                    </barButtonItem>
+                                    <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="TaP-UG-Sme"/>
+                                    <barButtonItem title="▷" id="jDL-ID-pR9">
                                         <connections>
-                                            <action selector="tapLeftPageButton:" destination="1PD-UR-tuG" eventType="touchUpInside" id="f1k-PX-6HY"/>
+                                            <action selector="tapRightPageBarButton:" destination="1PD-UR-tuG" id="8x7-8z-c0p"/>
                                         </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aix-bU-25r">
-                                        <rect key="frame" x="207" y="7" width="46" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="46" id="zCd-w3-06t"/>
-                                        </constraints>
-                                        <state key="normal" title="▶︎"/>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="GQE-au-5B9"/>
+                                    <barButtonItem systemItem="compose" id="h59-ta-j5h">
                                         <connections>
-                                            <action selector="tapRightPageButton:" destination="1PD-UR-tuG" eventType="touchUpInside" id="fM3-gq-cTV"/>
+                                            <action selector="tapComposeBarButton:" destination="1PD-UR-tuG" id="dcT-ob-gff"/>
                                         </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="WgK-QR-PUp" secondAttribute="trailing" constant="2" id="9bh-I8-imu"/>
-                                    <constraint firstAttribute="height" constant="44" id="As5-6q-yPw"/>
-                                    <constraint firstItem="cA3-Ad-KIG" firstAttribute="leading" secondItem="fYh-lJ-PP2" secondAttribute="trailing" id="E4s-ts-eVe"/>
-                                    <constraint firstItem="GtI-2d-b5E" firstAttribute="top" secondItem="2dI-cA-jz1" secondAttribute="top" id="Pj7-Tl-BB9"/>
-                                    <constraint firstItem="wWv-91-V8M" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="RxU-s8-oY2"/>
-                                    <constraint firstItem="aix-bU-25r" firstAttribute="leading" secondItem="cA3-Ad-KIG" secondAttribute="trailing" id="Smo-Gf-sga"/>
-                                    <constraint firstItem="GtI-2d-b5E" firstAttribute="leading" secondItem="2dI-cA-jz1" secondAttribute="leading" id="SpG-wZ-yW9"/>
-                                    <constraint firstAttribute="trailing" secondItem="GtI-2d-b5E" secondAttribute="trailing" id="Z1w-gB-uUb"/>
-                                    <constraint firstItem="cA3-Ad-KIG" firstAttribute="centerX" secondItem="2dI-cA-jz1" secondAttribute="centerX" id="aDR-cv-lam"/>
-                                    <constraint firstItem="aix-bU-25r" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="gbQ-SL-X8l"/>
-                                    <constraint firstItem="WgK-QR-PUp" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="oX5-0I-keG"/>
-                                    <constraint firstItem="fYh-lJ-PP2" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="opF-LG-RaK"/>
-                                    <constraint firstItem="wWv-91-V8M" firstAttribute="leading" secondItem="2dI-cA-jz1" secondAttribute="leading" constant="9" id="qkQ-Vs-pwg"/>
-                                    <constraint firstItem="cA3-Ad-KIG" firstAttribute="centerY" secondItem="2dI-cA-jz1" secondAttribute="centerY" id="wFz-GT-1h3"/>
-                                </constraints>
-                            </view>
+                                    </barButtonItem>
+                                </items>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="FrX-I6-VnQ" secondAttribute="trailing" id="8bI-kS-70v"/>
-                            <constraint firstItem="2dI-cA-jz1" firstAttribute="leading" secondItem="oZZ-OO-dyZ" secondAttribute="leading" id="DDh-I2-FBd"/>
-                            <constraint firstAttribute="trailing" secondItem="2dI-cA-jz1" secondAttribute="trailing" id="G9L-K8-bZj"/>
-                            <constraint firstAttribute="bottom" secondItem="2dI-cA-jz1" secondAttribute="bottom" id="KS2-0h-pxr"/>
+                            <constraint firstItem="D9w-ut-gJe" firstAttribute="top" secondItem="rof-P1-jf0" secondAttribute="bottom" id="Uve-o6-PTt"/>
                             <constraint firstItem="FrX-I6-VnQ" firstAttribute="top" secondItem="QVe-SY-vjj" secondAttribute="bottom" id="ZjB-dl-vTR"/>
                             <constraint firstAttribute="bottom" secondItem="FrX-I6-VnQ" secondAttribute="bottom" id="gIE-z6-mfg"/>
+                            <constraint firstAttribute="trailing" secondItem="rof-P1-jf0" secondAttribute="trailing" id="nui-Gh-fZk"/>
                             <constraint firstItem="FrX-I6-VnQ" firstAttribute="leading" secondItem="oZZ-OO-dyZ" secondAttribute="leading" id="rQI-wN-oBn"/>
+                            <constraint firstItem="rof-P1-jf0" firstAttribute="leading" secondItem="oZZ-OO-dyZ" secondAttribute="leading" id="uuE-LN-IiC"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="yc3-Vq-7cd">
                         <nil key="title"/>
                         <view key="titleView" contentMode="scaleToFill" id="LrJ-eh-7wO">
-                            <rect key="frame" x="45" y="6" width="286" height="33"/>
+                            <rect key="frame" x="31" y="6" width="286" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ueg-Ll-Pi1" customClass="LTMorphingLabel" customModule="LTMorphingLabel">
@@ -747,11 +689,14 @@
                                 <constraint firstItem="ueg-Ll-Pi1" firstAttribute="leading" secondItem="LrJ-eh-7wO" secondAttribute="leading" id="vuN-63-37t"/>
                             </constraints>
                         </view>
+                        <barButtonItem key="rightBarButtonItem" image="settingIcon" id="vX0-7J-Zr8">
+                            <connections>
+                                <segue destination="Ktz-Fy-ZHu" kind="presentation" id="HUV-Vj-gMm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="composeBarButton" destination="WgK-QR-PUp" id="ZEe-OE-Gg4"/>
-                        <outlet property="leftPageButton" destination="fYh-lJ-PP2" id="s35-Or-ccq"/>
-                        <outlet property="pageLabel" destination="cA3-Ad-KIG" id="YXD-Y7-Gsq"/>
+                        <outlet property="leftPageButton" destination="tst-dc-tI6" id="ZK7-bI-GGH"/>
                         <outlet property="tableView" destination="FrX-I6-VnQ" id="V8S-po-XT8"/>
                         <outlet property="titleLabel" destination="ueg-Ll-Pi1" id="1uf-41-Vgg"/>
                     </connections>
@@ -759,6 +704,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tcW-kQ-S2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2423.1999999999998" y="517.6911544227886"/>
+        </scene>
+        <!--폴더 목록-->
+        <scene sceneID="OWL-nn-4He">
+            <objects>
+                <viewController id="PDM-ul-UAQ" customClass="ConfigureFolderViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qWc-jc-F9U"/>
+                        <viewControllerLayoutGuide type="bottom" id="eXo-dg-Fmd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="y0S-9H-4UY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="59" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7ed-6i-pcj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="7v9-KV-y6v" rowHeight="59" style="IBUITableViewCellStyleDefault" id="baG-To-0nQ">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="59"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="baG-To-0nQ" id="Xjj-KF-dDm">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7v9-KV-y6v">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="58"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="PDM-ul-UAQ" id="WRJ-uz-mC5"/>
+                                    <outlet property="delegate" destination="PDM-ul-UAQ" id="Nhx-cR-FQi"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="7ed-6i-pcj" secondAttribute="trailing" id="aAr-Jq-kON"/>
+                            <constraint firstItem="7ed-6i-pcj" firstAttribute="top" secondItem="y0S-9H-4UY" secondAttribute="top" id="bUG-eC-EVe"/>
+                            <constraint firstItem="eXo-dg-Fmd" firstAttribute="top" secondItem="7ed-6i-pcj" secondAttribute="bottom" id="div-oj-Dmg"/>
+                            <constraint firstItem="7ed-6i-pcj" firstAttribute="leading" secondItem="y0S-9H-4UY" secondAttribute="leading" id="gi9-AG-Vci"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="폴더 목록" id="dHK-zG-BEe">
+                        <barButtonItem key="leftBarButtonItem" title="닫기" id="y0N-cD-r6o">
+                            <connections>
+                                <action selector="tapCancelButton:" destination="PDM-ul-UAQ" id="2Pq-Qc-fFK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="7ed-6i-pcj" id="8by-sI-Ies"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t7p-CM-X6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-551.20000000000005" y="523.98800599700155"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Hga-Lj-WnV">
@@ -776,9 +785,9 @@
         <!--Navigation Controller-->
         <scene sceneID="nqq-Vb-EdV">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -877,14 +886,14 @@
                             <constraint firstItem="MJN-KT-uLB" firstAttribute="top" secondItem="YfF-sf-u27" secondAttribute="bottom" id="sbI-Hf-tzx"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem systemItem="cancel" id="hnu-vh-oY0">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Settings" id="IXN-Oq-85f">
+                        <barButtonItem key="leftBarButtonItem" title="닫기" id="hnu-vh-oY0">
                             <connections>
                                 <action selector="tapCancelButton:" destination="JWS-Gb-Mhx" id="aSz-rn-KDK"/>
                             </connections>
                         </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="Settings" id="IXN-Oq-85f"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="YfF-sf-u27" id="dfO-G1-6rh"/>
                         <segue destination="Zwb-q2-C91" kind="show" identifier="GoToDeleteMemo" id="3Ri-jl-mrc"/>
@@ -900,7 +909,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -918,16 +927,32 @@
             </objects>
             <point key="canvasLocation" x="-2423" y="-364"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0EX-Yg-j2h">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RX5-sF-fZk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2W-iI-EOR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="PDM-ul-UAQ" kind="relationship" relationship="rootViewController" id="E4q-SU-ERI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U8M-I5-aZz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1490.4000000000001" y="523.98800599700155"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="keyboardDown" width="30" height="22"/>
         <image name="mailIcon" width="25" height="16"/>
         <image name="pianoAlbum" width="25" height="19"/>
-        <image name="pianoEraser" width="20" height="20"/>
         <image name="sample" width="100" height="99"/>
-        <image name="settingsIcon" width="30" height="30"/>
+        <image name="settingIcon" width="25" height="25"/>
         <image name="textEffect" width="33" height="24"/>
-        <image name="write" width="25" height="24"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

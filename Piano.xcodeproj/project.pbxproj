@@ -25,6 +25,8 @@
 		0A8815A91E31FB1D00ABEB98 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */; };
 		0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815B21E35A92200ABEB98 /* MemoCell.swift */; };
 		0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */; };
+		0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACC37751E3DEC1A0079FA93 /* UIViewController_Extension.swift */; };
+		0ACC37781E3E2EA50079FA93 /* ConfigureFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACC37771E3E2EA50079FA93 /* ConfigureFolderViewController.swift */; };
 		0AEC95861E39EC710039A47F /* SettingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */; };
 		0AEC95881E3A001E0039A47F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */; };
 		0AEC95921E3C7CCD0039A47F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEC95911E3C7CCD0039A47F /* CloudKit.framework */; };
@@ -86,6 +88,8 @@
 		0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0A8815B21E35A92200ABEB98 /* MemoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		0AC540F31E08D29400EC3436 /* PianoPersistentContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoPersistentContainer.swift; sourceTree = "<group>"; };
+		0ACC37751E3DEC1A0079FA93 /* UIViewController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController_Extension.swift; sourceTree = "<group>"; };
+		0ACC37771E3E2EA50079FA93 /* ConfigureFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureFolderViewController.swift; sourceTree = "<group>"; };
 		0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingDetailViewController.swift; sourceTree = "<group>"; };
 		0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		0AEC95891E3B2F240039A47F /* Piano.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Piano.entitlements; sourceTree = "<group>"; };
@@ -166,6 +170,28 @@
 			name = DeletedMemo;
 			sourceTree = "<group>";
 		};
+		0A5B08221E3EB0EA0074E5CA /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				0ACC37751E3DEC1A0079FA93 /* UIViewController_Extension.swift */,
+				0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */,
+				316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */,
+				316F157B1DEC140A007693D9 /* UITextView_Extension.swift */,
+				315A53821DF311FA00BB7367 /* NSRange_Extension.swift */,
+				0A638E661E16A7A00006FFEA /* Date_Extension.swift */,
+				0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
+		0A5B08231E3EB0F20074E5CA /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				310870A91DE1729C0044BA5D /* Reusable.swift */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
 		0A8815A71E31F76000ABEB98 /* Final Version */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,19 +236,15 @@
 				0AEC95951E3C89E50039A47F /* SettingCell.swift */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 				0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */,
+				0ACC37771E3E2EA50079FA93 /* ConfigureFolderViewController.swift */,
 				0A8815A71E31F76000ABEB98 /* Final Version */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
 				0A2CE6891E1217920003F3CB /* TextEffect.swift */,
 				0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */,
 				3175A8001DEEC81700C1A02E /* PianoTextStorage.swift */,
 				0A8150E21E1CB1D100F2EDFE /* PianoData.swift */,
-				0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */,
-				316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */,
-				316F157B1DEC140A007693D9 /* UITextView_Extension.swift */,
-				315A53821DF311FA00BB7367 /* NSRange_Extension.swift */,
-				0A638E661E16A7A00006FFEA /* Date_Extension.swift */,
-				0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */,
-				310870A91DE1729C0044BA5D /* Reusable.swift */,
+				0A5B08221E3EB0EA0074E5CA /* Extension */,
+				0A5B08231E3EB0F20074E5CA /* Protocol */,
 				0A08184E1E0B8D300001304F /* DeletedMemoList */,
 				0A0818511E0B96320001304F /* DeletedMemo */,
 				31575C981DE8260700373ADD /* Memo */,
@@ -487,6 +509,7 @@
 				0A1812861E2A012400272080 /* DeletedMemoCell.swift in Sources */,
 				0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
+				0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */,
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
 				0AEC95941E3C86580039A47F /* SettingViewController.swift in Sources */,
 				0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */,
@@ -513,6 +536,7 @@
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				0AEE6D851E123FD8009C98F4 /* ColorPalette.swift in Sources */,
+				0ACC37781E3E2EA50079FA93 /* ConfigureFolderViewController.swift in Sources */,
 				316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */,
 				0A2CE68E1E121CBB0003F3CB /* LineFamily.swift in Sources */,
 				31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */,

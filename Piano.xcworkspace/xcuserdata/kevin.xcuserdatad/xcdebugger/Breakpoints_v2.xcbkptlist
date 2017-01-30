@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507302249.642123"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
-            landmarkName = "tapEffectButton(_:)"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "tapLineEffectButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507299791.569076"
+            timestampString = "507443734.917204"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "viewDidAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Piano/DetailViewController.swift"
-            timestampString = "507271969.823627"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "updateTextView(memo:)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/PianoTextView.swift"
-            timestampString = "507217376.954166"
+            timestampString = "507445805.824064"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "touchesEnded(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/PianoTextView.swift"
-            timestampString = "507217376.954166"
+            timestampString = "507445805.824064"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "touchesEnded(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/PianoTextView.swift"
-            timestampString = "507217376.954166"
+            timestampString = "507445805.824064"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "PianoTextView"
             landmarkType = "3">
          </BreakpointContent>
@@ -106,13 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
-            landmarkName = "textViewDidBeginEditing(_:)"
-            landmarkType = "7">
+            startingLineNumber = "599"
+            endingLineNumber = "599">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,29 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "545"
-            endingLineNumber = "545"
-            landmarkName = "textViewDidBeginEditing(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Piano/DetailViewController.swift"
-            timestampString = "507302249.642123"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "addNewMemo()"
-            landmarkType = "7">
+            startingLineNumber = "601"
+            endingLineNumber = "601">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -154,11 +118,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/PianoTextView.swift"
-            timestampString = "507217376.954166"
+            timestampString = "507445805.824064"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "touchesEnded(_:with:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,12 +134,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507302249.642123"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "addNewMemo()"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "DetailViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Piano/DetailViewController.swift"
+            timestampString = "507444939.683099"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "567"
+            endingLineNumber = "567"
+            landmarkName = "tapAlbumButton2(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,28 +166,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
-            landmarkName = "masterViewController(_:send:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "522"
-            endingLineNumber = "522"
-            landmarkName = "masterViewController(_:send:)"
+            startingLineNumber = "578"
+            endingLineNumber = "578"
+            landmarkName = "presentPermissionErrorAlert()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -250,12 +214,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "528"
-            endingLineNumber = "528"
-            landmarkName = "masterViewController(_:send:)"
+            startingLineNumber = "584"
+            endingLineNumber = "584"
+            landmarkName = "presentPermissionErrorAlert()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -266,12 +230,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
-            landmarkName = "masterViewController(_:send:)"
+            startingLineNumber = "586"
+            endingLineNumber = "586"
+            landmarkName = "presentPermissionErrorAlert()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -282,11 +246,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "675"
-            endingLineNumber = "675"
+            startingLineNumber = "733"
+            endingLineNumber = "733"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,12 +262,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "653"
-            endingLineNumber = "653"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            startingLineNumber = "711"
+            endingLineNumber = "711"
+            landmarkName = "updateCellInfo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -314,12 +278,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
+            timestampString = "507444939.683099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "649"
-            endingLineNumber = "649"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            startingLineNumber = "707"
+            endingLineNumber = "707"
+            landmarkName = "updateCellInfo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -329,46 +293,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Piano/PianoPersistentContainer.swift"
-            timestampString = "507297583.522743"
+            filePath = "Piano/MasterViewController.swift"
+            timestampString = "507429207.180235"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "setFirstLineAndImage()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Piano.PianoPersistentContainer.(setFirstLineAndImage () -&gt; ()).(closure #1)"
-                  moduleName = "Piano"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kevin/Desktop/Piano/Piano/PianoPersistentContainer.swift"
-                  timestampString = "507297885.408166"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "62"
-                  endingLineNumber = "62"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Piano.PianoPersistentContainer.(setFirstLineAndImage () -&gt; ()).(closure #1)"
-                  moduleName = "Piano"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kevin/Desktop/Piano/Piano/PianoPersistentContainer.swift"
-                  timestampString = "507297885.40965"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "62"
-                  endingLineNumber = "62"
-                  offsetFromSymbolStart = "356">
-               </Location>
-            </Locations>
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "MasterViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -377,13 +309,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Piano/PianoPersistentContainer.swift"
-            timestampString = "507297621.014975"
+            filePath = "Piano/MasterViewController.swift"
+            timestampString = "507443734.917204"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "setFirstLineAndImage()"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "setFirstCellIfIpad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -393,62 +325,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Piano/PianoPersistentContainer.swift"
-            timestampString = "507297637.016936"
+            filePath = "Piano/MasterViewController.swift"
+            timestampString = "507443734.917204"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "setFirstLineAndImage()"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "setFirstCellIfIpad()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Piano/DetailViewController.swift"
-            timestampString = "507303558.052202"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "606"
-            endingLineNumber = "606"
-            landmarkName = "textViewDidChange(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Piano.DetailViewController.(textViewDidChange (__ObjC.UITextView) -&gt; ()).(closure #1)"
-                  moduleName = "Piano"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kevin/Desktop/Piano/Piano/DetailViewController.swift"
-                  timestampString = "507298789.250972"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Piano.DetailViewController.(textViewDidChange (__ObjC.UITextView) -&gt; ()).(closure #1)"
-                  moduleName = "Piano"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kevin/Desktop/Piano/Piano/DetailViewController.swift"
-                  timestampString = "507298789.252369"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "603"
-                  endingLineNumber = "603"
-                  offsetFromSymbolStart = "320">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

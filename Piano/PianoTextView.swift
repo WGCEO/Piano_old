@@ -15,6 +15,7 @@ class PianoTextView: UITextView {
 //    var isAnimating: Bool = false
     var memo: Memo!
     var isWaitingState: Bool = false
+    var isEdited = false
     
     var mode: TextViewMode = .typing
     let canvas = PianoControl()
@@ -105,8 +106,6 @@ class PianoTextView: UITextView {
         if !tappedOnLink(textPosition: textPosition) {
             appearKeyboard()
         }
-        
-        
     }
     
     func tappedOnLink(textPosition: UITextPosition) -> Bool{
@@ -145,6 +144,23 @@ class PianoTextView: UITextView {
         }
     }
     
+    func makeTappable() {
+        isEditable = false
+        isSelectable = true
+        isWaitingState = false
+        mode = .typing
+    }
+    
+    func makeUnableTap() {
+        isWaitingState = true
+    }
+    
+    
+    func makeEffectable() {
+        isEditable = false
+        isSelectable = false
+        mode = .effect
+    }
 
     func appearKeyboard(){
         isSelectable = true

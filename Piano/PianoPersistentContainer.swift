@@ -55,8 +55,14 @@ class PianoPersistentContainer: NSPersistentContainer {
         
         memo.firstLine = firstLine
         
+        let hasAttachments = attrText.containsAttachments(in: NSMakeRange(0, attrText.length))
         
-        if attrText.containsAttachments(in: NSMakeRange(0, attrText.length)) && memo.imageData == nil {
+        guard hasAttachments else {
+            memo.imageData = nil
+            return
+        }
+        
+        if memo.imageData == nil {
             attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
                 
                 guard let attachment = value as? NSTextAttachment,
@@ -79,8 +85,6 @@ class PianoPersistentContainer: NSPersistentContainer {
                 }
                 
             }
-        } else if !attrText.containsAttachments(in: NSMakeRange(0, attrText.length)) {
-            memo.imageData = nil
         }
     }
     

@@ -10,15 +10,10 @@ import UIKit
 import CoreData
 import LTMorphingLabel
 
-protocol MasterViewControllerDelegate: class {
-    func masterViewController(_ controller: MasterViewController?, send memo: Memo)
-}
-
 class MasterViewController: UIViewController {
     
-    @IBOutlet weak var composeBarButton: UIButton!
+
     @IBOutlet weak var titleLabel: LTMorphingLabel!
-    weak var delegate: MasterViewControllerDelegate?
     
     lazy var folderResultsController: NSFetchedResultsController<Folder> = {
         let context = PianoData.coreDataStack.viewContext
@@ -37,6 +32,8 @@ class MasterViewController: UIViewController {
             do {
                 try memoResultsController.performFetch()
                 tableView.reloadData()
+                
+                setFirstCellIfIpad()
             } catch {
                 print("Error performing fetch \(error.localizedDescription)")
             }
@@ -49,21 +46,24 @@ class MasterViewController: UIViewController {
             //TODO: folder ?? "" 이거 버그 생길 수 있는 경우가 있는 지 체크 -> 다 지운다음 확인
             request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", folder ?? " ")
             let context = PianoData.coreDataStack.viewContext
+//            let prioritySort = NSSortDescriptor(
+//                key: #keyPath(Memo.priority), ascending: false)
             let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
             request.sortDescriptors = [dateSort]
             memoResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
             
             titleLabel.text = folder?.name ?? " "
             
-            guard let nav = splitViewController?.viewControllers.last as? UINavigationController,
-                let detailViewController = nav.topViewController as? DetailViewController else {
-                return
-            }
-            
-            detailViewController.memo = nil
-            
+            setFirstCellIfIpad()
         }
     }
+    
+    lazy var detailViewController: DetailViewController = {
+        let unwrapSplitViewController = self.splitViewController!
+        let unwrapDetailNav = unwrapSplitViewController.viewControllers.last as! UINavigationController
+        return unwrapDetailNav.topViewController as! DetailViewController
+    }()
+    
     
     lazy var formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -75,9 +75,9 @@ class MasterViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var leftPageButton: UIBarButtonItem!
     
-    @IBOutlet weak var leftPageButton: UIButton!
-    @IBOutlet weak var pageLabel: LTMorphingLabel!
+    
     
     func registerNotificationForAjustTextSize(){
         NotificationCenter.default.addObserver(self, selector: #selector(MasterViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
@@ -90,12 +90,20 @@ class MasterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0)
+        registerNotificationForAjustTextSize()
         
         setTableViewCellHeight()
-        
         fetchFolderResultsController()
         
         //첫번째 폴더의 메모들 fetch
+        setFirstFolderIfExist()
+
+        detailViewController.delegate = self
+    
+    }
+    
+    
+    func setFirstFolderIfExist() {
         if let folder = folderResultsController.fetchedObjects?.first {
             //같은 폴더일 경우 넘기지 말기
             guard self.folder != folder else { return }
@@ -104,13 +112,12 @@ class MasterViewController: UIViewController {
             //folder에 nil 대입
             self.folder = nil
         }
-
-
-        guard let splitViewController = splitViewController else { return }
-        let detailNav = splitViewController.viewControllers.last as! UINavigationController
-        let detailViewController = detailNav.topViewController as! DetailViewController
-        delegate = detailViewController
-        detailViewController.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        detailViewController.saveCoreDataIfNeed()
     }
     
     func fetchFolderResultsController() {
@@ -119,28 +126,6 @@ class MasterViewController: UIViewController {
             try folderResultsController.performFetch()
         } catch {
             print("Error performing fetch \(error.localizedDescription)")
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        deleteTopMemoIfEmpty()
-    }
-    
-    func deleteTopMemoIfEmpty(){
-        guard let memo = memoResultsController?.fetchedObjects?.first else { return }
-        
-        DispatchQueue.global().async {
-            let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
-            DispatchQueue.main.async {
-                let textView = UITextView()
-                textView.attributedText = attrText
-                if textView.attributedText.length == 0 {
-                    PianoData.coreDataStack.viewContext.delete(memo)
-                    PianoData.save()
-                }
-            }
         }
     }
     
@@ -155,7 +140,6 @@ class MasterViewController: UIViewController {
     }
     
     func selectTableViewCell(with indexPath: IndexPath){
-        guard let objects = memoResultsController?.fetchedObjects, objects.count > 0 else { return }
         
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .top)
         tableView(tableView, didSelectRowAt: indexPath)
@@ -196,8 +180,7 @@ class MasterViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    
-    @IBAction func tapLeftPageButton(_ sender: UIButton) {
+    @IBAction func tapLeftPageBarButton(_ sender: UIBarButtonItem) {
         guard let folders = folderResultsController.fetchedObjects else { return }
         
         //일단 왼쪽 폴더 넣고 페이지 타이틀 갱신 + 더이상 왼쪽으로 갈 수 있는 지 체크해서 enabled 세팅하기
@@ -205,15 +188,16 @@ class MasterViewController: UIViewController {
             if self.folder == folder, index > 0 {
                 let leftIndex = index - 1
                 let leftFolder = folders[leftIndex]
+                //이전 폴더 대입
                 self.folder = leftFolder
-                self.pageLabel.text = "\(leftIndex + 1)"
+                //enabled 세팅
                 sender.isEnabled = leftIndex > 0 ? true : false
                 return
             }
         }
     }
     
-    @IBAction func tapRightPageButton(_ sender: UIButton) {
+    @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
         guard let folders = folderResultsController.fetchedObjects else { return }
         
         for (index, folder) in folders.enumerated() {
@@ -228,11 +212,29 @@ class MasterViewController: UIViewController {
                 
                 let rightFolder = folders[rightIndex]
                 self.folder = rightFolder
-                pageLabel.text = "\(rightIndex + 1)"
                 leftPageButton.isEnabled = true
                 return
             }
         }
+    }
+    
+    @IBAction func tapFolderBarButton(_ sender: Any) {
+    }
+
+    func setFirstCellIfIpad() {
+        if detailViewController.isVisible {
+            
+            if hasMemoInCurrentFolder() {
+                selectTableViewCell(with: IndexPath(row: 0, section: 0))
+            } else {
+                detailViewController.memo = nil
+            }
+        }
+    }
+    
+    func hasMemoInCurrentFolder() -> Bool {
+        guard let objects = memoResultsController.fetchedObjects, objects.count > 0 else { return false }
+        return true
     }
     
     func selectSpecificFolder(selectedFolder: Folder) {
@@ -242,8 +244,6 @@ class MasterViewController: UIViewController {
         
         for (index, folder) in folders.enumerated() {
             if self.folder == folder {
-                
-                pageLabel.text = "\(index + 1)"
                 leftPageButton.isEnabled = index > 0 ? true : false
                 return
                 
@@ -260,7 +260,7 @@ class MasterViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "페이지 만들기", message: "페이지의 이름을 정해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
@@ -296,48 +296,10 @@ class MasterViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        //스토리보드에서 초기화할 때 컨테이너 뷰를 만들기 위해 segue를 거치므로 이 코드가 실행되기 때문에 이때에는 조기 탈출!
-//        guard let identifier = segue.identifier else { return }
-//        
-//        if identifier == "GoToConfigureFolder" {
-//            let des = segue.destination as! ConfigureFolderViewController
-//            des.delegate = self
-//            
-//            if let existFolder = sender as? Folder{
-//                des.folder = existFolder
-//                des.isNewFolder = false
-//            } else {
-//                do {
-//                    let context = PianoData.coreDataStack.viewContext
-//                    let newFolder = Folder(context: context)
-//                    newFolder.name = ""
-//                    newFolder.date = Date()
-//                    newFolder.memos = []
-//                    //TODO: 아래 수정
-//                    newFolder.imageName = "folder0"
-//                    
-//                    try context.save()
-//                    des.folder = newFolder
-//                    des.isNewFolder = true
-//                    
-//                    let folderListViewController = childViewControllers.first as! FolderListViewController
-//                    if let objects = folderListViewController.resultsController.fetchedObjects, objects.count == 1 {
-//                        folderListViewController.selectTableViewCell(with: IndexPath(row: 0, section: 0))
-//                    }
-//                    
-//                } catch {
-//                    print("Error importing folders: \(error.localizedDescription)")
-//                }
-//            }
-//        }
-//    }
-    
-    
-    @IBAction func tapAddMemoButton(_ sender: Any) {
+    @IBAction func tapComposeBarButton(_ sender: Any) {
         addNewMemo()
     }
+    
     
     //곧바로 여기 테이블 뷰에 접근하면 됨
     func addNewMemo(){
@@ -347,8 +309,6 @@ class MasterViewController: UIViewController {
         guard let folder = self.folder else {
             //폴더가 없다는 말이므로 폴더를 먼저 추가해달라고 말하기
             return }
-        
-        deleteTopMemoIfEmpty()
         
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
@@ -361,40 +321,35 @@ class MasterViewController: UIViewController {
         //select하면 디테일뷰에 데이터 전달
         selectTableViewCell(with: IndexPath(row: 0, section: 0))
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else { return }
+        
+        if identifier == "ConfigureFolderViewController" {
+            let nav = segue.destination as! UINavigationController
+            let configureFolderViewController = nav.topViewController as! ConfigureFolderViewController
+            configureFolderViewController.delegate = self
+        }
+    }
 }
 
-//extension MasterViewController: ConfigureFolderViewControllerDelegate {
-//
-//    func configureFolderViewController(_ controller: ConfigureFolderViewController, deleteFolder: Folder) {
-//        print(deleteFolder)
-//        for item in deleteFolder.memos {
-//            let memo = item as! Memo
-//            PianoData.coreDataStack.viewContext.delete(memo)
-//        }
-//        
-//        PianoData.coreDataStack.viewContext.delete(deleteFolder)
-//        print(deleteFolder)
-//        PianoData.save()
-//        
-//        print(deleteFolder)
-//        //TODO: 삭제한 다음, 폴더가 존재한다면, indexPath  = 0인 셀을 선택하도록 하기, 존재하지 않는다면, folder에 nil을 곧바로 대입
-//        let folderListViewController = childViewControllers.first as! FolderListViewController
-//        folderListViewController.selectTableViewCell(with: IndexPath(row: 0, section: 0))
-//    }
-//    
-//    func configureFolderViewController(_ controller: ConfigureFolderViewController, completeFolder: Folder) {
-//        guard let text = controller.textField.text else { return }
-//        completeFolder.name = text
-//        //TODO: configure에서 선택된 이미지 이름 가져오기
-//        completeFolder.imageName = "folder0"
-//        PianoData.save()
-//        
-//        let folderListViewController = childViewControllers.first as! FolderListViewController
-//        folderListViewController.selectTableView(with: completeFolder)
-//    }
-//}
-
-
+extension MasterViewController: ConfigureFolderViewControllerDelegate {
+    func configureFolderViewController(_ controller: ConfigureFolderViewController, selectFolder: Folder) {
+        selectSpecificFolder(selectedFolder: selectFolder)
+    }
+    
+    func configureFolderViewController(_ controller: ConfigureFolderViewController, tapCancelButton: Any) {
+        guard let firstFolder = folderResultsController.fetchedObjects?.first else {
+            //폴더가 아예 없다면, 
+            self.folder = nil
+            leftPageButton.isEnabled = false
+            return
+        }
+        
+        selectSpecificFolder(selectedFolder: firstFolder)
+    }
+}
 
 extension MasterViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -420,9 +375,33 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
                 let newIndexPath = newIndexPath else { return }
             tableView.moveRow(at: indexPath, to: newIndexPath)
             
+//            if indexPath.section == newIndexPath.section {
+//                tableView.moveRow(at: indexPath, to: newIndexPath)
+//            } else {
+//                tableView.deleteRows(at: [indexPath], with: .automatic)
+//                tableView.insertRows(at: [newIndexPath], with: .automatic)
+//                
+//            }
         }
     }
     
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+//        let indexSet = IndexSet(integer: sectionIndex)
+//        switch type {
+//        case .insert:
+//            tableView.insertSections(indexSet, with: .automatic)
+//        case .delete:
+//            tableView.deleteSections(indexSet, with: .automatic)
+//        default:
+//            break
+//        }
+//        
+//    }
+//    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
+//        return sectionName != "0" ? "Pin Memos" : "Memos"
+//    }
+
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
@@ -444,6 +423,8 @@ extension MasterViewController: UITableViewDataSource {
         if let data = memo.imageData {
             let image = UIImage(data: data as Data)
             cell.ibImageView.image = image
+        } else {
+            cell.ibImageView.image = nil
         }
     }
     
@@ -454,6 +435,12 @@ extension MasterViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return memoResultsController?.sections?.count ?? 0
     }
+    
+    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        guard let sectionInfo = memoResultsController.sections?[section] else { return nil }
+//        return sectionInfo.name != "0" ? "Pin Memos" : "Memos"
+//    }
 }
 
 extension MasterViewController: UITableViewDelegate {
@@ -464,19 +451,42 @@ extension MasterViewController: UITableViewDelegate {
     
     //메모 전달. 모든 메모는 여기서 전달하기
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let detailNavigationController = detailViewController.navigationController else { return }
         
         let memo = memoResultsController.object(at: indexPath)
-        
-        delegate?.masterViewController(self, send: memo)
+        detailViewController.memo = memo
         
         DispatchQueue.main.async { [unowned self] in
-            if let detailViewController = self.delegate as? DetailViewController {
-                self.splitViewController?.showDetailViewController(detailViewController.navigationController!, sender: nil)
-            }
+            self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
         }
-        
     }
     
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let move = UITableViewRowAction(style: .normal, title: "Move") { [unowned self](action, indexPath) in
+            print("Move button tapped, 여기서 새로운 폴더 뷰 컨트롤러 띄워서 선택되면 메모 폴더 세팅하고 코어데이터 세이브하고 화면닫기")
+            
+//            let memo = self.memoResultsController.object(at: indexPath)
+//            PianoData.save()
+        }
+        move.backgroundColor = .orange
+        
+        let delete =  UITableViewRowAction(style: .normal, title: "Delete") { [unowned self](action, indexPath) in
+            print("Delete button tapped")
+            let memo = self.memoResultsController.object(at: indexPath)
+            memo.isInTrash = true
+            PianoData.save()
+        }
+        
+        delete.backgroundColor = .red
+        
+        
+        return [delete, move]
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 }
 
 extension MasterViewController: DetailViewControllerDelegate {
