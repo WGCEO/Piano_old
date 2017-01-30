@@ -145,6 +145,7 @@ extension ConfigureFolderViewController: NSFetchedResultsControllerDelegate {
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
             tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
         case .update:
             guard let indexPath = indexPath else { return }
             if let cell = tableView.cellForRow(at: indexPath) as? MemoCell {

@@ -500,7 +500,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcl-gj-8uN">
                             <rect key="frame" x="250" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                             <state key="normal" title="완료">
                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -659,18 +659,19 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="yc3-Vq-7cd">
                         <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" id="wgd-yR-Ewr"/>
                         <view key="titleView" contentMode="scaleToFill" id="LrJ-eh-7wO">
-                            <rect key="frame" x="31" y="6" width="286" height="33"/>
+                            <rect key="frame" x="56" y="6" width="261" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ueg-Ll-Pi1" customClass="LTMorphingLabel" customModule="LTMorphingLabel">
-                                    <rect key="frame" x="0.0" y="0.0" width="286" height="33"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="261" height="33"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4h2-Oo-Gs9">
-                                    <rect key="frame" x="0.0" y="0.0" width="286" height="33"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="261" height="33"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <action selector="tapTitleButton:" destination="1PD-UR-tuG" eventType="touchUpInside" id="8G3-Pf-UOg"/>
@@ -689,7 +690,7 @@
                                 <constraint firstItem="ueg-Ll-Pi1" firstAttribute="leading" secondItem="LrJ-eh-7wO" secondAttribute="leading" id="vuN-63-37t"/>
                             </constraints>
                         </view>
-                        <barButtonItem key="rightBarButtonItem" image="settingIcon" id="vX0-7J-Zr8">
+                        <barButtonItem key="rightBarButtonItem" image="settingPiano" id="vX0-7J-Zr8">
                             <connections>
                                 <segue destination="Ktz-Fy-ZHu" kind="presentation" id="HUV-Vj-gMm"/>
                             </connections>
@@ -1111,7 +1112,7 @@
         <image name="pianoAlbum" width="25" height="19"/>
         <image name="pianoEraser" width="20" height="20"/>
         <image name="review" width="60" height="21"/>
-        <image name="settingIcon" width="25" height="25"/>
+        <image name="settingPiano" width="25" height="25"/>
         <image name="tip" width="44" height="69"/>
         <image name="trashs" width="53" height="68"/>
     </resources>
