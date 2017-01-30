@@ -82,6 +82,7 @@ class DetailViewController: UIViewController {
     var isAfterViewDidAppear: Bool = false
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var composeBarButton: UIBarButtonItem!
+    var firstImage : UIImage?
     
     
     //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
@@ -555,6 +556,11 @@ extension DetailViewController: UITextViewDelegate {
         updateCellInfo()
     }
     
+    
+
+    
+    //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
+    
     func updateCellInfo() {
         guard let memo = self.memo,
             let textView = self.textView,
@@ -583,29 +589,34 @@ extension DetailViewController: UITextViewDelegate {
             return
         }
         
-        if memo.imageData == nil {
-            attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-                
-                guard let attachment = value as? NSTextAttachment,
-                    let image = attachment.image else { return }
-                
-                let oldWidth = image.size.width;
-                
-                //I'm subtracting 10px to make the image display nicely, accounting
-                //for the padding inside the textView
-                let ratio = 60 / oldWidth;
-                
-                let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-                UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-                image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
-                    memo.imageData = data as NSData
-                    stop.pointee = true
-                }
-                
+        attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+            
+            guard let attachment = value as? NSTextAttachment,
+                let image = attachment.image else { return }
+            
+            guard firstImage != image else {
+                stop.pointee = true
+                return
             }
+            
+            firstImage = image
+            
+            let oldWidth = image.size.width;
+            
+            //I'm subtracting 10px to make the image display nicely, accounting
+            //for the padding inside the textView
+            let ratio = 60 / oldWidth;
+            
+            let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+            UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+                memo.imageData = data as NSData
+                stop.pointee = true
+            }
+            
         }
     }
     
