@@ -502,6 +502,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapAlbumButton(_ sender: Any) {
         showImagePicker()
+        iskeyboardAlbumButtonTouched = false
     }
     
     @IBAction func tapAlbumButton2(_ sender: Any) {
@@ -640,7 +641,7 @@ extension DetailViewController: UITextViewDelegate {
 
 extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var selectedRange = textView.selectedRange
+        var selectedRange = iskeyboardAlbumButtonTouched ? textView.selectedRange : NSMakeRange(textView.attributedText.length, 0)
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
             if memo == nil {
@@ -666,11 +667,11 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             textAttachment.image = scaledImage
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
             let spaceString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
-            attributedString.insert(spaceString, at: textView.selectedRange.location)
+            attributedString.insert(spaceString, at: selectedRange.location)
             
-            attributedString.insert(attrStringWithImage, at: textView.selectedRange.location + 1)
-            attributedString.insert(spaceString, at: textView.selectedRange.location + 2)
-            attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 3))
+            attributedString.insert(attrStringWithImage, at: selectedRange.location + 1)
+            attributedString.insert(spaceString, at: selectedRange.location + 2)
+            attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(selectedRange.location, 3))
             textView.attributedText = attributedString
             selectedRange.location += 3
             updateCellInfo()
@@ -684,8 +685,10 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
         if iskeyboardAlbumButtonTouched {
             textView.appearKeyboard()
             textView.selectedRange = selectedRange
-            textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
+            //textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
             iskeyboardAlbumButtonTouched = false
+        } else {
+            textView.selectedRange = selectedRange
         }
     }
     
@@ -696,7 +699,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
         
         if iskeyboardAlbumButtonTouched {
             textView.appearKeyboard()
-            textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
+            //textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
             iskeyboardAlbumButtonTouched = false
         }
     }
