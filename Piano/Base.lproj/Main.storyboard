@@ -954,7 +954,7 @@
             </objects>
             <point key="canvasLocation" x="-1490.4000000000001" y="523.98800599700155"/>
         </scene>
-        <!--폴더 선택-->
+        <!--메모를 어디로 이동시킬 지 선택해주세요 -->
         <scene sceneID="L4e-Zv-OKW">
             <objects>
                 <viewController id="76R-l2-Ia9" customClass="MoveMemoViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
@@ -970,28 +970,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="VcE-tq-eXg">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="메모를 어디로 이동시킬 지 선택해주세요." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="H8T-Eq-ehG">
-                                            <rect key="frame" x="16" y="16" width="343" height="30"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstItem="H8T-Eq-ehG" firstAttribute="top" secondItem="VcE-tq-eXg" secondAttribute="top" constant="16" id="Bju-4l-DVK"/>
-                                        <constraint firstItem="H8T-Eq-ehG" firstAttribute="leading" secondItem="VcE-tq-eXg" secondAttribute="leading" constant="16" id="COE-p5-BLW"/>
-                                        <constraint firstAttribute="trailing" secondItem="H8T-Eq-ehG" secondAttribute="trailing" constant="16" id="OaM-N8-SnU"/>
-                                        <constraint firstAttribute="bottom" secondItem="H8T-Eq-ehG" secondAttribute="bottom" constant="16" id="Pb9-ym-e0u"/>
-                                    </constraints>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="fsf-Np-o08" detailTextLabel="sho-5j-dOK" style="IBUITableViewCellStyleSubtitle" id="7Ju-tV-L8f">
-                                        <rect key="frame" x="0.0" y="90" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Ju-tV-L8f" id="pxu-pR-wHg">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -1029,7 +1010,7 @@
                             <constraint firstItem="t0i-3H-Zw3" firstAttribute="leading" secondItem="scR-TM-BZ5" secondAttribute="leading" id="iz8-m2-z4d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="폴더 선택" id="cRU-W5-pUx"/>
+                    <navigationItem key="navigationItem" title="메모를 어디로 이동시킬 지 선택해주세요 " id="cRU-W5-pUx"/>
                     <connections>
                         <outlet property="tableView" destination="t0i-3H-Zw3" id="TfY-bh-rxM"/>
                     </connections>
