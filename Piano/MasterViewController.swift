@@ -336,10 +336,12 @@ class MasterViewController: UIViewController {
 
 extension MasterViewController: ConfigureFolderViewControllerDelegate {
     func configureFolderViewController(_ controller: ConfigureFolderViewController, selectFolder: Folder) {
+        fetchFolderResultsController()
         selectSpecificFolder(selectedFolder: selectFolder)
     }
     
     func configureFolderViewController(_ controller: ConfigureFolderViewController, tapCancelButton: Any) {
+        fetchFolderResultsController()
         guard let firstFolder = folderResultsController.fetchedObjects?.first else {
             //폴더가 아예 없다면, 
             self.folder = nil

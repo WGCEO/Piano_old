@@ -19,6 +19,7 @@
 		0A2CE68E1E121CBB0003F3CB /* LineFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */; };
 		0A2CE6901E1227D50003F3CB /* EffectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE68F1E1227D50003F3CB /* EffectButton.swift */; };
 		0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */; };
+		0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B08241E3F0BCD0074E5CA /* MoveMemoViewController.swift */; };
 		0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A638E661E16A7A00006FFEA /* Date_Extension.swift */; };
 		0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8150E21E1CB1D100F2EDFE /* PianoData.swift */; };
 		0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8815A51E31F75500ABEB98 /* MasterViewController.swift */; };
@@ -82,6 +83,7 @@
 		0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineFamily.swift; sourceTree = "<group>"; };
 		0A2CE68F1E1227D50003F3CB /* EffectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectButton.swift; sourceTree = "<group>"; };
 		0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer_Extension.swift; sourceTree = "<group>"; };
+		0A5B08241E3F0BCD0074E5CA /* MoveMemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveMemoViewController.swift; sourceTree = "<group>"; };
 		0A638E661E16A7A00006FFEA /* Date_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
 		0A8150E21E1CB1D100F2EDFE /* PianoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoData.swift; sourceTree = "<group>"; };
 		0A8815A51E31F75500ABEB98 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				0AEC95951E3C89E50039A47F /* SettingCell.swift */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 				0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */,
+				0A5B08241E3F0BCD0074E5CA /* MoveMemoViewController.swift */,
 				0ACC37771E3E2EA50079FA93 /* ConfigureFolderViewController.swift */,
 				0A8815A71E31F76000ABEB98 /* Final Version */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
@@ -530,6 +533,7 @@
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */,
+				0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */,
 				0A2CE6901E1227D50003F3CB /* EffectButton.swift in Sources */,
 				315A53851DF4790200BB7367 /* PianoLabelAnimation.swift in Sources */,
 				310870A61DE1720A0044BA5D /* Constant.swift in Sources */,
