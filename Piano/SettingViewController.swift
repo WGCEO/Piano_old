@@ -14,6 +14,26 @@ class SettingViewController: UIViewController {
     
     let dataSourse: [String] = ["삭제된 메모함", "팁", "피아노 전시회", "I Love Piano", "아이디어/버그 제보", "기타 정보"]
     
+    @IBOutlet weak var portraitStackView: UIStackView!
+    @IBOutlet weak var landscapeStackView: UIStackView!
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let size = UIScreen.main.bounds.size
+        setStackViewByViewMode(size: size)
+    }
+    
+    func setStackViewByViewMode(size: CGSize){
+        landscapeStackView.isHidden = size.width < size.height
+        portraitStackView.isHidden = size.width > size.height
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        setStackViewByViewMode(size: size)
+        
+    }
 
     @IBAction func tapCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -23,17 +43,21 @@ class SettingViewController: UIViewController {
         performSegue(withIdentifier: "GoToDeleteMemo", sender: nil)
     }
     
-    @IBAction func tapTip(_ sender: Any) {
+    @IBAction func tapDeletedMemoL(_ sender: Any) {
+        performSegue(withIdentifier: "GoToDeleteMemo", sender: nil)
+    }
+    
+    
+    func tip(){
         //TODO: 여기서 팁 동영상이 있는 링크를 사파리뷰 컨트롤러로 실행시키기 데이터 소스로 넘겨주기
         showSafariViewController(with: "https://m.facebook.com/OurLovePiano")
     }
     
-    
-    @IBAction func tapPianoExhibition(_ sender: Any) {
+    func exhibition(){
         showSafariViewController(with: "https://m.facebook.com/OurLovePiano")
     }
     
-    @IBAction func tapILovePiano(_ sender: Any) {
+    func iLovePiano(){
         //TODO: 앱 아이디
         rateApp(appId: "TODO: 앱 아이디 적어야함", completion: { [weak self](bool) in
             if bool {
@@ -42,14 +66,50 @@ class SettingViewController: UIViewController {
         })
     }
     
-    @IBAction func tapReportIdeaAndBug(_ sender: Any) {
+    func reportIdeaAndBug(){
         sendEmail(withTitle: "i love piano")
     }
     
-    @IBAction func tapExtraInfo(_ sender: Any) {
+    func extraInfo(){
         performSegue(withIdentifier: "GoToOpenSource", sender: nil)
     }
     
+    @IBAction func tapTip(_ sender: Any) {
+        tip()
+    }
+    
+    @IBAction func tapTipL(_ sender: Any) {
+        tip()
+    }
+    
+    @IBAction func tapPianoExhibition(_ sender: Any) {
+        exhibition()
+    }
+    @IBAction func tapPianoExhibitionL(_ sender: Any) {
+        exhibition()
+    }
+    
+    @IBAction func tapILovePiano(_ sender: Any) {
+        iLovePiano()
+    }
+    @IBAction func tapILovePianoL(_ sender: Any) {
+        iLovePiano()
+    }
+    
+    @IBAction func tapReportIdeaAndBug(_ sender: Any) {
+        reportIdeaAndBug()
+    }
+    
+    @IBAction func tapReportIdeaAndBugL(_ sender: Any) {
+        reportIdeaAndBug()
+    }
+    @IBAction func tapExtraInfo(_ sender: Any) {
+        extraInfo()
+    }
+    
+    @IBAction func tapExtraInfoL(_ sender: Any) {
+        extraInfo()
+    }
     
     func sendEmail(withTitle: String) {
         let mailComposeViewController = configuredMailComposeViewController(withTitle: withTitle)

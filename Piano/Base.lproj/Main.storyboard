@@ -833,7 +833,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="bkf-rY-hdd">
-                                <rect key="frame" x="51.5" y="238" width="272" height="192"/>
+                                <rect key="frame" x="52" y="238" width="272" height="192"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="rcb-zb-hVO">
                                         <rect key="frame" x="0.0" y="0.0" width="68" height="185"/>
@@ -894,9 +894,58 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="SCl-QG-xgB">
+                                <rect key="frame" x="-121" y="298" width="616" height="71"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVo-l2-ouD">
+                                        <rect key="frame" x="0.0" y="0.0" width="53" height="71"/>
+                                        <state key="normal" image="trashs"/>
+                                        <connections>
+                                            <action selector="tapDeletedMemoL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="mIi-dv-xdz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apw-5q-GG6">
+                                        <rect key="frame" x="113" y="0.0" width="44" height="71"/>
+                                        <state key="normal" image="tip"/>
+                                        <connections>
+                                            <action selector="tapTipL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="WOS-Mk-sQM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gxh-Vp-dZY">
+                                        <rect key="frame" x="217" y="0.0" width="60" height="71"/>
+                                        <state key="normal" image="review"/>
+                                        <connections>
+                                            <action selector="tapILovePianoL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="gyC-WH-Pkn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IGN-np-h6v">
+                                        <rect key="frame" x="337" y="0.0" width="68" height="71"/>
+                                        <state key="normal" image="email"/>
+                                        <connections>
+                                            <action selector="tapReportIdeaAndBugL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="4EO-lB-o0u"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s6U-uo-xfv">
+                                        <rect key="frame" x="465" y="0.0" width="44" height="71"/>
+                                        <state key="normal" image="facebook"/>
+                                        <connections>
+                                            <action selector="tapPianoExhibitionL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="MLo-gN-Cz6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hc-1K-5RW">
+                                        <rect key="frame" x="569" y="0.0" width="47" height="71"/>
+                                        <state key="normal" image="license"/>
+                                        <connections>
+                                            <action selector="tapExtraInfoL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="AnU-G9-FKk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="SCl-QG-xgB" firstAttribute="centerY" secondItem="KjA-bf-8Vs" secondAttribute="centerY" id="6aa-9y-52b"/>
+                            <constraint firstItem="SCl-QG-xgB" firstAttribute="centerX" secondItem="KjA-bf-8Vs" secondAttribute="centerX" id="FUx-EO-PqQ"/>
                             <constraint firstItem="bkf-rY-hdd" firstAttribute="centerX" secondItem="KjA-bf-8Vs" secondAttribute="centerX" id="NmC-bq-uUv"/>
                             <constraint firstItem="bkf-rY-hdd" firstAttribute="centerY" secondItem="KjA-bf-8Vs" secondAttribute="centerY" id="W0W-au-47c"/>
                         </constraints>
@@ -910,6 +959,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="landscapeStackView" destination="SCl-QG-xgB" id="Efa-DV-KEh"/>
+                        <outlet property="portraitStackView" destination="bkf-rY-hdd" id="yWr-BG-E7W"/>
                         <segue destination="Zwb-q2-C91" kind="show" identifier="GoToDeleteMemo" id="3Ri-jl-mrc"/>
                         <segue destination="3Kp-Gf-BWW" kind="show" identifier="GoToOpenSource" id="hlr-j3-g6N"/>
                     </connections>
