@@ -75,12 +75,12 @@ class ConfigureFolderViewController: UIViewController {
     }
 
     func setTableViewCellHeight() {
-        let originalString: String = "ForBodySize"
-        let myString = originalString
-        let bodySize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
-        let margin: CGFloat = 16
+        let str: String = "ForBodySize"
+        let bodySize: CGSize = str.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
+        let captionSize: CGSize = str.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .caption1)])
+        let margin: CGFloat = 12
         
-        tableView.rowHeight = bodySize.height + (margin * 2)
+        tableView.rowHeight = bodySize.height + captionSize.height + (margin * 2)
     }
 }
 
@@ -128,6 +128,8 @@ extension ConfigureFolderViewController: UITableViewDataSource {
         let folder = folderResultsController.object(at: indexPath)
         //TODO: Localizing
         cell.textLabel?.text = folder.name
+        let count = folder.memos?.count ?? 0
+        cell.detailTextLabel?.text = "\(count)" + "개의 메모"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

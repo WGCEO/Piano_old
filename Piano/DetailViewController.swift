@@ -57,7 +57,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-    
     func saveCoreDataIfNeed(){
         guard let unWrapTextView = textView, let unWrapOldMemo = memo, unWrapTextView.isEdited else { return }
         if unWrapTextView.attributedText.length != 0 {
@@ -69,7 +68,6 @@ class DetailViewController: UIViewController {
         }
         
     }
-    
     
     weak var delegate: DetailViewControllerDelegate?
     @IBOutlet weak var topView: UIStackView!
@@ -94,39 +92,6 @@ class DetailViewController: UIViewController {
         return controller
     }()
     
-//    func updateTextView(memo: Memo?) {
-//        guard let textView = self.textView else { return }
-//        
-//        if let memo = memo {
-//            
-//            DispatchQueue.global().async {
-//                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
-//                DispatchQueue.main.async { [unowned self] in
-//                    textView.contentOffset = CGPoint.zero
-//                    textView.attributedText = attrText
-//                    textView.isHidden = false
-//                    PianoData.coreDataStack.textView = textView
-//                    PianoData.coreDataStack.memo = memo
-//                    
-//                    //새 메모이면 키보드 올리고 새 메모가 아니면 키보드 내리기
-//                    if textView.attributedText.length != 0 {
-//                        textView.resignFirstResponder()
-//                    } else {
-//                        //첫 메모 시작일 때
-//                        self.resetTextViewAttribute()
-//                        
-//                        //아이패드, 아이폰 구분해서 처리해야함
-//                        if self.isIpad() {
-//                            textView.appearKeyboard()
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            resetTextViewAttribute()
-//        }
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -138,6 +103,8 @@ class DetailViewController: UIViewController {
         setFontAwesomeIcon()
         
         accessoryView.frame.size.height = navigationController!.toolbar.frame.height
+        
+        PianoData.coreDataStack.detailViewController = self
         
         
         //viewDidLoad() 에서 memo == nil 일 때는 아이패드에서 맨 처음 실행했을 경우에만이므로 이때에는 최상위의 폴더에서 최상위 메모를 선택하게 함
@@ -153,7 +120,6 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -180,8 +146,6 @@ class DetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
-        
-        saveCoreDataSoftly()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -222,25 +186,8 @@ class DetailViewController: UIViewController {
         unwrapTextView.textColor = UIColor.black
     }
     
-//    func setComposedButtonEnabled(){
-//        guard let textView = self.textView,
-//            let composeBarButton = self.composeBarButton else { return }
-//        
-//        guard let _ = self.memo else {
-//            composeBarButton.isEnabled = true
-//            masterViewController?.composeBarButton.isEnabled = true
-//            return
-//        }
-//        
-//        let canMakeNewMemo = textView.attributedText.length != 0 ? true : false
-//        composeBarButton.isEnabled = canMakeNewMemo
-//        masterViewController?.composeBarButton.isEnabled = canMakeNewMemo
-//        
-//    }
-    
     func keyboardWillShow(notification: Notification){
         textView.isWaitingState = true
-//        setComposedButtonEnabled()
         
         guard let userInfo = notification.userInfo,
             let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue else { return }
@@ -293,7 +240,6 @@ class DetailViewController: UIViewController {
         showTopView(bool: false)
         textView.canvas.removeFromSuperview()
         textView.isEdited = true
-        saveCoreDataSoftly()
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -433,12 +379,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-//    func isIpad() -> Bool {
-//        guard let nav = splitViewController?.viewControllers.first as? UINavigationController,
-//            let _ = nav.topViewController as? MasterViewController else { return false }
-//        return true
-//    }
-    
     func textChanged(sender: AnyObject) {
         let tf = sender as! UITextField
         var resp : UIResponder! = tf
@@ -553,7 +493,14 @@ class DetailViewController: UIViewController {
     
     
     @IBAction func tapAlbumButton(_ sender: Any) {
-        
+        showImagePicker()
+    }
+    
+    @IBAction func tapAlbumButton2(_ sender: Any) {
+        showImagePicker()
+    }
+    
+    func showImagePicker() {
         let status = PHPhotoLibrary.authorizationStatus()
         
         switch status {
@@ -562,10 +509,6 @@ class DetailViewController: UIViewController {
         default:
             present(imagePicker, animated: true, completion: nil)
         }
-    }
-    
-    @IBAction func tapAlbumButton2(_ sender: Any) {
-        present(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
@@ -587,32 +530,6 @@ class DetailViewController: UIViewController {
     
 }
 
-//extension DetailViewController: MasterViewControllerDelegate {
-//    func masterViewController(_ controller: MasterViewController?, send memo: Memo) {
-//        masterViewController = controller
-//        
-//        guard self.memo != memo else { return }
-//        
-//        if let oldMemo = self.memo, textView.attributedText.length == 0 {
-//            PianoData.coreDataStack.viewContext.delete(oldMemo)
-//            PianoData.save()
-//        } else if let _ = self.memo {
-//            //기존 메모가 존재한다면
-//            saveCoreDataSoftly()
-//        }
-//        
-//        
-//        
-//        if let textView = textView {
-//            textView.resignFirstResponder()
-//            textView.isHidden = true
-//        }
-//        
-//        self.memo = memo
-//        
-//    }
-//}
-
 extension DetailViewController: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
         return 5
@@ -627,29 +544,6 @@ extension DetailViewController: UITextViewDelegate {
             //TODO: 메모 생성하기
             addNewMemo()
             return
-        }
-    }
-    
-    func saveCoreDataSoftly(){
-        guard let memo = self.memo,
-            let textView = self.textView else { return }
-        PianoData.coreDataStack.performBackgroundTask { (context) in
-            let data = NSKeyedArchiver.archivedData(withRootObject: textView.attributedText)
-            memo.content = data as NSData
-            do {
-                try context.save()
-            } catch {
-                print("쓰레기 버튼 눌렀는데 에러: \(error)")
-            }
-        }
-    }
-    
-    func saveCoreDataHardly(){
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        DispatchQueue.main.async { [unowned self] in
-            PianoData.coreDataStack.saveContext()
-            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -755,9 +649,10 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             attributedString.addAttributes([NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 1))
             textView.attributedText = attributedString;
             
-            
             updateCellInfo()
         }
+        
+        textView.isEdited = true
         backToDetailViewControllerFromImagePickerViewController()
     }
     

@@ -98,7 +98,6 @@ extension SettingViewController: UICollectionViewDataSource {
     
     func configure(cell: SettingCell, indexPath: IndexPath) {
         cell.ibLabel.text = dataSourse[indexPath.item]
-        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
