@@ -65,9 +65,12 @@ class MoveMemoViewController: UIViewController {
             print("Error performing fetch \(error.localizedDescription)")
         }
     }
-    @IBAction func tapCancelButton(_ sender: Any) {
+
+    
+    @IBAction func tapCancelBarButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
     
     func setTableViewCellHeight() {
         let str: String = "ForBodySize"

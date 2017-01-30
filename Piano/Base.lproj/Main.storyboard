@@ -768,6 +768,11 @@
                                 <action selector="tapCancelButton:" destination="PDM-ul-UAQ" id="2Pq-Qc-fFK"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="BwH-wg-tRP">
+                            <connections>
+                                <action selector="tapAddFolderBarButton:" destination="PDM-ul-UAQ" id="HFP-Oc-8KC"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="7ed-6i-pcj" id="8by-sI-Ies"/>
@@ -1010,7 +1015,13 @@
                             <constraint firstItem="t0i-3H-Zw3" firstAttribute="leading" secondItem="scR-TM-BZ5" secondAttribute="leading" id="iz8-m2-z4d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="메모를 어디로 이동시킬 지 선택해주세요 " id="cRU-W5-pUx"/>
+                    <navigationItem key="navigationItem" title="메모를 어디로 이동시킬 지 선택해주세요 " id="cRU-W5-pUx">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="vZY-Zy-cJY">
+                            <connections>
+                                <action selector="tapCancelBarButton:" destination="76R-l2-Ia9" id="76T-LH-WV8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="t0i-3H-Zw3" id="TfY-bh-rxM"/>
                     </connections>

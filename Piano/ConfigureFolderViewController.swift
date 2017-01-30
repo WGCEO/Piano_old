@@ -82,6 +82,54 @@ class ConfigureFolderViewController: UIViewController {
         
         tableView.rowHeight = bodySize.height + captionSize.height + (margin * 2)
     }
+    
+    @IBAction func tapAddFolderBarButton(_ sender: Any) {
+        showAddGroupAlertViewController()
+    }
+    
+    func textChanged(sender: AnyObject) {
+        let tf = sender as! UITextField
+        var resp : UIResponder! = tf
+        while !(resp is UIAlertController) { resp = resp.next }
+        let alert = resp as! UIAlertController
+        alert.actions[1].isEnabled = (tf.text != "")
+    }
+    
+    func showAddGroupAlertViewController() {
+        let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
+            guard let text = alert.textFields?.first?.text else { return }
+            let context = PianoData.coreDataStack.viewContext
+            do {
+                let newFolder = Folder(context: context)
+                newFolder.name = text
+                newFolder.date = NSDate()
+                newFolder.memos = []
+                
+                try context.save()
+                
+            } catch {
+                print("Error importing folders: \(error.localizedDescription)")
+            }
+        }
+        
+        ok.isEnabled = false
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "페이지 이름"
+            textField.returnKeyType = .done
+            textField.enablesReturnKeyAutomatically = true
+            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
+        }
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
 }
 
 extension ConfigureFolderViewController: NSFetchedResultsControllerDelegate {
