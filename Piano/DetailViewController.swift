@@ -638,6 +638,7 @@ extension DetailViewController: UITextViewDelegate {
 
 extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var selectedRange = textView.selectedRange
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
             if memo == nil {
@@ -665,27 +666,31 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             let spaceString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
             attributedString.insert(spaceString, at: textView.selectedRange.location)
             
-            
             attributedString.insert(attrStringWithImage, at: textView.selectedRange.location + 1)
             attributedString.insert(spaceString, at: textView.selectedRange.location + 2)
             attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 3))
             textView.attributedText = attributedString
-            textView.selectedRange = NSMakeRange(textView.selectedRange.location + 3, 0)
-            
+            selectedRange.location += 3
             updateCellInfo()
         }
-        
+        textView.makeTappable()
         textView.isEdited = true
-        backToDetailViewControllerFromImagePickerViewController()
+        
+        dismiss(animated: true, completion: nil)
+        
+        
+        if iskeyboardAlbumButtonTouched {
+            textView.appearKeyboard()
+            textView.selectedRange = selectedRange
+            textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
+            iskeyboardAlbumButtonTouched = false
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        backToDetailViewControllerFromImagePickerViewController()
-    }
-    
-    func backToDetailViewControllerFromImagePickerViewController() {
-        dismiss(animated: true, completion: nil)
         textView.makeTappable()
+        dismiss(animated: true, completion: nil)
+        
         
         if iskeyboardAlbumButtonTouched {
             textView.appearKeyboard()
