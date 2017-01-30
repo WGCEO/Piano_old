@@ -58,14 +58,16 @@ class DetailViewController: UIViewController {
     }
     
     func saveCoreDataIfNeed(){
-        guard let unWrapTextView = textView, let unWrapOldMemo = memo, unWrapTextView.isEdited else { return }
+        guard let unWrapTextView = textView,
+            let unWrapOldMemo = memo,
+            unWrapTextView.isEdited else { return }
+        
         if unWrapTextView.attributedText.length != 0 {
             let data = NSKeyedArchiver.archivedData(withRootObject: unWrapTextView.attributedText)
             unWrapOldMemo.content = data as NSData
             PianoData.save()
         } else {
             PianoData.coreDataStack.viewContext.delete(unWrapOldMemo)
-            self.memo = nil
         }
         
     }
@@ -221,7 +223,6 @@ class DetailViewController: UIViewController {
     }
     
     func setEffectButton() {
-        //TODO: 여기에 코어데이터에 저장되어 있는 속성 값 대입해 넣기
         colorEffectButton.textEffect = .color(.red)
         sizeEffectButton.textEffect = .title(.title3)
         lineEffectButton.textEffect = .line(.strikethrough)
@@ -255,6 +256,31 @@ class DetailViewController: UIViewController {
         colorEffectButton.isSelected = true
         sizeEffectButton.isSelected = false
         lineEffectButton.isSelected = false
+    }
+    
+    @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
+        if sizeEffectButton.isSelected {
+            //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
+            performSegue(withIdentifier: "TextEffect", sender: sender)
+        }
+        
+        textView.canvas.textEffect = sender.textEffect
+        
+        colorEffectButton.isSelected = false
+        sizeEffectButton.isSelected = true
+        lineEffectButton.isSelected = false
+    }
+    
+    @IBAction func tapLineEffectButton(_ sender: EffectButton) {
+        if lineEffectButton.isSelected {
+            //기존에 이미 선택되어 있다면 라인 선택화면 띄워주기
+            performSegue(withIdentifier: "TextEffect", sender: sender)
+        }
+        
+        textView.canvas.textEffect = sender.textEffect
+        colorEffectButton.isSelected = false
+        sizeEffectButton.isSelected = false
+        lineEffectButton.isSelected = true
     }
     
     func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
@@ -323,31 +349,6 @@ class DetailViewController: UIViewController {
         present(sendMailErrorAlert, animated: true, completion: nil)
     }
     
-    @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
-        if sizeEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
-            performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
-        
-        textView.canvas.textEffect = sender.textEffect
-        
-        colorEffectButton.isSelected = false
-        sizeEffectButton.isSelected = true
-        lineEffectButton.isSelected = false
-    }
-
-    @IBAction func tapLineEffectButton(_ sender: EffectButton) {
-        if lineEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 라인 선택화면 띄워주기
-            performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
-        
-        textView.canvas.textEffect = sender.textEffect
-        colorEffectButton.isSelected = false
-        sizeEffectButton.isSelected = false
-        lineEffectButton.isSelected = true
-    }
-    
     @IBAction func tapTrashButton(_ sender: Any) {
         //현재 메모 존재 안하면 리턴
         guard let unwrapMemo = memo else { return }
@@ -406,7 +407,6 @@ class DetailViewController: UIViewController {
                 
                 try context.save()
                 
-                //TODO: 한칸 오른쪽으로 이동하기
                 guard let masterViewController = self.delegate as? MasterViewController else { return }
                 masterViewController.fetchFolderResultsController()
                 masterViewController.selectSpecificFolder(selectedFolder: newFolder)
@@ -430,7 +430,6 @@ class DetailViewController: UIViewController {
     }
     
     func addNewMemo() {
-        //아이패드, 아이폰 구분 하여 로직 처리
         
         guard let unwrapFolder = masterViewController?.folder else {
             showAddGroupAlertViewController()
@@ -442,7 +441,6 @@ class DetailViewController: UIViewController {
         memo.date = NSDate()
         memo.folder = unwrapFolder
         memo.firstLine = "새로운 메모"
-        
         PianoData.save()
         
         delegate?.detailViewController(self, addMemo: memo)
@@ -545,7 +543,6 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.textView.isEdited = true
         guard memo != nil else {
-            //TODO: 메모 생성하기
             addNewMemo()
             return
         }

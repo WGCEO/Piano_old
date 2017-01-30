@@ -43,7 +43,6 @@ class MasterViewController: UIViewController {
     var folder: Folder? {
         didSet {
             let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-            //TODO: folder ?? "" 이거 버그 생길 수 있는 경우가 있는 지 체크 -> 다 지운다음 확인
             request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", folder ?? " ")
             let context = PianoData.coreDataStack.viewContext
 //            let prioritySort = NSSortDescriptor(
@@ -117,7 +116,7 @@ class MasterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        //아이폰일때만 지워라잉?
+//        //아이폰일때만 지워라잉?
         if !detailViewController.isVisible {
             detailViewController.saveCoreDataIfNeed()
         }
@@ -280,7 +279,6 @@ class MasterViewController: UIViewController {
                 
                 try context.save()
                 
-                //TODO: 한칸 오른쪽으로 이동하기
                 self.fetchFolderResultsController()
                 self.selectSpecificFolder(selectedFolder: newFolder)
             } catch {
@@ -309,9 +307,6 @@ class MasterViewController: UIViewController {
     
     //곧바로 여기 테이블 뷰에 접근하면 됨
     func addNewMemo(){
-        
-        //폴더를 먼저 추가해야 메모를 생성할 수 있음
-        //TODO: 여기에 폴더를 먼저 추가하라는 팝업 창 띄워줘야함
         guard let folder = self.folder else {
             //폴더가 없다는 말이므로 폴더를 먼저 추가해달라고 말하기
             showAddGroupAlertViewController()
@@ -488,7 +483,6 @@ extension MasterViewController: UITableViewDelegate {
         move.backgroundColor = .orange
         
         let delete =  UITableViewRowAction(style: .normal, title: "Delete") { [unowned self](action, indexPath) in
-            print("Delete button tapped")
             let memo = self.memoResultsController.object(at: indexPath)
             memo.isInTrash = true
             PianoData.save()

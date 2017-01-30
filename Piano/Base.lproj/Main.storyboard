@@ -315,6 +315,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJX-5n-Yrg" customClass="EffectButton" customModule="Piano" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="125" height="100"/>
+                                                <gestureRecognizers/>
                                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="20"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Button">
@@ -329,6 +330,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwK-Rd-jsC" customClass="EffectButton" customModule="Piano" customModuleProvider="target">
                                                 <rect key="frame" x="125" y="0.0" width="125" height="100"/>
+                                                <gestureRecognizers/>
                                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="26"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" title="Button">

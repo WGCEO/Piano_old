@@ -10,7 +10,6 @@ import UIKit
 
 class SelectEffectViewController: UIViewController {
     
-    //TODO: 코어데이터에서 불러와야함
     weak var selectedButton: EffectButton!
     @IBOutlet weak var descriptionLabel: UILabel!
     
@@ -59,7 +58,6 @@ extension SelectEffectViewController: UICollectionViewDataSource {
 
         let data = dataSource[indexPath.item]
         cell.textEffect = data
-        //TODO: 일단 경우에 따라 다르므로 바꿔야함
         
         switch data {
         case .color(let x):
@@ -92,10 +90,7 @@ extension SelectEffectViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? TextEffectCell
             else { return }
-        
-        //TODO: 여기서 뷰컨트롤러 해제함과 동시에 값 돌려줘야함(함수 호출해서 돌려주기)
 
-        //didSet적용해줘야함
         selectedButton.textEffect = cell.textEffect
         dismiss(animated: true, completion: nil)
     }

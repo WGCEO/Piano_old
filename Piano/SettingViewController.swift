@@ -30,15 +30,14 @@ class SettingViewController: UIViewController {
     
     
     @IBAction func tapPianoExhibition(_ sender: Any) {
-        //TODO: 여기서 피아노 철학 정보 만들어서 데이터 소스로 넘겨주기
         showSafariViewController(with: "https://m.facebook.com/OurLovePiano")
     }
     
     @IBAction func tapILovePiano(_ sender: Any) {
         //TODO: 앱 아이디
-        rateApp(appId: "TODO: 앱 아이디 적어야함", completion: { (bool) in
+        rateApp(appId: "TODO: 앱 아이디 적어야함", completion: { [weak self](bool) in
             if bool {
-                //TODO: 알럿 뷰 컨트롤러 띄워줘서 리뷰를 안 쓴 사람도 뜨끔해서 쓸 수 있도록 하게 하기
+                self?.showBasicAlertController(title: "감사합니다", message: "아름다운 리뷰가 저희들의 열정이 됩니다.")
             }
         })
     }
@@ -57,7 +56,7 @@ class SettingViewController: UIViewController {
         if MFMailComposeViewController.canSendMail() {
             self.present(mailComposeViewController, animated: true, completion: nil)
         } else {
-            self.showSendMailErrorAlert()
+            self.showBasicAlertController(title: "메일을 보낼 수 없습니다.", message: "디바이스 혹은 인터넷 상태를 확인해주세요")
         }
     }
     
@@ -72,20 +71,12 @@ class SettingViewController: UIViewController {
         return mailComposerVC
     }
     
-    func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "메일을 보낼 수 없습니다.", message: "디바이스 혹은 인터넷 상태를 확인해주세요", preferredStyle: .alert)
+    func showBasicAlertController(title: String, message: String) {
+        let alertViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        sendMailErrorAlert.addAction(cancel)
-        present(sendMailErrorAlert, animated: true, completion: nil)
+        alertViewController.addAction(cancel)
+        present(alertViewController, animated: true, completion: nil)
     }
-    
-    func showInternetErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "네트워크 에러.", message: "디바이스 혹은 인터넷 상태를 확인해주세요", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        sendMailErrorAlert.addAction(cancel)
-        present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-    
     
     func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
         guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
@@ -101,7 +92,7 @@ class SettingViewController: UIViewController {
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
         } else {
-            showInternetErrorAlert()
+            showBasicAlertController(title: "네트워크 에러", message: "디바이스 혹은 인터넷 상태를 확인해주세요")
         }
     }
 

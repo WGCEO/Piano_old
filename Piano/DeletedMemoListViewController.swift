@@ -39,7 +39,6 @@ class DeletedMemoListViewController: UIViewController {
         super.viewDidLoad()
 
         setTableViewCellHeight()
-        //TODO: 이거 비동기로 처리하지 않아도 되는 것인가?
         PianoData.deleteMemosIfPassOneMonth()
         
         do {

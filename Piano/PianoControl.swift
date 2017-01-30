@@ -84,9 +84,6 @@ class PianoControl: UIControl {
     }
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        
-        //끝났으면 텍스트뷰에 칠해야 함
-        //TODO: 코드가 너무 더러움... 완전 리펙토링하기
 
         guard let touch = touch else { return }
         let x = touch.location(in: self).x
