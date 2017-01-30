@@ -99,7 +99,7 @@ class ConfigureFolderViewController: UIViewController {
         let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "생성", style: .default) { (action) in
+        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
             guard let text = alert.textFields?.first?.text else { return }
             let context = PianoData.coreDataStack.viewContext
             do {
@@ -109,6 +109,11 @@ class ConfigureFolderViewController: UIViewController {
                 newFolder.memos = []
                 
                 try context.save()
+                
+                
+                guard let count = self.folderResultsController.fetchedObjects?.count else { return }
+                let indexPath = IndexPath(row: count - 1, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
                 
             } catch {
                 print("Error importing folders: \(error.localizedDescription)")
@@ -145,7 +150,6 @@ extension ConfigureFolderViewController: NSFetchedResultsControllerDelegate {
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
             tableView.insertRows(at: [newIndexPath], with: .automatic)
-            tableView.scrollToRow(at: newIndexPath, at: .bottom, animated: true)
         case .update:
             guard let indexPath = indexPath else { return }
             if let cell = tableView.cellForRow(at: indexPath) as? MemoCell {
