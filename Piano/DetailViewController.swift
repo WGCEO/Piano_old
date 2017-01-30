@@ -669,8 +669,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             attributedString.insert(attrStringWithImage, at: textView.selectedRange.location + 1)
             attributedString.insert(spaceString, at: textView.selectedRange.location + 2)
             attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 3))
-            textView.attributedText = attributedString;
-            textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
+            textView.attributedText = attributedString
             textView.selectedRange = NSMakeRange(textView.selectedRange.location + 3, 0)
             
             updateCellInfo()
@@ -686,8 +685,13 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
     
     func backToDetailViewControllerFromImagePickerViewController() {
         dismiss(animated: true, completion: nil)
-//        textView.makeTappable()
-        textView.appearKeyboard()
+        textView.makeTappable()
+        
+        if iskeyboardAlbumButtonTouched {
+            textView.appearKeyboard()
+            textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
+            iskeyboardAlbumButtonTouched = false
+        }
     }
 
 }
