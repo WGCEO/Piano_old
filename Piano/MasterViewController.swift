@@ -330,6 +330,10 @@ class MasterViewController: UIViewController {
             let nav = segue.destination as! UINavigationController
             let configureFolderViewController = nav.topViewController as! ConfigureFolderViewController
             configureFolderViewController.delegate = self
+        } else if identifier == "MoveMemoViewController" {
+            let nav = segue.destination as! UINavigationController
+            let moveMemoViewController = nav.topViewController as! MoveMemoViewController
+            moveMemoViewController.memo = sender as! Memo
         }
     }
 }
@@ -466,10 +470,8 @@ extension MasterViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let move = UITableViewRowAction(style: .normal, title: "Move") { [unowned self](action, indexPath) in
-            print("Move button tapped, 여기서 새로운 폴더 뷰 컨트롤러 띄워서 선택되면 메모 폴더 세팅하고 코어데이터 세이브하고 화면닫기")
-            
-//            let memo = self.memoResultsController.object(at: indexPath)
-//            PianoData.save()
+            let memo = self.memoResultsController.object(at: indexPath)
+            self.performSegue(withIdentifier: "MoveMemoViewController", sender: memo)
         }
         move.backgroundColor = .orange
         
