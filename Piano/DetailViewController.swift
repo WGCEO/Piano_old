@@ -49,6 +49,7 @@ class DetailViewController: UIViewController {
         unwrapTextView.attributedText = attrText
         
         if unwrapTextView.attributedText.length == 0 {
+            resetTextViewAttribute()
             if self.isVisible {
                 unwrapTextView.appearKeyboard()
             } else {
