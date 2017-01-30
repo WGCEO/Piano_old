@@ -26,6 +26,9 @@ class DetailViewController: UIViewController {
     
     var appearKeyboardIfNeeded: () -> Void = { }
     
+    //TODO: 이거 해결해야함 코드 더러움
+    var iskeyboardAlbumButtonTouched: Bool = false
+    
     var memo: Memo? {
         willSet {
             saveCoreDataIfNeed()
@@ -500,7 +503,9 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapAlbumButton2(_ sender: Any) {
+        textView.resignFirstResponder()
         showImagePicker()
+        iskeyboardAlbumButtonTouched = true
     }
     
     func showImagePicker() {
@@ -666,6 +671,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(textView.selectedRange.location, 3))
             textView.attributedText = attributedString;
             textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
+            textView.selectedRange = NSMakeRange(textView.selectedRange.location + 3, 0)
             
             updateCellInfo()
         }
@@ -680,7 +686,8 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
     
     func backToDetailViewControllerFromImagePickerViewController() {
         dismiss(animated: true, completion: nil)
-        textView.makeTappable()
+//        textView.makeTappable()
+        textView.appearKeyboard()
     }
 
 }
