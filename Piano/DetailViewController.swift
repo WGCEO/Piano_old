@@ -36,6 +36,7 @@ class DetailViewController: UIViewController {
         }
         didSet {
             showTopView(bool: false)
+            guard oldValue != memo else { return }
             setTextView(with: memo)
         }
     }
@@ -50,6 +51,7 @@ class DetailViewController: UIViewController {
         
         let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapMemo.content as! Data) as? NSAttributedString
         unwrapTextView.attributedText = attrText
+        unwrapTextView.selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
         
         if unwrapTextView.attributedText.length == 0 {
             resetTextViewAttribute()
