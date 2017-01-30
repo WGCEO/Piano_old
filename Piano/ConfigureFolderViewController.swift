@@ -99,7 +99,7 @@ class ConfigureFolderViewController: UIViewController {
         let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
+        let ok = UIAlertAction(title: "생성", style: .default) { (action) in
             guard let text = alert.textFields?.first?.text else { return }
             let context = PianoData.coreDataStack.viewContext
             do {

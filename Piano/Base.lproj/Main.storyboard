@@ -28,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="72" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qYZ-X6-HhS">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="Wco-jf-XDC">
@@ -124,7 +124,7 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YsH-Ka-CkQ">
-                                <rect key="frame" x="0.0" y="212" width="375" height="411"/>
+                                <rect key="frame" x="0.0" y="212" width="375" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -142,14 +142,14 @@
                             <constraint firstItem="LdL-q6-aVr" firstAttribute="centerX" secondItem="e4r-Rj-gS6" secondAttribute="centerX" id="rHN-9O-vpZ"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem systemItem="cancel" id="Lkr-xS-iTN">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Open Source" id="o68-Ih-S4W">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Lkr-xS-iTN">
                             <connections>
                                 <action selector="tapBackButton:" destination="3Kp-Gf-BWW" id="FfP-Fi-jyI"/>
                             </connections>
                         </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="Open Source" id="o68-Ih-S4W"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mIh-gz-ht8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -168,7 +168,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2A-fD-bXe">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -176,22 +176,29 @@
                                     <outlet property="delegate" destination="3Bd-Df-dwd" id="Myc-qt-oKj"/>
                                 </connections>
                             </textView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uI7-Gk-weP">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="복구하기" id="1vh-h4-pmp">
+                                        <connections>
+                                            <action selector="tapRestoreBarButton:" destination="3Bd-Df-dwd" id="B14-ij-I7h"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="v2A-fD-bXe" firstAttribute="top" secondItem="bql-I1-lf5" secondAttribute="top" id="0b1-tf-NCI"/>
+                            <constraint firstAttribute="trailing" secondItem="uI7-Gk-weP" secondAttribute="trailing" id="Hl3-go-I2I"/>
+                            <constraint firstItem="srn-tb-ngF" firstAttribute="top" secondItem="uI7-Gk-weP" secondAttribute="bottom" id="UZc-x9-qJY"/>
+                            <constraint firstItem="uI7-Gk-weP" firstAttribute="leading" secondItem="bql-I1-lf5" secondAttribute="leading" id="bqQ-RF-nTU"/>
                             <constraint firstItem="srn-tb-ngF" firstAttribute="top" secondItem="v2A-fD-bXe" secondAttribute="bottom" id="qnf-TM-kPV"/>
                             <constraint firstItem="v2A-fD-bXe" firstAttribute="leading" secondItem="bql-I1-lf5" secondAttribute="leading" id="rza-co-maT"/>
                             <constraint firstAttribute="trailing" secondItem="v2A-fD-bXe" secondAttribute="trailing" id="sIp-4S-JW3"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="복구하기" id="1vh-h4-pmp">
-                            <connections>
-                                <action selector="tapRestoreBarButton:" destination="3Bd-Df-dwd" id="B14-ij-I7h"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <connections>
                         <outlet property="textView" destination="v2A-fD-bXe" id="tNA-Rf-935"/>
                     </connections>
@@ -430,7 +437,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Xvq-cj-0uo"/>
-                        <barButtonItem image="textEffect" id="EcO-QV-0RL">
+                        <barButtonItem image="daan" id="EcO-QV-0RL">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="tapEffectButton:" destination="nsS-aP-t1B" id="kdY-1r-FiQ"/>
@@ -479,7 +486,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="단어 지우개">
+                            <state key="normal" image="pianoEraser">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -490,7 +497,7 @@
                             <rect key="frame" x="125" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="이미지">
+                            <state key="normal" image="pianoAlbum">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -500,9 +507,9 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcl-gj-8uN">
                             <rect key="frame" x="250" y="0.0" width="125" height="36"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                             <state key="normal" title="완료">
-                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="tapKeyboardHideButton:" destination="nsS-aP-t1B" eventType="touchUpInside" id="J1L-La-JUx"/>
@@ -518,7 +525,7 @@
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -565,16 +572,16 @@
                                                     <rect key="frame" x="16" y="8" width="343" height="53"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0S1-0f-h2d">
-                                                            <rect key="frame" x="0.0" y="9" width="290" height="35"/>
+                                                            <rect key="frame" x="0.0" y="9" width="290" height="36"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsdssdsds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-If-nh9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="21"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-pg-62g">
-                                                                    <rect key="frame" x="0.0" y="20.5" width="290" height="14.5"/>
+                                                                    <rect key="frame" x="0.0" y="21" width="290" height="15"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -800,7 +807,7 @@
             <objects>
                 <navigationController toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -832,71 +839,70 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YfF-sf-u27">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rML-O7-8D2">
-                                    <size key="itemSize" width="172" height="171"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SettingCell" id="t4L-WR-jpF" customClass="SettingCell" customModule="Piano" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="172" height="171"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="172" height="171"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="D31-SH-dRJ">
-                                                    <rect key="frame" x="36" y="36" width="140" height="158"/>
-                                                    <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample" translatesAutoresizingMaskIntoConstraints="NO" id="kdn-8i-4Wo">
-                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="100" id="1uu-Fr-t4M"/>
-                                                                <constraint firstAttribute="height" constant="100" id="Nhz-se-2xF"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="삭제된 메모" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="QNx-Kd-0Wl">
-                                                            <rect key="frame" x="0.0" y="104" width="100" height="17"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                        </view>
-                                        <color key="backgroundColor" red="0.94502085449999995" green="0.9491325021" blue="0.95285099740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstItem="D31-SH-dRJ" firstAttribute="centerX" secondItem="t4L-WR-jpF" secondAttribute="centerX" id="9Ji-c1-9Q7"/>
-                                            <constraint firstItem="D31-SH-dRJ" firstAttribute="centerY" secondItem="t4L-WR-jpF" secondAttribute="centerY" id="K4x-iG-S74"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="15"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <outlet property="ibImageView" destination="kdn-8i-4Wo" id="7Kz-Lz-m6b"/>
-                                            <outlet property="ibLabel" destination="QNx-Kd-0Wl" id="B9O-Wr-lsF"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="JWS-Gb-Mhx" id="EVE-Ln-QUD"/>
-                                    <outlet property="delegate" destination="JWS-Gb-Mhx" id="dtR-2R-BTm"/>
-                                </connections>
-                            </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QIt-2e-yiv">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="skG-Xp-umG">
+                                        <rect key="frame" x="0.0" y="0.0" width="188" height="603"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obn-ad-m1A">
+                                                <rect key="frame" x="0.0" y="0.0" width="188" height="201"/>
+                                                <state key="normal" title="삭제된 메모함"/>
+                                                <connections>
+                                                    <action selector="tapDeletedMemo:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="eea-59-q01"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ews-az-vvO">
+                                                <rect key="frame" x="0.0" y="201" width="188" height="201"/>
+                                                <state key="normal" title="피아노 전시회"/>
+                                                <connections>
+                                                    <action selector="tapPianoExhibition:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="I8O-O5-VRZ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szN-wQ-2wG">
+                                                <rect key="frame" x="0.0" y="402" width="188" height="201"/>
+                                                <state key="normal" title="아이디어/버그 제보"/>
+                                                <connections>
+                                                    <action selector="tapReportIdeaAndBug:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="jIx-m0-d7L"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="4mb-97-WYO">
+                                        <rect key="frame" x="188" y="0.0" width="187" height="603"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aoQ-Mx-bBy">
+                                                <rect key="frame" x="0.0" y="0.0" width="187" height="201"/>
+                                                <state key="normal" title="팁"/>
+                                                <connections>
+                                                    <action selector="tapTip:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="2dE-XN-yeQ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCk-Ga-ka0">
+                                                <rect key="frame" x="0.0" y="201" width="187" height="201"/>
+                                                <state key="normal" title="i love piano"/>
+                                                <connections>
+                                                    <action selector="tapILovePiano:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="z96-1I-ypE"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tV0-rQ-XXV">
+                                                <rect key="frame" x="0.0" y="402" width="187" height="201"/>
+                                                <state key="normal" title="기타 정보"/>
+                                                <connections>
+                                                    <action selector="tapExtraInfo:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="v0c-qG-xGP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="YfF-sf-u27" firstAttribute="leading" secondItem="KjA-bf-8Vs" secondAttribute="leading" id="BSj-ba-Y9R"/>
-                            <constraint firstItem="YfF-sf-u27" firstAttribute="top" secondItem="KjA-bf-8Vs" secondAttribute="top" id="ELA-Dm-f7S"/>
-                            <constraint firstAttribute="trailing" secondItem="YfF-sf-u27" secondAttribute="trailing" id="dJm-h8-K9i"/>
-                            <constraint firstItem="MJN-KT-uLB" firstAttribute="top" secondItem="YfF-sf-u27" secondAttribute="bottom" id="sbI-Hf-tzx"/>
+                            <constraint firstItem="QIt-2e-yiv" firstAttribute="leading" secondItem="KjA-bf-8Vs" secondAttribute="leading" id="OX4-5n-tVu"/>
+                            <constraint firstAttribute="trailing" secondItem="QIt-2e-yiv" secondAttribute="trailing" id="fav-lA-v0V"/>
+                            <constraint firstItem="MJN-KT-uLB" firstAttribute="top" secondItem="QIt-2e-yiv" secondAttribute="bottom" id="iep-Ks-8Qc"/>
+                            <constraint firstItem="QIt-2e-yiv" firstAttribute="top" secondItem="RHF-SQ-zWt" secondAttribute="bottom" id="vNY-dL-LqS"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -908,7 +914,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="YfF-sf-u27" id="dfO-G1-6rh"/>
                         <segue destination="Zwb-q2-C91" kind="show" identifier="GoToDeleteMemo" id="3Ri-jl-mrc"/>
                         <segue destination="3Kp-Gf-BWW" kind="show" identifier="GoToOpenSource" id="hlr-j3-g6N"/>
                     </connections>
@@ -920,9 +925,9 @@
         <!--Navigation Controller-->
         <scene sceneID="yhk-VV-dYq">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -945,7 +950,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RX5-sF-fZk" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="l2W-iI-EOR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2W-iI-EOR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -959,7 +964,7 @@
             </objects>
             <point key="canvasLocation" x="-1490.4000000000001" y="523.98800599700155"/>
         </scene>
-        <!--메모를 어디로 이동시킬 지 선택해주세요 -->
+        <!--폴더 선택-->
         <scene sceneID="L4e-Zv-OKW">
             <objects>
                 <viewController id="76R-l2-Ia9" customClass="MoveMemoViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
@@ -1015,7 +1020,7 @@
                             <constraint firstItem="t0i-3H-Zw3" firstAttribute="leading" secondItem="scR-TM-BZ5" secondAttribute="leading" id="iz8-m2-z4d"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="메모를 어디로 이동시킬 지 선택해주세요 " id="cRU-W5-pUx">
+                    <navigationItem key="navigationItem" title="폴더 선택" id="cRU-W5-pUx">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="vZY-Zy-cJY">
                             <connections>
                                 <action selector="tapCancelBarButton:" destination="76R-l2-Ia9" id="76T-LH-WV8"/>
@@ -1035,7 +1040,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZGw-Kp-iZC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nLW-2Y-oDZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLW-2Y-oDZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1051,11 +1056,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="daan" width="33" height="29"/>
         <image name="mailIcon" width="25" height="16"/>
         <image name="pianoAlbum" width="25" height="19"/>
+        <image name="pianoEraser" width="20" height="20"/>
         <image name="sample" width="100" height="99"/>
         <image name="settingIcon" width="25" height="25"/>
-        <image name="textEffect" width="33" height="24"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

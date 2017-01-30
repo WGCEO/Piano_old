@@ -30,7 +30,36 @@ class PianoTextView: UITextView {
         self.textContainerInset = UIEdgeInsetsMake(20, 25, 60, 25)
         canvas.textView = self
         self.linkTextAttributes = [NSUnderlineStyleAttributeName : 1]
+        self.allowsEditingTextAttributes = true
     }
+    
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(paste(_:)) {
+            return UIPasteboard.general.string != nil || UIPasteboard.general.image != nil
+        }
+        
+        return super.canPerformAction(action, withSender: sender)
+    }
+    
+    override func paste(_ sender: Any?) {
+        super.paste(sender)
+        
+        attributedText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
+            guard let attachment = value as? NSTextAttachment else { return }
+            
+            if let regularFile = attachment.fileWrapper?.regularFileContents,
+                let image = UIImage(data: regularFile) {
+                let oldWidth = image.size.width
+                let ratio = (textContainer.size.width - 10) / oldWidth
+                let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+                attachment.bounds.size = size
+            }
+            
+
+        }
+    }
+
     
     
     //애니메이션중이면 액션을 실행하면 안됨, 실행하게 된다면 둘다 애니메이션이라 blocking이 됨 
