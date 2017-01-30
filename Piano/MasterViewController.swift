@@ -198,7 +198,8 @@ class MasterViewController: UIViewController {
     }
     
     @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
-        guard let folders = folderResultsController.fetchedObjects else { return }
+        guard let folders = folderResultsController.fetchedObjects else {
+            return }
         
         for (index, folder) in folders.enumerated() {
             if self.folder == folder {
@@ -216,6 +217,8 @@ class MasterViewController: UIViewController {
                 return
             }
         }
+        
+        showAddGroupAlertViewController()
     }
     
     @IBAction func tapFolderBarButton(_ sender: Any) {
@@ -308,6 +311,7 @@ class MasterViewController: UIViewController {
         //TODO: 여기에 폴더를 먼저 추가하라는 팝업 창 띄워줘야함
         guard let folder = self.folder else {
             //폴더가 없다는 말이므로 폴더를 먼저 추가해달라고 말하기
+            showAddGroupAlertViewController()
             return }
         
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
