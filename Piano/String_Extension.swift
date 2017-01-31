@@ -33,4 +33,8 @@ extension String {
         }
         return (self.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0)
     }
+    
+    func localized(withComment:String) -> String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: withComment)
+    }
 }

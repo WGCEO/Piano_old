@@ -690,13 +690,12 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             textAttachment.image = scaledImage
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
             let spaceString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
-            attributedString.insert(spaceString, at: selectedRange.location)
             
-            attributedString.insert(attrStringWithImage, at: selectedRange.location + 1)
-            attributedString.insert(spaceString, at: selectedRange.location + 2)
-            attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(selectedRange.location, 3))
+            attributedString.insert(attrStringWithImage, at: selectedRange.location)
+            attributedString.insert(spaceString, at: selectedRange.location + 1)
+            attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(selectedRange.location, 2))
             textView.attributedText = attributedString
-            selectedRange.location += 3
+            selectedRange.location += 2
             updateCellInfo()
         }
         textView.makeTappable()
