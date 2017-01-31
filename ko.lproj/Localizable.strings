@@ -6,7 +6,6 @@
   Copyright © 2017년 Piano. All rights reserved.
 */
 
-
 "NetworkErrorTitle" = "네트워크 에러";
 "CheckDeviceOrInternet" = "디바이스 혹은 인터넷 상태를 확인해주세요.";
 "OK" = "확인";
@@ -30,4 +29,6 @@
 "SelectColor" = "색상을 선택해주세요.";
 "SelectTitle" = "제목의 크기를 선택해주세요.";
 "SelectLine" = "선의 종류를 선택해주세요.";
+"ChangeFolderNameTitle" = "폴더 이름";
+"ChangeFolderNameMessage" = "폴더 이름을 변경할 수 있습니다";
 "PianoTutorial" = "피아노 튜토리얼 내용";

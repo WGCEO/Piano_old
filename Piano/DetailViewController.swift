@@ -200,6 +200,8 @@ class DetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        //TODO: 코드 리펙토링제대로하기
+        textView.isWaitingState = false
         appearKeyboardIfNeeded()
         appearKeyboardIfNeeded = { }
     }

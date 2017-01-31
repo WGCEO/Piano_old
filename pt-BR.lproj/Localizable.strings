@@ -29,4 +29,6 @@
 "SelectColor" = "Escolha uma cor.";
 "SelectTitle" = "Selecione o tamanho do título.";
 "SelectLine" = "Selecione um tipo de linha.";
+"ChangeFolderNameTitle" = "Nome da pasta";
+"ChangeFolderNameMessage" = "Você pode alterar o nome";
 "PianoTutorial" = "피아노 튜토리얼 내용";

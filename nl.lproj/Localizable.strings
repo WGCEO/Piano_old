@@ -29,4 +29,6 @@
 "SelectColor" = "Kies een kleur.";
 "SelectTitle" = "Selecteer de grootte van de titel.";
 "SelectLine" = "Selecteer een lijn type.";
+"ChangeFolderNameTitle" = "Naam van de map";
+"ChangeFolderNameMessage" = "U kunt de naam wijzigen";
 "PianoTutorial" = "피아노 튜토리얼 내용";

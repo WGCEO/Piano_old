@@ -1,9 +1,9 @@
 
 /* Class = "UIBarButtonItem"; title = "Recover"; ObjectID = "1vh-h4-pmp"; */
-"1vh-h4-pmp.title" = "Recover";
+"1vh-h4-pmp.title" = "restauratie";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
-"5Np-uE-SSo.title" = "Complete";
+"5Np-uE-SSo.title" = "compleet";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "67z-rl-MC3"; */
 "67z-rl-MC3.text" = "Subtitle";
@@ -18,7 +18,7 @@
 "GLu-3r-qhB.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "Setting"; ObjectID = "IXN-Oq-85f"; */
-"IXN-Oq-85f.title" = "Setting";
+"IXN-Oq-85f.title" = "omgeving";
 
 /* Class = "UILabel"; text = "date"; ObjectID = "LQF-pg-62g"; */
 "LQF-pg-62g.text" = "date";
@@ -27,16 +27,13 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Notes are permanently deleted after 30 days.";
-
-/* Class = "UITextView"; text = "LTMorphingLabel  The MIT License (MIT)\nCopyright © 2016 Lex Tang, http://lexrus.com\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the “Software”), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE."; ObjectID = "YsH-Ka-CkQ"; */
-"YsH-Ka-CkQ.text" = "LTMorphingLabel  The MIT License (MIT)\nCopyright © 2016 Lex Tang, http://lexrus.com\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the “Software”), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.";
+"NBb-E1-rsZ.text" = "Notes worden definitief verwijderd na 30 dagen.";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
-"cRU-W5-pUx.title" = "Select Folder";
+"cRU-W5-pUx.title" = "Selecteer map";
 
 /* Class = "UINavigationItem"; title = "Foler List"; ObjectID = "dHK-zG-BEe"; */
-"dHK-zG-BEe.title" = "Foler List";
+"dHK-zG-BEe.title" = "Mappenlijst";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "fsf-Np-o08"; */
 "fsf-Np-o08.text" = "Title";
@@ -47,11 +44,11 @@
 /* Class = "UILabel"; text = "L"; ObjectID = "nCe-Vb-4bA"; */
 "nCe-Vb-4bA.text" = "L";
 
-/* Class = "UINavigationItem"; title = "Open Source"; ObjectID = "o68-Ih-S4W"; */
-"o68-Ih-S4W.title" = "Open Source";
+/* Class = "UINavigationItem"; title = "Thanks To"; ObjectID = "o68-Ih-S4W"; */
+"o68-Ih-S4W.title" = "Thanks To";
 
 /* Class = "UIButton"; normalTitle = "Done"; ObjectID = "pcl-gj-8uN"; */
-"pcl-gj-8uN.normalTitle" = "Done";
+"pcl-gj-8uN.normalTitle" = "Gedaan";
 
 /* Class = "UILabel"; text = "title"; ObjectID = "qbU-If-nh9"; */
 "qbU-If-nh9.text" = "title";
@@ -66,4 +63,4 @@
 "tst-dc-tI6.title" = "◁";
 
 /* Class = "UINavigationItem"; title = "Deleted Memo"; ObjectID = "ueM-AL-IOh"; */
-"ueM-AL-IOh.title" = "Deleted Memo";
+"ueM-AL-IOh.title" = "Verwijderde notities";

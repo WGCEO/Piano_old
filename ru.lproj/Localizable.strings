@@ -29,4 +29,6 @@
 "SelectColor" = "Пожалуйста, выберите нужный цвет.";
 "SelectTitle" = "Пожалуйста, выберите размер заголовка.";
 "SelectLine" = "Пожалуйста, выберите тип линии.";
+"ChangeFolderNameTitle" = "Имя папки";
+"ChangeFolderNameMessage" = "Вы можете изменить название";
 "PianoTutorial" = "피아노 튜토리얼 내용";

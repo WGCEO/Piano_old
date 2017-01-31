@@ -29,4 +29,6 @@
 "SelectColor" = "Vælg en farve.";
 "SelectTitle" = "Vælg størrelse titlen.";
 "SelectLine" = "Vælg en linje type.";
+"ChangeFolderNameTitle" = "Folder navn";
+"ChangeFolderNameMessage" = "Du kan ændre navnet";
 "PianoTutorial" = "피아노 튜토리얼 내용";

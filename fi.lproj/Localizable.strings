@@ -29,4 +29,6 @@
 "SelectColor" = "Valitse väri.";
 "SelectTitle" = "Valitse koko otsikon.";
 "SelectLine" = "Valitse tyyppi.";
+"ChangeFolderNameTitle" = "Kansion nimi";
+"ChangeFolderNameMessage" = "Voit vaihtaa nimeä";
 "PianoTutorial" = "피아노 튜토리얼 내용";

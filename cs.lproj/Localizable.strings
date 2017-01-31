@@ -29,4 +29,6 @@
 "SelectColor" = "Prosím zvolte barvu.";
 "SelectTitle" = "Prosím, vyberte velikost titulu.";
 "SelectLine" = "Prosím, vyberte typ linky.";
+"ChangeFolderNameTitle" = "název složky";
+"ChangeFolderNameMessage" = "Můžete změnit název";
 "PianoTutorial" = "피아노 튜토리얼 내용";

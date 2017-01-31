@@ -29,4 +29,6 @@
 "SelectColor" = "Vui lòng chọn một màu.";
 "SelectTitle" = "Vui lòng chọn kích thước của tiêu đề.";
 "SelectLine" = "Vui lòng chọn một loại đường.";
+"ChangeFolderNameTitle" = "Tên thư mục";
+"ChangeFolderNameMessage" = "Bạn có thể thay đổi tên";
 "PianoTutorial" = "피아노 튜토리얼 내용";

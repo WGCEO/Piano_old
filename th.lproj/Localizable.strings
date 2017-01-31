@@ -30,4 +30,6 @@
 "SelectColor" = "กรุณาเลือกสี";
 "SelectTitle" = "กรุณาเลือกขนาดของชื่อ";
 "SelectLine" = "โปรดเลือกประเภทเส้น";
+"ChangeFolderNameTitle" = "ชื่อโฟลเดอร์";
+"ChangeFolderNameMessage" = "คุณสามารถเปลี่ยนชื่อ";
 "PianoTutorial" = "피아노 튜토리얼 내용";

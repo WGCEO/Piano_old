@@ -1,9 +1,9 @@
 
 /* Class = "UIBarButtonItem"; title = "Recover"; ObjectID = "1vh-h4-pmp"; */
-"1vh-h4-pmp.title" = "przywrócenie";
+"1vh-h4-pmp.title" = "Recover";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
-"5Np-uE-SSo.title" = "zupełny";
+"5Np-uE-SSo.title" = "Complete";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "67z-rl-MC3"; */
 "67z-rl-MC3.text" = "Subtitle";
@@ -18,7 +18,7 @@
 "GLu-3r-qhB.text" = "Label";
 
 /* Class = "UINavigationItem"; title = "Setting"; ObjectID = "IXN-Oq-85f"; */
-"IXN-Oq-85f.title" = "oprawa";
+"IXN-Oq-85f.title" = "Setting";
 
 /* Class = "UILabel"; text = "date"; ObjectID = "LQF-pg-62g"; */
 "LQF-pg-62g.text" = "date";
@@ -27,13 +27,13 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Uwagi zostaną trwale usunięte po 30 dniach.";
+"NBb-E1-rsZ.text" = "Notes are permanently deleted after 30 days.";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
-"cRU-W5-pUx.title" = "Wybierz katalog";
+"cRU-W5-pUx.title" = "Select Folder";
 
 /* Class = "UINavigationItem"; title = "Foler List"; ObjectID = "dHK-zG-BEe"; */
-"dHK-zG-BEe.title" = "lista folderów";
+"dHK-zG-BEe.title" = "Foler List";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "fsf-Np-o08"; */
 "fsf-Np-o08.text" = "Title";
@@ -48,7 +48,7 @@
 "o68-Ih-S4W.title" = "Thanks To";
 
 /* Class = "UIButton"; normalTitle = "Done"; ObjectID = "pcl-gj-8uN"; */
-"pcl-gj-8uN.normalTitle" = "Gotowe";
+"pcl-gj-8uN.normalTitle" = "Done";
 
 /* Class = "UILabel"; text = "title"; ObjectID = "qbU-If-nh9"; */
 "qbU-If-nh9.text" = "title";
@@ -63,4 +63,4 @@
 "tst-dc-tI6.title" = "◁";
 
 /* Class = "UINavigationItem"; title = "Deleted Memo"; ObjectID = "ueM-AL-IOh"; */
-"ueM-AL-IOh.title" = "Usunięte Uwagi";
+"ueM-AL-IOh.title" = "Deleted Notes";

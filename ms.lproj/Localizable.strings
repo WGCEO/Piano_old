@@ -29,4 +29,6 @@
 "SelectColor" = "Sila pilih warna.";
 "SelectTitle" = "Sila pilih saiz tajuk.";
 "SelectLine" = "Sila pilih jenis garis.";
+"ChangeFolderNameTitle" = "Nama folder";
+"ChangeFolderNameMessage" = "Anda boleh menukar nama";
 "PianoTutorial" = "피아노 튜토리얼 내용";

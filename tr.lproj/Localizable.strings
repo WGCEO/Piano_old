@@ -29,4 +29,6 @@
 "SelectColor" = "Lütfen bir renk seçin.";
 "SelectTitle" = "Lütfen başlığın boyutunu seçin.";
 "SelectLine" = "Lütfen bir satır türü seçin.";
+"ChangeFolderNameTitle" = "Klasör adı";
+"ChangeFolderNameMessage" = "Ismini değiştirebilirsin";
 "PianoTutorial" = "피아노 튜토리얼 내용";
