@@ -346,16 +346,29 @@ extension MasterViewController: ConfigureFolderViewControllerDelegate {
         selectSpecificFolder(selectedFolder: selectFolder)
     }
     
-    func configureFolderViewController(_ controller: ConfigureFolderViewController, tapCancelButton: Any) {
+    func configureFolderViewController(_ controller: ConfigureFolderViewController, deleteFolder: Folder) {
         fetchFolderResultsController()
-        guard let firstFolder = folderResultsController.fetchedObjects?.first else {
-            //폴더가 아예 없다면, 
+        guard let folders = folderResultsController.fetchedObjects,
+            let firstFolder = folders.first else {
+            //폴더가 아예 없다면,
             self.folder = nil
             leftPageButton.isEnabled = false
             return
         }
         
-        selectSpecificFolder(selectedFolder: firstFolder)
+        if folder == deleteFolder {
+            //맨 처음으로 보내버리기
+            selectSpecificFolder(selectedFolder: firstFolder)
+        } else {
+            //TODO: selectSpecificFolder의 내용과 사뭇 일치하므로 리펙토링해야함
+            for (index, folder) in folders.enumerated() {
+                if self.folder == folder {
+                    leftPageButton.isEnabled = index > 0 ? true : false
+                    return
+                }
+            }
+        }
+        
     }
 }
 

@@ -189,18 +189,6 @@
 			name = Protocol;
 			sourceTree = "<group>";
 		};
-		0A8815A71E31F76000ABEB98 /* Final Version */ = {
-			isa = PBXGroup;
-			children = (
-				0A8815A51E31F75500ABEB98 /* MasterViewController.swift */,
-				0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */,
-				0A8815B21E35A92200ABEB98 /* MemoCell.swift */,
-				0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */,
-				0A1812831E29DF1300272080 /* TextEffectCell.swift */,
-			);
-			name = "Final Version";
-			sourceTree = "<group>";
-		};
 		3131F6C51DDD2E3D00EC4229 = {
 			isa = PBXGroup;
 			children = (
@@ -235,7 +223,11 @@
 				0AEC95851E39EC710039A47F /* SettingDetailViewController.swift */,
 				0A5B08241E3F0BCD0074E5CA /* MoveMemoViewController.swift */,
 				0ACC37771E3E2EA50079FA93 /* ConfigureFolderViewController.swift */,
-				0A8815A71E31F76000ABEB98 /* Final Version */,
+				0A8815A51E31F75500ABEB98 /* MasterViewController.swift */,
+				0A8815A81E31FB1D00ABEB98 /* DetailViewController.swift */,
+				0A8815B21E35A92200ABEB98 /* MemoCell.swift */,
+				0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */,
+				0A1812831E29DF1300272080 /* TextEffectCell.swift */,
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
 				0A2CE6891E1217920003F3CB /* TextEffect.swift */,
 				0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */,

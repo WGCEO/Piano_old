@@ -517,11 +517,19 @@ class DetailViewController: UIViewController {
     
     
     @IBAction func tapAlbumButton(_ sender: Any) {
+        guard let _ = masterViewController?.folder else {
+            showAddGroupAlertViewController()
+            return
+        }
         showImagePicker()
         iskeyboardAlbumButtonTouched = false
     }
     
     @IBAction func tapAlbumButton2(_ sender: Any) {
+        guard let _ = masterViewController?.folder else {
+            showAddGroupAlertViewController()
+            return
+        }
         textView.resignFirstResponder()
         showImagePicker()
         iskeyboardAlbumButtonTouched = true

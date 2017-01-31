@@ -11,7 +11,7 @@ import CoreData
 
 protocol ConfigureFolderViewControllerDelegate: class {
     func configureFolderViewController(_ controller: ConfigureFolderViewController, selectFolder: Folder)
-    func configureFolderViewController(_ controller: ConfigureFolderViewController, tapCancelButton: Any)
+    func configureFolderViewController(_ controller: ConfigureFolderViewController, deleteFolder: Folder)
 }
 
 class ConfigureFolderViewController: UIViewController {
@@ -69,9 +69,12 @@ class ConfigureFolderViewController: UIViewController {
         }
     }
     @IBAction func tapCancelButton(_ sender: Any) {
-        dismiss(animated: true) { [unowned self] in
-            self.delegate?.configureFolderViewController(self, tapCancelButton: sender)
+        //폴더가 하나도 없으면 폴더 우선 생성하라고 경고표시하기
+        guard let count = folderResultsController.fetchedObjects?.count, count > 0 else {
+            showAddGroupAlertViewController()
+            return
         }
+        dismiss(animated: true, completion: nil)
     }
 
     func setTableViewCellHeight() {
@@ -214,7 +217,7 @@ extension ConfigureFolderViewController: UITableViewDelegate {
         let alert = UIAlertController(title: "폴더 영구 삭제", message: "삭제하면 다시는 복구할 수 없습니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "삭제", style: .destructive) { (_) in
+        let ok = UIAlertAction(title: "삭제", style: .destructive) { [unowned self](_) in
             
             guard let memos = folder.memos else { return }
             for memo in memos {
@@ -224,6 +227,8 @@ extension ConfigureFolderViewController: UITableViewDelegate {
             
             PianoData.coreDataStack.viewContext.delete(folder)
             PianoData.save()
+            
+            self.delegate?.configureFolderViewController(self, deleteFolder: folder)
         }
         
         alert.addAction(cancel)
