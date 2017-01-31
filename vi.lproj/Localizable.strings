@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Piano
+
+  Created by kevin on 2017. 1. 31..
+  Copyright © 2017년 Piano. All rights reserved.
+*/
+
+"NetworkErrorTitle" = "Lỗi mạng";
+"CheckDeviceOrInternet" = "Vui lòng kiểm tra các thiết bị hoặc internet trạng thái.";
+"OK" = "được";
+"EmailErrorTitle" = "Không thể gửi mail.";
+"ReviewMakeUsPassionately" = "đánh giá đẹp truyền cảm hứng cho chúng tôi.";
+"ThankYou" = "Cảm ơn bạn";
+"MemoOf" = "Ghi chú";
+"AddFolderTitle" = "Thêm thư mục";
+"AddFolderMessage" = "Xin vui lòng cho tên của thư mục.";
+"Cancel" = "hủy bỏ";
+"Create" = "Tạo nên";
+"Delete" = "Xóa bỏ";
+"Move" = "di cư";
+"Setting" = "cài đặt";
+"FolderName" = "Tên thư mục";
+"FolderDeleteTitle" = "Xóa thư mục";
+"FolderDeleteMessage" ="Nếu bạn xóa nó, bạn sẽ không thể khôi phục lại nó một lần nữa. Bạn có chắc chắn muốn xóa nó?";
+"NewMemo" = "Ghi chú Mới";
+"CantOpenAlbumTitle" = "Không thể mở album";
+"CantOpenAlbumMessage" = "Vào Settings và đánh dấu vào album.";
+"SelectColor" = "Vui lòng chọn một màu.";
+"SelectTitle" = "Vui lòng chọn kích thước của tiêu đề.";
+"SelectLine" = "Vui lòng chọn một loại đường.";
+"PianoTutorial" = "피아노 튜토리얼 내용";

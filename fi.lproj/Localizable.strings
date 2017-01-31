@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Piano
+
+  Created by kevin on 2017. 1. 31..
+  Copyright © 2017년 Piano. All rights reserved.
+*/
+
+"NetworkErrorTitle" = "Verkkovirhe";
+"CheckDeviceOrInternet" = "Tarkista laitteen tai Internet-tilan.";
+"OK" = "kunnossa";
+"EmailErrorTitle" = "Pysty lähettämään postia.";
+"ReviewMakeUsPassionately" = "Kaunis arvioita innostaa meitä.";
+"ThankYou" = "Kiitos";
+"MemoOf" = "muistiinpanot";
+"AddFolderTitle" = "Lisää kansio";
+"AddFolderMessage" = "Antakaa kansion nimi.";
+"Cancel" = "Peruuttaa";
+"Create" = "Luoda";
+"Delete" = "Poistaa";
+"Move" = "Liikkua";
+"Setting" = "asetus";
+"FolderName" = "Kansion nimi";
+"FolderDeleteTitle" = "Poista kansio";
+"FolderDeleteMessage" ="Jos poistat sen, et voi palauttaa sitä uudelleen. Oletko varma, että haluat poistaa sen?";
+"NewMemo" = "uusi huomautus";
+"CantOpenAlbumTitle" = "Ei voi avata albumi";
+"CantOpenAlbumMessage" = "Valitse Asetukset ja tarkista albumin.";
+"SelectColor" = "Valitse väri.";
+"SelectTitle" = "Valitse koko otsikon.";
+"SelectLine" = "Valitse tyyppi.";
+"PianoTutorial" = "피아노 튜토리얼 내용";

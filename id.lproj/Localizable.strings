@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Piano
+
+  Created by kevin on 2017. 1. 31..
+  Copyright © 2017년 Piano. All rights reserved.
+*/
+
+"NetworkErrorTitle" = "jaringan Kesalahan";
+"CheckDeviceOrInternet" = "Silakan periksa perangkat atau internet status.";
+"OK" = "baik";
+"EmailErrorTitle" = "Tidak dapat mengirim email.";
+"ReviewMakeUsPassionately" = "ulasan indah menginspirasi kita.";
+"ThankYou" = "Terima kasih";
+"MemoOf" = "catatan";
+"AddFolderTitle" = "Tambah Folder";
+"AddFolderMessage" = "Tolong beri nama folder tersebut.";
+"Cancel" = "Membatalkan";
+"Create" = "Membuat";
+"Delete" = "Menghapus";
+"Move" = "Pindah";
+"Setting" = "pengaturan";
+"FolderName" = "Nama folder";
+"FolderDeleteTitle" = "Hapus Folder";
+"FolderDeleteMessage" ="Jika Anda menghapusnya, Anda tidak akan dapat pulih lagi. Apakah Anda yakin ingin menghapusnya?";
+"NewMemo" = "New Catatan";
+"CantOpenAlbumTitle" = "tidak dapat membuka album";
+"CantOpenAlbumMessage" = "Buka Pengaturan dan periksa album.";
+"SelectColor" = "Silahkan pilih warna.";
+"SelectTitle" = "Silakan pilih ukuran judul.";
+"SelectLine" = "Pilih jenis garis.";
+"PianoTutorial" = "피아노 튜토리얼 내용";

@@ -156,10 +156,10 @@ class MasterViewController: UIViewController {
     }
     
     func showModifyPageAlertViewController(with folder: Folder) {
-        let alert = UIAlertController(title: "폴더 이름 변경", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "ChangeFolderNameTitle".localized(withComment: "폴더 이름 변경"), message: "ChangeFolderNameMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "확인", style: .default) { [unowned self](_) in
+        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .default) { [unowned self](_) in
             guard let text = alert.textFields?.first?.text else { return }
             
             folder.name = text
@@ -172,7 +172,7 @@ class MasterViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "폴더 이름"
+            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
             textField.text = folder.name
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
@@ -265,10 +265,10 @@ class MasterViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "폴더 생성", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
+        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "Create".localized(withComment: "생성"), style: .default) { [unowned self](action) in
             guard let text = alert.textFields?.first?.text else { return }
             let context = PianoData.coreDataStack.viewContext
             do {
@@ -291,7 +291,7 @@ class MasterViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "폴더 이름"
+            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
@@ -316,7 +316,7 @@ class MasterViewController: UIViewController {
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
         memo.date = NSDate()
         memo.folder = folder
-        memo.firstLine = "새로운 메모"
+        memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
         
         PianoData.save()
         
@@ -490,13 +490,13 @@ extension MasterViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         //TODO: move, delete 모두 로컬라이징
-        let move = UITableViewRowAction(style: .normal, title: "Move") { [unowned self](action, indexPath) in
+        let move = UITableViewRowAction(style: .normal, title: "Move".localized(withComment: "이동")) { [unowned self](action, indexPath) in
             let memo = self.memoResultsController.object(at: indexPath)
             self.performSegue(withIdentifier: "MoveMemoViewController", sender: memo)
         }
         move.backgroundColor = .orange
         
-        let delete =  UITableViewRowAction(style: .normal, title: "Delete") { [unowned self](action, indexPath) in
+        let delete =  UITableViewRowAction(style: .normal, title: "Delete".localized(withComment: "삭제")) { [unowned self](action, indexPath) in
             let memo = self.memoResultsController.object(at: indexPath)
             memo.isInTrash = true
             PianoData.save()

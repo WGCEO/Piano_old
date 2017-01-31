@@ -12,8 +12,6 @@ import SafariServices
 
 class SettingViewController: UIViewController {
     
-    let dataSourse: [String] = ["삭제된 메모함", "팁", "피아노 전시회", "I Love Piano", "아이디어/버그 제보", "기타 정보"]
-    
     @IBOutlet weak var portraitStackView: UIStackView!
     @IBOutlet weak var landscapeStackView: UIStackView!
     
@@ -61,7 +59,7 @@ class SettingViewController: UIViewController {
         //TODO: 앱 아이디
         rateApp(appId: "TODO: 앱 아이디 적어야함", completion: { [weak self](bool) in
             if bool {
-                self?.showBasicAlertController(title: "감사합니다", message: "아름다운 리뷰가 저희들의 열정이 됩니다.")
+                self?.showBasicAlertController(title: "ThankYou".localized(withComment: "감사합니다"), message: "ReviewMakeUsPassionately".localized(withComment: "아름다운 리뷰가 우리들에게 열정을 불어넣습니다."))
             }
         })
     }
@@ -116,7 +114,7 @@ class SettingViewController: UIViewController {
         if MFMailComposeViewController.canSendMail() {
             self.present(mailComposeViewController, animated: true, completion: nil)
         } else {
-            self.showBasicAlertController(title: "메일을 보낼 수 없습니다.", message: "디바이스 혹은 인터넷 상태를 확인해주세요")
+            self.showBasicAlertController(title: "EmailErrorTitle".localized(withComment: "메일을 보낼 수 없습니다."), message: "CheckDeviceOrInternet".localized(withComment: "디바이스 혹은 인터넷 상태를 확인해주세요"))
         }
     }
     
@@ -133,7 +131,7 @@ class SettingViewController: UIViewController {
     
     func showBasicAlertController(title: String, message: String) {
         let alertViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel, handler: nil)
         alertViewController.addAction(cancel)
         present(alertViewController, animated: true, completion: nil)
     }
@@ -152,7 +150,7 @@ class SettingViewController: UIViewController {
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
         } else {
-            showBasicAlertController(title: "Network Error", message: "디바이스 혹은 인터넷 상태를 확인해주세요")
+            showBasicAlertController(title: "NetworkErrorTitle".localized(withComment: "네트워크 에러"), message: "CheckDeviceOrInternet".localized(withComment: "디바이스 혹은 인터넷 상태를 확인해주세요"))
         }
     }
 

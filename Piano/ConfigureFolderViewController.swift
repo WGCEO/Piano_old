@@ -99,10 +99,10 @@ class ConfigureFolderViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "폴더 생성", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
+        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "Create".localized(withComment: "생성"), style: .default) { [unowned self](action) in
             guard let text = alert.textFields?.first?.text else { return }
             let context = PianoData.coreDataStack.viewContext
             do {
@@ -128,7 +128,7 @@ class ConfigureFolderViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "폴더 이름"
+            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
@@ -185,7 +185,7 @@ extension ConfigureFolderViewController: UITableViewDataSource {
         //TODO: Localizing
         cell.textLabel?.text = folder.name
         let count = folder.memos?.count ?? 0
-        cell.detailTextLabel?.text = "\(count)" + "개의 메모"
+        cell.detailTextLabel?.text = "\(count)" + "MemoOf".localized(withComment: "개의 메모")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -214,10 +214,10 @@ extension ConfigureFolderViewController: UITableViewDelegate {
     }
     
     func showAlertViewControllerWhenTryToDelete(with folder: Folder) {
-        let alert = UIAlertController(title: "폴더 영구 삭제", message: "삭제하면 다시는 복구할 수 없습니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "FolderDeleteTitle".localized(withComment: "폴더 삭제"), message: "FolderDeleteMessage".localized(withComment: "삭제하면 다시는 복구할 수 없습니다. 정말로 삭제하시겠습니까?"), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "삭제", style: .destructive) { [unowned self](_) in
+        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "Delete".localized(withComment: "삭제"), style: .destructive) { [unowned self](_) in
             
             guard let memos = folder.memos else { return }
             for memo in memos {

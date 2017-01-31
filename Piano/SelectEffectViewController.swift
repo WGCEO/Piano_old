@@ -37,11 +37,11 @@ class SelectEffectViewController: UIViewController {
         
         switch effect {
         case .color:
-            descriptionLabel.text = "색상을 선택해주세요."
+            descriptionLabel.text = "SelectColor".localized(withComment: "색상을 선택해주세요.")
         case .title:
-            descriptionLabel.text = "제목의 크기를 선택해주세요."
+            descriptionLabel.text = "SelectTitle".localized(withComment: "제목의 크기를 선택해주세요.")
         case .line:
-            descriptionLabel.text = "선의 종류를 선택해주세요."
+            descriptionLabel.text = "SelectLine".localized(withComment: "선의 종류를 선택해주세요.")
         }
 
         // Do any additional setup after loading the view.

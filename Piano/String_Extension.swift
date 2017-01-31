@@ -37,4 +37,8 @@ extension String {
     func localized(withComment:String) -> String {
         return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: withComment)
     }
+    
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
+    }
 }

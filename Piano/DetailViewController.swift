@@ -109,7 +109,7 @@ class DetailViewController: UIViewController {
         let controller = UIImagePickerController()
         controller.delegate = self
         controller.allowsEditing = false
-        controller.sourceType = .savedPhotosAlbum
+        controller.sourceType = .photoLibrary
         return controller
     }()
     
@@ -364,8 +364,8 @@ class DetailViewController: UIViewController {
     }
     
     func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "메일을 보낼 수 없습니다.", message: "디바이스 혹은 인터넷 상태를 확인해주세요", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        let sendMailErrorAlert = UIAlertController(title: "EmailErrorTitle".localized(withComment: "메일을 보낼 수 없습니다."), message: "CheckDeviceOrInternet".localized(withComment: "디바이스 혹은 인터넷 상태를 확인해주세요"), preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel, handler: nil)
         sendMailErrorAlert.addAction(cancel)
         present(sendMailErrorAlert, animated: true, completion: nil)
     }
@@ -414,10 +414,10 @@ class DetailViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "폴더 생성", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
+        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "Create".localized(withComment: "생성"), style: .default) { [unowned self](action) in
             guard let text = alert.textFields?.first?.text else { return }
             let context = PianoData.coreDataStack.viewContext
             do {
@@ -441,7 +441,7 @@ class DetailViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "폴더 이름"
+            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
@@ -461,7 +461,7 @@ class DetailViewController: UIViewController {
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
         memo.date = NSDate()
         memo.folder = unwrapFolder
-        memo.firstLine = "새로운 메모"
+        memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
         PianoData.save()
         
         delegate?.detailViewController(self, addMemo: memo)
@@ -552,11 +552,11 @@ class DetailViewController: UIViewController {
     
     func presentPermissionErrorAlert() {
         DispatchQueue.main.async {
-            let alert = UIAlertController(title: "앨범 열 수 없음", message: "설정으로 이동하여 앨범에 체크해주세요.", preferredStyle: .alert)
-            let openSettingsAction = UIAlertAction(title: "Settings", style: .default, handler: { _ in
+            let alert = UIAlertController(title: "CantOpenAlbumTitle".localized(withComment: "앨범 열 수 없음"), message: "CantOpenAlbumMessage".localized(withComment: "설정으로 이동하여 앨범에 체크해주세요."), preferredStyle: .alert)
+            let openSettingsAction = UIAlertAction(title: "Setting".localized(withComment: "설정"), style: .default, handler: { _ in
                 UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
             })
-            let dismissAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            let dismissAction = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
             alert.addAction(openSettingsAction)
             alert.addAction(dismissAction)
             self.present(alert, animated: true, completion: nil)
@@ -604,7 +604,7 @@ extension DetailViewController: UITextViewDelegate {
             firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
         case let x where x.characters.count == 0:
             //이미지만 있는 경우에도 해당됨
-            firstLine = "새로운 메모"
+            firstLine = "NewMemo".localized(withComment: "새로운 메모")
         default:
             firstLine = text
         }

@@ -1,0 +1,33 @@
+/* 
+  Localizable.strings
+  Piano
+
+  Created by kevin on 2017. 1. 31..
+  Copyright © 2017년 Piano. All rights reserved.
+*/
+
+"NetworkErrorTitle" = "ข้อผิดพลาดของเครือข่าย";
+"CheckDeviceOrInternet" = "อุปกรณ์หรือรัฐอินเทอร์เน็ตตรวจสอบ";
+"OK" = "ตกลง";
+"EmailErrorTitle" = "ไม่สามารถส่งจดหมาย";
+"ReviewMakeUsPassionately" = "รีวิวที่สวยงามทำให้เราหลงใหล";
+"ThankYou" = "ขอขอบคุณ";
+"MemoOf" = "บันทึก";
+"AddFolderTitle" = "เพิ่มกล่องเก็บไฟล์";
+"AddFolderMessage" = "ชื่อโฟลเดอร์เขียน";
+"Cancel" = "ยกเลิก";
+"Create" = "สร้าง";
+"Delete" = "ลบ";
+"Move" = "ย้าย";
+"FolderName" = "ชื่อโฟลเดอร์";
+"FolderDeleteTitle" = "ลบโฟลเดอร์";
+"FolderDeleteMessage" ="ถ้าคุณลบมันคุณจะไม่สามารถที่จะกู้คืนได้อีกครั้ง คุณแน่ใจหรือไม่ว่าคุณต้องการที่จะลบมันได้หรือไม่";
+"NewMemo" = "บันทึกใหม่";
+"CantOpenAlbumTitle" = "ไม่สามารถเปิดอัลบั้ม";
+"CantOpenAlbumMessage" = "ไปที่ตั้งค่าและตรวจสอบอัลบั้ม";
+"Setting" = "การตั้งค่า";
+"Cancel" = "ยกเลิก";
+"SelectColor" = "กรุณาเลือกสี";
+"SelectTitle" = "กรุณาเลือกขนาดของชื่อ";
+"SelectLine" = "โปรดเลือกประเภทเส้น";
+"PianoTutorial" = "피아노 튜토리얼 내용";

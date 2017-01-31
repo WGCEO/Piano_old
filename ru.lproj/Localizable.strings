@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Piano
+
+  Created by kevin on 2017. 1. 31..
+  Copyright © 2017년 Piano. All rights reserved.
+*/
+
+"NetworkErrorTitle" = "Ошибка сети";
+"CheckDeviceOrInternet" = "Пожалуйста, проверьте состояние устройства или интернет.";
+"OK" = "ОК";
+"EmailErrorTitle" = "Не удалось отправить почту.";
+"ReviewMakeUsPassionately" = "Прекрасные отзывы вдохновляют нас.";
+"ThankYou" = "спасибо";
+"MemoOf" = "заметки";
+"AddFolderTitle" = "Добавить папку";
+"AddFolderMessage" = "Пожалуйста, дайте имя папки.";
+"Cancel" = "Отмена";
+"Create" = "Создайте";
+"Delete" = "Удалить";
+"Move" = "Переехать";
+"Setting" = "настройка";
+"FolderName" = "Имя папки";
+"FolderDeleteTitle" = "Удалить папку";
+"FolderDeleteMessage" ="Если вы удалите его, вы не сможете восстановить его снова. Вы уверены, что хотите это удалить?";
+"NewMemo" = "Новое примечание";
+"CantOpenAlbumTitle" = "Невозможно открыть альбом";
+"CantOpenAlbumMessage" = "Перейдите в раздел Настройки и проверка альбома.";
+"SelectColor" = "Пожалуйста, выберите нужный цвет.";
+"SelectTitle" = "Пожалуйста, выберите размер заголовка.";
+"SelectLine" = "Пожалуйста, выберите тип линии.";
+"PianoTutorial" = "피아노 튜토리얼 내용";
