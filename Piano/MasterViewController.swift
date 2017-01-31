@@ -156,7 +156,7 @@ class MasterViewController: UIViewController {
     }
     
     func showModifyPageAlertViewController(with folder: Folder) {
-        let alert = UIAlertController(title: "페이지 이름 변경", message: "변경할 페이지의 이름을 적어주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "폴더 이름 변경", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let ok = UIAlertAction(title: "확인", style: .default) { [unowned self](_) in
@@ -172,7 +172,7 @@ class MasterViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "페이지 이름"
+            textField.placeholder = "폴더 이름"
             textField.text = folder.name
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
@@ -265,7 +265,7 @@ class MasterViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "폴더 생성", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
@@ -291,7 +291,7 @@ class MasterViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "페이지 이름"
+            textField.placeholder = "폴더 이름"
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
@@ -476,6 +476,7 @@ extension MasterViewController: UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        //TODO: move, delete 모두 로컬라이징
         let move = UITableViewRowAction(style: .normal, title: "Move") { [unowned self](action, indexPath) in
             let memo = self.memoResultsController.object(at: indexPath)
             self.performSegue(withIdentifier: "MoveMemoViewController", sender: memo)

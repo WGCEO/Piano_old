@@ -31,13 +31,18 @@ class DetailViewController: UIViewController {
     
     var memo: Memo? {
         willSet {
+            guard memo != newValue else {
+                showTopView(bool: false)
+                textView?.resignFirstResponder()
+                return
+            }
             saveCoreDataIfNeed()
             textView?.resignFirstResponder()
         }
         didSet {
             showTopView(bool: false)
-            guard oldValue != memo else { return }
-            setTextView(with: memo)
+            self.setTextView(with: self.memo)
+            
         }
     }
     
@@ -45,13 +50,17 @@ class DetailViewController: UIViewController {
         guard let unwrapTextView = textView else { return }
         unwrapTextView.isEdited = false
         
+        //스크롤 이상하게 되는 것 방지
+        unwrapTextView.contentOffset = CGPoint.zero
+        
         guard let unwrapMemo = memo else {
             resetTextViewAttribute()
             return }
         
         let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapMemo.content as! Data) as? NSAttributedString
         unwrapTextView.attributedText = attrText
-        unwrapTextView.selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+        let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+        unwrapTextView.selectedRange = selectedRange
         
         if unwrapTextView.attributedText.length == 0 {
             resetTextViewAttribute()
@@ -61,6 +70,8 @@ class DetailViewController: UIViewController {
                 appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
             }
         }
+        
+//        unwrapTextView.setContentOffset(CGPoint.zero, animated: false)
     }
     
     func saveCoreDataIfNeed(){
@@ -173,6 +184,10 @@ class DetailViewController: UIViewController {
         } else {
             textView.makeTappable()
         }
+        
+        //탑 뷰의 현재 상태와 반대될 때에만 아래의 뷰 애니메이션 코드 실행
+        guard bool == topView.isHidden else { return }
+        
         topView.isHidden = bool ? false : true
         navigationController?.setNavigationBarHidden(bool, animated: true)
         navigationController?.setToolbarHidden(bool, animated: true)
@@ -399,7 +414,7 @@ class DetailViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "폴더 생성", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
@@ -426,7 +441,7 @@ class DetailViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "페이지 이름"
+            textField.placeholder = "폴더 이름"
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
@@ -458,6 +473,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
+        self.textView.isEdited = true
         //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
         //커서가 맨 앞에 있으면 탈출
@@ -550,7 +566,6 @@ extension DetailViewController: NSLayoutManagerDelegate {
 extension DetailViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        self.textView.isEdited = true
         guard memo != nil else {
             addNewMemo()
             return
@@ -678,17 +693,17 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
         }
         textView.makeTappable()
         textView.isEdited = true
-        
+        textView.selectedRange = selectedRange
         dismiss(animated: true, completion: nil)
         
         
         if iskeyboardAlbumButtonTouched {
             textView.appearKeyboard()
-            textView.selectedRange = selectedRange
-            //textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
             iskeyboardAlbumButtonTouched = false
-        } else {
-            textView.selectedRange = selectedRange
+        }
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.textView.scrollRangeToVisible(NSMakeRange(self.textView.selectedRange.location + 3, 0))
         }
     }
     
@@ -699,7 +714,6 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
         
         if iskeyboardAlbumButtonTouched {
             textView.appearKeyboard()
-            //textView.scrollRangeToVisible(NSMakeRange(textView.selectedRange.location + 3, 0))
             iskeyboardAlbumButtonTouched = false
         }
     }

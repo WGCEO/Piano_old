@@ -152,7 +152,7 @@ class SettingViewController: UIViewController {
             let vc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             present(vc, animated: true)
         } else {
-            showBasicAlertController(title: "네트워크 에러", message: "디바이스 혹은 인터넷 상태를 확인해주세요")
+            showBasicAlertController(title: "Network Error", message: "디바이스 혹은 인터넷 상태를 확인해주세요")
         }
     }
 

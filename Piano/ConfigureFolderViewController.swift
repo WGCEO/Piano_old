@@ -96,7 +96,7 @@ class ConfigureFolderViewController: UIViewController {
     }
     
     func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "폴더 만들기", message: "폴더의 이름을 정해주세요.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "폴더 생성", message: "폴더의 이름을 적어주세요.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let ok = UIAlertAction(title: "생성", style: .default) { [unowned self](action) in
@@ -125,7 +125,7 @@ class ConfigureFolderViewController: UIViewController {
         alert.addAction(ok)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "페이지 이름"
+            textField.placeholder = "폴더 이름"
             textField.returnKeyType = .done
             textField.enablesReturnKeyAutomatically = true
             textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)

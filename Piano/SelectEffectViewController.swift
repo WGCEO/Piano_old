@@ -25,6 +25,8 @@ class SelectEffectViewController: UIViewController {
         }
     }()
     
+    let padding: CGFloat = 16
+    let cellSize = CGSize(width: 40, height: 40)
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -48,6 +50,11 @@ class SelectEffectViewController: UIViewController {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         dismiss(animated: true, completion: nil)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        collectionView.collectionViewLayout.invalidateLayout()
     }
 
 }
@@ -98,11 +105,24 @@ extension SelectEffectViewController: UICollectionViewDelegate {
 
 extension SelectEffectViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 40, height: 40)
+        return cellSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(0, 16, 0, 16)
+        switch selectedButton.textEffect {
+        case .color:
+            let edge = (view.bounds.width - (cellSize.width * 8 + padding * 7)) / 2
+            
+            return edge > 0 ?
+                UIEdgeInsetsMake(0, edge, 0, edge) :
+                UIEdgeInsetsMake(0, padding, 0, padding)
+        case .title:
+            let edge = (view.bounds.width - (cellSize.width * 3 + padding * 2)) / 2
+            return UIEdgeInsetsMake(0, edge, 0, edge)
+        case .line:
+            let edge = (view.bounds.width - (cellSize.width * 2 + padding * 1)) / 2
+            return UIEdgeInsetsMake(0, edge, 0, edge)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
