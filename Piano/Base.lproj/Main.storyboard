@@ -545,7 +545,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -595,16 +595,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                                     <rect key="frame" x="16" y="8" width="343" height="53"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0S1-0f-h2d">
-                                                            <rect key="frame" x="0.0" y="9" width="290" height="35"/>
+                                                            <rect key="frame" x="0.0" y="9" width="290" height="36"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbU-If-nh9">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="20.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="290" height="21"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <color key="textColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-pg-62g">
-                                                                    <rect key="frame" x="0.0" y="20.5" width="290" height="14.5"/>
+                                                                    <rect key="frame" x="0.0" y="21" width="290" height="15"/>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -837,7 +837,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1014,7 +1014,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -1040,7 +1040,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RX5-sF-fZk" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="l2W-iI-EOR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2W-iI-EOR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1133,7 +1133,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZGw-Kp-iZC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nLW-2Y-oDZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLW-2Y-oDZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1155,7 +1155,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FsP-06-CVG" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3b2-Eh-bRR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3b2-Eh-bRR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1172,7 +1172,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <resources>
         <image name="album" width="25" height="19"/>
         <image name="email" width="68" height="37"/>
-        <image name="eraser" width="25" height="20"/>
+        <image name="eraser" width="26" height="21"/>
         <image name="facebook" width="44" height="64"/>
         <image name="license" width="47" height="71"/>
         <image name="mailIcon" width="25" height="16"/>

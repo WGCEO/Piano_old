@@ -13,7 +13,9 @@ class PianoTextView: UITextView {
 //    var cacheCursorPosition: CGPoint = CGPoint(x: 0, y: -10)
 //    var bottomDistance: CGFloat?
 //    var isAnimating: Bool = false
-    var memo: Memo!
+    
+    //TODO: 결국 텍스트 뷰에 memo가 없기 때문에 발생한 것. 리펙토링할 때 이거 지우고 메모를 텍스트 뷰 안에 넣기
+    weak var detailViewController: DetailViewController?
     var isWaitingState: Bool = false
     var isEdited = false
     

@@ -128,6 +128,8 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //TODO: 업데이트할 때 
+        textView.detailViewController = self
         textView.inputAccessoryView = accessoryView
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
