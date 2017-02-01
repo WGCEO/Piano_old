@@ -202,6 +202,7 @@ class MasterViewController: UIViewController {
     }
     
     func canDoAnotherTask() -> Bool{
+
         if let indicator = detailViewController.activityIndicator, indicator.isAnimating {
             return false
         }

@@ -53,12 +53,14 @@ class DetailViewController: UIViewController {
     }
     
     func startLoading() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
+        guard let indicator = activityIndicator else { return }
+        indicator.isHidden = false
+        indicator.startAnimating()
     }
     
     func stopLoading() {
-        activityIndicator.stopAnimating()
+        guard let indicator = activityIndicator else { return }
+        indicator.stopAnimating()
     }
     
     func setTextView(with memo: Memo?) {
