@@ -566,6 +566,7 @@ class DetailViewController: UIViewController {
     
     
     @IBAction func tapAlbumButton(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
         guard let _ = masterViewController?.folder else {
             showAddGroupAlertViewController()
             return
@@ -575,6 +576,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapAlbumButton2(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
         guard let _ = masterViewController?.folder else {
             showAddGroupAlertViewController()
             return
@@ -596,6 +598,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
         textView.resignFirstResponder()
     }
     
