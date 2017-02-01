@@ -394,10 +394,10 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
         switch type {
         case .delete:
             guard let indexPath = indexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath], with: .left)
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .left)
         case .update:
             guard let indexPath = indexPath else { return }
             if let cell = tableView.cellForRow(at: indexPath) as? MemoCell {
@@ -407,6 +407,7 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
         case .move:
             guard let indexPath = indexPath,
                 let newIndexPath = newIndexPath else { return }
+
             tableView.moveRow(at: indexPath, to: newIndexPath)
             
 //            if indexPath.section == newIndexPath.section {
