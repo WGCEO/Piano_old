@@ -75,18 +75,30 @@ class DetailViewController: UIViewController {
     }
     
     func saveCoreDataIfNeed(){
-        guard let unWrapTextView = textView,
-            let unWrapOldMemo = memo,
-            unWrapTextView.isEdited else { return }
+        guard let unwrapTextView = textView,
+            let unwrapOldMemo = memo,
+            unwrapTextView.isEdited else { return }
         
-        if unWrapTextView.attributedText.length != 0 {
-            let data = NSKeyedArchiver.archivedData(withRootObject: unWrapTextView.attributedText)
-            unWrapOldMemo.content = data as NSData
+        if unwrapTextView.attributedText.length != 0 {
+            let data = NSKeyedArchiver.archivedData(withRootObject: unwrapTextView.attributedText)
+            unwrapOldMemo.content = data as NSData
             PianoData.save()
         } else {
-            PianoData.coreDataStack.viewContext.delete(unWrapOldMemo)
+            PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
         }
+    }
+    
+    //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
+    func saveCoreDataIfIphone(){
+        guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
         
+        if unwrapTextView.attributedText.length != 0 {
+            let data = NSKeyedArchiver.archivedData(withRootObject: unwrapTextView.attributedText)
+            unwrapOldMemo.content = data as NSData
+            PianoData.save()
+        } else {
+            PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+        }
     }
     
     weak var delegate: DetailViewControllerDelegate?
@@ -210,7 +222,7 @@ class DetailViewController: UIViewController {
         guard let unwrapTextView = textView else { return }
         unwrapTextView.attributedText = NSAttributedString()
         unwrapTextView.font = UIFont.preferredFont(forTextStyle: .body)
-        unwrapTextView.textColor = UIColor.black
+        unwrapTextView.textColor = UIColor.piano
     }
     
     func keyboardWillShow(notification: Notification){
@@ -569,7 +581,7 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-        return 5
+        return 8
     }
 }
 

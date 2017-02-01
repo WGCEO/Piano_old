@@ -44,8 +44,8 @@
 /* Class = "UILabel"; text = "L"; ObjectID = "nCe-Vb-4bA"; */
 "nCe-Vb-4bA.text" = "L";
 
-/* Class = "UINavigationItem"; title = "Thanks To"; ObjectID = "o68-Ih-S4W"; */
-"o68-Ih-S4W.title" = "Thanks To";
+/* Class = "UINavigationItem"; title = "Open Source"; ObjectID = "o68-Ih-S4W"; */
+"o68-Ih-S4W.title" = "Open Source";
 
 /* Class = "UIButton"; normalTitle = "Done"; ObjectID = "pcl-gj-8uN"; */
 "pcl-gj-8uN.normalTitle" = "Fatto";

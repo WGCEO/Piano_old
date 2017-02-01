@@ -122,7 +122,7 @@ class PianoLabel: UILabel {
                 }
                 
                 if let _ = newAttr[NSForegroundColorAttributeName] {
-                    attribute[NSForegroundColorAttributeName] = UIColor.black
+                    attribute[NSForegroundColorAttributeName] = UIColor.piano
                 }
                 
                 if let _ = newAttr[NSStrikethroughStyleAttributeName] {

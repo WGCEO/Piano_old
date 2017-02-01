@@ -133,7 +133,7 @@ class PianoControl: UIControl {
         let attribute: [String : Any]
         switch effect {
         case .color:
-            attribute = [NSForegroundColorAttributeName : UIColor.black]
+            attribute = [NSForegroundColorAttributeName : UIColor.piano]
         case .title:
             attribute = [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)]
         case .line(.strikethrough):

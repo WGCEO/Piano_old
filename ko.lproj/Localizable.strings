@@ -12,7 +12,7 @@
 "EmailErrorTitle" = "메일을 보낼 수 없습니다.";
 "ReviewMakeUsPassionately" = "아름다운 리뷰가 우리들에게 열정을 불어넣습니다.";
 "ThankYou" = "감사합니다";
-"MemoOf" = "개의 메모";
+"MemoOf" = " 노트";
 "AddFolderTitle" = "폴더 생성";
 "AddFolderMessage" = "폴더의 이름을 적어주세요.";
 "Cancel" = "취소";
@@ -23,7 +23,7 @@
 "FolderName" = "폴더 이름";
 "FolderDeleteTitle" = "폴더 삭제";
 "FolderDeleteMessage" ="삭제하면 다시는 복구할 수 없습니다. 정말로 삭제하시겠습니까?";
-"NewMemo" = "새로운 메모";
+"NewMemo" = "새로운 노트";
 "CantOpenAlbumTitle" = "앨범 열 수 없음";
 "CantOpenAlbumMessage" = "설정으로 이동하여 앨범에 체크해주세요.";
 "SelectColor" = "색상을 선택해주세요.";

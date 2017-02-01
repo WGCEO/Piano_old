@@ -23,7 +23,7 @@
 "FolderName" = "文件夾名稱";
 "FolderDeleteTitle" = "刪除文件夾";
 "FolderDeleteMessage" ="刪除如果您刪除它，您將無法再次恢復。 你確定你要刪除嗎？";
-"NewMemo" = "新註";
+"NewMemo" = "新筆記";
 "CantOpenAlbumTitle" = "無法打開相冊";
 "CantOpenAlbumMessage" = "前往[設定]並檢查相簿。";
 "SelectColor" = "請選擇顏色。";

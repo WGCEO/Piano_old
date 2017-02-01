@@ -118,7 +118,7 @@ class MasterViewController: UIViewController {
         
 //        //아이폰일때만 지워라잉?
         if !detailViewController.isVisible {
-            detailViewController.saveCoreDataIfNeed()
+            detailViewController.saveCoreDataIfIphone()
         }
     }
     
@@ -443,7 +443,7 @@ extension MasterViewController: UITableViewDataSource {
         cell.ibSubTitleLabel.text = formatter.string(from: memo.date as! Date)
         
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .piano
         cell.selectedBackgroundView = view
         
         if let data = memo.imageData {

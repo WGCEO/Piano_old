@@ -22,9 +22,9 @@ class MemoCell: UITableViewCell, Reusable {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        ibTitleLabel.textColor = selected ? .white : .black
+        ibTitleLabel.textColor = selected ? .white : .piano
         ibSubTitleLabel.textColor = selected ? .white : .lightGray
-        contentView.backgroundColor = selected ? .black : .white
+        contentView.backgroundColor = selected ? .piano : .white
     }
 
 }

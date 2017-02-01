@@ -185,7 +185,7 @@ extension ConfigureFolderViewController: UITableViewDataSource {
         //TODO: Localizing
         cell.textLabel?.text = folder.name
         let count = folder.memos?.count ?? 0
-        cell.detailTextLabel?.text = "\(count)" + "MemoOf".localized(withComment: "개의 메모")
+        cell.detailTextLabel?.text = "\(count) " + "MemoOf".localized(withComment: "개의 메모")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
