@@ -202,9 +202,8 @@ class MasterViewController: UIViewController {
     }
     
     func canDoAnotherTask() -> Bool{
-
-        if let indicator = detailViewController.activityIndicator, indicator.isAnimating {
-            return false
+        if let indicator = detailViewController.activityIndicator {
+            return indicator.isAnimating ? false : true
         }
         return true
     }
