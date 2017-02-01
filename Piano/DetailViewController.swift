@@ -31,11 +31,13 @@ class DetailViewController: UIViewController {
     
     var memo: Memo? {
         willSet {
+            startLoading()
             //우선 이미지에 nil 대입하기
             firstImage = nil
             guard memo != newValue else {
                 showTopView(bool: false)
                 textView?.resignFirstResponder()
+                stopLoading()
                 return
             }
             saveCoreDataIfNeed()
@@ -44,8 +46,19 @@ class DetailViewController: UIViewController {
         didSet {
             showTopView(bool: false)
             self.setTextView(with: self.memo)
-            
+            DispatchQueue.main.async { [unowned self] in
+                self.stopLoading()
+            }
         }
+    }
+    
+    func startLoading() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    func stopLoading() {
+        activityIndicator.stopAnimating()
     }
     
     func setTextView(with memo: Memo?) {
@@ -73,7 +86,7 @@ class DetailViewController: UIViewController {
             }
         }
         
-//        unwrapTextView.setContentOffset(CGPoint.zero, animated: false)
+        
     }
     
     func saveCoreDataIfNeed(){

@@ -151,6 +151,7 @@ class MasterViewController: UIViewController {
         //경고창 띄워서 페이지 이름 수정, 취소
         
         guard let folder = self.folder else { return }
+        guard !detailViewController.activityIndicator.isAnimating else { return }
         
         showModifyPageAlertViewController(with: folder)
     }
@@ -184,6 +185,7 @@ class MasterViewController: UIViewController {
     
     @IBAction func tapLeftPageBarButton(_ sender: UIBarButtonItem) {
         guard let folders = folderResultsController.fetchedObjects else { return }
+        guard !detailViewController.activityIndicator.isAnimating else { return }
         
         //일단 왼쪽 폴더 넣고 페이지 타이틀 갱신 + 더이상 왼쪽으로 갈 수 있는 지 체크해서 enabled 세팅하기
         for (index, folder) in folders.enumerated() {
@@ -202,6 +204,7 @@ class MasterViewController: UIViewController {
     @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
         guard let folders = folderResultsController.fetchedObjects else {
             return }
+        guard !detailViewController.activityIndicator.isAnimating else { return }
         
         for (index, folder) in folders.enumerated() {
             if self.folder == folder {
@@ -224,6 +227,8 @@ class MasterViewController: UIViewController {
     }
     
     @IBAction func tapFolderBarButton(_ sender: Any) {
+        guard !detailViewController.activityIndicator.isAnimating else { return }
+        performSegue(withIdentifier: "ConfigureFolderViewController", sender: nil)
     }
 
     func setFirstCellIfIpad() {
@@ -301,6 +306,7 @@ class MasterViewController: UIViewController {
     }
     
     @IBAction func tapComposeBarButton(_ sender: Any) {
+        guard !detailViewController.activityIndicator.isAnimating else { return }
         addNewMemo()
     }
     
@@ -479,6 +485,7 @@ extension MasterViewController: UITableViewDelegate {
     //메모 전달. 모든 메모는 여기서 전달하기
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailNavigationController = detailViewController.navigationController else { return }
+        guard !detailViewController.activityIndicator.isAnimating else { return }
         
         let memo = memoResultsController.object(at: indexPath)
         detailViewController.memo = memo
