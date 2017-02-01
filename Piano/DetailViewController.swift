@@ -227,6 +227,7 @@ class DetailViewController: UIViewController {
     
     func resetTextViewAttribute(){
         guard let unwrapTextView = textView else { return }
+        unwrapTextView.textAlignment = .left
         unwrapTextView.attributedText = NSAttributedString()
         unwrapTextView.font = UIFont.preferredFont(forTextStyle: .body)
         unwrapTextView.textColor = UIColor.piano
