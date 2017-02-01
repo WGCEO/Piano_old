@@ -60,8 +60,10 @@ class PianoTextView: UITextView {
                 attachment.bounds.size = size
                 attachment.image = scaledImage
             }
-            
-
+        }
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.scrollRangeToVisible(self.selectedRange)
         }
     }
 

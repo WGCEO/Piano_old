@@ -57,7 +57,7 @@ class SettingViewController: UIViewController {
     
     func iLovePiano(){
         //TODO: 앱 아이디
-        rateApp(appId: "TODO: 앱 아이디 적어야함", completion: { [weak self](bool) in
+        rateApp(appId: "1200863515", completion: { [weak self](bool) in
             if bool {
                 self?.showBasicAlertController(title: "ThankYou".localized(withComment: "감사합니다"), message: "ReviewMakeUsPassionately".localized(withComment: "아름다운 리뷰가 우리들에게 열정을 불어넣습니다."))
             }
