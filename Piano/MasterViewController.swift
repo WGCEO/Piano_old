@@ -443,7 +443,8 @@ extension MasterViewController: UITableViewDataSource {
         cell.ibSubTitleLabel.text = formatter.string(from: memo.date as! Date)
         
         let view = UIView()
-        view.backgroundColor = .piano
+        let value: Float = 30/255
+        view.backgroundColor = UIColor(colorLiteralRed: value, green: value, blue: value, alpha: 1)
         cell.selectedBackgroundView = view
         
         if let data = memo.imageData {

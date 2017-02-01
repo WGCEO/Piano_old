@@ -24,7 +24,6 @@ class MemoCell: UITableViewCell, Reusable {
         
         ibTitleLabel.textColor = selected ? .white : .piano
         ibSubTitleLabel.textColor = selected ? .white : .lightGray
-        contentView.backgroundColor = selected ? .piano : .white
     }
 
 }
