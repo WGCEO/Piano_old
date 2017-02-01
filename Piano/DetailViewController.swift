@@ -63,6 +63,14 @@ class DetailViewController: UIViewController {
         indicator.stopAnimating()
     }
     
+    func canDoAnotherTask() -> Bool{
+        
+        if let indicator = activityIndicator, indicator.isAnimating {
+            return false
+        }
+        return true
+    }
+    
     func setTextView(with memo: Memo?) {
         guard let unwrapTextView = textView else { return }
         unwrapTextView.isEdited = false
@@ -360,6 +368,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapSendEmail(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
@@ -409,6 +418,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapTrashButton(_ sender: Any) {
         //현재 메모 존재 안하면 리턴
+        guard canDoAnotherTask() else { return }
         guard let unwrapMemo = memo else { return }
         
         //존재하면 휴지통에 넣기
@@ -429,6 +439,7 @@ class DetailViewController: UIViewController {
     
     
     @IBAction func tapEffectButton(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
         textView.isEdited = true
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -506,6 +517,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
         addNewMemo()
     }
     
