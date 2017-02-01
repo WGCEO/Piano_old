@@ -16,4 +16,10 @@ class PianoPersistentContainer: NSPersistentContainer {
     func saveDisplayMemo() {
         detailViewController?.saveCoreDataIfNeed()
     }
+    
+    func makeKeyboardHide(){
+        detailViewController?.textView?.makeTappable()
+        detailViewController?.textView?.becomeFirstResponder()
+        detailViewController?.textView?.resignFirstResponder()
+    }
 }

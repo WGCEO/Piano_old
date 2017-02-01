@@ -118,6 +118,9 @@ class ConfigureFolderViewController: UIViewController {
                 let indexPath = IndexPath(row: count - 1, section: 0)
                 self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
                 
+                //추가했으면 취소 눌러도 그게 선택된 화면으로 가야하기 때문
+                self.delegate?.configureFolderViewController(self, selectFolder: newFolder)
+                
             } catch {
                 print("Error importing folders: \(error.localizedDescription)")
             }
