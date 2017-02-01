@@ -480,6 +480,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="kIA-Ld-OAb">
                         <barButtonItem key="rightBarButtonItem" image="mailIcon" id="UPd-oc-iFy">
+                            <color key="tintColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="tapSendEmail:" destination="nsS-aP-t1B" id="O3a-C0-32S"/>
                             </connections>

@@ -64,6 +64,8 @@ class PianoTextView: UITextView {
             }
         }
         
+        detailViewController?.updateCellInfo()
+        
         DispatchQueue.main.async { [unowned self] in
             self.scrollRangeToVisible(self.selectedRange)
         }

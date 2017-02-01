@@ -31,4 +31,4 @@
 "SelectLine" = "Veuillez sélectionner un type de ligne.";
 "ChangeFolderNameTitle" = "Nom de dossier";
 "ChangeFolderNameMessage" = "Vous pouvez changer le nom";
-"PianoTutorial" = "피아노 튜토리얼 내용";
+"PianoTutorial" = "‘Mémo en beauté et grâce’\n\nLe piano n'est pas un tout nouveau gadget hi-tech.\nLa seule différence est qu'il est utilisé avec beauté et grâce. ‘Jouez’ de vos pensées, comme vous jouez du piano. Vos pensées se transforment alors en musique et enrichissent votre journée.\n\n<Spécification>\n\n01. L'effet ‘Piano’\nAppuyez tout d'abord sur un bouton ‘Effet’, puis faites glisser les textes que vous souhaitez modifier.\n\n02. La ‘Gomme de mots’\nPour traiter les fautes de frappe, il suffit de toucher la Gomme une fois!\n(Au lieu d'appuyer de nouveau sur le bouton Supprimer)\n\n\n03. Envoi de courriels\nEcrivez directement vos pensées par e-mail, comme si vous ‘jouiez’ avec beauté et grâce.";
