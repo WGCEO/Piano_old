@@ -31,6 +31,8 @@ class DetailViewController: UIViewController {
     
     var memo: Memo? {
         willSet {
+            //우선 이미지에 nil 대입하기
+            firstImage = nil
             guard memo != newValue else {
                 showTopView(bool: false)
                 textView?.resignFirstResponder()
