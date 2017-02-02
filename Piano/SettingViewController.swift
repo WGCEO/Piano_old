@@ -13,35 +13,12 @@ import SafariServices
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var portraitStackView: UIStackView!
-    @IBOutlet weak var landscapeStackView: UIStackView!
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let size = UIScreen.main.bounds.size
-        setStackViewByViewMode(size: size)
-    }
-    
-    func setStackViewByViewMode(size: CGSize){
-        landscapeStackView.isHidden = size.width < size.height
-        portraitStackView.isHidden = size.width > size.height
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        setStackViewByViewMode(size: size)
-        
-    }
 
     @IBAction func tapCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func tapDeletedMemo(_ sender: Any) {
-        performSegue(withIdentifier: "GoToDeleteMemo", sender: nil)
-    }
-    
-    @IBAction func tapDeletedMemoL(_ sender: Any) {
         performSegue(withIdentifier: "GoToDeleteMemo", sender: nil)
     }
     
@@ -76,38 +53,24 @@ class SettingViewController: UIViewController {
         tip()
     }
     
-    @IBAction func tapTipL(_ sender: Any) {
-        tip()
-    }
-    
     @IBAction func tapPianoExhibition(_ sender: Any) {
         exhibition()
     }
-    @IBAction func tapPianoExhibitionL(_ sender: Any) {
-        exhibition()
-    }
-    
+  
     @IBAction func tapILovePiano(_ sender: Any) {
         iLovePiano()
     }
-    @IBAction func tapILovePianoL(_ sender: Any) {
-        iLovePiano()
-    }
+  
     
     @IBAction func tapReportIdeaAndBug(_ sender: Any) {
         reportIdeaAndBug()
     }
     
-    @IBAction func tapReportIdeaAndBugL(_ sender: Any) {
-        reportIdeaAndBug()
-    }
+ 
     @IBAction func tapExtraInfo(_ sender: Any) {
         extraInfo()
     }
-    
-    @IBAction func tapExtraInfoL(_ sender: Any) {
-        extraInfo()
-    }
+
     
     func sendEmail(withTitle: String) {
         let mailComposeViewController = configuredMailComposeViewController(withTitle: withTitle)

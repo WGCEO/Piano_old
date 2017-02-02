@@ -182,7 +182,10 @@ class DetailViewController: UIViewController {
                 self.memo = nil
             }
         }
+        textView.contentOffset = CGPoint.zero
     }
+    
+
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -234,6 +237,7 @@ class DetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(bool, animated: true)
         navigationController?.setToolbarHidden(bool, animated: true)
         UIView.animate(withDuration: 0.3) { [unowned self] in
+            self.textView.contentInset.bottom = bool ? 50 : 0
             textViewTop.constant = bool ? 100 : 0
             self.view.layoutIfNeeded()
         }

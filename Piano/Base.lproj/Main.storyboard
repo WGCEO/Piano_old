@@ -258,7 +258,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCe-Vb-4bA">
-                                                    <rect key="frame" x="76" y="19.5" width="15" height="30.5"/>
+                                                    <rect key="frame" x="76" y="24" width="15" height="26"/>
                                                     <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="26"/>
                                                     <color key="textColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -315,7 +315,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <!--Detail View Controller-->
         <scene sceneID="36L-xo-RUa">
             <objects>
-                <viewController id="nsS-aP-t1B" customClass="DetailViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nsS-aP-t1B" customClass="DetailViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JYV-8S-nnG"/>
                         <viewControllerLayoutGuide type="bottom" id="WHf-QJ-klZ"/>
@@ -419,7 +419,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="LPq-Iw-BBC"/>
                                     <barButtonItem title="Complete" width="300" id="5Np-uE-SSo">
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="tapFinishEffectButton:" destination="nsS-aP-t1B" id="9qg-fA-xh7"/>
                                         </connections>
@@ -660,7 +660,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     <barButtonItem systemItem="organize" id="PjY-82-OaM">
                                         <color key="tintColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <action selector="tapFolderBarButton:" destination="1PD-UR-tuG" id="kU0-ix-Q62"/>
+                                            <segue destination="RX5-sF-fZk" kind="popoverPresentation" identifier="ConfigureFolderViewController" popoverAnchorBarButtonItem="PjY-82-OaM" id="JFb-be-7xn">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="TaP-UG-Sme"/>
@@ -730,7 +732,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </view>
                         <barButtonItem key="rightBarButtonItem" image="settingPiano" id="vX0-7J-Zr8">
                             <connections>
-                                <segue destination="Ktz-Fy-ZHu" kind="presentation" id="HUV-Vj-gMm"/>
+                                <segue destination="Ktz-Fy-ZHu" kind="popoverPresentation" popoverAnchorBarButtonItem="vX0-7J-Zr8" id="HUV-Vj-gMm">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -738,8 +742,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <outlet property="leftPageButton" destination="tst-dc-tI6" id="ZK7-bI-GGH"/>
                         <outlet property="tableView" destination="FrX-I6-VnQ" id="V8S-po-XT8"/>
                         <outlet property="titleLabel" destination="ueg-Ll-Pi1" id="1uf-41-Vgg"/>
-                        <segue destination="ZGw-Kp-iZC" kind="presentation" identifier="MoveMemoViewController" id="D8R-mh-DFp"/>
-                        <segue destination="RX5-sF-fZk" kind="presentation" identifier="ConfigureFolderViewController" id="3Em-fq-HwN"/>
+                        <segue destination="ZGw-Kp-iZC" kind="popoverPresentation" identifier="MoveMemoViewController" popoverAnchorView="FrX-I6-VnQ" id="e94-sq-rWm">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tcW-kQ-S2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -937,58 +942,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="SCl-QG-xgB">
-                                <rect key="frame" x="-121" y="298" width="616" height="71"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVo-l2-ouD">
-                                        <rect key="frame" x="0.0" y="0.0" width="53" height="71"/>
-                                        <state key="normal" image="trashs"/>
-                                        <connections>
-                                            <action selector="tapDeletedMemoL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="mIi-dv-xdz"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="apw-5q-GG6">
-                                        <rect key="frame" x="113" y="0.0" width="44" height="71"/>
-                                        <state key="normal" image="tip"/>
-                                        <connections>
-                                            <action selector="tapTipL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="WOS-Mk-sQM"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gxh-Vp-dZY">
-                                        <rect key="frame" x="217" y="0.0" width="60" height="71"/>
-                                        <state key="normal" image="review"/>
-                                        <connections>
-                                            <action selector="tapILovePianoL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="gyC-WH-Pkn"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IGN-np-h6v">
-                                        <rect key="frame" x="337" y="0.0" width="68" height="71"/>
-                                        <state key="normal" image="email"/>
-                                        <connections>
-                                            <action selector="tapReportIdeaAndBugL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="4EO-lB-o0u"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s6U-uo-xfv">
-                                        <rect key="frame" x="465" y="0.0" width="44" height="71"/>
-                                        <state key="normal" image="facebook"/>
-                                        <connections>
-                                            <action selector="tapPianoExhibitionL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="MLo-gN-Cz6"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hc-1K-5RW">
-                                        <rect key="frame" x="569" y="0.0" width="47" height="71"/>
-                                        <state key="normal" image="license"/>
-                                        <connections>
-                                            <action selector="tapExtraInfoL:" destination="JWS-Gb-Mhx" eventType="touchUpInside" id="AnU-G9-FKk"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="SCl-QG-xgB" firstAttribute="centerY" secondItem="KjA-bf-8Vs" secondAttribute="centerY" id="6aa-9y-52b"/>
-                            <constraint firstItem="SCl-QG-xgB" firstAttribute="centerX" secondItem="KjA-bf-8Vs" secondAttribute="centerX" id="FUx-EO-PqQ"/>
                             <constraint firstItem="bkf-rY-hdd" firstAttribute="centerX" secondItem="KjA-bf-8Vs" secondAttribute="centerX" id="NmC-bq-uUv"/>
                             <constraint firstItem="bkf-rY-hdd" firstAttribute="centerY" secondItem="KjA-bf-8Vs" secondAttribute="centerY" id="W0W-au-47c"/>
                         </constraints>
@@ -1002,7 +958,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="landscapeStackView" destination="SCl-QG-xgB" id="Efa-DV-KEh"/>
                         <outlet property="portraitStackView" destination="bkf-rY-hdd" id="yWr-BG-E7W"/>
                         <segue destination="Zwb-q2-C91" kind="show" identifier="GoToDeleteMemo" id="3Ri-jl-mrc"/>
                         <segue destination="FsP-06-CVG" kind="modal" identifier="GoToOpenSource" id="hlr-j3-g6N"/>
@@ -1017,7 +972,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -1043,7 +998,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RX5-sF-fZk" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2W-iI-EOR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="l2W-iI-EOR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

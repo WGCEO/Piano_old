@@ -232,11 +232,6 @@ class MasterViewController: UIViewController {
         
         showAddGroupAlertViewController()
     }
-    
-    @IBAction func tapFolderBarButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        performSegue(withIdentifier: "ConfigureFolderViewController", sender: nil)
-    }
 
     func setFirstCellIfIpad() {
         if detailViewController.isVisible {
@@ -349,6 +344,7 @@ class MasterViewController: UIViewController {
             let nav = segue.destination as! UINavigationController
             let moveMemoViewController = nav.topViewController as! MoveMemoViewController
             moveMemoViewController.memo = sender as! Memo
+            
         }
     }
 }
