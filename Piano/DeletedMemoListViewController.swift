@@ -73,6 +73,7 @@ class DeletedMemoListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         indicatingCell()
+        indicatingCell = {}
         
         
     }

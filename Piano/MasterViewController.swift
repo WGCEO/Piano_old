@@ -12,7 +12,7 @@ import LTMorphingLabel
 
 class MasterViewController: UIViewController {
     
-
+    var indicatingCell: () -> Void = {}
     @IBOutlet weak var titleLabel: LTMorphingLabel!
     
     lazy var folderResultsController: NSFetchedResultsController<Folder> = {
@@ -119,6 +119,9 @@ class MasterViewController: UIViewController {
 //        //아이폰일때만 지워라잉?
         if !detailViewController.isVisible {
             detailViewController.saveCoreDataIfIphone()
+            
+            indicatingCell()
+            indicatingCell = {}
         }
     }
     
@@ -499,6 +502,10 @@ extension MasterViewController: UITableViewDelegate {
         
         DispatchQueue.main.async { [unowned self] in
             self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+        }
+        
+        indicatingCell = { [unowned self] in
+            self.tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     

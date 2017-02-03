@@ -255,9 +255,14 @@ class DetailViewController: UIViewController {
     func resetTextViewAttribute(){
         guard let unwrapTextView = textView else { return }
         unwrapTextView.textAlignment = .left
-        unwrapTextView.attributedText = NSAttributedString()
-        unwrapTextView.font = UIFont.preferredFont(forTextStyle: .body)
-        unwrapTextView.textColor = UIColor.piano
+        let attrText = NSAttributedString()
+        unwrapTextView.attributedText = attrText
+        unwrapTextView.typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
+                                           NSUnderlineStyleAttributeName : 0,
+                                           NSStrikethroughStyleAttributeName: 0,
+                                           NSBackgroundColorAttributeName : UIColor.clear,
+                                           NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)
+        ]
     }
     
     func keyboardWillShow(notification: Notification){
