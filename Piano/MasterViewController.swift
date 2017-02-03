@@ -343,7 +343,10 @@ class MasterViewController: UIViewController {
         } else if identifier == "MoveMemoViewController" {
             let nav = segue.destination as! UINavigationController
             let moveMemoViewController = nav.topViewController as! MoveMemoViewController
-            moveMemoViewController.memo = sender as! Memo
+            guard let customObj = sender as? (Memo, CGRect) else { return }
+            moveMemoViewController.memo = customObj.0
+            nav.popoverPresentationController?.sourceRect = customObj.1
+            
             
         }
     }
@@ -504,7 +507,9 @@ extension MasterViewController: UITableViewDelegate {
         //TODO: move, delete 모두 로컬라이징
         let move = UITableViewRowAction(style: .normal, title: "Move".localized(withComment: "이동")) { [unowned self](action, indexPath) in
             let memo = self.memoResultsController.object(at: indexPath)
-            self.performSegue(withIdentifier: "MoveMemoViewController", sender: memo)
+            let rect = tableView.rectForRow(at: indexPath)
+            let customObj: (Memo, CGRect) = (memo, rect)
+            self.performSegue(withIdentifier: "MoveMemoViewController", sender: customObj)
         }
         move.backgroundColor = .orange
         
