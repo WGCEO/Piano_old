@@ -27,13 +27,13 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "備註將在30天后永久刪除。";
+"NBb-E1-rsZ.text" = "30天後，已刪除的記事本將會永久消失。";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
-"cRU-W5-pUx.title" = "選擇文件夾";
+"cRU-W5-pUx.title" = "文件夾目錄";
 
 /* Class = "UINavigationItem"; title = "Foler List"; ObjectID = "dHK-zG-BEe"; */
-"dHK-zG-BEe.title" = "文件夾列表";
+"dHK-zG-BEe.title" = "文件夾目錄";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "fsf-Np-o08"; */
 "fsf-Np-o08.text" = "Title";
@@ -63,4 +63,4 @@
 "tst-dc-tI6.title" = "◁";
 
 /* Class = "UINavigationItem"; title = "Deleted Memo"; ObjectID = "ueM-AL-IOh"; */
-"ueM-AL-IOh.title" = "已刪除備註";
+"ueM-AL-IOh.title" = "已刪除的記事本";

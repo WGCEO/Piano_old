@@ -1,6 +1,6 @@
 
 /* Class = "UIBarButtonItem"; title = "Recover"; ObjectID = "1vh-h4-pmp"; */
-"1vh-h4-pmp.title" = "restorasi";
+"1vh-h4-pmp.title" = "memulihkan";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
 "5Np-uE-SSo.title" = "lengkap";
@@ -27,7 +27,7 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Catatan dihapus secara permanen setelah 30 hari.";
+"NBb-E1-rsZ.text" = "Setelah 30 hari, catatan dihapus akan hilang secara permanen.";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
 "cRU-W5-pUx.title" = "Pilih folder";
@@ -48,7 +48,7 @@
 "o68-Ih-S4W.title" = "Open Source";
 
 /* Class = "UIButton"; normalTitle = "Done"; ObjectID = "pcl-gj-8uN"; */
-"pcl-gj-8uN.normalTitle" = "matang";
+"pcl-gj-8uN.normalTitle" = "Lengkap";
 
 /* Class = "UILabel"; text = "title"; ObjectID = "qbU-If-nh9"; */
 "qbU-If-nh9.text" = "title";
@@ -63,4 +63,4 @@
 "tst-dc-tI6.title" = "◁";
 
 /* Class = "UINavigationItem"; title = "Deleted Memo"; ObjectID = "ueM-AL-IOh"; */
-"ueM-AL-IOh.title" = "Dihapus Catatan";
+"ueM-AL-IOh.title" = "Catatan dihapus";

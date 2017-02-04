@@ -511,7 +511,6 @@ extension MasterViewController: UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        //TODO: move, delete 모두 로컬라이징
         let move = UITableViewRowAction(style: .normal, title: "Move".localized(withComment: "이동")) { [unowned self](action, indexPath) in
             let memo = self.memoResultsController.object(at: indexPath)
             let rect = tableView.rectForRow(at: indexPath)

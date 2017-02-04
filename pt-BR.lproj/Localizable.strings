@@ -6,29 +6,29 @@
   Copyright © 2017년 Piano. All rights reserved.
 */
 
-"NetworkErrorTitle" = "Erro de rede";
-"CheckDeviceOrInternet" = "Verifique o estado do dispositivo ou da Internet.";
+"NetworkErrorTitle" = "Erro na rede";
+"CheckDeviceOrInternet" = "Verifique dispositivo ou estado do internet.";
 "OK" = "Está bem";
-"EmailErrorTitle" = "Não foi possível enviar correio.";
-"ReviewMakeUsPassionately" = "Os comentários bonitos inspiram-nos.";
-"ThankYou" = "Obrigado";
+"EmailErrorTitle" = "Não pode enviar e-mail.";
+"ReviewMakeUsPassionately" = "Comentário belo dá paixão para nós .";
+"ThankYou" = "Thank you";
 "MemoOf" = "Notas";
-"AddFolderTitle" = "Adicionar pasta";
-"AddFolderMessage" = "Indique o nome da pasta.";
+"AddFolderTitle" = "Criar pasta";
+"AddFolderMessage" = "Coloque nome de pasta.";
 "Cancel" = "Cancelar";
-"Create" = "Crio";
+"Create" = "Criar";
 "Delete" = "Excluir";
 "Move" = "Mover";
-"Setting" = "Configuração";
+"Setting" = "Estabelecimento";
 "FolderName" = "Nome da pasta";
 "FolderDeleteTitle" = "Excluir pasta";
-"FolderDeleteMessage" ="Se você excluí-lo, você não será capaz de recuperá-lo novamente. Tem certeza de que deseja excluí-lo?";
-"NewMemo" = "Nova Nota";
-"CantOpenAlbumTitle" = "Não é possível abrir o álbum";
-"CantOpenAlbumMessage" = "Vá para Configurações e verifique o álbum.";
-"SelectColor" = "Escolha uma cor.";
-"SelectTitle" = "Selecione o tamanho do título.";
-"SelectLine" = "Selecione um tipo de linha.";
+"FolderDeleteMessage" ="Se você excluir, não pode restaurar. Vai excluir, tem certeza?";
+"NewMemo" = "Nota nova";
+"CantOpenAlbumTitle" = "Não pode abrir pasta";
+"CantOpenAlbumMessage" = "Vai para estabelecimento e cheque o álbum.";
+"SelectColor" = "Escolha cor.";
+"SelectTitle" = "Escolha tamanho do título.";
+"SelectLine" = "Escolha tipo de linha.";
 "ChangeFolderNameTitle" = "Nome da pasta";
-"ChangeFolderNameMessage" = "Você pode alterar o nome";
+"ChangeFolderNameMessage" = "Pode trocar nome de pasta";
 "PianoTutorial" = "피아노 튜토리얼 내용";

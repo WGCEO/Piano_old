@@ -1,9 +1,9 @@
 
 /* Class = "UIBarButtonItem"; title = "Recover"; ObjectID = "1vh-h4-pmp"; */
-"1vh-h4-pmp.title" = "Phục hồi";
+"1vh-h4-pmp.title" = "Khôi phục";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
-"5Np-uE-SSo.title" = "hoàn toàn";
+"5Np-uE-SSo.title" = "Hoàn thành";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "67z-rl-MC3"; */
 "67z-rl-MC3.text" = "Subtitle";
@@ -27,7 +27,7 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Ghi chú bị xóa vĩnh viễn sau 30 ngày.";
+"NBb-E1-rsZ.text" = "Sau 30 ngày, các ghi chú đã bị xóa sẽ biến mất vĩnh viễn.";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
 "cRU-W5-pUx.title" = "Chọn thư mục";

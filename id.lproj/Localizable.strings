@@ -6,15 +6,15 @@
   Copyright © 2017년 Piano. All rights reserved.
 */
 
-"NetworkErrorTitle" = "jaringan Kesalahan";
+"NetworkErrorTitle" = "Kesalahan jaringan";
 "CheckDeviceOrInternet" = "Silakan periksa perangkat atau internet status.";
 "OK" = "baik";
-"EmailErrorTitle" = "Tidak dapat mengirim email.";
+"EmailErrorTitle" = "Tidak bisa mengirim email.";
 "ReviewMakeUsPassionately" = "ulasan indah menginspirasi kita.";
 "ThankYou" = "Terima kasih";
 "MemoOf" = "catatan";
-"AddFolderTitle" = "Tambah Folder";
-"AddFolderMessage" = "Tolong beri nama folder tersebut.";
+"AddFolderTitle" = "Membuat folder";
+"AddFolderMessage" = "Silakan tulis nama folder.";
 "Cancel" = "Membatalkan";
 "Create" = "Membuat";
 "Delete" = "Menghapus";
@@ -22,13 +22,13 @@
 "Setting" = "pengaturan";
 "FolderName" = "Nama folder";
 "FolderDeleteTitle" = "Hapus Folder";
-"FolderDeleteMessage" ="Jika Anda menghapusnya, Anda tidak akan dapat pulih lagi. Apakah Anda yakin ingin menghapusnya?";
-"NewMemo" = "New Catatan";
-"CantOpenAlbumTitle" = "tidak dapat membuka album";
-"CantOpenAlbumMessage" = "Buka Pengaturan dan periksa album.";
+"FolderDeleteMessage" ="Jika menghapusnya tidak dapat dipulihkan lagi. Apakah yakin menghapus?";
+"NewMemo" = "Catatan baru";
+"CantOpenAlbumTitle" = "Tak dapat membuka album";
+"CantOpenAlbumMessage" = "Buka Pengaturan, silahkan cek album.";
 "SelectColor" = "Silahkan pilih warna.";
 "SelectTitle" = "Silakan pilih ukuran judul.";
-"SelectLine" = "Pilih jenis garis.";
+"SelectLine" = "Silakan pilih jenis garis.";
 "ChangeFolderNameTitle" = "Nama folder";
-"ChangeFolderNameMessage" = "Anda dapat mengubah nama";
-"PianoTutorial" = "피아노 튜토리얼 내용";
+"ChangeFolderNameMessage" = "boleh mengubah nama folder";
+"PianoTutorial" = "Catatan yang paling indah dan cepat di dunia\n\nPiano ini tidak sepenuhnya baru. Hanya perbedaan adalah indah dan cepat. Mencoba bermain pikiran Anda spiriti tampak tekan papan tombol. Tiba-tiba catatan Anda menjadi not lagu dan sehari-hari akan jadi indah.\n01. Efek Piano\nKlik tombol efek dan menyeret teks untuk mengedit jari catatan.\n\n02. Kata penghapus\nKetika salah ketik, klik penghapus hanya skali, Bukan tombol ‘Delete’ beberapa kali.\n\n03. Kirim email\nIndah diedit yang utuh, cobalah mengirim email.\n";

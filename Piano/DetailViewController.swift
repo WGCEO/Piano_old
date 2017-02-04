@@ -647,11 +647,7 @@ extension DetailViewController: UITextViewDelegate {
         updateCellInfo()
     }
     
-    
-
-    
     //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
-    
     func updateCellInfo() {
         guard let memo = self.memo,
             let textView = self.textView,

@@ -1,6 +1,6 @@
 
 /* Class = "UIBarButtonItem"; title = "Recover"; ObjectID = "1vh-h4-pmp"; */
-"1vh-h4-pmp.title" = "восстановление";
+"1vh-h4-pmp.title" = "Восстановление";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
 "5Np-uE-SSo.title" = "полный";
@@ -27,7 +27,7 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Примечания окончательно удаляются через 30 дней.";
+"NBb-E1-rsZ.text" = "Через 30 дней удаленные ноты исчезнут навсегда.";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
 "cRU-W5-pUx.title" = "Выберите папку";
@@ -63,4 +63,4 @@
 "tst-dc-tI6.title" = "◁";
 
 /* Class = "UINavigationItem"; title = "Deleted Memo"; ObjectID = "ueM-AL-IOh"; */
-"ueM-AL-IOh.title" = "Исключен Примечания";
+"ueM-AL-IOh.title" = "Удаленные заметки";

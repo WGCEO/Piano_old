@@ -3,7 +3,7 @@
 "1vh-h4-pmp.title" = "Restaurierung";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
-"5Np-uE-SSo.title" = "komplett";
+"5Np-uE-SSo.title" = "erledigt";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "67z-rl-MC3"; */
 "67z-rl-MC3.text" = "Subtitle";
@@ -27,7 +27,7 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Notizen werden nach 30 Tagen endgültig gelöscht.";
+"NBb-E1-rsZ.text" = "Nach 30 Tagen werden die gelöschte Zettel ewig verschwunden. ";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
 "cRU-W5-pUx.title" = "Ordner auswählen";

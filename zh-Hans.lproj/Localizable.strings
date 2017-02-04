@@ -7,14 +7,14 @@
 */
 
 "NetworkErrorTitle" = "网络错误";
-"CheckDeviceOrInternet" = "请检查设备或互联网状态。";
+"CheckDeviceOrInternet" = "请检查设备或网络状态。";
 "OK" = "好";
 "EmailErrorTitle" = "无法发送邮件。";
-"ReviewMakeUsPassionately" = "美丽的评论激发我们。";
+"ReviewMakeUsPassionately" = "美丽的评论能够让我们充满热情。";
 "ThankYou" = "谢谢";
-"MemoOf" = "笔记";
-"AddFolderTitle" = "新增文件夹";
-"AddFolderMessage" = "请给出文件夹的名称。";
+"MemoOf" = "记事本";
+"AddFolderTitle" = "创建文件夹";
+"AddFolderMessage" = "请输入文件夹名称";
 "Cancel" = "取消";
 "Create" = "创建";
 "Delete" = "删除";
@@ -22,13 +22,13 @@
 "Setting" = "设置";
 "FolderName" = "文件夹名称";
 "FolderDeleteTitle" = "删除文件夹";
-"FolderDeleteMessage" ="如果您删除它，您将无法再次恢复。 你确定你要删除吗？";
-"NewMemo" = "新笔记";
+"FolderDeleteMessage" ="删除后无法恢复，确认要删除吗？";
+"NewMemo" = "新记事本";
 "CantOpenAlbumTitle" = "无法打开相册";
 "CantOpenAlbumMessage" = "前往[设定]并检查相簿。";
 "SelectColor" = "请选择颜色。";
 "SelectTitle" = "请选择标题的大小。";
-"SelectLine" = "请选择线型。";
+"SelectLine" = "请选择线的种类。";
 "ChangeFolderNameTitle" = "文件夹名称";
-"ChangeFolderNameMessage" = "您可以更改名称";
-"PianoTutorial" = "피아노 튜토리얼 내용";
+"ChangeFolderNameMessage" = "可修改文件夹名称。";
+"PianoTutorial" = "世上最美丽最快速的记事本\n\n钢琴并不是新鲜事物。其区别只是在于美丽和快速。\n就像按下键盘一样，请演奏出您的想法。不知不觉您的记事本成了乐谱，使您的日常生活变得更加美丽。\n\n功能说明\n01. 钢琴效果\n按下效果按键后，用手指末端拖拉文字并编辑记事本。\n\n02. 单词橡皮擦\n打错字时，无需多次按下delete键，只要点击一次橡皮擦即可。\n\n03. 发送邮件\n请用邮件直接发送已编辑好的精美记事本 。\n";

@@ -1,9 +1,9 @@
 
 /* Class = "UIBarButtonItem"; title = "Recover"; ObjectID = "1vh-h4-pmp"; */
-"1vh-h4-pmp.title" = "restauración";
+"1vh-h4-pmp.title" = "Recuparar";
 
 /* Class = "UIBarButtonItem"; title = "Complete"; ObjectID = "5Np-uE-SSo"; */
-"5Np-uE-SSo.title" = "completo";
+"5Np-uE-SSo.title" = "Terminado";
 
 /* Class = "UILabel"; text = "Subtitle"; ObjectID = "67z-rl-MC3"; */
 "67z-rl-MC3.text" = "Subtitle";
@@ -27,10 +27,10 @@
 "LxP-uq-lyv.text" = "Subtitle";
 
 /* Class = "UILabel"; text = "Notes are permanently deleted after 30 days."; ObjectID = "NBb-E1-rsZ"; */
-"NBb-E1-rsZ.text" = "Las notas se eliminan permanentemente después de 30 días.";
+"NBb-E1-rsZ.text" = "Al término de 30 días las notas borradas ya no se podrán recuperar";
 
 /* Class = "UINavigationItem"; title = "Select Folder"; ObjectID = "cRU-W5-pUx"; */
-"cRU-W5-pUx.title" = "Seleccione la carpeta";
+"cRU-W5-pUx.title" = "Elegir carpeta";
 
 /* Class = "UINavigationItem"; title = "Foler List"; ObjectID = "dHK-zG-BEe"; */
 "dHK-zG-BEe.title" = "Lista de carpetas";
@@ -63,4 +63,4 @@
 "tst-dc-tI6.title" = "◁";
 
 /* Class = "UINavigationItem"; title = "Deleted Memo"; ObjectID = "ueM-AL-IOh"; */
-"ueM-AL-IOh.title" = "Notas eliminadas";
+"ueM-AL-IOh.title" = "Nota borrada";
