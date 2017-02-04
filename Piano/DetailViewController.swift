@@ -95,8 +95,6 @@ class DetailViewController: UIViewController {
                 appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
             }
         }
-        
-        
     }
     
     func saveCoreDataIfNeed(){
@@ -117,12 +115,9 @@ class DetailViewController: UIViewController {
     func saveCoreDataIfIphone(){
         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
         
-        if unwrapTextView.attributedText.length != 0 {
-            let data = NSKeyedArchiver.archivedData(withRootObject: unwrapTextView.attributedText)
-            unwrapOldMemo.content = data as NSData
-            PianoData.save()
-        } else {
+        if unwrapTextView.attributedText.length == 0 {
             PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+            PianoData.save()
         }
     }
     
