@@ -14,7 +14,7 @@ class PianoPersistentContainer: NSPersistentContainer {
     weak var detailViewController: DetailViewController?
     
     func saveDisplayMemo() {
-        detailViewController?.saveCoreDataIfNeed()
+        detailViewController?.saveCoreDataForTerminate()
     }
     
     func makeKeyboardHide(){

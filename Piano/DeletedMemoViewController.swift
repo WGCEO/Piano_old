@@ -46,15 +46,9 @@ class DeletedMemoViewController: UIViewController {
     
     @IBAction func tapRestoreBarButton(_ sender: Any) {
         guard let memo = self.memo else { return }
-        coreDataStack.performBackgroundTask { (context) in
-            memo.isInTrash = false
-            memo.date = NSDate()
-            do {
-                try context.save()
-            } catch {
-                print("쓰레기 버튼 눌렀는데 에러: \(error)")
-            }
-        }
+        memo.isInTrash = false
+        memo.date = NSDate()
+        PianoData.save()
         let _ = navigationController?.popViewController(animated: true)
     }
     

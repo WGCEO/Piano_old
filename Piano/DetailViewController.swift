@@ -45,8 +45,8 @@ class DetailViewController: UIViewController {
         }
         didSet {
             showTopView(bool: false)
-            self.setTextView(with: self.memo)
             DispatchQueue.main.async { [unowned self] in
+                self.setTextView(with: self.memo)
                 self.stopLoading()
             }
         }
@@ -103,11 +103,47 @@ class DetailViewController: UIViewController {
             unwrapTextView.isEdited else { return }
         
         if unwrapTextView.attributedText.length != 0 {
-            let data = NSKeyedArchiver.archivedData(withRootObject: unwrapTextView.attributedText)
-            unwrapOldMemo.content = data as NSData
-            PianoData.save()
+            let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
+            PianoData.coreDataStack.performBackgroundTask({ (context) in
+                let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
+                unwrapOldMemo.content = data as NSData
+                do {
+                    try context.save()
+                    DispatchQueue.main.async {
+                        do {
+                            try PianoData.coreDataStack.viewContext.save()
+                        } catch {
+                            print(error)
+                        }
+                        
+                    }
+                } catch {
+                    print(error)
+                }
+            })
+
         } else {
             PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+            PianoData.save()
+        }
+    }
+    
+    func saveCoreDataForTerminate() {
+        guard let unwrapTextView = textView,
+            let unwrapOldMemo = memo,
+            unwrapTextView.isEdited else { return }
+        
+        if unwrapTextView.attributedText.length != 0 {
+            let data = NSKeyedArchiver.archivedData(withRootObject: unwrapTextView.attributedText)
+            unwrapOldMemo.content = data as NSData
+        } else {
+            PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+        }
+        
+        do {
+            try PianoData.coreDataStack.viewContext.save()
+        } catch {
+            print(error)
         }
     }
     
@@ -115,7 +151,23 @@ class DetailViewController: UIViewController {
     func saveCoreDataIfIphone(){
         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
         
-        if unwrapTextView.attributedText.length == 0 {
+        if unwrapTextView.attributedText.length != 0 {
+            if unwrapTextView.isEdited {
+                let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
+                PianoData.coreDataStack.performBackgroundTask({ (context) in
+                    let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
+                    unwrapOldMemo.content = data as NSData
+                    do {
+                        try context.save()
+                    } catch {
+                        print(error)
+                    }
+                    DispatchQueue.main.async {
+                        PianoData.save()
+                    }
+                })
+            }
+        } else {
             PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
             PianoData.save()
         }

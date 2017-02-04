@@ -36,13 +36,13 @@ class PianoTextView: UITextView {
     }
     
     
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(paste(_:)) {
-            return UIPasteboard.general.string != nil || UIPasteboard.general.image != nil
-        }
-        
-        return super.canPerformAction(action, withSender: sender)
-    }
+//    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//        if action == #selector(paste(_:)) {
+//            return UIPasteboard.general.string != nil || UIPasteboard.general.image != nil
+//        }
+//        
+//        return super.canPerformAction(action, withSender: sender)
+//    }
     
     override func paste(_ sender: Any?) {
         super.paste(sender)

@@ -411,6 +411,9 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
                 let newIndexPath = newIndexPath else { return }
 
             tableView.moveRow(at: indexPath, to: newIndexPath)
+            indicatingCell = { [unowned self] in
+                self.tableView.deselectRow(at: newIndexPath, animated: true)
+            }
             
 //            if indexPath.section == newIndexPath.section {
 //                tableView.moveRow(at: indexPath, to: newIndexPath)
