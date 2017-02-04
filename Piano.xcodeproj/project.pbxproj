@@ -72,6 +72,8 @@
 		0A08184C1E0B8D0F0001304F /* DeletedMemoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoListViewController.swift; sourceTree = "<group>"; };
 		0A08184F1E0B95E40001304F /* DeletedMemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedMemoViewController.swift; sourceTree = "<group>"; };
 		0A0C1E7E1DFCE30C008EBFC1 /* PianoModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PianoModel.xcdatamodel; sourceTree = "<group>"; };
+		0A15B1931E4637B1000DC102 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
+		0A15B1941E4637BF000DC102 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEffectViewController.swift; sourceTree = "<group>"; };
 		0A1812831E29DF1300272080 /* TextEffectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEffectCell.swift; sourceTree = "<group>"; };
 		0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
@@ -701,6 +703,7 @@
 				0A8B99401E407C4700130F7F /* vi */,
 				0A8B99471E407D7900130F7F /* en */,
 				0A8B99481E407D7A00130F7F /* Base */,
+				0A15B1941E4637BF000DC102 /* it */,
 			);
 			name = Localizable.strings;
 			path = ..;
@@ -724,6 +727,7 @@
 				0A8B99681E40CF4000130F7F /* th */,
 				0A8B996A1E40CF4600130F7F /* id */,
 				0A8B996E1E40CF4F00130F7F /* vi */,
+				0A15B1931E4637B1000DC102 /* it */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
