@@ -45,7 +45,6 @@ class DetailViewController: UIViewController {
             //우선 이미지에 nil 대입하기
             firstImage = nil
             guard memo != newValue else {
-                showTopView(bool: false)
                 textView?.resignFirstResponder()
                 stopLoading()
                 return
@@ -54,12 +53,13 @@ class DetailViewController: UIViewController {
             textView?.resignFirstResponder()
         }
         didSet {
-            
+            showTopView(bool: false)
+            textView?.canvas.removeFromSuperview()
             guard memo != oldValue else {
+                textView?.isEdited = false
                 return
             }
-            
-            showTopView(bool: false)
+    
             self.setTextView(with: self.memo)
             DispatchQueue.main.async { [unowned self] in
                 self.stopLoading()
@@ -416,6 +416,10 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
+        tapFinishEffect()
+    }
+    
+    func tapFinishEffect() {
         showTopView(bool: false)
         textView.canvas.removeFromSuperview()
         setTextViewEditedState()

@@ -25,5 +25,9 @@ class PianoPersistentContainer: NSPersistentContainer {
         detailViewController?.textView?.makeTappable()
         detailViewController?.textView?.becomeFirstResponder()
         detailViewController?.textView?.resignFirstResponder()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.detailViewController?.tapFinishEffect()
+        }
     }
 }
