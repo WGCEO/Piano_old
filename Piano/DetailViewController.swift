@@ -58,6 +58,8 @@ class DetailViewController: UIViewController {
             self.setTextView(with: self.memo)
             DispatchQueue.main.async { [unowned self] in
                 self.stopLoading()
+                guard let textView = self.textView else { return }
+                textView.contentOffset = CGPoint.zero
             }
         }
     }
@@ -621,7 +623,11 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapComposeButton(_ sender: Any) {
         guard canDoAnotherTask() else { return }
-        addNewMemo()
+        guard canDoAnotherTask() else { return }
+        let deadline = DispatchTime.now() + .milliseconds(300)
+        DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
+            self?.addNewMemo()
+        }
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {

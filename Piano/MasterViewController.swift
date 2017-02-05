@@ -312,7 +312,10 @@ class MasterViewController: UIViewController {
     
     @IBAction func tapComposeBarButton(_ sender: Any) {
         guard canDoAnotherTask() else { return }
-        addNewMemo()
+        let deadline = DispatchTime.now() + .milliseconds(300)
+        DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
+            self?.addNewMemo()
+        }
     }
     
     
@@ -503,13 +506,11 @@ extension MasterViewController: UITableViewDelegate {
         let memo = memoResultsController.object(at: indexPath)
         detailViewController.memo = memo
         
-        DispatchQueue.main.async { [unowned self] in
-            self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
-        }
-        
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)
         }
+        
+        self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
     }
     
     
