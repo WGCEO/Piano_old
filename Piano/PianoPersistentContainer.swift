@@ -13,8 +13,12 @@ class PianoPersistentContainer: NSPersistentContainer {
     
     weak var detailViewController: DetailViewController?
     
-    func saveDisplayMemo() {
-        detailViewController?.saveCoreDataForTerminate()
+    func saveWhenAppWillBeTerminal() {
+        detailViewController?.saveCoreDataWhenExit(isTerminal: true)
+    }
+    
+    func saveWhenAppGoToBackground() {
+        detailViewController?.saveCoreDataWhenExit(isTerminal: false)
     }
     
     func makeKeyboardHide(){

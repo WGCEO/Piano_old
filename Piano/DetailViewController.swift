@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import MessageUI
+import CoreData
 
 
 protocol DetailViewControllerDelegate: class {
@@ -17,12 +18,21 @@ protocol DetailViewControllerDelegate: class {
 
 class DetailViewController: UIViewController {
     
+    lazy var privateMOC: NSManagedObjectContext = {
+        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        moc.parent = PianoData.coreDataStack.viewContext
+        return moc
+    }()
+    
     var masterViewController: MasterViewController? {
         get {
             guard let masterViewController = delegate as? MasterViewController else { return nil }
             return masterViewController
         }
     }
+    
+    var delayAttrDic: [NSManagedObjectID : NSAttributedString] = [:]
+    var waitingAttr: NSAttributedString?
     
     var appearKeyboardIfNeeded: () -> Void = { }
     
@@ -45,8 +55,8 @@ class DetailViewController: UIViewController {
         }
         didSet {
             showTopView(bool: false)
+            self.setTextView(with: self.memo)
             DispatchQueue.main.async { [unowned self] in
-                self.setTextView(with: self.memo)
                 self.stopLoading()
             }
         }
@@ -78,24 +88,50 @@ class DetailViewController: UIViewController {
         //스크롤 이상하게 되는 것 방지
         unwrapTextView.contentOffset = CGPoint.zero
         
-        guard let unwrapMemo = memo else {
+        guard let unwrapNewMemo = memo else {
             resetTextViewAttribute()
             return }
         
-        let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapMemo.content as! Data) as? NSAttributedString
-        unwrapTextView.attributedText = attrText
-        let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-        unwrapTextView.selectedRange = selectedRange
-        
-        if unwrapTextView.attributedText.length == 0 {
-            resetTextViewAttribute()
-            if self.isVisible {
-                unwrapTextView.appearKeyboard()
+        let haveTextInDelayAttrDic = delayAttrDic.contains { [unowned self](key, value) -> Bool in
+            if unwrapNewMemo.objectID == key {
+                unwrapTextView.attributedText = value
+                let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+                unwrapTextView.selectedRange = selectedRange
+                if unwrapTextView.attributedText.length == 0 {
+                    self.resetTextViewAttribute()
+                    if self.isVisible {
+                        unwrapTextView.appearKeyboard()
+                    } else {
+                        self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+                    }
+                }
+                
+                return true
             } else {
-                appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+                return false
             }
         }
+        
+        guard !haveTextInDelayAttrDic else { return }
+        
+        let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content as! Data) as? NSAttributedString
+        PianoData.coreDataStack.viewContext.performAndWait({
+            unwrapTextView.attributedText = attrText
+            let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+            unwrapTextView.selectedRange = selectedRange
+            
+            if unwrapTextView.attributedText.length == 0 {
+                self.resetTextViewAttribute()
+                if self.isVisible {
+                    unwrapTextView.appearKeyboard()
+                } else {
+                    self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+                }
+            }
+        })
+      
     }
+    
     
     func saveCoreDataIfNeed(){
         guard let unwrapTextView = textView,
@@ -104,21 +140,24 @@ class DetailViewController: UIViewController {
         
         if unwrapTextView.attributedText.length != 0 {
             let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
-            PianoData.coreDataStack.performBackgroundTask({ (context) in
+            
+            privateMOC.perform({ [unowned self] in
+                self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
                 let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
                 unwrapOldMemo.content = data as NSData
                 do {
-                    try context.save()
-                    DispatchQueue.main.async {
+                    try self.privateMOC.save()
+                    PianoData.coreDataStack.viewContext.performAndWait({
                         do {
                             try PianoData.coreDataStack.viewContext.save()
+                            //지연 큐에서 제거해버리기
+                            self.delayAttrDic[unwrapOldMemo.objectID] = nil
                         } catch {
-                            print(error)
+                            print("Failure to save context: error: \(error)")
                         }
-                        
-                    }
+                    })
                 } catch {
-                    print(error)
+                    print("Failture to save context error: \(error)")
                 }
             })
 
@@ -128,17 +167,35 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func saveCoreDataForTerminate() {
-        guard let unwrapTextView = textView,
-            let unwrapOldMemo = memo,
-            unwrapTextView.isEdited else { return }
+    func saveCoreDataWhenExit(isTerminal: Bool) {
         
-        if unwrapTextView.attributedText.length != 0 {
-            let data = NSKeyedArchiver.archivedData(withRootObject: unwrapTextView.attributedText)
-            unwrapOldMemo.content = data as NSData
-        } else {
-            PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+        if let unwrapTextView = textView,
+            let unwrapOldMemo = memo,
+            unwrapTextView.isEdited {
+            
+            if unwrapTextView.attributedText.length != 0 {
+                //지금 있는 것도 대기열에 넣기
+                delayAttrDic[unwrapOldMemo.objectID] = unwrapTextView.attributedText
+            } else {
+                if isTerminal {
+                    PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+                }
+            }
         }
+        
+        //대기열에 있는 모든 것들 순차적으로 저장
+        for (id, value) in delayAttrDic {
+            do {
+                let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
+                let data = NSKeyedArchiver.archivedData(withRootObject: value)
+                memo.content = data as NSData
+                
+            } catch {
+                print(error)
+            }
+        }
+        //다 저장했으면 지우기
+        delayAttrDic.removeAll()
         
         do {
             try PianoData.coreDataStack.viewContext.save()
@@ -151,23 +208,7 @@ class DetailViewController: UIViewController {
     func saveCoreDataIfIphone(){
         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
         
-        if unwrapTextView.attributedText.length != 0 {
-            if unwrapTextView.isEdited {
-                let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
-                PianoData.coreDataStack.performBackgroundTask({ (context) in
-                    let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
-                    unwrapOldMemo.content = data as NSData
-                    do {
-                        try context.save()
-                    } catch {
-                        print(error)
-                    }
-                    DispatchQueue.main.async {
-                        PianoData.save()
-                    }
-                })
-            }
-        } else {
+        if unwrapTextView.attributedText.length == 0 {
             PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
             PianoData.save()
         }
