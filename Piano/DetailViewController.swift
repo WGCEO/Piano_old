@@ -403,10 +403,15 @@ class DetailViewController: UIViewController {
         lineEffectButton.setTitle("\u{f0cc}", for: .normal)
     }
     
+    func setTextViewEditedState() {
+        textView.isEdited = true
+        memo?.date = NSDate()
+    }
+    
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
         showTopView(bool: false)
         textView.canvas.removeFromSuperview()
-        textView.isEdited = true
+        setTextViewEditedState()
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -538,7 +543,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapEffectButton(_ sender: Any) {
         guard canDoAnotherTask() else { return }
-        textView.isEdited = true
+        setTextViewEditedState()
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
@@ -620,7 +625,6 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
-        self.textView.isEdited = true
         //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
         //커서가 맨 앞에 있으면 탈출
@@ -659,6 +663,7 @@ class DetailViewController: UIViewController {
             }
         }
         
+        setTextViewEditedState()
         updateCellInfo()
     }
     
@@ -731,7 +736,7 @@ extension DetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.textView.isEdited = true
+        setTextViewEditedState()
         updateCellInfo()
     }
     
@@ -740,8 +745,6 @@ extension DetailViewController: UITextViewDelegate {
         guard let memo = self.memo,
             let textView = self.textView,
             let attrText = textView.attributedText else { return }
-        
-        memo.date = NSDate()
         
         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
         let firstLine: String
@@ -842,10 +845,10 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(selectedRange.location, 2))
             textView.attributedText = attributedString
             selectedRange.location += 2
-            updateCellInfo()
         }
+        updateCellInfo()
+        setTextViewEditedState()
         textView.makeTappable()
-        textView.isEdited = true
         textView.selectedRange = selectedRange
         dismiss(animated: true, completion: nil)
         
