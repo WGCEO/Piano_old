@@ -54,6 +54,11 @@ class DetailViewController: UIViewController {
             textView?.resignFirstResponder()
         }
         didSet {
+            
+            guard memo != oldValue else {
+                return
+            }
+            
             showTopView(bool: false)
             self.setTextView(with: self.memo)
             DispatchQueue.main.async { [unowned self] in
