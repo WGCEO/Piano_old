@@ -11,7 +11,8 @@ import UIKit
 extension UITextView {
     func getTextAndRange(from rect: CGRect) -> (String, NSRange) {
         var newRect = rect
-        newRect.size.height -= 8
+        newRect.size.height -= 4
+        newRect.origin.y += 4
         let range = self.layoutManager.glyphRange(forBoundingRect: newRect, in: self.textContainer)
         let begin = self.beginningOfDocument
         guard let start = self.position(from: begin, offset: range.location),
