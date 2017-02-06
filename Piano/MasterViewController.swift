@@ -312,9 +312,13 @@ class MasterViewController: UIViewController {
     
     @IBAction func tapComposeBarButton(_ sender: Any) {
         guard canDoAnotherTask() else { return }
-        let deadline = DispatchTime.now() + .milliseconds(300)
+        let item = sender as! UIBarButtonItem
+        item.isEnabled = false
+        
+        let deadline = DispatchTime.now() + .milliseconds(50)
         DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
             self?.addNewMemo()
+            item.isEnabled = true
         }
     }
     
