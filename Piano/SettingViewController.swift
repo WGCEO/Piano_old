@@ -22,10 +22,9 @@ class SettingViewController: UIViewController {
         performSegue(withIdentifier: "GoToDeleteMemo", sender: nil)
     }
     
-    
     func tip(){
         //TODO: 여기서 팁 동영상이 있는 링크를 사파리뷰 컨트롤러로 실행시키기 데이터 소스로 넘겨주기
-        showSafariViewController(with: "https://m.facebook.com/OurLovePiano")
+        showSafariViewController(with: "https://m.facebook.com/OurLovePiano/posts/606598042867492")
     }
     
     func exhibition(){

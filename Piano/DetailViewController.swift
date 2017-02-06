@@ -417,12 +417,12 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
         tapFinishEffect()
+        setTextViewEditedState()
     }
     
     func tapFinishEffect() {
         showTopView(bool: false)
         textView.canvas.removeFromSuperview()
-        setTextViewEditedState()
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
