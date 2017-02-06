@@ -44,19 +44,15 @@ class DetailViewController: UIViewController {
             startLoading()
             //우선 이미지에 nil 대입하기
             firstImage = nil
-            guard memo != newValue else {
-                textView?.resignFirstResponder()
-                stopLoading()
-                return
-            }
-            saveCoreDataIfNeed()
             textView?.resignFirstResponder()
+            saveCoreDataIfNeed()
         }
         didSet {
             showTopView(bool: false)
             textView?.canvas.removeFromSuperview()
             guard memo != oldValue else {
                 textView?.isEdited = false
+                stopLoading()
                 return
             }
     
