@@ -122,7 +122,6 @@
 		0ACC37751E3DEC1A0079FA93 /* UIViewController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController_Extension.swift; sourceTree = "<group>"; };
 		0ACC37771E3E2EA50079FA93 /* ConfigureFolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureFolderViewController.swift; sourceTree = "<group>"; };
 		0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		0AEC95891E3B2F240039A47F /* Piano.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Piano.entitlements; sourceTree = "<group>"; };
 		0AEC95931E3C86580039A47F /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String_Extension.swift; sourceTree = "<group>"; };
 		0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
@@ -324,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				0A8B992E1E407C1700130F7F /* Localizable.strings */,
-				0AEC95891E3B2F240039A47F /* Piano.entitlements */,
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,

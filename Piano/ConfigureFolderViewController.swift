@@ -187,7 +187,10 @@ extension ConfigureFolderViewController: UITableViewDataSource {
         let folder = folderResultsController.object(at: indexPath)
         //TODO: Localizing
         cell.textLabel?.text = folder.name
-        let count = folder.memos?.count ?? 0
+        let count = folder.memos?.filter({ (memo) -> Bool in
+            let eachMemo = memo as! Memo
+            return !eachMemo.isInTrash
+        }).count ?? 0
         cell.detailTextLabel?.text = "\(count) " + "MemoOf".localized(withComment: "개의 메모")
     }
     
