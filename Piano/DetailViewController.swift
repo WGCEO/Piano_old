@@ -11,7 +11,6 @@ import Photos
 import MessageUI
 import CoreData
 
-
 protocol DetailViewControllerDelegate: class {
     func detailViewController(_ controller: DetailViewController, addMemo: Memo)
 }
@@ -246,8 +245,6 @@ class DetailViewController: UIViewController {
 
         //TODO: 업데이트할 때 이 참조 지우기
         textView.detailViewController = self
-        
-        
         
         textView.inputAccessoryView = accessoryView
         textView.canvas.delegate = label
@@ -526,10 +523,28 @@ class DetailViewController: UIViewController {
         present(sendMailErrorAlert, animated: true, completion: nil)
     }
     
-    @IBAction func tapTrashButton(_ sender: Any) {
+    func showTrashInfoAlert(completion: @escaping () -> Void) {
+        let trashAlert = UIAlertController(title: "DeleteMemo".localized(withComment: "노트 삭제"), message: "YouCanRecoverNoteFromSetting".localized(withComment: "세팅에서 복구할 수 있습니다"), preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel) { (action) in
+            completion()
+        }
+        trashAlert.addAction(cancel)
+        present(trashAlert, animated: true, completion: nil)
+    }
+    
+    func hasShownTrashAlert() -> Bool {
+        guard UserDefaults.standard.bool(forKey: "hasShownTrashAlert") else {
+            UserDefaults.standard.set(true, forKey: "hasShownTrashAlert")
+            return false
+        }
+        return true
+    }
+    
+    func moveMemoToTrash() {
         //현재 메모 존재 안하면 리턴
         guard canDoAnotherTask() else { return }
         guard let unwrapMemo = memo else { return }
+        
         
         //존재하면 휴지통에 넣기
         unwrapMemo.isInTrash = true
@@ -544,6 +559,20 @@ class DetailViewController: UIViewController {
                 return }
         self.memo = unwrapFirstMemo
         delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
+    }
+    
+    @IBAction func tapTrashButton(_ sender: Any) {
+        
+        //존재하면 우선 팝업 보여줬는지 체크하고 안보여줬다면 팝업보여주기
+        if hasShownTrashAlert() {
+            moveMemoToTrash()
+        } else {
+            showTrashInfoAlert { [unowned self] in
+                self.moveMemoToTrash()
+            }
+        }
+        
+        
     }
     
     

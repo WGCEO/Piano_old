@@ -214,9 +214,8 @@ extension ConfigureFolderViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let folder = folderResultsController.object(at: indexPath)
-        dismiss(animated: true) { [unowned self] in
-            self.delegate?.configureFolderViewController(self, selectFolder: folder)
-        }
+        self.delegate?.configureFolderViewController(self, selectFolder: folder)
+        dismiss(animated: true, completion: nil)
     }
     
     func showAlertViewControllerWhenTryToDelete(with folder: Folder) {

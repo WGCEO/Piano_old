@@ -427,7 +427,6 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
 //            } else {
 //                tableView.deleteRows(at: [indexPath], with: .automatic)
 //                tableView.insertRows(at: [newIndexPath], with: .automatic)
-//                
 //            }
         }
     }
@@ -442,12 +441,12 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
 //        default:
 //            break
 //        }
-//        
 //    }
 //    
 //    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
 //        return sectionName != "0" ? "Pin Memos" : "Memos"
 //    }
+    
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
@@ -487,7 +486,6 @@ extension MasterViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return memoResultsController?.sections?.count ?? 0
     }
-    
     
 //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        guard let sectionInfo = memoResultsController.sections?[section] else { return nil }

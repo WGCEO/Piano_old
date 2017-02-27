@@ -3,103 +3,103 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Piano20@2x-1.png",
+      "filename" : "PianoLogo40-2.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Piano20@3x.png",
+      "filename" : "PianoLogo60.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Piano29@2x-1.png",
+      "filename" : "PianoLogo58-1.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "Piano29@3x.png",
+      "filename" : "PianoLogo87.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Piano40@2x-1.png",
+      "filename" : "PianoLogo80-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "Piano40@3x.png",
+      "filename" : "PianoLogo120-1.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Piano60@2x.png",
+      "filename" : "PianoLogo120.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Piano60@3x.png",
+      "filename" : "PianoLogo180.png",
       "scale" : "3x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "Piano20@1x.png",
+      "filename" : "PianoLogo20.png",
       "scale" : "1x"
     },
     {
       "size" : "20x20",
       "idiom" : "ipad",
-      "filename" : "Piano20@2x.png",
+      "filename" : "PianoLogo40-1.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Piano29@1x.png",
+      "filename" : "PianoLogo29.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Piano29@2x.png",
+      "filename" : "PianoLogo58.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Piano40@1x.png",
+      "filename" : "PianoLogo40.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "Piano40@2x.png",
+      "filename" : "PianoLogo80.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Piano76@1x.png",
+      "filename" : "PianoLogo76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "Piano76@2x.png",
+      "filename" : "PianoLogo152.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "Piano83.5@2x.png",
+      "filename" : "PianoLogo167.png",
       "scale" : "2x"
     }
   ],

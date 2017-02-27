@@ -108,6 +108,12 @@ extension DeletedMemoListViewController: UITableViewDataSource {
     
     func configure(cell: UITableViewCell, at indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
+        
+        
+        let view = UIView()
+        view.backgroundColor = UIColor.piano
+        cell.selectedBackgroundView = view
+        
         cell.textLabel?.text = memo.firstLine
         cell.detailTextLabel?.text = formatter.string(from: memo.date as! Date)
     }
