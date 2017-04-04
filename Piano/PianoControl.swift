@@ -35,7 +35,7 @@ class PianoControl: UIControl {
     
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         
-        //1. 텍스트 뷰의 좌표로 점 평행이동
+        //1. 텍스트 뷰의 좌표로 점 평행이동(여기선 수직 오프셋값 - 텍스트 마진)
         let point = touch.location(in: self).move(x: 0, y: textView.contentOffset.y - textView.textContainerInset.top)
 
         let rect = textView.getRect(including: point)
@@ -68,7 +68,8 @@ class PianoControl: UIControl {
         return true
     }
     
-
+    
+    //TODO:
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         delegate?.progressAnimating(at: touch.location(in: self).x)
         let isMoveDirectly = touch.previousLocation(in: self).x != touch.location(in: self).x

@@ -5,7 +5,8 @@
   Created by kevin on 2017. 1. 31..
   Copyright © 2017년 Piano. All rights reserved.
 */
-
+"YouCanRecoverNoteFromSetting" = "Вы можете восстановить из настроек.";
+"DeleteMemo" = "Удалить заметку";
 "NetworkErrorTitle" = "Ошибка сети";
 "CheckDeviceOrInternet" = "Пожалуйста, проверьте подключение к интернету или состояние интернета.";
 "OK" = "ОК";

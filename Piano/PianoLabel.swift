@@ -99,7 +99,8 @@ class PianoLabel: UILabel {
             // 4차식
 //            let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
             
-            let y = cosMaxHeight * cos(CGFloat(M_PI_2) / cosQuarterPeriod * distance)
+            
+            let y = cosMaxHeight * cos(CGFloat.pi / (2 * cosQuarterPeriod) * distance)
             
             //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
 //            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset

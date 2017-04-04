@@ -5,7 +5,8 @@
   Created by kevin on 2017. 1. 31..
   Copyright © 2017년 Piano. All rights reserved.
 */
-
+"YouCanRecoverNoteFromSetting" = "Sie können sich von den Einstellungen erholen.";
+"DeleteMemo" = "Notiz löschen";
 "NetworkErrorTitle" = "Netzwerkfehler";
 "CheckDeviceOrInternet" = "Schauen Sie Gerät oder Internet-Zustand.";
 "OK" = "OK";

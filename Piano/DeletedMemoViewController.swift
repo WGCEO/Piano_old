@@ -22,7 +22,7 @@ class DeletedMemoViewController: UIViewController {
         
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in
-                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content as! Data) as? NSAttributedString
+                let attrText = NSKeyedUnarchiver.unarchiveObject(with: memo.content! as Data) as? NSAttributedString
                 DispatchQueue.main.async { [unowned self] in
                     self.textView.attributedText = attrText
                 }

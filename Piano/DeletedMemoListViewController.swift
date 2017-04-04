@@ -115,7 +115,7 @@ extension DeletedMemoListViewController: UITableViewDataSource {
         cell.selectedBackgroundView = view
         
         cell.textLabel?.text = memo.firstLine
-        cell.detailTextLabel?.text = formatter.string(from: memo.date as! Date)
+        cell.detailTextLabel?.text = formatter.string(from: memo.date! as Date)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

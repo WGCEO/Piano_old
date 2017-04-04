@@ -33,8 +33,8 @@ struct PianoData {
         batchDelete.affectedStores = PianoData.coreDataStack.viewContext.persistentStoreCoordinator?.persistentStores
         batchDelete.resultType = .resultTypeCount
         do {
-            let batchResult = try PianoData.coreDataStack.viewContext.execute(batchDelete) as! NSBatchDeleteResult
-            print("record deleted \(batchResult.result)")
+            let _ = try PianoData.coreDataStack.viewContext.execute(batchDelete) as! NSBatchDeleteResult
+//            print("record deleted \(batchResult.result)")
         } catch {
             print("could not delete \(error.localizedDescription)")
         }

@@ -116,7 +116,7 @@ class DetailViewController: UIViewController {
         
         guard !haveTextInDelayAttrDic else { return }
         
-        let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content as! Data) as? NSAttributedString
+        let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content! as Data) as? NSAttributedString
         PianoData.coreDataStack.viewContext.performAndWait({
             unwrapTextView.attributedText = attrText
             let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)

@@ -465,7 +465,7 @@ extension MasterViewController: UITableViewDataSource {
         let memo = memoResultsController.object(at: indexPath)
         //TODO: Localizing
         cell.ibTitleLabel.text = memo.firstLine
-        cell.ibSubTitleLabel.text = formatter.string(from: memo.date as! Date)
+        cell.ibSubTitleLabel.text = formatter.string(from: memo.date! as Date)
         
         let view = UIView()
         view.backgroundColor = UIColor.piano

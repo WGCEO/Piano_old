@@ -5,7 +5,8 @@
   Created by kevin on 2017. 1. 31..
   Copyright © 2017년 Piano. All rights reserved.
 */
-
+"YouCanRecoverNoteFromSetting" = "Bạn có thể phục hồi từ các cài đặt.";
+"DeleteMemo" = "xóa ghi chú";
 "NetworkErrorTitle" = "Lỗi kết nối mạng";
 "CheckDeviceOrInternet" = "Hãy kiểm tra thiết bị hoặc trạng thái kết nối internet.";
 "OK" = "được";

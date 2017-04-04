@@ -5,7 +5,8 @@
   Created by kevin on 2017. 1. 31..
   Copyright © 2017년 Piano. All rights reserved.
 */
-
+"YouCanRecoverNoteFromSetting" = "您可以從設置中恢復。";
+"DeleteMemo" = "刪除註釋";
 "NetworkErrorTitle" = "網絡錯誤";
 "CheckDeviceOrInternet" = "請檢查設備或網絡狀態。";
 "OK" = "好";
