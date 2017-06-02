@@ -252,7 +252,7 @@ extension PianoLabel {
     }
 }
 
-extension PianoLabel: PianoControlDelegate {
+extension PianoLabel: Pianoable {
     
     func attributesForText(_ attributes: [[String : Any]]) {
         self.attributes = attributes

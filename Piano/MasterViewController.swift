@@ -242,7 +242,7 @@ class MasterViewController: UIViewController {
             if hasMemoInCurrentFolder() {
                 selectTableViewCell(with: IndexPath(row: 0, section: 0))
             } else {
-                detailViewController.memo = nil
+                //detailViewController.memo = nil
             }
         }
     }
@@ -504,8 +504,8 @@ extension MasterViewController: UITableViewDelegate {
         guard let detailNavigationController = detailViewController.navigationController else { return }
         guard canDoAnotherTask() else { return }
         
-        let memo = memoResultsController.object(at: indexPath)
-        detailViewController.memo = memo
+        //let memo = memoResultsController.object(at: indexPath)
+        //detailViewController.memo = memo
         
         indicatingCell = { [unowned self] in
             self.tableView.deselectRow(at: indexPath, animated: true)

@@ -9,12 +9,13 @@
 import UIKit
 
 class EffectButton: UIButton {
-
-    weak var textView: PianoTextView?
+    var eidtor: PNEditor?
+    
     var textEffect: TextEffect = .color(.red) {
         didSet {
-            guard let textView = self.textView else { return }
-            textView.canvas.textEffect = textEffect
+            guard let editor = eidtor else { return }
+            
+            editor.canvas.textEffect = textEffect
             
             switch textEffect {
             case .color(let x):

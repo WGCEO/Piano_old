@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PianoControlDelegate: class {
+protocol Pianoable: class {
     func textFromTextView(text: String)
     func rectForText(_ rect: CGRect)
     func getIndexesForAdd() -> [Int]
@@ -24,8 +24,10 @@ protocol PianoControlDelegate: class {
 
 class PianoControl: UIControl {
 
-    weak var delegate: PianoControlDelegate?
+    weak var delegate: Pianoable?
     weak var textView: PianoTextView!
+    weak var editor: PNEditor?
+    
     var selectedRange: NSRange?
     var textEffect: TextEffect = .color(.red) {
         didSet {
@@ -42,7 +44,7 @@ class PianoControl: UIControl {
         let (text, range) = textView.getTextAndRange(from: rect)
         guard !text.isEmptyOrWhitespace() else { return false }
         
-        textView.attachEraseView(rect: rect)
+        editor?.attachEraseView(rect: rect)
         delegate?.textFromTextView(text: text)
         selectedRange = range
         
@@ -79,7 +81,7 @@ class PianoControl: UIControl {
     
     override func cancelTracking(with event: UIEvent?) {
         delegate?.cancelAnimating(completion: { [unowned self] in
-            self.textView.removeEraseView()
+            self.editor?.removeEraseView()
             self.selectedRange = nil
         })
     }
@@ -89,7 +91,7 @@ class PianoControl: UIControl {
         guard let touch = touch else { return }
         let x = touch.location(in: self).x
         delegate?.finishAnimating(at: x, completion: { [unowned self] in
-            self.textView.removeEraseView()
+            self.editor?.removeEraseView()
             
             if let range = self.selectedRange,
                 let indexsForAdd = self.delegate?.getIndexesForAdd(),

@@ -38,31 +38,7 @@ class DetailViewController: UIViewController {
     //TODO: 이거 해결해야함 코드 더러움
     var iskeyboardAlbumButtonTouched: Bool = false
     
-    var memo: Memo? {
-        willSet {
-            startLoading()
-            //우선 이미지에 nil 대입하기
-            firstImage = nil
-            textView?.resignFirstResponder()
-            saveCoreDataIfNeed()
-        }
-        didSet {
-            showTopView(bool: false)
-            textView?.canvas.removeFromSuperview()
-            guard memo != oldValue else {
-                textView?.isEdited = false
-                stopLoading()
-                return
-            }
     
-            self.setTextView(with: self.memo)
-            DispatchQueue.main.async { [unowned self] in
-                self.stopLoading()
-                guard let textView = self.textView else { return }
-                textView.contentOffset = CGPoint.zero
-            }
-        }
-    }
     
     func startLoading() {
         guard let indicator = activityIndicator else { return }
@@ -84,7 +60,8 @@ class DetailViewController: UIViewController {
     }
     
     func setTextView(with memo: Memo?) {
-        guard let unwrapTextView = textView else { return }
+        /*
+        guard let editor = editor else { return }
         unwrapTextView.isEdited = false
         
         //스크롤 이상하게 되는 것 방지
@@ -131,11 +108,12 @@ class DetailViewController: UIViewController {
                 }
             }
         })
-      
+        */
     }
     
     
     func saveCoreDataIfNeed(){
+        /*
         guard let unwrapTextView = textView,
             let unwrapOldMemo = memo,
             unwrapTextView.isEdited else { return }
@@ -167,10 +145,11 @@ class DetailViewController: UIViewController {
             PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
             PianoData.save()
         }
+        */
     }
     
     func saveCoreDataWhenExit(isTerminal: Bool) {
-        
+        /*
         if let unwrapTextView = textView,
             let unwrapOldMemo = memo,
             unwrapTextView.isEdited {
@@ -204,23 +183,28 @@ class DetailViewController: UIViewController {
         } catch {
             print(error)
         }
+        */
     }
     
     //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
     func saveCoreDataIfIphone(){
+        /*
         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
         
         if unwrapTextView.attributedText.length == 0 {
             PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
             PianoData.save()
         }
+        */
     }
     
+    
     weak var delegate: DetailViewControllerDelegate?
+    
+    @IBOutlet weak var editor: PNEditor!
     @IBOutlet weak var topView: UIStackView!
     @IBOutlet var accessoryView: UIStackView!
     @IBOutlet weak var label: PianoLabel!
-    @IBOutlet weak var textView: PianoTextView!
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     @IBOutlet weak var colorEffectButton: EffectButton!
     @IBOutlet weak var sizeEffectButton: EffectButton!
@@ -244,11 +228,13 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
         //TODO: 업데이트할 때 이 참조 지우기
-        textView.detailViewController = self
+        //textView.detailViewController = self
         
+        /*
         textView.inputAccessoryView = accessoryView
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
+        */
         
         setEffectButton()
         setFontAwesomeIcon()
@@ -259,6 +245,7 @@ class DetailViewController: UIViewController {
         
         
         //viewDidLoad() 에서 memo == nil 일 때는 아이패드에서 맨 처음 실행했을 경우에만이므로 이때에는 최상위의 폴더에서 최상위 메모를 선택하게 함
+        /*
         if let memo = memo {
             setTextView(with: memo)
         } else {
@@ -271,19 +258,23 @@ class DetailViewController: UIViewController {
             }
         }
         textView.contentOffset = CGPoint.zero
+        */
     }
     
 
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+        /*
         coordinator.animate(alongsideTransition: nil) {[unowned self] (_) in
+            
             guard let textView = self.textView else { return }
             if textView.mode != .typing {
                 textView.attachCanvas()
             }
+ 
         }
+        */
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -311,6 +302,7 @@ class DetailViewController: UIViewController {
     }
     
     func showTopView(bool: Bool) {
+        /*
         guard let textViewTop = self.textViewTop, let topView = self.topView else { return }
         if bool {
             textView.makeEffectable()
@@ -329,18 +321,20 @@ class DetailViewController: UIViewController {
             textViewTop.constant = bool ? 100 : 0
             self.view.layoutIfNeeded()
         }
+        */
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         //TODO: 코드 리펙토링제대로하기
-        textView.isWaitingState = false
+        //textView.isWaitingState = false
         appearKeyboardIfNeeded()
         appearKeyboardIfNeeded = { }
     }
     
     func resetTextViewAttribute(){
+        /*
         guard let unwrapTextView = textView else { return }
         unwrapTextView.textAlignment = .left
         let attrText = NSAttributedString()
@@ -351,9 +345,11 @@ class DetailViewController: UIViewController {
                                            NSBackgroundColorAttributeName : UIColor.clear,
                                            NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)
         ]
+        */
     }
     
     func keyboardWillShow(notification: Notification){
+        /*
         textView.isWaitingState = true
         
         guard let userInfo = notification.userInfo,
@@ -366,24 +362,29 @@ class DetailViewController: UIViewController {
         textView.contentInset = inset
         textView.scrollIndicatorInsets = inset
         textView.scrollRangeToVisible(textView.selectedRange)
+        */
     }
     
     func keyboardDidHide(notification: Notification) {
-        textView.makeTappable()
+        //textView.makeTappable()
     }
     
     func keyboardWillHide(notification: Notification){
+        /*
         textView.makeUnableTap()
         
         textView.contentInset = UIEdgeInsets.zero
         textView.scrollIndicatorInsets = UIEdgeInsets.zero
+        */
     }
     
     func removeSubrange(from: Int) {
         //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
+        /*
         let range = NSMakeRange(from, textView.selectedRange.location - from)
         textView.layoutManager.textStorage?.deleteCharacters(in: range)
         textView.selectedRange = NSRange(location: from, length: 0)
+        */
     }
     
     func setEffectButton() {
@@ -391,9 +392,11 @@ class DetailViewController: UIViewController {
         sizeEffectButton.textEffect = .title(.title3)
         lineEffectButton.textEffect = .line(.strikethrough)
         
+        /*
         colorEffectButton.textView = textView
         sizeEffectButton.textView = textView
         lineEffectButton.textView = textView
+        */
     }
     
     func setFontAwesomeIcon(){
@@ -404,8 +407,8 @@ class DetailViewController: UIViewController {
     }
     
     func setTextViewEditedState() {
-        textView.isEdited = true
-        memo?.date = NSDate()
+        //textView.isEdited = true
+        //memo?.date = NSDate()
     }
     
     @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
@@ -415,7 +418,7 @@ class DetailViewController: UIViewController {
     
     func tapFinishEffect() {
         showTopView(bool: false)
-        textView.canvas.removeFromSuperview()
+        //textView.canvas.removeFromSuperview()
     }
 
     @IBAction func tapColorEffectButton(_ sender: EffectButton) {
@@ -424,7 +427,7 @@ class DetailViewController: UIViewController {
             performSegue(withIdentifier: "TextEffect", sender: sender)
         }
         
-        textView.canvas.textEffect = sender.textEffect
+        //textView.canvas.textEffect = sender.textEffect
         
         colorEffectButton.isSelected = true
         sizeEffectButton.isSelected = false
@@ -437,7 +440,7 @@ class DetailViewController: UIViewController {
             performSegue(withIdentifier: "TextEffect", sender: sender)
         }
         
-        textView.canvas.textEffect = sender.textEffect
+        //textView.canvas.textEffect = sender.textEffect
         
         colorEffectButton.isSelected = false
         sizeEffectButton.isSelected = true
@@ -450,7 +453,7 @@ class DetailViewController: UIViewController {
             performSegue(withIdentifier: "TextEffect", sender: sender)
         }
         
-        textView.canvas.textEffect = sender.textEffect
+        //textView.canvas.textEffect = sender.textEffect
         colorEffectButton.isSelected = false
         sizeEffectButton.isSelected = false
         lineEffectButton.isSelected = true
@@ -479,6 +482,7 @@ class DetailViewController: UIViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
+        /*
         DispatchQueue.main.async { [unowned self] in
             guard let attrText = self.textView.attributedText else { return }
             let mail:MFMailComposeViewController = MFMailComposeViewController()
@@ -514,6 +518,7 @@ class DetailViewController: UIViewController {
             self.activityIndicator.stopAnimating()
             self.textView.makeTappable()
         }
+        */
     }
     
     func showSendMailErrorAlert() {
@@ -541,6 +546,7 @@ class DetailViewController: UIViewController {
     }
     
     func moveMemoToTrash() {
+        /*
         //현재 메모 존재 안하면 리턴
         guard canDoAnotherTask() else { return }
         guard let unwrapMemo = memo else { return }
@@ -559,6 +565,7 @@ class DetailViewController: UIViewController {
                 return }
         self.memo = unwrapFirstMemo
         delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
+        */
     }
     
     @IBAction func tapTrashButton(_ sender: Any) {
@@ -583,13 +590,14 @@ class DetailViewController: UIViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
-        
+        /*
         DispatchQueue.main.async { [unowned self] in
             self.textView.sizeToFit()
             self.showTopView(bool: true)
             self.textView.attachCanvas()
             self.activityIndicator.stopAnimating()
         }
+        */
     }
     
     func textChanged(sender: AnyObject) {
@@ -638,7 +646,7 @@ class DetailViewController: UIViewController {
     }
     
     func addNewMemo() {
-        
+        /*
         guard let unwrapFolder = masterViewController?.folder else {
             showAddGroupAlertViewController()
             return
@@ -653,6 +661,7 @@ class DetailViewController: UIViewController {
         
         delegate?.detailViewController(self, addMemo: memo)
         self.memo = memo
+        */
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
@@ -671,6 +680,7 @@ class DetailViewController: UIViewController {
         //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
         
         //커서가 맨 앞에 있으면 탈출
+        /*
         guard textView.selectedRange.location != 0 else { return }
         
         let beginning: UITextPosition = textView.beginningOfDocument
@@ -708,6 +718,7 @@ class DetailViewController: UIViewController {
         
         setTextViewEditedState()
         updateCellInfo()
+        */
     }
     
     
@@ -727,7 +738,7 @@ class DetailViewController: UIViewController {
             showAddGroupAlertViewController()
             return
         }
-        textView.resignFirstResponder()
+        editor.resignFirstResponder()
         showImagePicker()
         iskeyboardAlbumButtonTouched = true
     }
@@ -745,7 +756,7 @@ class DetailViewController: UIViewController {
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
         guard canDoAnotherTask() else { return }
-        textView.resignFirstResponder()
+        //textView.resignFirstResponder()
     }
     
     func presentPermissionErrorAlert() {
@@ -772,10 +783,12 @@ extension DetailViewController: NSLayoutManagerDelegate {
 extension DetailViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
+        /*
         guard memo != nil else {
             addNewMemo()
             return
         }
+        */
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -785,6 +798,7 @@ extension DetailViewController: UITextViewDelegate {
     
     //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
     func updateCellInfo() {
+        /*
         guard let memo = self.memo,
             let textView = self.textView,
             let attrText = textView.attributedText else { return }
@@ -839,23 +853,29 @@ extension DetailViewController: UITextViewDelegate {
             }
             
         }
+        */
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        /*
         if textView.mode != .typing {
             textView.attachCanvas()
         }
+        */
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        /*
         if textView.mode != .typing {
             textView.attachCanvas()
         }
+        */
     }
 }
 
 extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        /*
         var selectedRange = iskeyboardAlbumButtonTouched ? textView.selectedRange : NSMakeRange(textView.attributedText.length, 0)
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
@@ -904,9 +924,11 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
         DispatchQueue.main.async { [unowned self] in
             self.textView.scrollRangeToVisible(NSMakeRange(self.textView.selectedRange.location + 3, 0))
         }
+        */
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        /*
         textView.makeTappable()
         dismiss(animated: true, completion: nil)
         
@@ -915,6 +937,7 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
             textView.appearKeyboard()
             iskeyboardAlbumButtonTouched = false
         }
+        */
     }
 
 }

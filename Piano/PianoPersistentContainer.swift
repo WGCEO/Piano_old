@@ -22,9 +22,9 @@ class PianoPersistentContainer: NSPersistentContainer {
     }
     
     func makeKeyboardHide(){
-        detailViewController?.textView?.makeTappable()
-        detailViewController?.textView?.becomeFirstResponder()
-        detailViewController?.textView?.resignFirstResponder()
+        //detailViewController?.editor?.makeTappable()
+        //detailViewController?.editor?.becomeFirstResponder()
+        //detailViewController?.editor?.resignFirstResponder()
         
         DispatchQueue.main.async { [weak self] in
             self?.detailViewController?.tapFinishEffect()
