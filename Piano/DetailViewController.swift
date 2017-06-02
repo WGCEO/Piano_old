@@ -38,19 +38,6 @@ class DetailViewController: UIViewController {
     //TODO: 이거 해결해야함 코드 더러움
     var iskeyboardAlbumButtonTouched: Bool = false
     
-    
-    
-    func startLoading() {
-        guard let indicator = activityIndicator else { return }
-        indicator.isHidden = false
-        indicator.startAnimating()
-    }
-    
-    func stopLoading() {
-        guard let indicator = activityIndicator else { return }
-        indicator.stopAnimating()
-    }
-    
     func canDoAnotherTask() -> Bool{
         
         if let indicator = activityIndicator, indicator.isAnimating {
@@ -59,144 +46,6 @@ class DetailViewController: UIViewController {
         return true
     }
     
-    func setTextView(with memo: Memo?) {
-        /*
-        guard let editor = editor else { return }
-        unwrapTextView.isEdited = false
-        
-        //스크롤 이상하게 되는 것 방지
-        unwrapTextView.contentOffset = CGPoint.zero
-        
-        guard let unwrapNewMemo = memo else {
-            resetTextViewAttribute()
-            return }
-        
-        let haveTextInDelayAttrDic = delayAttrDic.contains { [unowned self](key, value) -> Bool in
-            if unwrapNewMemo.objectID == key {
-                unwrapTextView.attributedText = value
-                let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-                unwrapTextView.selectedRange = selectedRange
-                if unwrapTextView.attributedText.length == 0 {
-                    self.resetTextViewAttribute()
-                    if self.isVisible {
-                        unwrapTextView.appearKeyboard()
-                    } else {
-                        self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
-                    }
-                }
-                
-                return true
-            } else {
-                return false
-            }
-        }
-        
-        guard !haveTextInDelayAttrDic else { return }
-        
-        let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content! as Data) as? NSAttributedString
-        PianoData.coreDataStack.viewContext.performAndWait({
-            unwrapTextView.attributedText = attrText
-            let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-            unwrapTextView.selectedRange = selectedRange
-            
-            if unwrapTextView.attributedText.length == 0 {
-                self.resetTextViewAttribute()
-                if self.isVisible {
-                    unwrapTextView.appearKeyboard()
-                } else {
-                    self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
-                }
-            }
-        })
-        */
-    }
-    
-    
-    func saveCoreDataIfNeed(){
-        /*
-        guard let unwrapTextView = textView,
-            let unwrapOldMemo = memo,
-            unwrapTextView.isEdited else { return }
-        
-        if unwrapTextView.attributedText.length != 0 {
-            let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
-            
-            privateMOC.perform({ [unowned self] in
-                self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
-                let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
-                unwrapOldMemo.content = data as NSData
-                do {
-                    try self.privateMOC.save()
-                    PianoData.coreDataStack.viewContext.performAndWait({
-                        do {
-                            try PianoData.coreDataStack.viewContext.save()
-                            //지연 큐에서 제거해버리기
-                            self.delayAttrDic[unwrapOldMemo.objectID] = nil
-                        } catch {
-                            print("Failure to save context: error: \(error)")
-                        }
-                    })
-                } catch {
-                    print("Failture to save context error: \(error)")
-                }
-            })
-
-        } else {
-            PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-            PianoData.save()
-        }
-        */
-    }
-    
-    func saveCoreDataWhenExit(isTerminal: Bool) {
-        /*
-        if let unwrapTextView = textView,
-            let unwrapOldMemo = memo,
-            unwrapTextView.isEdited {
-            
-            if unwrapTextView.attributedText.length != 0 {
-                //지금 있는 것도 대기열에 넣기
-                delayAttrDic[unwrapOldMemo.objectID] = unwrapTextView.attributedText
-            } else {
-                if isTerminal {
-                    PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-                }
-            }
-        }
-        
-        //대기열에 있는 모든 것들 순차적으로 저장
-        for (id, value) in delayAttrDic {
-            do {
-                let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
-                let data = NSKeyedArchiver.archivedData(withRootObject: value)
-                memo.content = data as NSData
-                
-            } catch {
-                print(error)
-            }
-        }
-        //다 저장했으면 지우기
-        delayAttrDic.removeAll()
-        
-        do {
-            try PianoData.coreDataStack.viewContext.save()
-        } catch {
-            print(error)
-        }
-        */
-    }
-    
-    //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
-    func saveCoreDataIfIphone(){
-        /*
-        guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
-        
-        if unwrapTextView.attributedText.length == 0 {
-            PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-            PianoData.save()
-        }
-        */
-    }
     
     
     weak var delegate: DetailViewControllerDelegate?
@@ -221,6 +70,7 @@ class DetailViewController: UIViewController {
         return controller
     }()
     
+    // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -327,6 +177,160 @@ class DetailViewController: UIViewController {
         appearKeyboardIfNeeded = { }
     }
     
+    // MARK: indicator
+    
+    func startLoading() {
+        guard let indicator = activityIndicator else { return }
+        indicator.isHidden = false
+        indicator.startAnimating()
+    }
+    
+    func stopLoading() {
+        guard let indicator = activityIndicator else { return }
+        indicator.stopAnimating()
+    }
+    
+    // MARK: memo
+    
+    func setTextView(with memo: Memo?) {
+        /*
+         guard let editor = editor else { return }
+         unwrapTextView.isEdited = false
+         
+         //스크롤 이상하게 되는 것 방지
+         unwrapTextView.contentOffset = CGPoint.zero
+         
+         guard let unwrapNewMemo = memo else {
+         resetTextViewAttribute()
+         return }
+         
+         let haveTextInDelayAttrDic = delayAttrDic.contains { [unowned self](key, value) -> Bool in
+         if unwrapNewMemo.objectID == key {
+         unwrapTextView.attributedText = value
+         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+         unwrapTextView.selectedRange = selectedRange
+         if unwrapTextView.attributedText.length == 0 {
+         self.resetTextViewAttribute()
+         if self.isVisible {
+         unwrapTextView.appearKeyboard()
+         } else {
+         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+         }
+         }
+         
+         return true
+         } else {
+         return false
+         }
+         }
+         
+         guard !haveTextInDelayAttrDic else { return }
+         
+         let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content! as Data) as? NSAttributedString
+         PianoData.coreDataStack.viewContext.performAndWait({
+         unwrapTextView.attributedText = attrText
+         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+         unwrapTextView.selectedRange = selectedRange
+         
+         if unwrapTextView.attributedText.length == 0 {
+         self.resetTextViewAttribute()
+         if self.isVisible {
+         unwrapTextView.appearKeyboard()
+         } else {
+         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+         }
+         }
+         })
+         */
+    }
+    
+    
+    func saveCoreDataIfNeed(){
+        /*
+         guard let unwrapTextView = textView,
+         let unwrapOldMemo = memo,
+         unwrapTextView.isEdited else { return }
+         
+         if unwrapTextView.attributedText.length != 0 {
+         let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
+         
+         privateMOC.perform({ [unowned self] in
+         self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
+         let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
+         unwrapOldMemo.content = data as NSData
+         do {
+         try self.privateMOC.save()
+         PianoData.coreDataStack.viewContext.performAndWait({
+         do {
+         try PianoData.coreDataStack.viewContext.save()
+         //지연 큐에서 제거해버리기
+         self.delayAttrDic[unwrapOldMemo.objectID] = nil
+         } catch {
+         print("Failure to save context: error: \(error)")
+         }
+         })
+         } catch {
+         print("Failture to save context error: \(error)")
+         }
+         })
+         
+         } else {
+         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+         PianoData.save()
+         }
+         */
+    }
+    
+    func saveCoreDataWhenExit(isTerminal: Bool) {
+        /*
+         if let unwrapTextView = textView,
+         let unwrapOldMemo = memo,
+         unwrapTextView.isEdited {
+         
+         if unwrapTextView.attributedText.length != 0 {
+         //지금 있는 것도 대기열에 넣기
+         delayAttrDic[unwrapOldMemo.objectID] = unwrapTextView.attributedText
+         } else {
+         if isTerminal {
+         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+         }
+         }
+         }
+         
+         //대기열에 있는 모든 것들 순차적으로 저장
+         for (id, value) in delayAttrDic {
+         do {
+         let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
+         let data = NSKeyedArchiver.archivedData(withRootObject: value)
+         memo.content = data as NSData
+         
+         } catch {
+         print(error)
+         }
+         }
+         //다 저장했으면 지우기
+         delayAttrDic.removeAll()
+         
+         do {
+         try PianoData.coreDataStack.viewContext.save()
+         } catch {
+         print(error)
+         }
+         */
+    }
+    
+    //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
+    func saveCoreDataIfIphone(){
+        /*
+         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
+         
+         if unwrapTextView.attributedText.length == 0 {
+         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
+         PianoData.save()
+         }
+         */
+    }
+    
     func resetTextViewAttribute(){
         /*
         guard let unwrapTextView = textView else { return }
@@ -342,6 +346,7 @@ class DetailViewController: UIViewController {
         */
     }
     
+    // MARK: keyboard
     func keyboardWillShow(notification: Notification){
         /*
         textView.isWaitingState = true
@@ -372,6 +377,7 @@ class DetailViewController: UIViewController {
         */
     }
     
+    // MARK: edit text?
     func removeSubrange(from: Int) {
         //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
         /*
@@ -386,12 +392,7 @@ class DetailViewController: UIViewController {
         //memo?.date = NSDate()
     }
     
-        
-    func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
-        let imgData = UIImagePNGRepresentation(image)!
-        let dataString = imgData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
-        return dataString
-    }
+    
     
     func parseToHTMLString(from: NSAttributedString) -> String {
         let attr = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
@@ -405,137 +406,51 @@ class DetailViewController: UIViewController {
         return ""
     }
     
-    @IBAction func tapSendEmail(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        
-        /*
-        DispatchQueue.main.async { [unowned self] in
-            guard let attrText = self.textView.attributedText else { return }
-            let mail:MFMailComposeViewController = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            
-            let mutableAttrText = NSMutableAttributedString(attributedString: attrText)
-            
-            attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-                
-                guard let attachment = value as? NSTextAttachment,
-                    let image = attachment.image,
-                    let data = UIImagePNGRepresentation(image) else { return }
-                
-                mail.addAttachmentData(data, mimeType: "image/png", fileName: "piano\(range.location).png")
-                mutableAttrText.replaceCharacters(in: range, with: NSAttributedString(string: "\n"))
-            }
-            
-            attrText.enumerateAttribute(NSFontAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-                guard let font = value as? UIFont else { return }
-                
-                let newFont = font.withSize(font.pointSize - 4)
-                mutableAttrText.addAttributes([NSFontAttributeName : newFont], range: range)
-            }
-            
-            mail.setMessageBody(self.parseToHTMLString(from: mutableAttrText), isHTML:true)
-            
-            if MFMailComposeViewController.canSendMail() {
-                self.present(mail, animated: true, completion:nil)
-            } else {
-                self.showSendMailErrorAlert()
-            }
-            
-            self.activityIndicator.stopAnimating()
-            self.textView.makeTappable()
-        }
-        */
-    }
-    
-    func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "EmailErrorTitle".localized(withComment: "메일을 보낼 수 없습니다."), message: "CheckDeviceOrInternet".localized(withComment: "디바이스 혹은 인터넷 상태를 확인해주세요"), preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel, handler: nil)
-        sendMailErrorAlert.addAction(cancel)
-        present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-    
-    func showTrashInfoAlert(completion: @escaping () -> Void) {
-        let trashAlert = UIAlertController(title: "DeleteMemo".localized(withComment: "노트 삭제"), message: "YouCanRecoverNoteFromSetting".localized(withComment: "세팅에서 복구할 수 있습니다"), preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel) { (action) in
-            completion()
-        }
-        trashAlert.addAction(cancel)
-        present(trashAlert, animated: true, completion: nil)
-    }
-    
-    func hasShownTrashAlert() -> Bool {
-        guard UserDefaults.standard.bool(forKey: "hasShownTrashAlert") else {
-            UserDefaults.standard.set(true, forKey: "hasShownTrashAlert")
-            return false
-        }
-        return true
-    }
-    
+    // MARK: memo life cycle
     func moveMemoToTrash() {
         /*
-        //현재 메모 존재 안하면 리턴
-        guard canDoAnotherTask() else { return }
-        guard let unwrapMemo = memo else { return }
-        
-        
-        //존재하면 휴지통에 넣기
-        unwrapMemo.isInTrash = true
-        PianoData.save()
-        
-        //마스터 뷰 컨트롤러에 현재 폴더의 첫번째 메모가 있는 지 체크 (없으면 닐 대입)
-        
-        
-        guard let unwrapFirstMemo = masterViewController?.memoResultsController.fetchedObjects?.first
-            else {
-                self.memo = nil
-                return }
-        self.memo = unwrapFirstMemo
-        delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
-        */
-    }
-    
-    @IBAction func tapTrashButton(_ sender: Any) {
-        
-        //존재하면 우선 팝업 보여줬는지 체크하고 안보여줬다면 팝업보여주기
-        if hasShownTrashAlert() {
-            moveMemoToTrash()
-        } else {
-            showTrashInfoAlert { [unowned self] in
-                self.moveMemoToTrash()
-            }
-        }
-        
-        
+         //현재 메모 존재 안하면 리턴
+         guard canDoAnotherTask() else { return }
+         guard let unwrapMemo = memo else { return }
+         
+         
+         //존재하면 휴지통에 넣기
+         unwrapMemo.isInTrash = true
+         PianoData.save()
+         
+         //마스터 뷰 컨트롤러에 현재 폴더의 첫번째 메모가 있는 지 체크 (없으면 닐 대입)
+         
+         
+         guard let unwrapFirstMemo = masterViewController?.memoResultsController.fetchedObjects?.first
+         else {
+         self.memo = nil
+         return }
+         self.memo = unwrapFirstMemo
+         delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
+         */
     }
     
     
-    
-    @IBAction func tapEffectButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        setTextViewEditedState()
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        
+    func addNewMemo() {
         /*
-        DispatchQueue.main.async { [unowned self] in
-            self.textView.sizeToFit()
-            self.showTopView(bool: true)
-            self.textView.attachCanvas()
-            self.activityIndicator.stopAnimating()
-        }
-        */
+         guard let unwrapFolder = masterViewController?.folder else {
+         showAddGroupAlertViewController()
+         return
+         }
+         
+         let memo = Memo(context: PianoData.coreDataStack.viewContext)
+         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
+         memo.date = NSDate()
+         memo.folder = unwrapFolder
+         memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
+         PianoData.save()
+         
+         delegate?.detailViewController(self, addMemo: memo)
+         self.memo = memo
+         */
     }
-    
-    func textChanged(sender: AnyObject) {
-        let tf = sender as! UITextField
-        var resp : UIResponder! = tf
-        while !(resp is UIAlertController) { resp = resp.next }
-        let alert = resp as! UIAlertController
-        alert.actions[1].isEnabled = (tf.text != "")
-    }
-    
+
+    // MARK: alert
     func showAddGroupAlertViewController() {
         let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
         
@@ -573,23 +488,97 @@ class DetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func addNewMemo() {
+    func textChanged(sender: AnyObject) {
+        let tf = sender as! UITextField
+        var resp : UIResponder! = tf
+        while !(resp is UIAlertController) { resp = resp.next }
+        let alert = resp as! UIAlertController
+        alert.actions[1].isEnabled = (tf.text != "")
+    }
+    
+    func presentPermissionErrorAlert() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "CantOpenAlbumTitle".localized(withComment: "앨범 열 수 없음"), message: "CantOpenAlbumMessage".localized(withComment: "설정으로 이동하여 앨범에 체크해주세요."), preferredStyle: .alert)
+            let openSettingsAction = UIAlertAction(title: "Setting".localized(withComment: "설정"), style: .default, handler: { _ in
+                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+            })
+            let dismissAction = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+            alert.addAction(openSettingsAction)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func showTrashInfoAlert(completion: @escaping () -> Void) {
+        let trashAlert = UIAlertController(title: "DeleteMemo".localized(withComment: "노트 삭제"), message: "YouCanRecoverNoteFromSetting".localized(withComment: "세팅에서 복구할 수 있습니다"), preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel) { (action) in
+            completion()
+        }
+        trashAlert.addAction(cancel)
+        present(trashAlert, animated: true, completion: nil)
+    }
+    
+    func hasShownTrashAlert() -> Bool {
+        guard UserDefaults.standard.bool(forKey: "hasShownTrashAlert") else {
+            UserDefaults.standard.set(true, forKey: "hasShownTrashAlert")
+            return false
+        }
+        return true
+    }
+    
+
+    // MARK: button touch events
+    @IBAction func tapTrashButton(_ sender: Any) {
+        //존재하면 우선 팝업 보여줬는지 체크하고 안보여줬다면 팝업보여주기
+        if hasShownTrashAlert() {
+            moveMemoToTrash()
+        } else {
+            showTrashInfoAlert { [unowned self] in
+                self.moveMemoToTrash()
+            }
+        }
+    }
+    
+    @IBAction func tapEffectButton(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
+        setTextViewEditedState()
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
         /*
-        guard let unwrapFolder = masterViewController?.folder else {
+         DispatchQueue.main.async { [unowned self] in
+         self.textView.sizeToFit()
+         self.showTopView(bool: true)
+         self.textView.attachCanvas()
+         self.activityIndicator.stopAnimating()
+         }
+         */
+    }
+
+    @IBAction func tapSendEmail(_ sender: Any) {
+        sendMail()
+    }
+    
+    
+    @IBAction func tapAlbumButton(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
+        guard let _ = masterViewController?.folder else {
             showAddGroupAlertViewController()
             return
         }
-        
-        let memo = Memo(context: PianoData.coreDataStack.viewContext)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
-        memo.date = NSDate()
-        memo.folder = unwrapFolder
-        memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
-        PianoData.save()
-        
-        delegate?.detailViewController(self, addMemo: memo)
-        self.memo = memo
-        */
+        showImagePicker()
+        iskeyboardAlbumButtonTouched = false
+    }
+    
+    @IBAction func tapAlbumButton2(_ sender: Any) {
+        guard canDoAnotherTask() else { return }
+        guard let _ = masterViewController?.folder else {
+            showAddGroupAlertViewController()
+            return
+        }
+        editor.resignFirstResponder()
+        showImagePicker()
+        iskeyboardAlbumButtonTouched = true
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
@@ -649,57 +638,10 @@ class DetailViewController: UIViewController {
         */
     }
     
-    
-    @IBAction func tapAlbumButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        guard let _ = masterViewController?.folder else {
-            showAddGroupAlertViewController()
-            return
-        }
-        showImagePicker()
-        iskeyboardAlbumButtonTouched = false
-    }
-    
-    @IBAction func tapAlbumButton2(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        guard let _ = masterViewController?.folder else {
-            showAddGroupAlertViewController()
-            return
-        }
-        editor.resignFirstResponder()
-        showImagePicker()
-        iskeyboardAlbumButtonTouched = true
-    }
-    
-    func showImagePicker() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        
-        switch status {
-        case .restricted, .denied:
-            presentPermissionErrorAlert()
-        default:
-            present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
         guard canDoAnotherTask() else { return }
         //textView.resignFirstResponder()
     }
-    
-    func presentPermissionErrorAlert() {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "CantOpenAlbumTitle".localized(withComment: "앨범 열 수 없음"), message: "CantOpenAlbumMessage".localized(withComment: "설정으로 이동하여 앨범에 체크해주세요."), preferredStyle: .alert)
-            let openSettingsAction = UIAlertAction(title: "Setting".localized(withComment: "설정"), style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
-            })
-            let dismissAction = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
-            alert.addAction(openSettingsAction)
-            alert.addAction(dismissAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
 }
 
 extension DetailViewController: NSLayoutManagerDelegate {
@@ -801,7 +743,20 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
+
+// MARK: pick images
 extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func showImagePicker() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        switch status {
+        case .restricted, .denied:
+            presentPermissionErrorAlert()
+        default:
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         /*
         var selectedRange = iskeyboardAlbumButtonTouched ? textView.selectedRange : NSMakeRange(textView.attributedText.length, 0)
@@ -870,8 +825,65 @@ extension DetailViewController: UINavigationControllerDelegate, UIImagePickerCon
 
 }
 
-
+// MARK: send e-mail
 extension DetailViewController: MFMailComposeViewControllerDelegate {
+    func sendMail() {
+        guard canDoAnotherTask() else { return }
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        
+        /*
+         DispatchQueue.main.async { [unowned self] in
+         guard let attrText = self.textView.attributedText else { return }
+         let mail:MFMailComposeViewController = MFMailComposeViewController()
+         mail.mailComposeDelegate = self
+         
+         let mutableAttrText = NSMutableAttributedString(attributedString: attrText)
+         
+         attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+         
+         guard let attachment = value as? NSTextAttachment,
+         let image = attachment.image,
+         let data = UIImagePNGRepresentation(image) else { return }
+         
+         mail.addAttachmentData(data, mimeType: "image/png", fileName: "piano\(range.location).png")
+         mutableAttrText.replaceCharacters(in: range, with: NSAttributedString(string: "\n"))
+         }
+         
+         attrText.enumerateAttribute(NSFontAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+         guard let font = value as? UIFont else { return }
+         
+         let newFont = font.withSize(font.pointSize - 4)
+         mutableAttrText.addAttributes([NSFontAttributeName : newFont], range: range)
+         }
+         
+         mail.setMessageBody(self.parseToHTMLString(from: mutableAttrText), isHTML:true)
+         
+         if MFMailComposeViewController.canSendMail() {
+         self.present(mail, animated: true, completion:nil)
+         } else {
+         self.showSendMailErrorAlert()
+         }
+         
+         self.activityIndicator.stopAnimating()
+         self.textView.makeTappable()
+         }
+         */
+    }
+    
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertController(title: "EmailErrorTitle".localized(withComment: "메일을 보낼 수 없습니다."), message: "CheckDeviceOrInternet".localized(withComment: "디바이스 혹은 인터넷 상태를 확인해주세요"), preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel, handler: nil)
+        sendMailErrorAlert.addAction(cancel)
+        present(sendMailErrorAlert, animated: true, completion: nil)
+    }
+
+    func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
+        let imgData = UIImagePNGRepresentation(image)!
+        let dataString = imgData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
+        return dataString
+    }
+    
     // MARK: MFMailComposeViewControllerDelegate Method
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
