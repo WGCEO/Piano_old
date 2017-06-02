@@ -206,9 +206,6 @@ class DetailViewController: UIViewController {
     @IBOutlet var accessoryView: UIStackView!
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
-    @IBOutlet weak var colorEffectButton: EffectButton!
-    @IBOutlet weak var sizeEffectButton: EffectButton!
-    @IBOutlet weak var lineEffectButton: EffectButton!
     var isAfterViewDidAppear: Bool = false
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var composeBarButton: UIBarButtonItem!
@@ -235,10 +232,7 @@ class DetailViewController: UIViewController {
         textView.canvas.delegate = label
         textView.layoutManager.delegate = self
         */
-        
-        setEffectButton()
-        setFontAwesomeIcon()
-        
+
         accessoryView.frame.size.height = navigationController!.toolbar.frame.height
         
         PianoData.coreDataStack.detailViewController = self
@@ -387,78 +381,12 @@ class DetailViewController: UIViewController {
         */
     }
     
-    func setEffectButton() {
-        colorEffectButton.textEffect = .color(.red)
-        sizeEffectButton.textEffect = .title(.title3)
-        lineEffectButton.textEffect = .line(.strikethrough)
-        
-        /*
-        colorEffectButton.textView = textView
-        sizeEffectButton.textView = textView
-        lineEffectButton.textView = textView
-        */
-    }
-    
-    func setFontAwesomeIcon(){
-        
-        colorEffectButton.setTitle("\u{f031}", for: .normal)
-        sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
-        lineEffectButton.setTitle("\u{f0cc}", for: .normal)
-    }
-    
     func setTextViewEditedState() {
         //textView.isEdited = true
         //memo?.date = NSDate()
     }
     
-    @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
-        tapFinishEffect()
-        setTextViewEditedState()
-    }
-    
-    func tapFinishEffect() {
-        showTopView(bool: false)
-        //textView.canvas.removeFromSuperview()
-    }
-
-    @IBAction func tapColorEffectButton(_ sender: EffectButton) {
-        if colorEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 효과 선택화면 띄워주기
-            performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
         
-        //textView.canvas.textEffect = sender.textEffect
-        
-        colorEffectButton.isSelected = true
-        sizeEffectButton.isSelected = false
-        lineEffectButton.isSelected = false
-    }
-    
-    @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
-        if sizeEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
-            performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
-        
-        //textView.canvas.textEffect = sender.textEffect
-        
-        colorEffectButton.isSelected = false
-        sizeEffectButton.isSelected = true
-        lineEffectButton.isSelected = false
-    }
-    
-    @IBAction func tapLineEffectButton(_ sender: EffectButton) {
-        if lineEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 라인 선택화면 띄워주기
-            performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
-        
-        //textView.canvas.textEffect = sender.textEffect
-        colorEffectButton.isSelected = false
-        sizeEffectButton.isSelected = false
-        lineEffectButton.isSelected = true
-    }
-    
     func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
         let imgData = UIImagePNGRepresentation(image)!
         let dataString = imgData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))

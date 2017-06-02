@@ -14,9 +14,7 @@
 		0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */; };
 		0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1812831E29DF1300272080 /* TextEffectCell.swift */; };
 		0A2CE6841E10FC610003F3CB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */; };
-		0A2CE68A1E1217920003F3CB /* TextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE6891E1217920003F3CB /* TextEffect.swift */; };
 		0A2CE68E1E121CBB0003F3CB /* LineFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */; };
-		0A2CE6901E1227D50003F3CB /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2CE68F1E1227D50003F3CB /* ControlView.swift */; };
 		0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */; };
 		0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B08241E3F0BCD0074E5CA /* MoveMemoViewController.swift */; };
 		0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A638E661E16A7A00006FFEA /* Date_Extension.swift */; };
@@ -50,6 +48,7 @@
 		316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */; };
 		316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F157B1DEC140A007693D9 /* UITextView_Extension.swift */; };
 		F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */; };
+		F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6D1EE196A300A0E81C /* PaletteView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,9 +77,7 @@
 		0A1812811E29DEEA00272080 /* SelectEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectEffectViewController.swift; sourceTree = "<group>"; };
 		0A1812831E29DF1300272080 /* TextEffectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEffectCell.swift; sourceTree = "<group>"; };
 		0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
-		0A2CE6891E1217920003F3CB /* TextEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEffect.swift; sourceTree = "<group>"; };
 		0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineFamily.swift; sourceTree = "<group>"; };
-		0A2CE68F1E1227D50003F3CB /* ControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
 		0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer_Extension.swift; sourceTree = "<group>"; };
 		0A5B08241E3F0BCD0074E5CA /* MoveMemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveMemoViewController.swift; sourceTree = "<group>"; };
 		0A638E661E16A7A00006FFEA /* Date_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date_Extension.swift; sourceTree = "<group>"; };
@@ -151,6 +148,7 @@
 		316F157B1DEC140A007693D9 /* UITextView_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView_Extension.swift; sourceTree = "<group>"; };
 		AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.debug.xcconfig"; sourceTree = "<group>"; };
 		F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNEditor.swift; sourceTree = "<group>"; };
+		F49B3C6D1EE196A300A0E81C /* PaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,7 +265,6 @@
 			isa = PBXGroup;
 			children = (
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
-				0A2CE6891E1217920003F3CB /* TextEffect.swift */,
 				0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */,
 				31575C921DE808FA00373ADD /* TextViewMode.swift */,
 				315A53881DF6729F00BB7367 /* TextEffectAttribute.swift */,
@@ -405,9 +402,9 @@
 		F49B3C6A1EE1772A00A0E81C /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				0A2CE68F1E1227D50003F3CB /* ControlView.swift */,
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
+				F49B3C6D1EE196A300A0E81C /* PaletteView.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -646,7 +643,6 @@
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
-				0A2CE68A1E1217920003F3CB /* TextEffect.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
@@ -655,9 +651,9 @@
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				0A8B994A1E40CE2D00130F7F /* ThanksToViewController.swift in Sources */,
 				315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */,
+				F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */,
 				0A8B997C1E41AD1C00130F7F /* UIColor_Extension.swift in Sources */,
 				0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */,
-				0A2CE6901E1227D50003F3CB /* ControlView.swift in Sources */,
 				315A53851DF4790200BB7367 /* PianoLabelAnimation.swift in Sources */,
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,

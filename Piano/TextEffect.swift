@@ -7,9 +7,3 @@
 //
 
 import UIKit
-
-enum TextEffect {
-    case color(UIColor)
-    case title(UIFontTextStyle)
-    case line(LineFamily)
-}
