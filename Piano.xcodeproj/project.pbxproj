@@ -49,6 +49,12 @@
 		316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F157B1DEC140A007693D9 /* UITextView_Extension.swift */; };
 		F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */; };
 		F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6D1EE196A300A0E81C /* PaletteView.swift */; };
+		F49B3C711EE1A10300A0E81C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C701EE1A10300A0E81C /* Utils.swift */; };
+		F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */; };
+		F49B3C751EE1A2AF00A0E81C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */; };
+		F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C761EE1A2B800A0E81C /* MailSender.swift */; };
+		F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C781EE1A2C200A0E81C /* MemoManager.swift */; };
+		F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +155,12 @@
 		AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.debug.xcconfig"; sourceTree = "<group>"; };
 		F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNEditor.swift; sourceTree = "<group>"; };
 		F49B3C6D1EE196A300A0E81C /* PaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
+		F49B3C701EE1A10300A0E81C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
+		F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		F49B3C761EE1A2B800A0E81C /* MailSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailSender.swift; sourceTree = "<group>"; };
+		F49B3C781EE1A2C200A0E81C /* MemoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
+		F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +333,7 @@
 		3131F6D01DDD2E3D00EC4229 /* Piano */ = {
 			isa = PBXGroup;
 			children = (
+				F49B3C7A1EE1A38900A0E81C /* Common */,
 				0A8B992E1E407C1700130F7F /* Localizable.strings */,
 				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
@@ -338,7 +351,7 @@
 				0A5B08231E3EB0F20074E5CA /* Protocol */,
 				0A08184E1E0B8D300001304F /* DeletedMemoList */,
 				0A0818511E0B96320001304F /* DeletedMemo */,
-				31575C981DE8260700373ADD /* PianoTextView */,
+				31575C981DE8260700373ADD /* PNEditor */,
 				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
 				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
 				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
@@ -364,13 +377,14 @@
 			path = PianoUITests;
 			sourceTree = "<group>";
 		};
-		31575C981DE8260700373ADD /* PianoTextView */ = {
+		31575C981DE8260700373ADD /* PNEditor */ = {
 			isa = PBXGroup;
 			children = (
+				F49B3C6F1EE1A0F000A0E81C /* Utils */,
 				F49B3C6A1EE1772A00A0E81C /* UI */,
 				F49B3C691EE1752800A0E81C /* Core */,
 			);
-			name = PianoTextView;
+			name = PNEditor;
 			sourceTree = "<group>";
 		};
 		58EBA85A8C5B7C2CE2F8007C /* Pods */ = {
@@ -402,11 +416,31 @@
 		F49B3C6A1EE1772A00A0E81C /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
+				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				F49B3C6D1EE196A300A0E81C /* PaletteView.swift */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		F49B3C6F1EE1A0F000A0E81C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F49B3C701EE1A10300A0E81C /* Utils.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		F49B3C7A1EE1A38900A0E81C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */,
+				F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */,
+				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,
+				F49B3C781EE1A2C200A0E81C /* MemoManager.swift */,
+				F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -631,6 +665,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */,
+				F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */,
 				0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */,
@@ -638,8 +673,11 @@
 				0AEC95941E3C86580039A47F /* SettingViewController.swift in Sources */,
 				0A8815A61E31F75500ABEB98 /* MasterViewController.swift in Sources */,
 				0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */,
+				F49B3C751EE1A2AF00A0E81C /* ImagePicker.swift in Sources */,
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
+				F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */,
 				0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */,
+				F49B3C711EE1A10300A0E81C /* Utils.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
@@ -658,10 +696,12 @@
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				0AEE6D851E123FD8009C98F4 /* ColorPalette.swift in Sources */,
+				F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */,
 				F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */,
 				0ACC37781E3E2EA50079FA93 /* ConfigureFolderViewController.swift in Sources */,
 				316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */,
 				0A2CE68E1E121CBB0003F3CB /* LineFamily.swift in Sources */,
+				F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */,
 				31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */,
 				316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */,
 			);

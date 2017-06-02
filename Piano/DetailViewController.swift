@@ -38,12 +38,8 @@ class DetailViewController: UIViewController {
     //TODO: 이거 해결해야함 코드 더러움
     var iskeyboardAlbumButtonTouched: Bool = false
     
-    func canDoAnotherTask() -> Bool{
-        
-        if let indicator = activityIndicator, indicator.isAnimating {
-            return false
-        }
-        return true
+    var canDoAnotherTask: Bool {
+        return ActivityIndicator.sharedInstace.isAnimating
     }
     
     
@@ -56,7 +52,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var label: PianoLabel!
     @IBOutlet weak var textViewTop: NSLayoutConstraint!
     var isAfterViewDidAppear: Bool = false
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var composeBarButton: UIBarButtonItem!
     var firstImage : UIImage?
     
@@ -177,18 +172,7 @@ class DetailViewController: UIViewController {
         appearKeyboardIfNeeded = { }
     }
     
-    // MARK: indicator
     
-    func startLoading() {
-        guard let indicator = activityIndicator else { return }
-        indicator.isHidden = false
-        indicator.startAnimating()
-    }
-    
-    func stopLoading() {
-        guard let indicator = activityIndicator else { return }
-        indicator.stopAnimating()
-    }
     
     // MARK: memo
     
@@ -244,91 +228,8 @@ class DetailViewController: UIViewController {
          */
     }
     
-    
-    func saveCoreDataIfNeed(){
-        /*
-         guard let unwrapTextView = textView,
-         let unwrapOldMemo = memo,
-         unwrapTextView.isEdited else { return }
-         
-         if unwrapTextView.attributedText.length != 0 {
-         let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
-         
-         privateMOC.perform({ [unowned self] in
-         self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
-         let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
-         unwrapOldMemo.content = data as NSData
-         do {
-         try self.privateMOC.save()
-         PianoData.coreDataStack.viewContext.performAndWait({
-         do {
-         try PianoData.coreDataStack.viewContext.save()
-         //지연 큐에서 제거해버리기
-         self.delayAttrDic[unwrapOldMemo.objectID] = nil
-         } catch {
-         print("Failure to save context: error: \(error)")
-         }
-         })
-         } catch {
-         print("Failture to save context error: \(error)")
-         }
-         })
-         
-         } else {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         PianoData.save()
-         }
-         */
-    }
-    
-    func saveCoreDataWhenExit(isTerminal: Bool) {
-        /*
-         if let unwrapTextView = textView,
-         let unwrapOldMemo = memo,
-         unwrapTextView.isEdited {
-         
-         if unwrapTextView.attributedText.length != 0 {
-         //지금 있는 것도 대기열에 넣기
-         delayAttrDic[unwrapOldMemo.objectID] = unwrapTextView.attributedText
-         } else {
-         if isTerminal {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         }
-         }
-         }
-         
-         //대기열에 있는 모든 것들 순차적으로 저장
-         for (id, value) in delayAttrDic {
-         do {
-         let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
-         let data = NSKeyedArchiver.archivedData(withRootObject: value)
-         memo.content = data as NSData
-         
-         } catch {
-         print(error)
-         }
-         }
-         //다 저장했으면 지우기
-         delayAttrDic.removeAll()
-         
-         do {
-         try PianoData.coreDataStack.viewContext.save()
-         } catch {
-         print(error)
-         }
-         */
-    }
-    
-    //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
-    func saveCoreDataIfIphone(){
-        /*
-         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
-         
-         if unwrapTextView.attributedText.length == 0 {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         PianoData.save()
-         }
-         */
+    func saveData(isTerminal: Bool) {
+        MemoManager.saveCoreDataWhenExit(isTerminal: isTerminal)
     }
     
     func resetTextViewAttribute(){
@@ -743,149 +644,3 @@ extension DetailViewController: UITextViewDelegate {
     }
 }
 
-
-// MARK: pick images
-extension DetailViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func showImagePicker() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        
-        switch status {
-        case .restricted, .denied:
-            presentPermissionErrorAlert()
-        default:
-            present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        /*
-        var selectedRange = iskeyboardAlbumButtonTouched ? textView.selectedRange : NSMakeRange(textView.attributedText.length, 0)
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            
-            if memo == nil {
-                addNewMemo()
-            }
-            
-            //여기서 selectedRange에다가 NSTextAttachment로 붙여 넣어야 함 물론 이미지 크기 조절해서!
-            var attributedString :NSMutableAttributedString!
-            attributedString = NSMutableAttributedString(attributedString:textView.attributedText)
-            let oldWidth = pickedImage.size.width;
-            
-            //I'm subtracting 10px to make the image display nicely, accounting
-            //for the padding inside the textView
-            let ratio = (textView.textContainer.size.width - 10) / oldWidth;
-            
-            let size = pickedImage.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-            UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-            pickedImage.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            let textAttachment = NSTextAttachment()
-            textAttachment.image = scaledImage
-            let attrStringWithImage = NSAttributedString(attachment: textAttachment)
-            let spaceString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
-            
-            attributedString.insert(attrStringWithImage, at: selectedRange.location)
-            attributedString.insert(spaceString, at: selectedRange.location + 1)
-            attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(selectedRange.location, 2))
-            textView.attributedText = attributedString
-            selectedRange.location += 2
-        }
-        updateCellInfo()
-        setTextViewEditedState()
-        textView.makeTappable()
-        textView.selectedRange = selectedRange
-        dismiss(animated: true, completion: nil)
-        
-        
-        if iskeyboardAlbumButtonTouched {
-            textView.appearKeyboard()
-            iskeyboardAlbumButtonTouched = false
-        }
-        
-        DispatchQueue.main.async { [unowned self] in
-            self.textView.scrollRangeToVisible(NSMakeRange(self.textView.selectedRange.location + 3, 0))
-        }
-        */
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        /*
-        textView.makeTappable()
-        dismiss(animated: true, completion: nil)
-        
-        
-        if iskeyboardAlbumButtonTouched {
-            textView.appearKeyboard()
-            iskeyboardAlbumButtonTouched = false
-        }
-        */
-    }
-
-}
-
-// MARK: send e-mail
-extension DetailViewController: MFMailComposeViewControllerDelegate {
-    func sendMail() {
-        guard canDoAnotherTask() else { return }
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        
-        /*
-         DispatchQueue.main.async { [unowned self] in
-         guard let attrText = self.textView.attributedText else { return }
-         let mail:MFMailComposeViewController = MFMailComposeViewController()
-         mail.mailComposeDelegate = self
-         
-         let mutableAttrText = NSMutableAttributedString(attributedString: attrText)
-         
-         attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-         
-         guard let attachment = value as? NSTextAttachment,
-         let image = attachment.image,
-         let data = UIImagePNGRepresentation(image) else { return }
-         
-         mail.addAttachmentData(data, mimeType: "image/png", fileName: "piano\(range.location).png")
-         mutableAttrText.replaceCharacters(in: range, with: NSAttributedString(string: "\n"))
-         }
-         
-         attrText.enumerateAttribute(NSFontAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-         guard let font = value as? UIFont else { return }
-         
-         let newFont = font.withSize(font.pointSize - 4)
-         mutableAttrText.addAttributes([NSFontAttributeName : newFont], range: range)
-         }
-         
-         mail.setMessageBody(self.parseToHTMLString(from: mutableAttrText), isHTML:true)
-         
-         if MFMailComposeViewController.canSendMail() {
-         self.present(mail, animated: true, completion:nil)
-         } else {
-         self.showSendMailErrorAlert()
-         }
-         
-         self.activityIndicator.stopAnimating()
-         self.textView.makeTappable()
-         }
-         */
-    }
-    
-    func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "EmailErrorTitle".localized(withComment: "메일을 보낼 수 없습니다."), message: "CheckDeviceOrInternet".localized(withComment: "디바이스 혹은 인터넷 상태를 확인해주세요"), preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel, handler: nil)
-        sendMailErrorAlert.addAction(cancel)
-        present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-
-    func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
-        let imgData = UIImagePNGRepresentation(image)!
-        let dataString = imgData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
-        return dataString
-    }
-    
-    // MARK: MFMailComposeViewControllerDelegate Method
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-}
