@@ -35,35 +35,22 @@ class DetailViewController: UIViewController {
     
     var appearKeyboardIfNeeded: () -> Void = { }
     
+    weak var delegate: DetailViewControllerDelegate?
+    
+    @IBOutlet weak var editor: PNEditor!
+
+    
     //TODO: 이거 해결해야함 코드 더러움
     var iskeyboardAlbumButtonTouched: Bool = false
     
     var canDoAnotherTask: Bool {
         return ActivityIndicator.sharedInstace.isAnimating
     }
+
     
     
     
-    weak var delegate: DetailViewControllerDelegate?
     
-    @IBOutlet weak var editor: PNEditor!
-    @IBOutlet weak var topView: UIStackView!
-    @IBOutlet var accessoryView: UIStackView!
-    @IBOutlet weak var label: PianoLabel!
-    @IBOutlet weak var textViewTop: NSLayoutConstraint!
-    var isAfterViewDidAppear: Bool = false
-    @IBOutlet weak var composeBarButton: UIBarButtonItem!
-    var firstImage : UIImage?
-    
-    
-    //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
-    lazy var imagePicker: UIImagePickerController = {
-        let controller = UIImagePickerController()
-        controller.delegate = self
-        controller.allowsEditing = false
-        controller.sourceType = .photoLibrary
-        return controller
-    }()
     
     // MARK: life cycle
     override func viewDidLoad() {
@@ -78,7 +65,7 @@ class DetailViewController: UIViewController {
         textView.layoutManager.delegate = self
         */
 
-        accessoryView.frame.size.height = navigationController!.toolbar.frame.height
+        //accessoryView.frame.size.height = navigationController!.toolbar.frame.height
         
         PianoData.coreDataStack.detailViewController = self
         
@@ -119,17 +106,12 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -245,39 +227,7 @@ class DetailViewController: UIViewController {
                                            NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)
         ]
         */
-    }
-    
-    // MARK: keyboard
-    func keyboardWillShow(notification: Notification){
-        /*
-        textView.isWaitingState = true
-        
-        guard let userInfo = notification.userInfo,
-            let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
-            let height = navigationController?.toolbar.bounds.height else { return }
-        
-        
-       //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
-        let inset = UIEdgeInsetsMake(0, 0, UIScreen.main.bounds.height - kbFrame.origin.y - height, 0)
-        textView.contentInset = inset
-        textView.scrollIndicatorInsets = inset
-        textView.scrollRangeToVisible(textView.selectedRange)
-        */
-    }
-    
-    func keyboardDidHide(notification: Notification) {
-        //textView.makeTappable()
-    }
-    
-    func keyboardWillHide(notification: Notification){
-        /*
-        textView.makeUnableTap()
-        
-        textView.contentInset = UIEdgeInsets.zero
-        textView.scrollIndicatorInsets = UIEdgeInsets.zero
-        */
-    }
-    
+    }    
     // MARK: edit text?
     func removeSubrange(from: Int) {
         //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
@@ -295,142 +245,12 @@ class DetailViewController: UIViewController {
     
     
     
-    func parseToHTMLString(from: NSAttributedString) -> String {
-        let attr = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
-        do {
-            let data = try from.data(from: NSMakeRange(0, from.length), documentAttributes: attr)
-            guard let htmlString = String(data: data, encoding: String.Encoding.utf8) else { return ""}
-            return htmlString
-        } catch {
-            print(error.localizedDescription)
-        }
-        return ""
-    }
-    
-    // MARK: memo life cycle
-    func moveMemoToTrash() {
-        /*
-         //현재 메모 존재 안하면 리턴
-         guard canDoAnotherTask() else { return }
-         guard let unwrapMemo = memo else { return }
-         
-         
-         //존재하면 휴지통에 넣기
-         unwrapMemo.isInTrash = true
-         PianoData.save()
-         
-         //마스터 뷰 컨트롤러에 현재 폴더의 첫번째 메모가 있는 지 체크 (없으면 닐 대입)
-         
-         
-         guard let unwrapFirstMemo = masterViewController?.memoResultsController.fetchedObjects?.first
-         else {
-         self.memo = nil
-         return }
-         self.memo = unwrapFirstMemo
-         delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
-         */
-    }
-    
-    
-    func addNewMemo() {
-        /*
-         guard let unwrapFolder = masterViewController?.folder else {
-         showAddGroupAlertViewController()
-         return
-         }
-         
-         let memo = Memo(context: PianoData.coreDataStack.viewContext)
-         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
-         memo.date = NSDate()
-         memo.folder = unwrapFolder
-         memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
-         PianoData.save()
-         
-         delegate?.detailViewController(self, addMemo: memo)
-         self.memo = memo
-         */
-    }
-
-    // MARK: alert
-    func showAddGroupAlertViewController() {
-        let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
-        
-        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "Create".localized(withComment: "생성"), style: .default) { [unowned self](action) in
-            guard let text = alert.textFields?.first?.text else { return }
-            let context = PianoData.coreDataStack.viewContext
-            do {
-                let newFolder = Folder(context: context)
-                newFolder.name = text
-                newFolder.date = NSDate()
-                newFolder.memos = []
-                
-                try context.save()
-                
-                guard let masterViewController = self.delegate as? MasterViewController else { return }
-                masterViewController.fetchFolderResultsController()
-                masterViewController.selectSpecificFolder(selectedFolder: newFolder)
-            } catch {
-                print("Error importing folders: \(error.localizedDescription)")
-            }
-        }
-        
-        ok.isEnabled = false
-        alert.addAction(cancel)
-        alert.addAction(ok)
-        
-        alert.addTextField { (textField) in
-            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
-            textField.returnKeyType = .done
-            textField.enablesReturnKeyAutomatically = true
-            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
-        }
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func textChanged(sender: AnyObject) {
-        let tf = sender as! UITextField
-        var resp : UIResponder! = tf
-        while !(resp is UIAlertController) { resp = resp.next }
-        let alert = resp as! UIAlertController
-        alert.actions[1].isEnabled = (tf.text != "")
-    }
-    
-    func presentPermissionErrorAlert() {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "CantOpenAlbumTitle".localized(withComment: "앨범 열 수 없음"), message: "CantOpenAlbumMessage".localized(withComment: "설정으로 이동하여 앨범에 체크해주세요."), preferredStyle: .alert)
-            let openSettingsAction = UIAlertAction(title: "Setting".localized(withComment: "설정"), style: .default, handler: { _ in
-                UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
-            })
-            let dismissAction = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
-            alert.addAction(openSettingsAction)
-            alert.addAction(dismissAction)
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func showTrashInfoAlert(completion: @escaping () -> Void) {
-        let trashAlert = UIAlertController(title: "DeleteMemo".localized(withComment: "노트 삭제"), message: "YouCanRecoverNoteFromSetting".localized(withComment: "세팅에서 복구할 수 있습니다"), preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel) { (action) in
-            completion()
-        }
-        trashAlert.addAction(cancel)
-        present(trashAlert, animated: true, completion: nil)
-    }
-    
-    func hasShownTrashAlert() -> Bool {
-        guard UserDefaults.standard.bool(forKey: "hasShownTrashAlert") else {
-            UserDefaults.standard.set(true, forKey: "hasShownTrashAlert")
-            return false
-        }
-        return true
-    }
     
 
     // MARK: button touch events
     @IBAction func tapTrashButton(_ sender: Any) {
         //존재하면 우선 팝업 보여줬는지 체크하고 안보여줬다면 팝업보여주기
+        /*
         if hasShownTrashAlert() {
             moveMemoToTrash()
         } else {
@@ -438,15 +258,16 @@ class DetailViewController: UIViewController {
                 self.moveMemoToTrash()
             }
         }
+        */
     }
     
     @IBAction func tapEffectButton(_ sender: Any) {
+        /*
         guard canDoAnotherTask() else { return }
         setTextViewEditedState()
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
-        /*
          DispatchQueue.main.async { [unowned self] in
          self.textView.sizeToFit()
          self.showTopView(bool: true)
@@ -457,39 +278,58 @@ class DetailViewController: UIViewController {
     }
 
     @IBAction func tapSendEmail(_ sender: Any) {
-        sendMail()
+        //sendMail()
     }
     
     
     @IBAction func tapAlbumButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
+        if !canDoAnotherTask { return }
+        
         guard let _ = masterViewController?.folder else {
-            showAddGroupAlertViewController()
+            //showAddGroupAlertViewController()
             return
         }
+        
         showImagePicker()
+        
         iskeyboardAlbumButtonTouched = false
     }
     
     @IBAction func tapAlbumButton2(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
+        if !canDoAnotherTask { return }
+        
         guard let _ = masterViewController?.folder else {
-            showAddGroupAlertViewController()
+            //showAddGroupAlertViewController()
             return
         }
         editor.resignFirstResponder()
+        
         showImagePicker()
+        
         iskeyboardAlbumButtonTouched = true
     }
     
+    private func showImagePicker() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        switch status {
+        case .restricted, .denied:
+            //showAlert()
+            break
+        default:
+            AppNavigator.presentImagePicker()
+        }
+    }
+    
     @IBAction func tapComposeButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
+        if !canDoAnotherTask { return }
+        
         let item = sender as! UIBarButtonItem
         item.isEnabled = false
         
         let deadline = DispatchTime.now() + .milliseconds(50)
-        DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
-            self?.addNewMemo()
+        DispatchQueue.main.asyncAfter(deadline: deadline) { //[weak self] in
+            //self?.addNewMemo()
             item.isEnabled = true
         }
     }
@@ -540,107 +380,15 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        //textView.resignFirstResponder()
+        if canDoAnotherTask {
+            editor.resignFirstResponder()
+        }
     }
 }
 
 extension DetailViewController: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
         return 8
-    }
-}
-
-extension DetailViewController: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        /*
-        guard memo != nil else {
-            addNewMemo()
-            return
-        }
-        */
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        setTextViewEditedState()
-        updateCellInfo()
-    }
-    
-    //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
-    func updateCellInfo() {
-        /*
-        guard let memo = self.memo,
-            let textView = self.textView,
-            let attrText = textView.attributedText else { return }
-        
-        let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
-        let firstLine: String
-        switch text {
-        case let x where x.characters.count > 50:
-            firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
-        case let x where x.characters.count == 0:
-            //이미지만 있는 경우에도 해당됨
-            firstLine = "NewMemo".localized(withComment: "새로운 메모")
-        default:
-            firstLine = text
-        }
-        
-        memo.firstLine = firstLine
-        
-        let hasAttachments = attrText.containsAttachments(in: NSMakeRange(0, attrText.length))
-        
-        guard hasAttachments else {
-            memo.imageData = nil
-            return
-        }
-        
-        attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-            
-            guard let attachment = value as? NSTextAttachment,
-                let image = attachment.image else { return }
-            
-            guard firstImage != image else {
-                stop.pointee = true
-                return
-            }
-            
-            firstImage = image
-            
-            let oldWidth = image.size.width;
-            
-            //I'm subtracting 10px to make the image display nicely, accounting
-            //for the padding inside the textView
-            let ratio = 60 / oldWidth;
-            
-            let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-            UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
-                memo.imageData = data as NSData
-                stop.pointee = true
-            }
-            
-        }
-        */
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        /*
-        if textView.mode != .typing {
-            textView.attachCanvas()
-        }
-        */
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        /*
-        if textView.mode != .typing {
-            textView.attachCanvas()
-        }
-        */
     }
 }
 

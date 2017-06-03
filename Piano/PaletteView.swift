@@ -13,7 +13,6 @@ enum TextEffect {
     case color(UIColor)
     case title(UIFontTextStyle)
     case line(LineFamily)
-    case none
 }
 
 protocol effectShowable: class {
@@ -118,5 +117,5 @@ class PaletteView: UIView {
 }
 
 class EffectButton: UIButton {
-    var textEffect: TextEffect = .none
+    var textEffect: TextEffect = .color(.red)
 }

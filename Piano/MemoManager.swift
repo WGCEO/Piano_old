@@ -7,8 +7,100 @@
 //
 
 import Foundation
+import UIKit
 
 class MemoManager {
+    // MARK: alert
+    func showAddGroupAlertViewController() {
+        /*
+        let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "Create".localized(withComment: "생성"), style: .default) { [unowned self](action) in
+            guard let text = alert.textFields?.first?.text else { return }
+            let context = PianoData.coreDataStack.viewContext
+            do {
+                let newFolder = Folder(context: context)
+                newFolder.name = text
+                newFolder.date = NSDate()
+                newFolder.memos = []
+                
+                try context.save()
+                
+                guard let masterViewController = self.delegate as? MasterViewController else { return }
+                masterViewController.fetchFolderResultsController()
+                masterViewController.selectSpecificFolder(selectedFolder: newFolder)
+            } catch {
+                print("Error importing folders: \(error.localizedDescription)")
+            }
+        }
+        
+        ok.isEnabled = false
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
+            textField.returnKeyType = .done
+            textField.enablesReturnKeyAutomatically = true
+            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
+        }
+        
+        present(alert, animated: true, completion: nil)
+        */
+    }
+    
+    func textChanged(sender: AnyObject) {
+        let tf = sender as! UITextField
+        var resp : UIResponder! = tf
+        while !(resp is UIAlertController) { resp = resp.next }
+        let alert = resp as! UIAlertController
+        alert.actions[1].isEnabled = (tf.text != "")
+    }
+    
+    func moveMemoToTrash() {
+        /*
+         //현재 메모 존재 안하면 리턴
+         guard canDoAnotherTask() else { return }
+         guard let unwrapMemo = memo else { return }
+         
+         
+         //존재하면 휴지통에 넣기
+         unwrapMemo.isInTrash = true
+         PianoData.save()
+         
+         //마스터 뷰 컨트롤러에 현재 폴더의 첫번째 메모가 있는 지 체크 (없으면 닐 대입)
+         
+         
+         guard let unwrapFirstMemo = masterViewController?.memoResultsController.fetchedObjects?.first
+         else {
+         self.memo = nil
+         return }
+         self.memo = unwrapFirstMemo
+         delegate?.detailViewController(self, addMemo: unwrapFirstMemo)
+         */
+    }
+    
+    
+    func addNewMemo() {
+        /*
+         guard let unwrapFolder = masterViewController?.folder else {
+         showAddGroupAlertViewController()
+         return
+         }
+         
+         let memo = Memo(context: PianoData.coreDataStack.viewContext)
+         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
+         memo.date = NSDate()
+         memo.folder = unwrapFolder
+         memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
+         PianoData.save()
+         
+         delegate?.detailViewController(self, addMemo: memo)
+         self.memo = memo
+         */
+    }
+
     class func saveCoreDataIfNeeded(){
         /*
          guard let unwrapTextView = textView,

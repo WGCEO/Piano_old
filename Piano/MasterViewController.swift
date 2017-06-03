@@ -117,12 +117,14 @@ class MasterViewController: UIViewController {
         super.viewDidAppear(animated)
         
 //        //아이폰일때만 지워라잉?
+        /*
         if !detailViewController.isVisible {
             detailViewController.saveCoreDataIfIphone()
             
             indicatingCell()
             indicatingCell = {}
         }
+        */
     }
     
     func fetchFolderResultsController() {
@@ -205,10 +207,7 @@ class MasterViewController: UIViewController {
     }
     
     func canDoAnotherTask() -> Bool{
-        if let indicator = detailViewController.activityIndicator {
-            return indicator.isAnimating ? false : true
-        }
-        return true
+        return ActivityIndicator.sharedInstace.isAnimating
     }
     
     @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {

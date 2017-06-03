@@ -7,13 +7,11 @@
 //
 
 import Foundation
+import MessageUI
 
 class MailSender: MFMailComposeViewController {
     func sendMail() {
-        guard canDoAnotherTask() else { return }
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        
+        ActivityIndicator.startAnimating()
         /*
          DispatchQueue.main.async { [unowned self] in
          guard let attrText = self.textView.attributedText else { return }

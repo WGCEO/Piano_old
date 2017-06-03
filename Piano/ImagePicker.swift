@@ -7,20 +7,20 @@
 //
 
 import Foundation
-
+import UIKit
 
 // MARK: pick images
-class ImagePicker: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func showImagePicker() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        
-        switch status {
-        case .restricted, .denied:
-            presentPermissionErrorAlert()
-        default:
-            present(imagePicker, animated: true, completion: nil)
-        }
-    }
+class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    //앨범에서 이미지를 가져오기 위한 이미지 피커 컨트롤러
+    /*
+    var imagePicker: UIImagePickerController = {
+        let controller = UIImagePickerController()
+        controller.delegate = self
+        controller.allowsEditing = false
+        controller.sourceType = .photoLibrary
+        return controller
+    }()
+    */
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         /*
