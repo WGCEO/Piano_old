@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PianoData.deleteMemosIfPassOneMonth()
         
         let navigationController = splitViewController.viewControllers.last as! UINavigationController
-        let detailViewController = navigationController.topViewController as! DetailViewController
+        let detailViewController = navigationController.topViewController as! MemoViewController
         detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         detailViewController.navigationItem.leftItemsSupplementBackButton = true
         splitViewController.preferredDisplayMode = .allVisible

@@ -11,7 +11,7 @@ import CoreData
 
 class PianoPersistentContainer: NSPersistentContainer {
     
-    weak var detailViewController: DetailViewController?
+    weak var memoViewController: MemoViewController?
     
     func saveWhenAppWillBeTerminal() {
         MemoManager.saveCoreDataWhenExit(isTerminal: true)

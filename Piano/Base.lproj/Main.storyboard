@@ -312,10 +312,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </objects>
             <point key="canvasLocation" x="-1562" y="2128"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Memo View Controller-->
         <scene sceneID="36L-xo-RUa">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nsS-aP-t1B" customClass="DetailViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nsS-aP-t1B" customClass="MemoViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JYV-8S-nnG"/>
                         <viewControllerLayoutGuide type="bottom" id="WHf-QJ-klZ"/>
@@ -324,96 +324,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rN3-7r-aTi">
-                                <rect key="frame" x="0.0" y="64" width="375" height="100"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="F0e-CV-IL4">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJX-5n-Yrg" customClass="EffectButton" customModule="Piano" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="125" height="100"/>
-                                                <gestureRecognizers/>
-                                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="20"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="tapColorEffectButton:" destination="nsS-aP-t1B" eventType="touchUpInside" id="Fev-do-J1u"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwK-Rd-jsC" customClass="EffectButton" customModule="Piano" customModuleProvider="target">
-                                                <rect key="frame" x="125" y="0.0" width="125" height="100"/>
-                                                <gestureRecognizers/>
-                                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="26"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="tapSizeEffectButton:" destination="nsS-aP-t1B" eventType="touchUpInside" id="4Lt-ri-M4l"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jZ3-cX-YdD" customClass="EffectButton" customModule="Piano" customModuleProvider="target">
-                                                <rect key="frame" x="250" y="0.0" width="125" height="100"/>
-                                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="20"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <state key="normal">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="selected">
-                                                    <color key="titleColor" red="0.29803921570000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="tapLineEffectButton:" destination="nsS-aP-t1B" eventType="touchUpInside" id="fxU-PU-zEF"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="99.700000000000003" id="c2I-vW-ztZ"/>
-                                        </constraints>
-                                    </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LT8-G7-Qwa">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="0.0"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="0.29999999999999999" id="fuH-Yc-C9c"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="wSb-fx-zm5"/>
-                                </constraints>
-                            </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="PGI-CO-T9n" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <color key="textColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
-                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="nsS-aP-t1B" id="bUX-iK-Ggx"/>
-                                </connections>
-                            </textView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8Hz-3b-vcn">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLu-3r-qhB" customClass="PianoLabel" customModule="Piano" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3da-gH-sBd">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
@@ -428,27 +338,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </items>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhE-Og-M0L" customClass="PNEditor" customModule="Piano" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WHf-QJ-klZ" firstAttribute="top" secondItem="PGI-CO-T9n" secondAttribute="bottom" id="4GC-q9-UmB"/>
                             <constraint firstItem="3da-gH-sBd" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="4Wj-gv-R3f"/>
-                            <constraint firstAttribute="trailing" secondItem="GLu-3r-qhB" secondAttribute="trailing" id="4ez-4v-FxO"/>
-                            <constraint firstItem="rN3-7r-aTi" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="4hN-23-APa"/>
-                            <constraint firstItem="GLu-3r-qhB" firstAttribute="top" secondItem="JYV-8S-nnG" secondAttribute="bottom" id="4uv-yb-hq1"/>
-                            <constraint firstItem="PGI-CO-T9n" firstAttribute="top" secondItem="JYV-8S-nnG" secondAttribute="bottom" id="6Wr-9P-nmm"/>
-                            <constraint firstItem="rN3-7r-aTi" firstAttribute="top" secondItem="JYV-8S-nnG" secondAttribute="bottom" id="CBz-Ik-RIv"/>
                             <constraint firstAttribute="trailing" secondItem="3da-gH-sBd" secondAttribute="trailing" id="Em6-8d-IBL"/>
                             <constraint firstAttribute="bottom" secondItem="3da-gH-sBd" secondAttribute="bottom" id="ExN-bT-KY5"/>
-                            <constraint firstItem="8Hz-3b-vcn" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="OEN-Yh-Thc"/>
-                            <constraint firstAttribute="trailing" secondItem="PGI-CO-T9n" secondAttribute="trailing" id="Rcd-X6-eQu"/>
-                            <constraint firstAttribute="trailing" secondItem="rN3-7r-aTi" secondAttribute="trailing" id="btm-Tt-BeZ"/>
-                            <constraint firstItem="8Hz-3b-vcn" firstAttribute="top" secondItem="yMA-Ec-v7M" secondAttribute="top" id="cFZ-rf-NGJ"/>
-                            <constraint firstItem="GLu-3r-qhB" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="gnJ-7u-Q3V"/>
-                            <constraint firstAttribute="trailing" secondItem="8Hz-3b-vcn" secondAttribute="trailing" id="h9z-Tp-6yn"/>
-                            <constraint firstItem="WHf-QJ-klZ" firstAttribute="top" secondItem="GLu-3r-qhB" secondAttribute="bottom" id="jcG-UJ-AxI"/>
-                            <constraint firstAttribute="bottom" secondItem="8Hz-3b-vcn" secondAttribute="bottom" id="mtT-XF-UOc"/>
-                            <constraint firstItem="PGI-CO-T9n" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="r2j-G5-KXL"/>
+                            <constraint firstItem="nhE-Og-M0L" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="Wl1-2r-BmS"/>
+                            <constraint firstItem="nhE-Og-M0L" firstAttribute="top" secondItem="JYV-8S-nnG" secondAttribute="bottom" id="ijV-Ve-9Hm"/>
+                            <constraint firstAttribute="trailing" secondItem="nhE-Og-M0L" secondAttribute="trailing" id="jyN-3E-keR"/>
+                            <constraint firstItem="WHf-QJ-klZ" firstAttribute="top" secondItem="nhE-Og-M0L" secondAttribute="bottom" id="u6G-Yb-c2I"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -485,6 +388,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editor" destination="nhE-Og-M0L" id="4dI-DI-NKK"/>
                         <segue destination="i2T-CZ-Gct" kind="presentation" identifier="TextEffect" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Wft-d9-fRn"/>
                     </connections>
                 </viewController>
@@ -538,7 +442,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <scene sceneID="sak-gL-LJp">
             <objects>
                 <navigationController id="2eI-xc-vTb" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a1s-5S-9WF">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="a1s-5S-9WF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -831,7 +735,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController toolbarHidden="NO" id="ViU-TK-8h7" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="m1S-Rp-4HQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="m1S-Rp-4HQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -958,7 +862,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ktz-Fy-ZHu" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="elL-Ec-UTs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="elL-Ec-UTs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -984,7 +888,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RX5-sF-fZk" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l2W-iI-EOR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="l2W-iI-EOR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1077,7 +981,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZGw-Kp-iZC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLW-2Y-oDZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nLW-2Y-oDZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1099,7 +1003,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FsP-06-CVG" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3b2-Eh-bRR">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3b2-Eh-bRR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

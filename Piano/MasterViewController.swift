@@ -12,7 +12,6 @@ import LTMorphingLabel
 
 class MasterViewController: UIViewController {
     
-    var indicatingCell: () -> Void = {}
     @IBOutlet weak var titleLabel: LTMorphingLabel!
     
     lazy var folderResultsController: NSFetchedResultsController<Folder> = {
@@ -57,10 +56,10 @@ class MasterViewController: UIViewController {
         }
     }
     
-    lazy var detailViewController: DetailViewController = {
+    lazy var memoViewController: MemoViewController = {
         let unwrapSplitViewController = self.splitViewController!
         let unwrapDetailNav = unwrapSplitViewController.viewControllers.last as! UINavigationController
-        return unwrapDetailNav.topViewController as! DetailViewController
+        return unwrapDetailNav.topViewController as! MemoViewController
     }()
     
     
@@ -236,7 +235,7 @@ class MasterViewController: UIViewController {
     }
 
     func setFirstCellIfIpad() {
-        if detailViewController.isVisible {
+        if memoViewController.isVisible {
             
             if hasMemoInCurrentFolder() {
                 selectTableViewCell(with: IndexPath(row: 0, section: 0))
@@ -417,9 +416,7 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
                 let newIndexPath = newIndexPath else { return }
 
             tableView.moveRow(at: indexPath, to: newIndexPath)
-            indicatingCell = { [unowned self] in
-                self.tableView.deselectRow(at: newIndexPath, animated: true)
-            }
+            deselectRowIfNeeded()
             
 //            if indexPath.section == newIndexPath.section {
 //                tableView.moveRow(at: indexPath, to: newIndexPath)
@@ -493,6 +490,13 @@ extension MasterViewController: UITableViewDataSource {
 }
 
 extension MasterViewController: UITableViewDelegate {
+    internal func deselectRowIfNeeded() {
+        // TODO: if iPhone일 때만 삭제
+        if let selectedRow = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedRow, animated: true)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         let memo = memoResultsController.object(at: indexPath)
         memo.isInTrash = true
@@ -500,17 +504,14 @@ extension MasterViewController: UITableViewDelegate {
     
     //메모 전달. 모든 메모는 여기서 전달하기
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailNavigationController = detailViewController.navigationController else { return }
-        guard canDoAnotherTask() else { return }
+        deselectRowIfNeeded()
         
-        //let memo = memoResultsController.object(at: indexPath)
-        //detailViewController.memo = memo
+        guard let navigationController = memoViewController.navigationController else { return }
         
-        indicatingCell = { [unowned self] in
-            self.tableView.deselectRow(at: indexPath, animated: true)
-        }
+        let memo = memoResultsController.object(at: indexPath)
+        memoViewController.memo = memo
         
-        self.splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
+        self.splitViewController?.showDetailViewController(navigationController, sender: nil)
     }
     
     
