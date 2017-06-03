@@ -13,33 +13,14 @@ import CoreData
 @objc class PNEditor: UIView {
     var textView: PianoTextView!
     var canvas = PianoControl()
-    
-    var delayAttrDic: [NSManagedObjectID : NSAttributedString] = [:]
+    var images: [UIImage] = []
     
     public var memo: Memo? {
-        willSet {
-            //startLoading()
-            //우선 이미지에 nil 대입하기
-            //firstImage = nil
-            //resignFirstResponder()
-            //saveCoreDataIfNeed()
-        }
         didSet {
-            /*
-            showTopView(bool: false)
-            editor?.canvas.removeFromSuperview()
-            guard memo != oldValue else {
-                editor?.isEdited = false
-                stopLoading()
-                return
-            }
+            guard memo != oldValue else { return }
             
-            self.setTextView(with: self.memo)
-            DispatchQueue.main.async { [weak self] in
-                self?.stopLoading()
-                self?.contentOffset = CGPoint.zero
-            }
-            */
+            prepareToReuse()
+            showMemo()
         }
     }
     
@@ -75,10 +56,14 @@ import CoreData
     }
     
     private func configure() {
-        let textView = PianoTextView(frame: frame)
+        // TODO:
+        //showTopView(bool: false)
+        
+        let textView = PianoTextView(frame: bounds, textContainer: nil)
         
         textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
+        textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         textView.allowsEditingTextAttributes = true
         
         canvas.textView = textView
@@ -101,6 +86,7 @@ import CoreData
             attachCanvas()
         }
     }
+    
     
     // MARK: palette view
     func showTopView(bool: Bool) {
@@ -161,21 +147,6 @@ import CoreData
          
          guard !haveTextInDelayAttrDic else { return }
          
-         let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content! as Data) as? NSAttributedString
-         PianoData.coreDataStack.viewContext.performAndWait({
-         unwrapTextView.attributedText = attrText
-         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-         unwrapTextView.selectedRange = selectedRange
-         
-         if unwrapTextView.attributedText.length == 0 {
-         self.resetTextViewAttribute()
-         if self.isVisible {
-         unwrapTextView.appearKeyboard()
-         } else {
-         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
-         }
-         }
-         })
          */
     }
     
@@ -194,6 +165,7 @@ import CoreData
          ]
          */
     }
+    
     // MARK: edit text?
     func removeSubrange(from: Int) {
         //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
@@ -264,7 +236,23 @@ import CoreData
          textView.scrollIndicatorInsets = UIEdgeInsets.zero
          */
     }
+    
+    // MARK: private methods
+    private func prepareToReuse() {
+        ActivityIndicator.startAnimating()
+        
+        MemoManager.saveCoreDataIfNeeded()
+        
+        images.removeAll()
+        textView.resignFirstResponder()
+        canvas.removeFromSuperview()
+    }
+    
+    private func showMemo() {
+        ActivityIndicator.stopAnimating()
 
+        textView.showMemo(memo)
+    }
 }
 
 

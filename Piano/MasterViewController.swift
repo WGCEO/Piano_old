@@ -491,7 +491,7 @@ extension MasterViewController: UITableViewDataSource {
 
 extension MasterViewController: UITableViewDelegate {
     internal func deselectRowIfNeeded() {
-        // TODO: if iPhone일 때만 삭제
+        // TODO: if iPhone일 때만 선택해제
         if let selectedRow = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: selectedRow, animated: true)
         }

@@ -23,7 +23,7 @@ class ActivityIndicator {
         ActivityIndicator.sharedInstace.startAnimating()
     }
     
-    class func stopLoading() {
+    class func stopAnimating() {
         sharedInstace.removeFromSuperview()
         
         ActivityIndicator.sharedInstace.stopAnimating()

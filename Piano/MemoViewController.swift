@@ -27,7 +27,8 @@ class MemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if memo != nil {
+        if memo == nil {
+            // TODO: iPad일 경우 첫 번째 메모를 가져와야 함
             memo = MemoManager.selectedMemo()
         }
     }

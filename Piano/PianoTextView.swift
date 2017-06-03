@@ -9,15 +9,47 @@
 import UIKit
 
 class PianoTextView: UITextView {
-    let canvas = PianoControl()
-    
-    var memo: Memo?
+    private var memo: Memo?
     
     var isWaitingState: Bool = false
     var isEdited = false
-    
     var mode: TextViewMode = .typing
     
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: public methods
+    public func prepareForReuse() {
+        isWaitingState = false
+        isEdited = false
+        mode = .typing
+        
+        contentOffset = CGPoint.zero
+    }
+    
+    public func showMemo(_ memo: Memo?) {
+        guard let data = memo?.content as Data?,
+            let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
+        
+        PianoData.coreDataStack.viewContext.performAndWait({
+            self.attributedText = attributedText
+            self.selectedRange = NSMakeRange(attributedText.length, 0)
+            
+            print(attributedText.string)
+            //if length == 0
+            //self.resetTextViewAttribute()
+            //self.appearKeyboardifNeeded
+        })
+        
+        self.memo = memo
+    }
     
     // MARK: UIResponder
     override func paste(_ sender: Any?) {
