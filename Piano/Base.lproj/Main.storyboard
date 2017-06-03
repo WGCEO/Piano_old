@@ -485,16 +485,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="accessoryView" destination="spq-VJ-xUg" id="b24-Qs-lqw"/>
-                        <outlet property="activityIndicator" destination="8Hz-3b-vcn" id="jfK-7L-B6K"/>
-                        <outlet property="colorEffectButton" destination="HJX-5n-Yrg" id="aEI-ZD-5dq"/>
-                        <outlet property="composeBarButton" destination="IBU-zX-uge" id="8Hx-9I-utc"/>
-                        <outlet property="label" destination="GLu-3r-qhB" id="yv3-7M-Tp3"/>
-                        <outlet property="lineEffectButton" destination="jZ3-cX-YdD" id="XYF-vA-fJS"/>
-                        <outlet property="sizeEffectButton" destination="dwK-Rd-jsC" id="dct-yZ-RwY"/>
-                        <outlet property="textView" destination="PGI-CO-T9n" id="c0I-XW-Q26"/>
-                        <outlet property="textViewTop" destination="6Wr-9P-nmm" id="ln8-p0-KQc"/>
-                        <outlet property="topView" destination="rN3-7r-aTi" id="9ms-VC-LLQ"/>
                         <segue destination="i2T-CZ-Gct" kind="presentation" identifier="TextEffect" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Wft-d9-fRn"/>
                     </connections>
                 </viewController>
@@ -523,7 +513,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <color key="titleColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
-                                <action selector="tapAlbumButton2:" destination="nsS-aP-t1B" eventType="touchUpInside" id="Ukq-be-3oQ"/>
+                                <action selector="tapAlbumButton:" destination="nsS-aP-t1B" eventType="touchUpInside" id="vri-nG-MgF"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pcl-gj-8uN">

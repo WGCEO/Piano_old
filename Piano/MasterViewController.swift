@@ -97,7 +97,7 @@ class MasterViewController: UIViewController {
         //첫번째 폴더의 메모들 fetch
         setFirstFolderIfExist()
 
-        detailViewController.delegate = self
+        //detailViewController.delegate = self
     
     }
     
@@ -540,6 +540,7 @@ extension MasterViewController: UITableViewDelegate {
     }
 }
 
+/* Memo Manager를 이용하는 것으로 변경
 extension MasterViewController: DetailViewControllerDelegate {
     func detailViewController(_ controller: DetailViewController, addMemo: Memo) {
         guard let memos = memoResultsController.fetchedObjects else { return }
@@ -551,3 +552,4 @@ extension MasterViewController: DetailViewControllerDelegate {
         }
     }
 }
+*/

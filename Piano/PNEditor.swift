@@ -8,12 +8,15 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 @objc class PNEditor: UIView {
     var textView: PianoTextView!
     var canvas = PianoControl()
     
-    var memo: Memo? {
+    var delayAttrDic: [NSManagedObjectID : NSAttributedString] = [:]
+    
+    public var memo: Memo? {
         willSet {
             //startLoading()
             //우선 이미지에 nil 대입하기
@@ -81,6 +84,129 @@ import UIKit
         canvas.textView = textView
         
         self.textView = textView
+    }
+    
+    // MARK: public methods
+    func appearKeyboardIfNeeded() {
+        textView.isWaitingState = false
+        
+        //TODO: 코드 리펙토링제대로하기
+        //textView.isWaitingState = false
+        //appearKeyboardIfNeeded()
+        //appearKeyboardIfNeeded = { }
+    }
+    
+    func prepareToEditing() { // from detailVC.viewWillTransition
+        if textView.mode != .typing {
+            attachCanvas()
+        }
+    }
+    
+    // MARK: palette view
+    func showTopView(bool: Bool) {
+        /*
+         guard let textViewTop = self.textViewTop, let topView = self.topView else { return }
+         if bool {
+         textView.makeEffectable()
+         } else {
+         textView.makeTappable()
+         }
+         
+         //탑 뷰의 현재 상태와 반대될 때에만 아래의 뷰 애니메이션 코드 실행
+         guard bool == topView.isHidden else { return }
+         
+         topView.isHidden = bool ? false : true
+         navigationController?.setNavigationBarHidden(bool, animated: true)
+         navigationController?.setToolbarHidden(bool, animated: true)
+         UIView.animate(withDuration: 0.3) { [unowned self] in
+         self.textView.contentInset.bottom = bool ? 50 : 0
+         textViewTop.constant = bool ? 100 : 0
+         self.view.layoutIfNeeded()
+         }
+         */
+    }
+    
+    // MARK: textView
+    func setTextView(with memo: Memo?) {
+        /*
+         guard let editor = editor else { return }
+         unwrapTextView.isEdited = false
+         
+         //스크롤 이상하게 되는 것 방지
+         unwrapTextView.contentOffset = CGPoint.zero
+         
+         guard let unwrapNewMemo = memo else {
+         resetTextViewAttribute()
+         return }
+         
+         let haveTextInDelayAttrDic = delayAttrDic.contains { [unowned self](key, value) -> Bool in
+         if unwrapNewMemo.objectID == key {
+         unwrapTextView.attributedText = value
+         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+         unwrapTextView.selectedRange = selectedRange
+         if unwrapTextView.attributedText.length == 0 {
+         self.resetTextViewAttribute()
+         if self.isVisible {
+         unwrapTextView.appearKeyboard()
+         } else {
+         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+         }
+         }
+         
+         return true
+         } else {
+         return false
+         }
+         }
+         
+         guard !haveTextInDelayAttrDic else { return }
+         
+         let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content! as Data) as? NSAttributedString
+         PianoData.coreDataStack.viewContext.performAndWait({
+         unwrapTextView.attributedText = attrText
+         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
+         unwrapTextView.selectedRange = selectedRange
+         
+         if unwrapTextView.attributedText.length == 0 {
+         self.resetTextViewAttribute()
+         if self.isVisible {
+         unwrapTextView.appearKeyboard()
+         } else {
+         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
+         }
+         }
+         })
+         */
+    }
+    
+    
+    func resetTextViewAttribute(){
+        /*
+         guard let unwrapTextView = textView else { return }
+         unwrapTextView.textAlignment = .left
+         let attrText = NSAttributedString()
+         unwrapTextView.attributedText = attrText
+         unwrapTextView.typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
+         NSUnderlineStyleAttributeName : 0,
+         NSStrikethroughStyleAttributeName: 0,
+         NSBackgroundColorAttributeName : UIColor.clear,
+         NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)
+         ]
+         */
+    }
+    // MARK: edit text?
+    func removeSubrange(from: Int) {
+        //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
+        /*
+         let range = NSMakeRange(from, textView.selectedRange.location - from)
+         textView.layoutManager.textStorage?.deleteCharacters(in: range)
+         textView.selectedRange = NSRange(location: from, length: 0)
+         */
+    }
+    
+    func setTextViewEditedState() {
+        //textView.isEdited = true
+        //memo?.date = NSDate()
     }
     
     // MARK: eraserView

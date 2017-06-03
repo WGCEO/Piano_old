@@ -9,111 +9,45 @@
 import UIKit
 import Photos
 import MessageUI
-import CoreData
-
-protocol DetailViewControllerDelegate: class {
-    func detailViewController(_ controller: DetailViewController, addMemo: Memo)
-}
 
 class DetailViewController: UIViewController {
-    
-    lazy var privateMOC: NSManagedObjectContext = {
-        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        moc.parent = PianoData.coreDataStack.viewContext
-        return moc
-    }()
-    
-    var masterViewController: MasterViewController? {
-        get {
-            guard let masterViewController = delegate as? MasterViewController else { return nil }
-            return masterViewController
-        }
-    }
-    
-    var delayAttrDic: [NSManagedObjectID : NSAttributedString] = [:]
-    var waitingAttr: NSAttributedString?
-    
-    var appearKeyboardIfNeeded: () -> Void = { }
-    
-    weak var delegate: DetailViewControllerDelegate?
-    
     @IBOutlet weak var editor: PNEditor!
 
-    
-    //TODO: 이거 해결해야함 코드 더러움
-    var iskeyboardAlbumButtonTouched: Bool = false
-    
-    var canDoAnotherTask: Bool {
+    private var canDoAnotherTask: Bool {
         return ActivityIndicator.sharedInstace.isAnimating
     }
 
-    
-    
-    
-    
+    var memo: Memo? {
+        didSet {
+            editor.memo = memo
+        }
+    }
     
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //TODO: 업데이트할 때 이 참조 지우기
-        //textView.detailViewController = self
         
-        /*
-        textView.inputAccessoryView = accessoryView
-        textView.canvas.delegate = label
-        textView.layoutManager.delegate = self
-        */
-
-        //accessoryView.frame.size.height = navigationController!.toolbar.frame.height
-        
-        PianoData.coreDataStack.detailViewController = self
-        
-        
-        //viewDidLoad() 에서 memo == nil 일 때는 아이패드에서 맨 처음 실행했을 경우에만이므로 이때에는 최상위의 폴더에서 최상위 메모를 선택하게 함
-        /*
-        if let memo = memo {
-            setTextView(with: memo)
-        } else {
-            //아이패드인 경우로 해당 폴더의 첫번째 메모를 가져와야함
-            guard let masterViewController = delegate as? MasterViewController else { return }
-            if masterViewController.hasMemoInCurrentFolder() {
-                masterViewController.selectTableViewCell(with: IndexPath(row: 0, section: 0))
-            } else {
-                self.memo = nil
-            }
+        if memo != nil {
+            memo = MemoManager.selectedMemo()
         }
-        textView.contentOffset = CGPoint.zero
-        */
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // TODO: 어떤 경우에 Needed되는지 확인
+        editor.appearKeyboardIfNeeded()
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        /*
-        coordinator.animate(alongsideTransition: nil) {[unowned self] (_) in
-            
-            guard let textView = self.textView else { return }
-            if textView.mode != .typing {
-                textView.attachCanvas()
-            }
- 
+        
+        coordinator.animate(alongsideTransition: nil) {[weak self] (_) in
+            self?.editor.prepareToEditing()
         }
-        */
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        
-        
-    }
-    
+    // MARK: segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TextEffect" {
             let selectedButton = sender as! EffectButton
@@ -122,131 +56,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func showTopView(bool: Bool) {
-        /*
-        guard let textViewTop = self.textViewTop, let topView = self.topView else { return }
-        if bool {
-            textView.makeEffectable()
-        } else {
-            textView.makeTappable()
-        }
-        
-        //탑 뷰의 현재 상태와 반대될 때에만 아래의 뷰 애니메이션 코드 실행
-        guard bool == topView.isHidden else { return }
-        
-        topView.isHidden = bool ? false : true
-        navigationController?.setNavigationBarHidden(bool, animated: true)
-        navigationController?.setToolbarHidden(bool, animated: true)
-        UIView.animate(withDuration: 0.3) { [unowned self] in
-            self.textView.contentInset.bottom = bool ? 50 : 0
-            textViewTop.constant = bool ? 100 : 0
-            self.view.layoutIfNeeded()
-        }
-        */
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        //TODO: 코드 리펙토링제대로하기
-        //textView.isWaitingState = false
-        appearKeyboardIfNeeded()
-        appearKeyboardIfNeeded = { }
-    }
-    
-    
-    
-    // MARK: memo
-    
-    func setTextView(with memo: Memo?) {
-        /*
-         guard let editor = editor else { return }
-         unwrapTextView.isEdited = false
-         
-         //스크롤 이상하게 되는 것 방지
-         unwrapTextView.contentOffset = CGPoint.zero
-         
-         guard let unwrapNewMemo = memo else {
-         resetTextViewAttribute()
-         return }
-         
-         let haveTextInDelayAttrDic = delayAttrDic.contains { [unowned self](key, value) -> Bool in
-         if unwrapNewMemo.objectID == key {
-         unwrapTextView.attributedText = value
-         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-         unwrapTextView.selectedRange = selectedRange
-         if unwrapTextView.attributedText.length == 0 {
-         self.resetTextViewAttribute()
-         if self.isVisible {
-         unwrapTextView.appearKeyboard()
-         } else {
-         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
-         }
-         }
-         
-         return true
-         } else {
-         return false
-         }
-         }
-         
-         guard !haveTextInDelayAttrDic else { return }
-         
-         let attrText = NSKeyedUnarchiver.unarchiveObject(with: unwrapNewMemo.content! as Data) as? NSAttributedString
-         PianoData.coreDataStack.viewContext.performAndWait({
-         unwrapTextView.attributedText = attrText
-         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-         unwrapTextView.selectedRange = selectedRange
-         
-         if unwrapTextView.attributedText.length == 0 {
-         self.resetTextViewAttribute()
-         if self.isVisible {
-         unwrapTextView.appearKeyboard()
-         } else {
-         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
-         }
-         }
-         })
-         */
-    }
-    
-    func saveData(isTerminal: Bool) {
-        MemoManager.saveCoreDataWhenExit(isTerminal: isTerminal)
-    }
-    
-    func resetTextViewAttribute(){
-        /*
-        guard let unwrapTextView = textView else { return }
-        unwrapTextView.textAlignment = .left
-        let attrText = NSAttributedString()
-        unwrapTextView.attributedText = attrText
-        unwrapTextView.typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
-                                           NSUnderlineStyleAttributeName : 0,
-                                           NSStrikethroughStyleAttributeName: 0,
-                                           NSBackgroundColorAttributeName : UIColor.clear,
-                                           NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)
-        ]
-        */
-    }    
-    // MARK: edit text?
-    func removeSubrange(from: Int) {
-        //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
-        /*
-        let range = NSMakeRange(from, textView.selectedRange.location - from)
-        textView.layoutManager.textStorage?.deleteCharacters(in: range)
-        textView.selectedRange = NSRange(location: from, length: 0)
-        */
-    }
-    
-    func setTextViewEditedState() {
-        //textView.isEdited = true
-        //memo?.date = NSDate()
-    }
-    
-    
-    
-    
-
     // MARK: button touch events
     @IBAction func tapTrashButton(_ sender: Any) {
         //존재하면 우선 팝업 보여줬는지 체크하고 안보여줬다면 팝업보여주기
@@ -281,32 +90,20 @@ class DetailViewController: UIViewController {
         //sendMail()
     }
     
-    
+    // TODO: 실질적으로 기능은 비슷하므로 sender로 구분하는 것으로 변경 
     @IBAction func tapAlbumButton(_ sender: Any) {
         if !canDoAnotherTask { return }
         
+        /*
         guard let _ = masterViewController?.folder else {
-            //showAddGroupAlertViewController()
+            showAddGroupAlertViewController()
             return
         }
+        */
         
-        showImagePicker()
-        
-        iskeyboardAlbumButtonTouched = false
-    }
-    
-    @IBAction func tapAlbumButton2(_ sender: Any) {
-        if !canDoAnotherTask { return }
-        
-        guard let _ = masterViewController?.folder else {
-            //showAddGroupAlertViewController()
-            return
-        }
         editor.resignFirstResponder()
         
         showImagePicker()
-        
-        iskeyboardAlbumButtonTouched = true
     }
     
     private func showImagePicker() {

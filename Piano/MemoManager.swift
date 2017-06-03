@@ -8,8 +8,26 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class MemoManager {
+    lazy var privateMOC: NSManagedObjectContext = {
+        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        moc.parent = PianoData.coreDataStack.viewContext
+        return moc
+    }()
+    
+    // MARK: public methods
+    class func getMemo(at index: Int, in folder: String = "") -> Memo? {
+        // 임시
+        return Memo()
+    }
+    
+    class func selectedMemo() -> Memo? {
+        // 임시
+        return Memo()
+    }
+    
     // MARK: alert
     func showAddGroupAlertViewController() {
         /*
