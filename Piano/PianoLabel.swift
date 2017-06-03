@@ -162,7 +162,7 @@ class PianoLabel: UILabel {
                 applyEffectIndexSet.remove(index)
             }
             
-
+            
             
             //효과 입히기
 //            if x > -waveLength && x < waveLength {
