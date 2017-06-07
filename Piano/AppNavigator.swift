@@ -10,12 +10,23 @@ import Foundation
 import UIKit
 
 class AppNavigator {
-    static var currentViewController: UIViewController?
+    static var currentViewController: UIViewController? {
+        let window = UIApplication.shared.keyWindow
+        
+        if let navigationController = window?.rootViewController as? UINavigationController {
+            return navigationController.presentedViewController
+        } else {
+            return window?.rootViewController
+        }
+    }
     
     class func presentImagePicker() {
         
     }
     
+    class func present(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        currentViewController?.present(viewController, animated: animated, completion: completion)
+    }
     /*
     class func presentPermissionErrorAlert() {
         DispatchQueue.main.async {

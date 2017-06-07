@@ -95,7 +95,9 @@ class MemoViewController: UIViewController {
     }
 
     @IBAction func tapSendEmail(_ sender: Any) {
-        //sendMail()
+        MailSender.sendMail(with: memo?.attrbutedString) { [weak self] in
+            //self?.editor.makeTappable()
+        }
     }
     
     // TODO: 실질적으로 기능은 비슷하므로 sender로 구분하는 것으로 변경 
