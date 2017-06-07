@@ -246,12 +246,12 @@
 			name = MasterViewController;
 			sourceTree = "<group>";
 		};
-		0A15B18F1E41B67B000DC102 /* DetailViewController */ = {
+		0A15B18F1E41B67B000DC102 /* Memo */ = {
 			isa = PBXGroup;
 			children = (
 				0A8815A81E31FB1D00ABEB98 /* MemoViewController.swift */,
 			);
-			name = DetailViewController;
+			name = Memo;
 			sourceTree = "<group>";
 		};
 		0A15B1901E41B684000DC102 /* SelectEffectViewController */ = {
@@ -339,7 +339,7 @@
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				0A15B18E1E41B670000DC102 /* MasterViewController */,
-				0A15B18F1E41B67B000DC102 /* DetailViewController */,
+				0A15B18F1E41B67B000DC102 /* Memo */,
 				0A15B18A1E41B623000DC102 /* ThanksToViewController */,
 				0A15B18B1E41B63F000DC102 /* SettingViewController */,
 				0A15B18C1E41B658000DC102 /* MoveMemoViewController */,
@@ -639,7 +639,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		EFD04C4E11F2130D072C24DC /* [CP] Copy Pods Resources */ = {

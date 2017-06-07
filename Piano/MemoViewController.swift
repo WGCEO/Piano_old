@@ -19,7 +19,7 @@ class MemoViewController: UIViewController {
 
     var memo: Memo? {
         didSet {
-            editor?.memo = memo
+            editor?.attributedText = memo?.attrbutedString
         }
     }
     
@@ -190,3 +190,10 @@ extension MemoViewController: NSLayoutManagerDelegate {
     }
 }
 
+extension Memo {
+    var attrbutedString: NSAttributedString? {
+        guard let data = content as Data? else { return nil }
+        
+        return NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString
+    }
+}

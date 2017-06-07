@@ -30,25 +30,19 @@ class PianoTextView: UITextView {
         isWaitingState = false
         isEdited = false
         mode = .typing
+        clearTextView()
         
         contentOffset = CGPoint.zero
     }
     
-    public func showMemo(_ memo: Memo?) {
-        guard let data = memo?.content as Data?,
-            let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
-        
-        PianoData.coreDataStack.viewContext.performAndWait({
-            self.attributedText = attributedText
-            self.selectedRange = NSMakeRange(attributedText.length, 0)
-            
-            print(attributedText.string)
-            //if length == 0
-            //self.resetTextViewAttribute()
-            //self.appearKeyboardifNeeded
-        })
-        
-        self.memo = memo
+    private func clearTextView() {
+        textAlignment = .left
+        attributedText = nil
+        typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
+                             NSUnderlineStyleAttributeName: 0,
+                         NSStrikethroughStyleAttributeName: 0,
+                            NSBackgroundColorAttributeName: UIColor.clear,
+                                       NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
     }
     
     // MARK: UIResponder

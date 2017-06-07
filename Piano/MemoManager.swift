@@ -17,10 +17,18 @@ class MemoManager {
         return moc
     }()
     
+    static var cache: [String:Memo] = [:]
+    
     // MARK: public methods
     class func getMemo(at index: Int, in folder: String = "") -> Memo? {
         // 임시
         return Memo()
+    }
+    
+    // for cache?
+    class func getMemo(key: String) -> Memo? {
+        
+        return cache[key]
     }
     
     class func selectedMemo() -> Memo? {

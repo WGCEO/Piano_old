@@ -9,18 +9,19 @@
 import Foundation
 import UIKit
 import CoreData
+import SnapKit
 
 @objc class PNEditor: UIView {
     var textView: PianoTextView!
     var canvas = PianoControl()
     var images: [UIImage] = []
     
-    public var memo: Memo? {
+    public var attributedText: NSAttributedString? {
         didSet {
-            guard memo != oldValue else { return }
+            guard attributedText != oldValue else { return }
             
             prepareToReuse()
-            showMemo()
+            showEditor()
         }
     }
     
@@ -30,12 +31,6 @@ import CoreData
         view.backgroundColor = UIColor.white
         return view
     }()
-    
-    convenience init(frame: CGRect, memo: Memo) {
-        self.init(frame: frame)
-        
-        self.memo = memo
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,8 +54,9 @@ import CoreData
         // TODO:
         //showTopView(bool: false)
         
-        let textView = PianoTextView(frame: bounds, textContainer: nil)
+        let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
         
+        textView.backgroundColor = UIColor.blue
         textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
         textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -109,60 +105,6 @@ import CoreData
          textViewTop.constant = bool ? 100 : 0
          self.view.layoutIfNeeded()
          }
-         */
-    }
-    
-    // MARK: textView
-    func setTextView(with memo: Memo?) {
-        /*
-         guard let editor = editor else { return }
-         unwrapTextView.isEdited = false
-         
-         //스크롤 이상하게 되는 것 방지
-         unwrapTextView.contentOffset = CGPoint.zero
-         
-         guard let unwrapNewMemo = memo else {
-         resetTextViewAttribute()
-         return }
-         
-         let haveTextInDelayAttrDic = delayAttrDic.contains { [unowned self](key, value) -> Bool in
-         if unwrapNewMemo.objectID == key {
-         unwrapTextView.attributedText = value
-         let selectedRange = NSMakeRange(unwrapTextView.attributedText.length, 0)
-         unwrapTextView.selectedRange = selectedRange
-         if unwrapTextView.attributedText.length == 0 {
-         self.resetTextViewAttribute()
-         if self.isVisible {
-         unwrapTextView.appearKeyboard()
-         } else {
-         self.appearKeyboardIfNeeded = { unwrapTextView.appearKeyboard() }
-         }
-         }
-         
-         return true
-         } else {
-         return false
-         }
-         }
-         
-         guard !haveTextInDelayAttrDic else { return }
-         
-         */
-    }
-    
-    
-    func resetTextViewAttribute(){
-        /*
-         guard let unwrapTextView = textView else { return }
-         unwrapTextView.textAlignment = .left
-         let attrText = NSAttributedString()
-         unwrapTextView.attributedText = attrText
-         unwrapTextView.typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
-         NSUnderlineStyleAttributeName : 0,
-         NSStrikethroughStyleAttributeName: 0,
-         NSBackgroundColorAttributeName : UIColor.clear,
-         NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)
-         ]
          */
     }
     
@@ -248,10 +190,10 @@ import CoreData
         canvas.removeFromSuperview()
     }
     
-    private func showMemo() {
+    private func showEditor() {
         ActivityIndicator.stopAnimating()
 
-        textView.showMemo(memo)
+        textView.attributedText = attributedText
     }
 }
 
