@@ -19,7 +19,7 @@ class MemoViewController: UIViewController {
 
     var memo: Memo? {
         didSet {
-            editor?.attributedText = memo?.attrbutedString
+            showMemo()
         }
     }
     
@@ -28,9 +28,11 @@ class MemoViewController: UIViewController {
         super.viewDidLoad()
         
         if memo == nil {
-            // TODO: iPad일 경우 첫 번째 메모를 가져와야 함
+            // TODO: iPad일 경우 첫 번째 메모를 가져와야 함 -> Master에서 하는 것이 좋을 듯
             memo = MemoManager.selectedMemo()
         }
+        
+        showMemo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,6 +48,11 @@ class MemoViewController: UIViewController {
         coordinator.animate(alongsideTransition: nil) {[weak self] (_) in
             self?.editor.prepareToEditing()
         }
+    }
+    
+    // MARR: setup views
+    private func showMemo() {
+        editor?.attributedText = memo?.attrbutedString
     }
     
     // MARK: segue

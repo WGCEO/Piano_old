@@ -30,12 +30,12 @@ class PianoTextView: UITextView {
         isWaitingState = false
         isEdited = false
         mode = .typing
-        clearTextView()
+        clearText()
         
         contentOffset = CGPoint.zero
     }
     
-    private func clearTextView() {
+    private func clearText() {
         textAlignment = .left
         attributedText = nil
         typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,

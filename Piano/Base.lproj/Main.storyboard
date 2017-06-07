@@ -340,18 +340,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhE-Og-M0L" customClass="PNEditor" customModule="Piano" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="nhE-Og-M0L" secondAttribute="trailing" id="3el-9J-BJz"/>
+                            <constraint firstItem="nhE-Og-M0L" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="3gY-Oi-eek"/>
                             <constraint firstItem="3da-gH-sBd" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="4Wj-gv-R3f"/>
                             <constraint firstAttribute="trailing" secondItem="3da-gH-sBd" secondAttribute="trailing" id="Em6-8d-IBL"/>
                             <constraint firstAttribute="bottom" secondItem="3da-gH-sBd" secondAttribute="bottom" id="ExN-bT-KY5"/>
-                            <constraint firstItem="nhE-Og-M0L" firstAttribute="leading" secondItem="yMA-Ec-v7M" secondAttribute="leading" id="Wl1-2r-BmS"/>
-                            <constraint firstItem="nhE-Og-M0L" firstAttribute="top" secondItem="JYV-8S-nnG" secondAttribute="bottom" id="ijV-Ve-9Hm"/>
-                            <constraint firstAttribute="trailing" secondItem="nhE-Og-M0L" secondAttribute="trailing" id="jyN-3E-keR"/>
-                            <constraint firstItem="WHf-QJ-klZ" firstAttribute="top" secondItem="nhE-Og-M0L" secondAttribute="bottom" id="u6G-Yb-c2I"/>
+                            <constraint firstItem="nhE-Og-M0L" firstAttribute="top" secondItem="JYV-8S-nnG" secondAttribute="bottom" id="dVM-XI-0J0"/>
+                            <constraint firstItem="WHf-QJ-klZ" firstAttribute="top" secondItem="nhE-Og-M0L" secondAttribute="bottom" id="eoZ-kL-03V"/>
                         </constraints>
                     </view>
                     <toolbarItems>

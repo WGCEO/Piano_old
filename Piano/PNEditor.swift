@@ -21,7 +21,7 @@ import SnapKit
             guard attributedText != oldValue else { return }
             
             prepareToReuse()
-            showEditor()
+            showAttributedText()
         }
     }
     
@@ -36,14 +36,12 @@ import SnapKit
         super.init(frame: frame)
         
         configure()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        self.init(frame: CGRect.zero)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        configure()
     }
     
     deinit {
@@ -51,16 +49,28 @@ import SnapKit
     }
     
     private func configure() {
+        configureSubviews()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
+    }
+    
+    private func configureSubviews() {
         // TODO:
         //showTopView(bool: false)
         
         let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
         
-        textView.backgroundColor = UIColor.blue
         textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
         textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         textView.allowsEditingTextAttributes = true
+        
+        addSubview(textView)
+        textView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
         
         canvas.textView = textView
         
@@ -181,8 +191,6 @@ import SnapKit
     
     // MARK: private methods
     private func prepareToReuse() {
-        ActivityIndicator.startAnimating()
-        
         MemoManager.saveCoreDataIfNeeded()
         
         images.removeAll()
@@ -190,9 +198,7 @@ import SnapKit
         canvas.removeFromSuperview()
     }
     
-    private func showEditor() {
-        ActivityIndicator.stopAnimating()
-
+    private func showAttributedText() {
         textView.attributedText = attributedText
     }
 }
