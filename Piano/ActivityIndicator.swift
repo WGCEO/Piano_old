@@ -17,13 +17,13 @@ class ActivityIndicator {
     }
     
     // TODO: 현재 뷰 위에 띄우도록 변경
-    class func startAnimating() {
+    public class func startAnimating() {
         sharedInstace.removeFromSuperview()
         
         ActivityIndicator.sharedInstace.startAnimating()
     }
     
-    class func stopAnimating() {
+    public class func stopAnimating() {
         sharedInstace.removeFromSuperview()
         
         ActivityIndicator.sharedInstace.stopAnimating()

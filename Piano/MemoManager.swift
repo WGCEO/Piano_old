@@ -36,53 +36,6 @@ class MemoManager {
         return Memo()
     }
     
-    // MARK: alert
-    func showAddGroupAlertViewController() {
-        /*
-        let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
-        
-        let cancel = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
-        let ok = UIAlertAction(title: "Create".localized(withComment: "생성"), style: .default) { [unowned self](action) in
-            guard let text = alert.textFields?.first?.text else { return }
-            let context = PianoData.coreDataStack.viewContext
-            do {
-                let newFolder = Folder(context: context)
-                newFolder.name = text
-                newFolder.date = NSDate()
-                newFolder.memos = []
-                
-                try context.save()
-                
-                guard let masterViewController = self.delegate as? MasterViewController else { return }
-                masterViewController.fetchFolderResultsController()
-                masterViewController.selectSpecificFolder(selectedFolder: newFolder)
-            } catch {
-                print("Error importing folders: \(error.localizedDescription)")
-            }
-        }
-        
-        ok.isEnabled = false
-        alert.addAction(cancel)
-        alert.addAction(ok)
-        
-        alert.addTextField { (textField) in
-            textField.placeholder = "FolderName".localized(withComment: "폴더이름")
-            textField.returnKeyType = .done
-            textField.enablesReturnKeyAutomatically = true
-            textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
-        }
-        
-        present(alert, animated: true, completion: nil)
-        */
-    }
-    
-    func textChanged(sender: AnyObject) {
-        let tf = sender as! UITextField
-        var resp : UIResponder! = tf
-        while !(resp is UIAlertController) { resp = resp.next }
-        let alert = resp as! UIAlertController
-        alert.actions[1].isEnabled = (tf.text != "")
-    }
     
     func moveMemoToTrash() {
         /*
