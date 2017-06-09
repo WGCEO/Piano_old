@@ -13,6 +13,7 @@ import SnapKit
 
 @objc class PNEditor: UIView {
     var textView: PianoTextView!
+    var paletteView: PaletteView!
     var canvas = PianoControl()
     var images: [UIImage] = []
     
@@ -51,10 +52,6 @@ import SnapKit
         configure()
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     private func configure() {
         configureSubviews()
         
@@ -63,10 +60,17 @@ import SnapKit
         NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: configure subviews
     private func configureSubviews() {
-        // TODO:
-        //showTopView(bool: false)
-        
+        configurePianoTextView()
+        configurePaletteView()
+    }
+    
+    private func configurePianoTextView() {
         let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
         
         textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
@@ -84,6 +88,20 @@ import SnapKit
         self.textView = textView
     }
     
+    private func configurePaletteView() {
+        let paletteView = PaletteView(frame: CGRect.zero)
+        
+        addSubview(paletteView)
+        paletteView.snp.makeConstraints { (make) in
+            make.top.equalTo(self)
+            make.left.equalTo(self)
+            make.right.equalTo(self)
+            make.height.equalTo(100)
+        }
+        
+        self.paletteView = paletteView
+    }
+    
     // MARK: public methods
     func appearKeyboardIfNeeded() {
         textView.isWaitingState = false
@@ -94,35 +112,40 @@ import SnapKit
         //appearKeyboardIfNeeded = { }
     }
     
-    func prepareToEditing() { // from detailVC.viewWillTransition
+    func prepareToEditing() {
         if textView.mode != .typing {
             attachCanvas()
         }
     }
     
+    func showPaletteView() {
+        textView.makeEffectable()
+        
+        paletteView.isHidden = false
+        
+        animateTextView()
+    }
     
-    // MARK: palette view
-    func showTopView(bool: Bool) {
-        /*
-         guard let textViewTop = self.textViewTop, let topView = self.topView else { return }
-         if bool {
-         textView.makeEffectable()
-         } else {
-         textView.makeTappable()
-         }
-         
-         //탑 뷰의 현재 상태와 반대될 때에만 아래의 뷰 애니메이션 코드 실행
-         guard bool == topView.isHidden else { return }
-         
-         topView.isHidden = bool ? false : true
-         navigationController?.setNavigationBarHidden(bool, animated: true)
-         navigationController?.setToolbarHidden(bool, animated: true)
-         UIView.animate(withDuration: 0.3) { [unowned self] in
-         self.textView.contentInset.bottom = bool ? 50 : 0
-         textViewTop.constant = bool ? 100 : 0
-         self.view.layoutIfNeeded()
-         }
-         */
+    func hidePaletteView() {
+        textView.makeTappable()
+        
+        paletteView.isHidden = true
+        
+        animateTextView()
+    }
+    
+    private func animateTextView() {
+        let navigationController = AppNavigator.currentNavigationController
+        let isHidden = !(paletteView.isHidden)
+        
+        navigationController?.setNavigationBarHidden(!isHidden, animated: true)
+        navigationController?.setToolbarHidden(!isHidden, animated: true)
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.textView.contentInset.bottom = isHidden ? 50 : 0
+            self?.textView.topConstraint?.constant = isHidden ? 100 : 0
+            self?.layoutIfNeeded()
+        }
     }
     
     // MARK: edit text?
@@ -292,5 +315,17 @@ extension PNEditor: UITextViewDelegate {
          textView.attachCanvas()
          }
          */
+    }
+}
+
+fileprivate extension PianoTextView {
+    var topConstraint: NSLayoutConstraint? {
+        for constraint in constraints {
+            if constraint.firstAttribute == .top {
+                return constraint
+            }
+        }
+        
+        return nil
     }
 }

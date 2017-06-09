@@ -20,6 +20,12 @@ class AppNavigator {
         }
     }
     
+    static var currentNavigationController: UINavigationController? {
+        let window = UIApplication.shared.keyWindow
+        
+        return window?.rootViewController as? UINavigationController
+    }
+    
     class func present(_ viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         currentViewController?.present(viewController, animated: animated, completion: completion)
     }
