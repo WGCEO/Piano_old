@@ -63,14 +63,6 @@ class MailSender: NSObject, MFMailComposeViewControllerDelegate {
         AppNavigator.present(sendMailErrorAlert, animated: true, completion: nil)
     }
     
-    /*
-    func returnEmailStringBase64EncodedImage(image:UIImage) -> String {
-        let imgData = UIImagePNGRepresentation(image)!
-        let dataString = imgData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
-        return dataString
-    }
-    */
-    
     // MARK: MFMailComposeViewControllerDelegate Method
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)

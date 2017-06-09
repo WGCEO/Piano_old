@@ -41,20 +41,4 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    /*
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        /*
-         textView.makeTappable()
-         dismiss(animated: true, completion: nil)
-         
-         
-         if iskeyboardAlbumButtonTouched {
-         textView.appearKeyboard()
-         iskeyboardAlbumButtonTouched = false
-         }
-         */
-    }
-    */
-    
 }
