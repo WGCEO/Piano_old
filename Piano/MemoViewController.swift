@@ -132,7 +132,8 @@ class MemoViewController: UIViewController {
     }
 
     @IBAction func tapSendEmail(_ sender: Any) {
-        MailSender.sendMail(with: memo?.attrbutedString) { [weak self] in
+        let content = memo?.attrbutedString ?? NSAttributedString()
+        MailSender.sendMail(with: content) { [weak self] in
             //self?.editor.makeTappable()
         }
     }
