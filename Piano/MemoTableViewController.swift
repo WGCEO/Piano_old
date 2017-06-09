@@ -1,5 +1,5 @@
 //
-//  MasterViewController.swift
+//  MemoTableViewController.swift
 //  Piano
 //
 //  Created by kevin on 2017. 1. 20..
@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import LTMorphingLabel
 
-class MasterViewController: UIViewController {
+class MemoTableViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: LTMorphingLabel!
     
@@ -78,7 +78,7 @@ class MasterViewController: UIViewController {
     
     
     func registerNotificationForAjustTextSize(){
-        NotificationCenter.default.addObserver(self, selector: #selector(MasterViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemoTableViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
     func preferredContentSizeChanged(notification: Notification) {
@@ -360,7 +360,7 @@ class MasterViewController: UIViewController {
     }
 }
 
-extension MasterViewController: ConfigureFolderViewControllerDelegate {
+extension MemoTableViewController: ConfigureFolderViewControllerDelegate {
     func configureFolderViewController(_ controller: ConfigureFolderViewController, selectFolder: Folder) {
         fetchFolderResultsController()
         selectSpecificFolder(selectedFolder: selectFolder)
@@ -392,7 +392,7 @@ extension MasterViewController: ConfigureFolderViewControllerDelegate {
     }
 }
 
-extension MasterViewController: NSFetchedResultsControllerDelegate {
+extension MemoTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -449,7 +449,7 @@ extension MasterViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-extension MasterViewController: UITableViewDataSource {
+extension MemoTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell") as! MemoCell
         configure(cell: cell, at: indexPath)
@@ -489,7 +489,7 @@ extension MasterViewController: UITableViewDataSource {
 //    }
 }
 
-extension MasterViewController: UITableViewDelegate {
+extension MemoTableViewController: UITableViewDelegate {
     internal func deselectRowIfNeeded() {
         // TODO: if iPhone일 때만 선택해제
         if let selectedRow = tableView.indexPathForSelectedRow {
