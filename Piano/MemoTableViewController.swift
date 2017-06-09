@@ -14,41 +14,9 @@ class MemoTableViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: LTMorphingLabel!
     
-    lazy var folderResultsController: NSFetchedResultsController<Folder> = {
-        let context = PianoData.coreDataStack.viewContext
-        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
-        let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
-        request.sortDescriptors = [dateSort]
-        return NSFetchedResultsController(fetchRequest: request,
-                                          managedObjectContext:context,
-                                          sectionNameKeyPath: nil,
-                                          cacheName: nil)
-    }()
-    
-    var memoResultsController: NSFetchedResultsController<Memo>! {
-        didSet {
-            memoResultsController.delegate = self
-            do {
-                try memoResultsController.performFetch()
-                tableView.reloadData()
-                
-                setFirstCellIfIpad()
-            } catch {
-                print("Error performing fetch \(error.localizedDescription)")
-            }
-        }
-    }
-    
     var folder: Folder? {
         didSet {
-            let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-            request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", folder ?? " ")
-            let context = PianoData.coreDataStack.viewContext
-//            let prioritySort = NSSortDescriptor(
-//                key: #keyPath(Memo.priority), ascending: false)
-            let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
-            request.sortDescriptors = [dateSort]
-            memoResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+            MemoManager.currentFolder = folder
             
             titleLabel.text = folder?.name ?? " "
             
@@ -308,14 +276,13 @@ class MemoTableViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func tapComposeBarButton(_ sender: Any) {
-        guard canDoAnotherTask() else { return }
-        let item = sender as! UIBarButtonItem
+    @IBAction func tapComposeBarButton(_ item: UIBarButtonItem) {
         item.isEnabled = false
         
         let deadline = DispatchTime.now() + .milliseconds(50)
         DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
             self?.addNewMemo()
+            
             item.isEnabled = true
         }
     }
@@ -323,18 +290,7 @@ class MemoTableViewController: UIViewController {
     
     //곧바로 여기 테이블 뷰에 접근하면 됨
     func addNewMemo(){
-        guard let folder = self.folder else {
-            //폴더가 없다는 말이므로 폴더를 먼저 추가해달라고 말하기
-            showAddGroupAlertViewController()
-            return }
-        
-        let memo = Memo(context: PianoData.coreDataStack.viewContext)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
-        memo.date = NSDate()
-        memo.folder = folder
-        memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
-        
-        PianoData.save()
+        let _ = MemoManager.newMemo()
         
         //select하면 디테일뷰에 데이터 전달
         selectTableViewCell(with: IndexPath(row: 0, section: 0))
@@ -392,62 +348,7 @@ extension MemoTableViewController: ConfigureFolderViewControllerDelegate {
     }
 }
 
-extension MemoTableViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .delete:
-            guard let indexPath = indexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .left)
-        case .insert:
-            guard let newIndexPath = newIndexPath else { return }
-            tableView.insertRows(at: [newIndexPath], with: .left)
-        case .update:
-            guard let indexPath = indexPath else { return }
-            if let cell = tableView.cellForRow(at: indexPath) as? MemoCell {
-                configure(cell: cell, at: indexPath)
-                cell.setNeedsLayout()
-            }
-        case .move:
-            guard let indexPath = indexPath,
-                let newIndexPath = newIndexPath else { return }
 
-            tableView.moveRow(at: indexPath, to: newIndexPath)
-            deselectRowIfNeeded()
-            
-//            if indexPath.section == newIndexPath.section {
-//                tableView.moveRow(at: indexPath, to: newIndexPath)
-//            } else {
-//                tableView.deleteRows(at: [indexPath], with: .automatic)
-//                tableView.insertRows(at: [newIndexPath], with: .automatic)
-//            }
-        }
-    }
-    
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-//        let indexSet = IndexSet(integer: sectionIndex)
-//        switch type {
-//        case .insert:
-//            tableView.insertSections(indexSet, with: .automatic)
-//        case .delete:
-//            tableView.deleteSections(indexSet, with: .automatic)
-//        default:
-//            break
-//        }
-//    }
-//    
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
-//        return sectionName != "0" ? "Pin Memos" : "Memos"
-//    }
-    
-
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-    }
-}
 
 extension MemoTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -29,7 +29,7 @@ class PaletteView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configure()
+        //configure()
     }
     
     required init?(coder aDecoder: NSCoder) {

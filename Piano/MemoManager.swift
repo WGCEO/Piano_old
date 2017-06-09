@@ -10,19 +10,75 @@ import Foundation
 import UIKit
 import CoreData
 
-class MemoManager {
-    lazy var privateMOC: NSManagedObjectContext = {
-        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        moc.parent = PianoData.coreDataStack.viewContext
-        return moc
-    }()
+enum Storage {
+    case iCloud
+    case coreData
+    case cache
+}
+
+enum Interest {
+    case memo
+    case folder
+    case none
+}
+
+typealias ChangeType = NSFetchedResultsChangeType
+
+protocol Watchable: class {
+    func Interests() -> [Interest]
+    func update(at indexPath: NSIndexPath?, for type: ChangeType)
+}
+
+class MemoManager: NSObject {
+    private static let sharedInstance = MemoManager()
+    
+    internal var watchers: [Watchable] = []
+    
+    static var currentFolder: Folder? {
+        didSet {
+            let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+            request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", currentFolder ?? " ")
+            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)]
+            
+            let context = PianoData.coreDataStack.viewContext
+            
+            memoResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+        }
+    }
+    static var currentMemo: Memo?
     
     static var cache: [String:Memo] = [:]
     
-    static var currentFolder: Folder?
-    static var currentMemo: Memo?
+    static var folderResultsController: NSFetchedResultsController<Folder> = {
+        let context = PianoData.coreDataStack.viewContext
+        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+        let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
+        request.sortDescriptors = [dateSort]
+        return NSFetchedResultsController(fetchRequest: request,
+                                          managedObjectContext:context,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }()
+    
+    static var memoResultsController: NSFetchedResultsController<Memo>? {
+        didSet {
+            memoResultsController?.delegate = sharedInstance
+            
+            try? memoResultsController?.performFetch()
+        }
+    }
     
     // MARK: public methods
+    class func regist(watcher: Watchable) {
+        sharedInstance.watchers.append(watcher)
+    }
+    
+    class func remove(watcher: Watchable) {
+        let watchers = sharedInstance.watchers
+        
+        sharedInstance.watchers = watchers.filter { return !($0 === watcher) }
+    }
+    
     class func getMemo(at index: Int, in folder: Folder? = nil) -> Memo? {
         // 임시
         return Memo()
@@ -52,7 +108,7 @@ class MemoManager {
     
     
     class func newMemo() -> Memo {
-        showAddFolderAlertIfNeeded()
+        //showAddFolderAlertIfNeeded()
         
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
@@ -87,6 +143,14 @@ class MemoManager {
         }
     }
     
+    
+    /*
+     lazy var privateMOC: NSManagedObjectContext = {
+     let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+     moc.parent = PianoData.coreDataStack.viewContext
+     return moc
+     }()
+     */
     
     class func saveCoreDataIfNeeded(){
         /*
@@ -173,5 +237,25 @@ class MemoManager {
          }
          */
     }
-    
 }
+
+extension MemoManager: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        var interest: Interest
+        switch anObject {
+        case is Memo:
+            interest = .memo
+        case is Folder:
+            interest = .folder
+        default:
+            interest = .none
+        }
+        
+        for watcher in watchers {
+            if watcher.Interests().contains(interest) {
+                watcher.update(at: indexPath, for: type)
+            }
+        }
+    }
+}
+
