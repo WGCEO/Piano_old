@@ -47,7 +47,8 @@
 		315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315A53881DF6729F00BB7367 /* TextEffectAttribute.swift */; };
 		316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */; };
 		316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F157B1DEC140A007693D9 /* UITextView_Extension.swift */; };
-		F4777F661EE97ED300E7B86D /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController+Extension.swift */; };
+		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
+		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
 		F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */; };
 		F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6D1EE196A300A0E81C /* PaletteView.swift */; };
 		F49B3C711EE1A10300A0E81C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C701EE1A10300A0E81C /* Utils.swift */; };
@@ -154,7 +155,8 @@
 		316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint_Extension.swift; sourceTree = "<group>"; };
 		316F157B1DEC140A007693D9 /* UITextView_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView_Extension.swift; sourceTree = "<group>"; };
 		AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.debug.xcconfig"; sourceTree = "<group>"; };
-		F4777F651EE97ED300E7B86D /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
+		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
+		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
 		F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNEditor.swift; sourceTree = "<group>"; };
 		F49B3C6D1EE196A300A0E81C /* PaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		F49B3C701EE1A10300A0E81C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 		0A5B08221E3EB0EA0074E5CA /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */,
 				0ACC37751E3DEC1A0079FA93 /* UIViewController_Extension.swift */,
 				0A5AFD491E02609E0000CDF6 /* NSPersistentContainer_Extension.swift */,
 				316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */,
@@ -291,6 +294,7 @@
 				315A53821DF311FA00BB7367 /* NSRange_Extension.swift */,
 				0A638E661E16A7A00006FFEA /* Date_Extension.swift */,
 				0AEDCEE11DF923F9000D57C2 /* String_Extension.swift */,
+				F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -441,7 +445,6 @@
 				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,
 				F49B3C781EE1A2C200A0E81C /* MemoManager.swift */,
 				F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */,
-				F4777F651EE97ED300E7B86D /* UIAlertController+Extension.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -689,7 +692,7 @@
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				0A8815A91E31FB1D00ABEB98 /* MemoViewController.swift in Sources */,
 				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
-				F4777F661EE97ED300E7B86D /* UIAlertController+Extension.swift in Sources */,
+				F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				0A8B994A1E40CE2D00130F7F /* ThanksToViewController.swift in Sources */,
 				315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */,
@@ -697,6 +700,7 @@
 				0A8B997C1E41AD1C00130F7F /* UIColor_Extension.swift in Sources */,
 				0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */,
 				315A53851DF4790200BB7367 /* PianoLabelAnimation.swift in Sources */,
+				F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */,
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				0AEE6D851E123FD8009C98F4 /* ColorPalette.swift in Sources */,

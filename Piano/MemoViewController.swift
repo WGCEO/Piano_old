@@ -103,20 +103,34 @@ class MemoViewController: UIViewController {
         }
     }
     
-    // MARK: button touch events
+    // MARK: move memo to trash
     @IBAction func tapTrashButton(_ sender: Any) {
-        //존재하면 우선 팝업 보여줬는지 체크하고 안보여줬다면 팝업보여주기
-        /*
-        if hasShownTrashAlert() {
-            moveMemoToTrash()
-        } else {
-            showTrashInfoAlert { [unowned self] in
-                self.moveMemoToTrash()
+        if UserDefaults.hasShownTrashAlert {
+            showTrashInfoAlert { [weak self] in
+                self?.removeMemo()
             }
+        } else {
+            removeMemo()
         }
-        */
+    }
+
+    private func showTrashInfoAlert(_ completion: (() -> Void)?) {
+        let alert = UIAlertController.makeTrashInfoAlert(completion)
+        
+        AppNavigator.present(alert)
     }
     
+    private func removeMemo() {
+        if let memo = memo {
+            MemoManager.remove(memo) { [weak self] (isSuccess, memo) in
+                if isSuccess {
+                    self?.memo = memo
+                }
+            }
+        }
+    }
+    
+    // MARK: show effect buttons
     @IBAction func tapEffectButton(_ sender: Any) {
         /*
         guard canDoAnotherTask() else { return }
@@ -140,7 +154,7 @@ class MemoViewController: UIViewController {
         }
     }
     
-    // TODO: 실질적으로 기능은 비슷하므로 sender로 구분하는 것으로 변경 
+    // MARK: pick images
     @IBAction func tapAlbumButton(_ sender: Any) {
         let status = PHPhotoLibrary.authorizationStatus()
         
@@ -166,16 +180,15 @@ class MemoViewController: UIViewController {
         AppNavigator.present(alert)
     }
     
-    @IBAction func tapComposeButton(_ sender: Any) {
-        if !canDoAnotherTask { return }
- 
-        let item = sender as! UIBarButtonItem
-        item.isEnabled = false
+    // MARK: compose
+    @IBAction func tapComposeButton(_ sender: UIBarButtonItem) {
+        sender.isEnabled = false
  
         let deadline = DispatchTime.now() + .milliseconds(50)
-        DispatchQueue.main.asyncAfter(deadline: deadline) { //[weak self] in
-            //self?.addNewMemo()
-            item.isEnabled = true
+        DispatchQueue.main.asyncAfter(deadline: deadline) { [weak self] in
+            self?.memo = MemoManager.newMemo()
+            
+            sender.isEnabled = true
         }
     }
     
