@@ -94,6 +94,8 @@ class MemoViewController: UIViewController {
     
     // MARK: segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        editor.resignFirstResponder()
+        
         if segue.identifier == "TextEffect" {
             let selectedButton = sender as! EffectButton
             let des = segue.destination as! SelectEffectViewController
@@ -142,36 +144,87 @@ class MemoViewController: UIViewController {
     @IBAction func tapAlbumButton(_ sender: Any) {
         if !canDoAnotherTask { return }
         
-        /*
-        guard let _ = masterViewController?.folder else {
-            showAddGroupAlertViewController()
-            return
-        }
-        */
-        
-        editor.resignFirstResponder()
-        
-        showImagePicker()
-    }
-    
-    private func showImagePicker() {
         let status = PHPhotoLibrary.authorizationStatus()
         
         switch status {
         case .restricted, .denied:
-            //showAlert()
-            break
+            showPermissionErrorAlert()
         default:
-            AppNavigator.presentImagePicker()
+            showImagePicker()
         }
+    }
+    
+    private func showImagePicker() {
+        ImagePicker.pickImage { [weak self] (image) in
+            self?.addImageToEditor()
+        }
+    }
+    
+    private func showPermissionErrorAlert() {
+        let alert = UIAlertController.makePermissionErrorAlert()
+        
+        AppNavigator.present(alert)
+    }
+    
+    private func addImageToEditor() {
+        /*
+         var selectedRange = iskeyboardAlbumButtonTouched ? textView.selectedRange : NSMakeRange(textView.attributedText.length, 0)
+         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+         
+         if memo == nil {
+         addNewMemo()
+         }
+         
+         //여기서 selectedRange에다가 NSTextAttachment로 붙여 넣어야 함 물론 이미지 크기 조절해서!
+         var attributedString :NSMutableAttributedString!
+         attributedString = NSMutableAttributedString(attributedString:textView.attributedText)
+         let oldWidth = pickedImage.size.width;
+         
+         //I'm subtracting 10px to make the image display nicely, accounting
+         //for the padding inside the textView
+         let ratio = (textView.textContainer.size.width - 10) / oldWidth;
+         
+         let size = pickedImage.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+         pickedImage.draw(in: CGRect(origin: CGPoint.zero, size: size))
+         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+         UIGraphicsEndImageContext()
+         
+         let textAttachment = NSTextAttachment()
+         textAttachment.image = scaledImage
+         let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+         let spaceString = NSAttributedString(string: "\n", attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body)])
+         
+         attributedString.insert(attrStringWithImage, at: selectedRange.location)
+         attributedString.insert(spaceString, at: selectedRange.location + 1)
+         attributedString.addAttributes([NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)], range: NSMakeRange(selectedRange.location, 2))
+         textView.attributedText = attributedString
+         selectedRange.location += 2
+         }
+         updateCellInfo()
+         setTextViewEditedState()
+         textView.makeTappable()
+         textView.selectedRange = selectedRange
+         dismiss(animated: true, completion: nil)
+         
+         
+         if iskeyboardAlbumButtonTouched {
+         textView.appearKeyboard()
+         iskeyboardAlbumButtonTouched = false
+         }
+         
+         DispatchQueue.main.async { [unowned self] in
+         self.textView.scrollRangeToVisible(NSMakeRange(self.textView.selectedRange.location + 3, 0))
+         }
+         */
     }
     
     @IBAction func tapComposeButton(_ sender: Any) {
         if !canDoAnotherTask { return }
-        
+ 
         let item = sender as! UIBarButtonItem
         item.isEnabled = false
-        
+ 
         let deadline = DispatchTime.now() + .milliseconds(50)
         DispatchQueue.main.asyncAfter(deadline: deadline) { //[weak self] in
             //self?.addNewMemo()

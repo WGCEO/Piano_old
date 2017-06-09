@@ -10,8 +10,9 @@ import Foundation
 import MessageUI
 
 class MailSender: NSObject, MFMailComposeViewControllerDelegate {
-    // TODO
-    private static var sharedInstance = MailSender()
+    private static var sharedInstance = {
+        return MailSender()
+    }()
     
     public class func sendMail(with attributedString: NSAttributedString, completion: (() -> Void)?) {
         DispatchQueue.main.async {

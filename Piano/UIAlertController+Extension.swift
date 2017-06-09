@@ -44,4 +44,23 @@ extension UIAlertController {
         let alert = resp as! UIAlertController
         alert.actions[1].isEnabled = (tf.text != "")
     }
+    
+    public class func makePermissionErrorAlert() -> UIAlertController {
+        let title = "CantOpenAlbumTitle".localized(withComment: "앨범 열 수 없음")
+        let message = "CantOpenAlbumMessage".localized(withComment: "설정으로 이동하여 앨범에 체크해주세요.")
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let openSettingsAction = UIAlertAction(title: "Setting".localized(withComment: "설정"), style: .default, handler: { _ in
+            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+        })
+        let dismissAction = UIAlertAction(title: "Cancel".localized(withComment: "취소"), style: .cancel, handler: nil)
+        
+        alert.addAction(openSettingsAction)
+        alert.addAction(dismissAction)
+        
+        return alert
+    }
+    
+    
 }

@@ -20,11 +20,7 @@ class AppNavigator {
         }
     }
     
-    class func presentImagePicker() {
-        
-    }
-    
-    class func present(_ viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    class func present(_ viewController: UIViewController, animated: Bool = true, completion: (() -> Void)? = nil) {
         currentViewController?.present(viewController, animated: animated, completion: completion)
     }
     /*
