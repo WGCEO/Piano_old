@@ -242,9 +242,9 @@
 		0A15B18F1E41B67B000DC102 /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				0A8815A81E31FB1D00ABEB98 /* MemoViewController.swift */,
 				0A8815A51E31F75500ABEB98 /* MasterViewController.swift */,
 				0A8815B21E35A92200ABEB98 /* MemoCell.swift */,
+				0A8815A81E31FB1D00ABEB98 /* MemoViewController.swift */,
 			);
 			name = Memo;
 			sourceTree = "<group>";

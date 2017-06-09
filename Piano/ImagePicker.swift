@@ -21,7 +21,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         super.init()
     }
     
-    class func pickImage(handler: ((UIImage?) -> Void)?) {
+    class func show(handler: ((UIImage?) -> Void)?) {
         sharedInstace.handler = handler
         
         let imagePickerController = UIImagePickerController()
@@ -29,7 +29,7 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         imagePickerController.allowsEditing = false
         imagePickerController.sourceType = .photoLibrary
         
-        AppNavigator.present(imagePickerController, animated: true, completion: nil)
+        AppNavigator.present(imagePickerController)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -38,6 +38,8 @@ class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerContro
         handler?(image)
         
         self.handler = nil
+        
+        picker.dismiss(animated: true, completion: nil)
     }
     
     /*

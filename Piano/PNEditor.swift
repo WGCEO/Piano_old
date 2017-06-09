@@ -16,13 +16,20 @@ import SnapKit
     var canvas = PianoControl()
     var images: [UIImage] = []
     
-    public var attributedText: NSAttributedString? {
-        didSet {
-            guard attributedText != oldValue else { return }
+    public var attributedText: NSAttributedString {
+        get {
+            return textView.attributedText
+        } set {
+            guard newValue != attributedText else { return }
             
             prepareToReuse()
-            showAttributedText()
+            textView.attributedText = newValue
         }
+    }
+    
+    // MARK: public methods
+    public func addImage(_ image: UIImage) {
+        textView.addImage(image)
     }
     
     // MARK: views
@@ -128,11 +135,6 @@ import SnapKit
          */
     }
     
-    func setTextViewEditedState() {
-        //textView.isEdited = true
-        //memo?.date = NSDate()
-    }
-    
     // MARK: eraserView
     func attachEraseView(rect: CGRect) {
         let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
@@ -196,10 +198,6 @@ import SnapKit
         images.removeAll()
         textView.resignFirstResponder()
         canvas.removeFromSuperview()
-    }
-    
-    private func showAttributedText() {
-        textView.attributedText = attributedText
     }
 }
 
@@ -296,5 +294,3 @@ extension PNEditor: UITextViewDelegate {
          */
     }
 }
-
-
