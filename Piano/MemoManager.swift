@@ -26,7 +26,7 @@ typealias ChangeType = NSFetchedResultsChangeType
 
 protocol Watchable: class {
     func Interests() -> [Interest]
-    func update(at indexPath: NSIndexPath?, for type: ChangeType)
+    func update(at indexPath: IndexPath?, for type: ChangeType)
 }
 
 class MemoManager: NSObject {
@@ -47,7 +47,21 @@ class MemoManager: NSObject {
     }
     static var currentMemo: Memo?
     
-    static var cache: [String:Memo] = [:]
+    static var folders: [Folder] {
+        if folderResultsController.fetchedObjects == nil {
+            do {
+                try folderResultsController.performFetch()
+            } catch {
+                print("Error performing fetch \(error.localizedDescription)")
+            }
+        }
+        
+        return folderResultsController.fetchedObjects ?? []
+    }
+    
+    static var memoes: [Memo] {
+        return memoResultsController?.fetchedObjects ?? []
+    }
     
     static var folderResultsController: NSFetchedResultsController<Folder> = {
         let context = PianoData.coreDataStack.viewContext
@@ -67,6 +81,8 @@ class MemoManager: NSObject {
             try? memoResultsController?.performFetch()
         }
     }
+
+    static var cache: [String:Memo] = [:]
     
     // MARK: public methods
     class func regist(watcher: Watchable) {
@@ -82,6 +98,30 @@ class MemoManager: NSObject {
     class func getMemo(at index: Int, in folder: Folder? = nil) -> Memo? {
         // 임시
         return Memo()
+    }
+    
+    class func memo(at indexPath: IndexPath) -> Memo? {
+        return memoResultsController?.object(at: indexPath)
+    }
+    
+    class func sections() -> [NSFetchedResultsSectionInfo]? {
+        return memoResultsController?.sections
+    }
+    
+    class func fetchMemes() {
+        do {
+            try memoResultsController?.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
+    }
+    
+    class func fetchFolders() {
+        do {
+            try folderResultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
     }
     
     // for cache?

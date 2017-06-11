@@ -59,7 +59,6 @@ class MemoTableViewController: UIViewController {
         registerNotificationForAjustTextSize()
         
         setTableViewCellHeight()
-        fetchFolderResultsController()
         
         //첫번째 폴더의 메모들 fetch
         setFirstFolderIfExist()
@@ -70,14 +69,11 @@ class MemoTableViewController: UIViewController {
     
     
     func setFirstFolderIfExist() {
-        if let folder = folderResultsController.fetchedObjects?.first {
-            //같은 폴더일 경우 넘기지 말기
-            guard self.folder != folder else { return }
-            self.folder = folder
-        } else {
-            //folder에 nil 대입
-            self.folder = nil
-        }
+        let folder = MemoManager.folders.first
+        
+        guard self.folder != folder else { return }
+        
+        self.folder = folder
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,15 +88,6 @@ class MemoTableViewController: UIViewController {
             indicatingCell = {}
         }
         */
-    }
-    
-    func fetchFolderResultsController() {
-        //폴더 fetch
-        do {
-            try folderResultsController.performFetch()
-        } catch {
-            print("Error performing fetch \(error.localizedDescription)")
-        }
     }
     
     func setTableViewCellHeight() {
@@ -156,8 +143,9 @@ class MemoTableViewController: UIViewController {
     }
     
     @IBAction func tapLeftPageBarButton(_ sender: UIBarButtonItem) {
-        guard let folders = folderResultsController.fetchedObjects else { return }
         guard canDoAnotherTask() else { return }
+        
+        let folders = MemoManager.folders
         
         //일단 왼쪽 폴더 넣고 페이지 타이틀 갱신 + 더이상 왼쪽으로 갈 수 있는 지 체크해서 enabled 세팅하기
         for (index, folder) in folders.enumerated() {
@@ -178,9 +166,9 @@ class MemoTableViewController: UIViewController {
     }
     
     @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
-        guard let folders = folderResultsController.fetchedObjects else {
-            return }
         guard canDoAnotherTask() else { return }
+        
+        let folders = MemoManager.folders
         
         for (index, folder) in folders.enumerated() {
             if self.folder == folder {
@@ -214,12 +202,15 @@ class MemoTableViewController: UIViewController {
     }
     
     func hasMemoInCurrentFolder() -> Bool {
-        guard let objects = memoResultsController.fetchedObjects, objects.count > 0 else { return false }
-        return true
+        if MemoManager.memoes.count != 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     func selectSpecificFolder(selectedFolder: Folder) {
-        guard let folders = folderResultsController.fetchedObjects else { return }
+        let folders = MemoManager.folders
         
         self.folder = selectedFolder
         
@@ -255,7 +246,7 @@ class MemoTableViewController: UIViewController {
                 
                 try context.save()
                 
-                self.fetchFolderResultsController()
+                MemoManager.fetchFolders()
                 self.selectSpecificFolder(selectedFolder: newFolder)
             } catch {
                 print("Error importing folders: \(error.localizedDescription)")
@@ -318,14 +309,15 @@ class MemoTableViewController: UIViewController {
 
 extension MemoTableViewController: ConfigureFolderViewControllerDelegate {
     func configureFolderViewController(_ controller: ConfigureFolderViewController, selectFolder: Folder) {
-        fetchFolderResultsController()
+        MemoManager.fetchFolders()
         selectSpecificFolder(selectedFolder: selectFolder)
     }
     
     func configureFolderViewController(_ controller: ConfigureFolderViewController, deleteFolder: Folder) {
-        fetchFolderResultsController()
-        guard let folders = folderResultsController.fetchedObjects,
-            let firstFolder = folders.first else {
+        MemoManager.fetchFolders()
+        let folders = MemoManager.folders
+        
+        guard let firstFolder = folders.first else {
             //폴더가 아예 없다면,
             self.folder = nil
             leftPageButton.isEnabled = false
@@ -359,7 +351,8 @@ extension MemoTableViewController: UITableViewDataSource {
     }
     
     func configure(cell: MemoCell, at indexPath: IndexPath) {
-        let memo = memoResultsController.object(at: indexPath)
+        guard let memo = MemoManager.memo(at: indexPath) else { return }
+        
         //TODO: Localizing
         cell.ibTitleLabel.text = memo.firstLine
         cell.ibSubTitleLabel.text = formatter.string(from: memo.date! as Date)
@@ -377,17 +370,13 @@ extension MemoTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoResultsController?.sections?[section].numberOfObjects ?? 0
+        
+        return MemoManager.sections()?[section].numberOfObjects ?? 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return memoResultsController?.sections?.count ?? 0
+        return MemoManager.sections()?.count ?? 0
     }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        guard let sectionInfo = memoResultsController.sections?[section] else { return nil }
-//        return sectionInfo.name != "0" ? "Pin Memos" : "Memos"
-//    }
 }
 
 extension MemoTableViewController: UITableViewDelegate {
@@ -399,8 +388,8 @@ extension MemoTableViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        let memo = memoResultsController.object(at: indexPath)
-        memo.isInTrash = true
+        let memo = MemoManager.memo(at: indexPath)
+        memo?.isInTrash = true
     }
     
     //메모 전달. 모든 메모는 여기서 전달하기
@@ -409,7 +398,7 @@ extension MemoTableViewController: UITableViewDelegate {
         
         guard let navigationController = memoViewController.navigationController else { return }
         
-        let memo = memoResultsController.object(at: indexPath)
+        let memo = MemoManager.memo(at: indexPath)
         memoViewController.memo = memo
         
         self.splitViewController?.showDetailViewController(navigationController, sender: nil)
@@ -417,16 +406,16 @@ extension MemoTableViewController: UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard let memo = MemoManager.memo(at: indexPath) else { return nil }
+        
         let move = UITableViewRowAction(style: .normal, title: "Move".localized(withComment: "이동")) { [unowned self](action, indexPath) in
-            let memo = self.memoResultsController.object(at: indexPath)
             let rect = tableView.rectForRow(at: indexPath)
             let customObj: (Memo, CGRect) = (memo, rect)
             self.performSegue(withIdentifier: "MoveMemoViewController", sender: customObj)
         }
         move.backgroundColor = .orange
         
-        let delete =  UITableViewRowAction(style: .normal, title: "Delete".localized(withComment: "삭제")) { [unowned self](action, indexPath) in
-            let memo = self.memoResultsController.object(at: indexPath)
+        let delete =  UITableViewRowAction(style: .normal, title: "Delete".localized(withComment: "삭제")) { (action, indexPath) in
             memo.isInTrash = true
             PianoData.save()
         }
