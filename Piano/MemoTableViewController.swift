@@ -75,20 +75,6 @@ class MemoTableViewController: UIViewController {
         self.folder = folder
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        //아이폰일때만 지워라잉?
-        /*
-        if !detailViewController.isVisible {
-            detailViewController.saveCoreDataIfIphone()
-            
-            indicatingCell()
-            indicatingCell = {}
-        }
-        */
-    }
-    
     deinit {
         MemoManager.remove(self)
     }
@@ -165,7 +151,7 @@ class MemoTableViewController: UIViewController {
     }
     
     func canDoAnotherTask() -> Bool{
-        return ActivityIndicator.sharedInstace.isAnimating
+        return ActivityIndicator.isAnimating
     }
     
     @IBAction func tapRightPageBarButton(_ sender: UIBarButtonItem) {
@@ -434,26 +420,13 @@ extension MemoTableViewController: UITableViewDelegate {
     }
 }
 
-/* Memo Manager를 이용하는 것으로 변경
-extension MasterViewController: DetailViewControllerDelegate {
-    func detailViewController(_ controller: DetailViewController, addMemo: Memo) {
-        guard let memos = memoResultsController.fetchedObjects else { return }
-        
-        for (index, memo) in memos.enumerated() {
-            if memo == addMemo {
-                tableView.selectRow(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .none)
-            }
-        }
-    }
-}
-*/
-
 extension MemoTableViewController: Watchable {
     func Interests() -> [Interest] {
         return [.memo]
     }
     
     func update(at indexPath: IndexPath?, for type: ChangeType) {
+        // TODO: update seperatly
         tableView.reloadData()
     }
 }

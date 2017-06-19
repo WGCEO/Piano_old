@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ActivityIndicator {
-    static var sharedIndicator: UIActivityIndicatorView = {
+    static private var sharedIndicator: UIActivityIndicatorView = {
         let mainScreen = UIScreen.main.bounds
         let activityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         activityIndicatorView.center = CGPoint(x: mainScreen.midX, y: mainScreen.midY)
@@ -22,12 +22,12 @@ class ActivityIndicator {
         return activityIndicatorView
     }()
     
-    var canDoAnotherTask: Bool {
+    static public var isAnimating: Bool {
         return ActivityIndicator.sharedIndicator.isAnimating
     }
     
     public class func startAnimating() {
-        if sharedIndicator.isAnimating {
+        if isAnimating {
             return
         }
         
