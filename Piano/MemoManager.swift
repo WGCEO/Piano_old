@@ -85,11 +85,11 @@ class MemoManager: NSObject {
     static var cache: [String:Memo] = [:]
     
     // MARK: public methods
-    class func regist(watcher: Watchable) {
+    class func regist(_ watcher: Watchable) {
         sharedInstance.watchers.append(watcher)
     }
     
-    class func remove(watcher: Watchable) {
+    class func remove(_ watcher: Watchable) {
         let watchers = sharedInstance.watchers
         
         sharedInstance.watchers = watchers.filter { return !($0 === watcher) }
@@ -108,12 +108,12 @@ class MemoManager: NSObject {
         return memoResultsController?.sections
     }
     
-    class func fetchMemes() {
+    class func fetchMemoes() {
         do {
             try memoResultsController?.performFetch()
         } catch {
             print("Error performing fetch \(error.localizedDescription)")
-        }
+        } 
     }
     
     class func fetchFolders() {
@@ -158,6 +158,8 @@ class MemoManager: NSObject {
         PianoData.save()
          
         currentMemo = memo
+        
+        fetchMemoes()
         
         return memo
     }

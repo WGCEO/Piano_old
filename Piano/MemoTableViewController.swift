@@ -63,8 +63,7 @@ class MemoTableViewController: UIViewController {
         //첫번째 폴더의 메모들 fetch
         setFirstFolderIfExist()
 
-        //detailViewController.delegate = self
-    
+        MemoManager.regist(self)
     }
     
     
@@ -79,7 +78,7 @@ class MemoTableViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        //아이폰일때만 지워라잉?
+        //아이폰일때만 지워라잉?
         /*
         if !detailViewController.isVisible {
             detailViewController.saveCoreDataIfIphone()
@@ -88,6 +87,10 @@ class MemoTableViewController: UIViewController {
             indicatingCell = {}
         }
         */
+    }
+    
+    deinit {
+        MemoManager.remove(self)
     }
     
     func setTableViewCellHeight() {
@@ -444,3 +447,13 @@ extension MasterViewController: DetailViewControllerDelegate {
     }
 }
 */
+
+extension MemoTableViewController: Watchable {
+    func Interests() -> [Interest] {
+        return [.memo]
+    }
+    
+    func update(at indexPath: IndexPath?, for type: ChangeType) {
+        tableView.reloadData()
+    }
+}
