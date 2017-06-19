@@ -29,7 +29,7 @@ class MemoViewController: UIViewController {
         
         if memo == nil {
             // TODO: iPad일 경우 첫 번째 메모를 가져와야 함 -> Master에서 하는 것이 좋을 듯
-            memo = MemoManager.selectedMemo()
+            memo = MemoManager.memoes.first
         }
         
         showMemo()
@@ -40,6 +40,12 @@ class MemoViewController: UIViewController {
         
         // TODO: 어떤 경우에 Needed되는지 확인
         editor.appearKeyboardIfNeeded()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        saveMemoIfNeeded()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -53,6 +59,22 @@ class MemoViewController: UIViewController {
     // MARR: setup views
     private func showMemo() {
         editor?.attributedText = memo?.attrbutedString ?? NSAttributedString()
+    }
+    
+    private func saveMemoIfNeeded() {
+        guard let memo = memo else { return }
+        
+        guard (editor?.isEdited == true) && (editor?.attributedText.length != 0) else {
+            MemoManager.remove(memo, completion: nil)
+            return
+        }
+        
+        guard let copy = editor?.attributedText.copy() else { return }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: copy)
+        memo.content = data as NSData
+        
+        MemoManager.save(memo)
     }
     
     // MARK: segue

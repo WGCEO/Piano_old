@@ -16,7 +16,7 @@ import SnapKit
     var paletteView: PaletteView!
     var canvas = PianoControl()
     var images: [UIImage] = []
-    
+
     public var attributedText: NSAttributedString {
         get {
             return textView.attributedText
@@ -26,6 +26,10 @@ import SnapKit
             prepareToReuse()
             textView.attributedText = newValue
         }
+    }
+    
+    public var isEdited: Bool {
+        return textView.isEdited
     }
     
     // MARK: public methods

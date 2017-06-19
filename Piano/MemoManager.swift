@@ -30,7 +30,7 @@ protocol Watchable: class {
 }
 
 class MemoManager: NSObject {
-    private static let sharedInstance = MemoManager()
+    internal static let sharedInstance = MemoManager()
     
     internal var watchers: [Watchable] = []
     
@@ -81,25 +81,8 @@ class MemoManager: NSObject {
             try? memoResultsController?.performFetch()
         }
     }
-
-    static var cache: [String:Memo] = [:]
     
-    // MARK: public methods
-    class func regist(_ watcher: Watchable) {
-        sharedInstance.watchers.append(watcher)
-    }
-    
-    class func remove(_ watcher: Watchable) {
-        let watchers = sharedInstance.watchers
-        
-        sharedInstance.watchers = watchers.filter { return !($0 === watcher) }
-    }
-    
-    class func getMemo(at index: Int, in folder: Folder? = nil) -> Memo? {
-        // 임시
-        return Memo()
-    }
-    
+    // MARK: read
     class func memo(at indexPath: IndexPath) -> Memo? {
         return memoResultsController?.object(at: indexPath)
     }
@@ -124,29 +107,23 @@ class MemoManager: NSObject {
         }
     }
     
-    // for cache?
-    class func getMemo(key: String) -> Memo? {
-        
-        return cache[key]
-    }
-    
-    class func selectedMemo() -> Memo? {
-        // 임시
-        return Memo()
-    }
-    
-    
+    // MARK: delete
     class func remove(_ memo: Memo, completion: ((Bool, Memo?) -> Void)?) {
         memo.isInTrash = true
         
         PianoData.save()
         
-        let first = getMemo(at: 0, in: memo.folder)
-        
-        completion?(true, first)
+        completion?(true, memoes.first)
     }
     
-    
+    class func delete(_ memo: Memo, completion: (() -> Void)?) {
+        PianoData.coreDataStack.viewContext.delete(memo)
+        
+        PianoData.save()
+        
+        completion?()
+    }
+    // MARK: create
     class func newMemo() -> Memo {
         //showAddFolderAlertIfNeeded()
         
@@ -185,49 +162,41 @@ class MemoManager: NSObject {
         }
     }
     
-    
-    /*
-     lazy var privateMOC: NSManagedObjectContext = {
-     let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-     moc.parent = PianoData.coreDataStack.viewContext
-     return moc
-     }()
-     */
-    
-    class func saveCoreDataIfNeeded(){
+    lazy var privateMOC: NSManagedObjectContext = {
+        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        moc.parent = PianoData.coreDataStack.viewContext
+        return moc
+    }()
+}
+
+// MARK: save data
+extension MemoManager {
+    class func save(_ memo: Memo) {
         /*
-         guard let unwrapTextView = textView,
-         let unwrapOldMemo = memo,
-         unwrapTextView.isEdited else { return }
-         
-         if unwrapTextView.attributedText.length != 0 {
-         let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
-         
-         privateMOC.perform({ [unowned self] in
-         self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
-         let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
-         unwrapOldMemo.content = data as NSData
-         do {
-         try self.privateMOC.save()
-         PianoData.coreDataStack.viewContext.performAndWait({
-         do {
-         try PianoData.coreDataStack.viewContext.save()
-         //지연 큐에서 제거해버리기
-         self.delayAttrDic[unwrapOldMemo.objectID] = nil
-         } catch {
-         print("Failure to save context: error: \(error)")
-         }
-         })
-         } catch {
-         print("Failture to save context error: \(error)")
-         }
-         })
-         
-         } else {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         PianoData.save()
-         }
-         */
+        privateMOC.perform({ [unowned self] in
+            // caching
+            self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
+            
+            // 데이터 치환
+            let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
+            unwrapOldMemo.content = data as NSData
+            do {
+                // 저장
+                try self.privateMOC.save()
+                PianoData.coreDataStack.viewContext.performAndWait({
+                    do {
+                        try PianoData.coreDataStack.viewContext.save()
+                        //지연 큐에서 제거해버리기
+                        self.delayAttrDic[unwrapOldMemo.objectID] = nil
+                    } catch {
+                        print("Failure to save context: error: \(error)")
+                    }
+                })
+            } catch {
+                print("Failture to save context error: \(error)")
+            }
+        })
+        */
     }
     
     class func saveCoreDataWhenExit(isTerminal: Bool) {
@@ -281,6 +250,7 @@ class MemoManager: NSObject {
     }
 }
 
+// MARK: fetchedResultsControllerDelegate
 extension MemoManager: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         var interest: Interest
@@ -301,3 +271,16 @@ extension MemoManager: NSFetchedResultsControllerDelegate {
     }
 }
 
+
+// MARK: for watchers
+extension MemoManager {
+    class func regist(_ watcher: Watchable) {
+        sharedInstance.watchers.append(watcher)
+    }
+    
+    class func remove(_ watcher: Watchable) {
+        let watchers = sharedInstance.watchers
+        
+        sharedInstance.watchers = watchers.filter { return !($0 === watcher) }
+    }
+}
