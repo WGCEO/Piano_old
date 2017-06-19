@@ -10,22 +10,37 @@ import Foundation
 import UIKit
 
 class ActivityIndicator {
-    static var sharedInstace = UIActivityIndicatorView()
+    static var sharedIndicator: UIActivityIndicatorView = {
+        let mainScreen = UIScreen.main.bounds
+        let activityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        activityIndicatorView.center = CGPoint(x: mainScreen.midX, y: mainScreen.midY)
+        activityIndicatorView.activityIndicatorViewStyle = .gray
+        activityIndicatorView.hidesWhenStopped = true
+        
+        UIApplication.shared.keyWindow?.addSubview(activityIndicatorView)
+        
+        return activityIndicatorView
+    }()
     
     var canDoAnotherTask: Bool {
-        return ActivityIndicator.sharedInstace.isAnimating
+        return ActivityIndicator.sharedIndicator.isAnimating
     }
     
-    // TODO: 현재 뷰 위에 띄우도록 변경
     public class func startAnimating() {
-        sharedInstace.removeFromSuperview()
+        if sharedIndicator.isAnimating {
+            return
+        }
         
-        ActivityIndicator.sharedInstace.startAnimating()
+        UIApplication.shared.keyWindow?.bringSubview(toFront: sharedIndicator)
+        
+        let mainScreen = UIScreen.main.bounds
+        sharedIndicator.center = CGPoint(x: mainScreen.midX, y: mainScreen.midY)
+        sharedIndicator.activityIndicatorViewStyle = .gray
+        
+        sharedIndicator.startAnimating()
     }
     
     public class func stopAnimating() {
-        sharedInstace.removeFromSuperview()
-        
-        ActivityIndicator.sharedInstace.stopAnimating()
+        sharedIndicator.stopAnimating()
     }
 }
