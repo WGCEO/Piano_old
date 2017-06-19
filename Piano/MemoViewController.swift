@@ -14,7 +14,7 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var editor: PNEditor!
 
     private var canDoAnotherTask: Bool {
-        return ActivityIndicator.sharedInstace.isAnimating
+        return ActivityIndicator.isAnimating
     }
 
     var memo: Memo? {
@@ -53,43 +53,6 @@ class MemoViewController: UIViewController {
     // MARR: setup views
     private func showMemo() {
         editor?.attributedText = memo?.attrbutedString ?? NSAttributedString()
-    }
-    
-    private func createAlertController() {
-        /*
-         let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
-         
-         guard let text = alert.textFields?.first?.text else { return }
-         let context = PianoData.coreDataStack.viewContext
-         do {
-         let newFolder = Folder(context: context)
-         newFolder.name = text
-         newFolder.date = NSDate()
-         newFolder.memos = []
-         
-         try context.save()
-         
-         guard let masterViewController = self.delegate as? MasterViewController else { return }
-         masterViewController.fetchFolderResultsController()
-         masterViewController.selectSpecificFolder(selectedFolder: newFolder)
-         } catch {
-         print("Error importing folders: \(error.localizedDescription)")
-         }
-         }
-         
-         ok.isEnabled = false
-         alert.addAction(cancel)
-         alert.addAction(ok)
-         
-         alert.addTextField { (textField) in
-         textField.placeholder = "FolderName".localized(withComment: "폴더이름")
-         textField.returnKeyType = .done
-         textField.enablesReturnKeyAutomatically = true
-         textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
-         }
-         
-         present(alert, animated: true, completion: nil)
-         */
     }
     
     // MARK: segue

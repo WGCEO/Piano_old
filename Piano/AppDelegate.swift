@@ -59,29 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PianoData.coreDataStack.saveWhenAppWillBeTerminal()
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-//    func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
-//        return false
-//    }
-//
-//    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
-//        //TODO: 앱 업데이트 체크하고 업데이트 되었으면 우선 리스토어 하지 말아야 함(상태값 체크 후에 true반환해야함)
-//        return false
-//    }
-//    
-//    func application(_ application: UIApplication, willEncodeRestorableStateWith coder: NSCoder) {
-//        //여기서 버전 정보를 적거나 앱의 설정값을 세팅할 수 있다.
-//    }
-//    
-//    func application(_ application: UIApplication, didDecodeRestorableStateWith coder: NSCoder) {
-//        
-//        isRestoreState = true
-//        //willEncode에서 저장한 데이터(설정값들)를 여기서 읽을 수 있다.
-//    }
-
-//    func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
-//        //restoration class 없는 뷰 컨트롤러를 UIKit이 맞닥뜨렸을 때 이 메서드를 호출한다.
-//    }
 }
 
 extension AppDelegate: UISplitViewControllerDelegate {
