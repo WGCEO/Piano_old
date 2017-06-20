@@ -9,19 +9,26 @@
 import UIKit
 import CoreData
 
+protocol memoEditable: class {
+    func save()
+}
+
 class PianoPersistentContainer: NSPersistentContainer {
+    static public let sharedInstance = PianoPersistentContainer(name: "PianoModel")
     
-    weak var memoViewController: MemoViewController?
+    public weak var memoEditor: memoEditable?
     
-    func saveWhenAppWillBeTerminal() {
-        MemoManager.saveCoreDataWhenExit(isTerminal: true)
+    public func saveWhenAppWillBeTerminal() {
+        memoEditor?.save()
     }
     
-    func saveWhenAppGoToBackground() {
-        MemoManager.saveCoreDataWhenExit(isTerminal: false)
+    public func saveWhenAppGoToBackground() {
+        memoEditor?.save()
+        
+        MemoManager.saveAllNow()
     }
     
-    func makeKeyboardHide(){
+    public func makeKeyboardHide(){
         //detailViewController?.editor?.makeTappable()
         //detailViewController?.editor?.becomeFirstResponder()
         //detailViewController?.editor?.resignFirstResponder()

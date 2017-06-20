@@ -162,91 +162,59 @@ class MemoManager: NSObject {
         }
     }
     
-    lazy var privateMOC: NSManagedObjectContext = {
+    internal lazy var privateMOC: NSManagedObjectContext = {
         let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         moc.parent = PianoData.coreDataStack.viewContext
         return moc
     }()
+    
+    internal var cache: [NSManagedObjectID: Memo] = [:]
+    internal var temporary: [NSManagedObjectID: Memo] = [:]
 }
 
 // MARK: save data
 extension MemoManager {
     class func save(_ memo: Memo) {
-        /*
-        privateMOC.perform({ [unowned self] in
-            // caching
-            self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
+        sharedInstance.privateMOC.perform({
+            sharedInstance.cache[memo.objectID] = memo
             
-            // 데이터 치환
-            let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
-            unwrapOldMemo.content = data as NSData
             do {
                 // 저장
-                try self.privateMOC.save()
+                try sharedInstance.privateMOC.save()
                 PianoData.coreDataStack.viewContext.performAndWait({
-                    do {
-                        try PianoData.coreDataStack.viewContext.save()
-                        //지연 큐에서 제거해버리기
-                        self.delayAttrDic[unwrapOldMemo.objectID] = nil
-                    } catch {
-                        print("Failure to save context: error: \(error)")
-                    }
+                    savePermanently()
+                    
+                    sharedInstance.cache[memo.objectID] = nil
                 })
             } catch {
-                print("Failture to save context error: \(error)")
+                print("Failure to save context error: \(error)")
             }
         })
-        */
     }
     
-    class func saveCoreDataWhenExit(isTerminal: Bool) {
-        /*
-         if let unwrapTextView = textView,
-         let unwrapOldMemo = memo,
-         unwrapTextView.isEdited {
-         
-         if unwrapTextView.attributedText.length != 0 {
-         //지금 있는 것도 대기열에 넣기
-         delayAttrDic[unwrapOldMemo.objectID] = unwrapTextView.attributedText
-         } else {
-         if isTerminal {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         }
-         }
-         }
-         
-         //대기열에 있는 모든 것들 순차적으로 저장
-         for (id, value) in delayAttrDic {
-         do {
-         let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
-         let data = NSKeyedArchiver.archivedData(withRootObject: value)
-         memo.content = data as NSData
-         
-         } catch {
-         print(error)
-         }
-         }
-         //다 저장했으면 지우기
-         delayAttrDic.removeAll()
-         
-         do {
-         try PianoData.coreDataStack.viewContext.save()
-         } catch {
-         print(error)
-         }
-         */
+    class func savePermanently() {
+        do {
+            try PianoData.coreDataStack.viewContext.save()
+        } catch {
+            print("Failure to save context: error: \(error)")
+        }
     }
     
-    //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
-    class func saveCoreDataIfIphone(){
-        /*
-         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
-         
-         if unwrapTextView.attributedText.length == 0 {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         PianoData.save()
-         }
-         */
+    class func saveAllNow() {
+        for (id, value) in sharedInstance.temporary {
+            do {
+                let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
+                let data = NSKeyedArchiver.archivedData(withRootObject: value)
+                memo.content = data as NSData
+                
+            } catch {
+                print("Failure to get existingObject: error: \(error)")
+            }
+        }
+        
+        sharedInstance.temporary.removeAll()
+        
+        savePermanently()
     }
 }
 

@@ -11,7 +11,7 @@ import CoreData
 
 struct PianoData {
     static let coreDataStack : PianoPersistentContainer = {
-        let container = PianoPersistentContainer(name: "PianoModel")
+        let container = PianoPersistentContainer.sharedInstance
         
         container.loadPersistentStores { (description, error) in
             if let error = error {
