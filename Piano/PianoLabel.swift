@@ -9,8 +9,6 @@
 import UIKit
 
 class PianoLabel: UILabel {
-    
-    
     var leftEndTouchX: CGFloat = CGFloat.greatestFiniteMagnitude
     var rightEndTouchX: CGFloat = 0
     var applyEffectIndexSet: Set<Int> = []

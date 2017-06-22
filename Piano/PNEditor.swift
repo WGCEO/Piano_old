@@ -42,13 +42,8 @@ enum EditMode: Int {
     
     internal var textView: PianoTextView!
     internal var paletteView: PaletteView!
+    internal var pianoLabel: PianoLabel!
     internal var canvas = PianoControl()
-    private var images: [UIImage] = []
-    
-    // MARK: public methods
-    public func addImage(_ image: UIImage) {
-        textView.addImage(image)
-    }
     
     // MARK: views
     lazy var eraseTextView: UIView = {
@@ -57,6 +52,7 @@ enum EditMode: Int {
         return view
     }()
     
+    // MARK: life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -85,6 +81,7 @@ enum EditMode: Int {
     private func configureSubviews() {
         configurePianoTextView()
         configurePaletteView()
+        configurePianoLabel()
     }
     
     private func configurePianoTextView() {
@@ -106,7 +103,8 @@ enum EditMode: Int {
     }
     
     private func configurePaletteView() {
-        let paletteView = PaletteView(frame: CGRect.zero)
+        let paletteView = PaletteView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 100))
+        paletteView.isHidden = true
         
         addSubview(paletteView)
         paletteView.snp.makeConstraints { (make) in
@@ -119,6 +117,18 @@ enum EditMode: Int {
         self.paletteView = paletteView
     }
     
+    public func configurePianoLabel() {
+        let pianoLabel = PianoLabel(frame: bounds)
+        pianoLabel.isHidden = true
+        
+        addSubview(pianoLabel)
+        pianoLabel.snp.makeConstraints { (make) in
+            make.edges.equalTo(textView)
+        }
+        
+        self.pianoLabel = pianoLabel
+    }
+    
     // MARK: public methods
     func appearKeyboardIfNeeded() {
         textView.isWaitingState = false
@@ -129,27 +139,8 @@ enum EditMode: Int {
         //appearKeyboardIfNeeded = { }
     }
     
-    func prepareToEditing() {
-        /*
-        if textView.mode != .typing {
-            attachCanvas()
-        }
-        */
-    }
-    
-    func prepare(_ editMode: EditMode) {
-        switch editMode {
-        case .effect:
-            showPaletteView()
-            attachCanvas()
-            //setTextViewEditedState()
-        case .typing:
-            hidePaletteView()
-            detachCanvas()
-            //setTextViewEditedState()
-        case .none:
-            textView.isEditable = false
-        }
+    public func addImage(_ image: UIImage) {
+        textView.addImage(image)
     }
     
     func showPaletteView() {
@@ -170,17 +161,50 @@ enum EditMode: Int {
         animateTextView()
     }
     
+    public func attachEraseView(rect: CGRect) {
+        let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
+        let top = textView.textContainerInset.top
+        eraseTextView.frame = rect.offsetBy(dx: left, dy: top)
+        
+        self.addSubview(eraseTextView)
+    }
+    
+    public func removeEraseView() {
+        eraseTextView.removeFromSuperview()
+    }
+    
+    // MARK: private methods
+    private func prepareToReuse() {
+        textView.prepareForReuse()
+        canvas.removeFromSuperview()
+    }
+    
+    private func prepare(_ editMode: EditMode) {
+        switch editMode {
+        case .effect:
+            showPaletteView()
+            attachCanvas()
+            textView.isEditable = false
+        case .typing:
+            hidePaletteView()
+            detachCanvas()
+            textView.isEditable = true
+        case .none:
+            hidePaletteView()
+            detachCanvas()
+            textView.isEditable = false
+        }
+    }
     
     private func animateTextView() {
-        let navigationController = AppNavigator.currentNavigationController
-        let isHidden = !(paletteView.isHidden)
-        
-        navigationController?.setNavigationBarHidden(!isHidden, animated: true)
-        navigationController?.setToolbarHidden(!isHidden, animated: true)
+        let amount = paletteView.isHidden ? 0 : 100
         
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.textView.contentInset.bottom = isHidden ? 50 : 0
-            self?.textView.topConstraint?.constant = isHidden ? 100 : 0
+            self?.textView.snp.updateConstraints({ [weak self] (make) in
+                guard let strongSelf = self else { return }
+                
+                make.top.equalTo(strongSelf).inset(amount)
+            })
             self?.layoutIfNeeded()
         }
     }
@@ -195,33 +219,23 @@ enum EditMode: Int {
          */
     }
     
-    // MARK: eraserView
-    func attachEraseView(rect: CGRect) {
-        let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
-        let top = textView.textContainerInset.top
-        eraseTextView.frame = rect.offsetBy(dx: left, dy: top)
-        
-        self.addSubview(eraseTextView)
-    }
-    
-    func removeEraseView() {
-        eraseTextView.removeFromSuperview()
-    }
-    
-    // MARK: canvas
-    func attachCanvas() {
-        let contentOffset = textView.contentOffset
-        
+    // MARK: editing
+    private func attachCanvas() {
         canvas.removeFromSuperview()
-        let top = contentOffset.y
-        let canvasWidth = bounds.width
-        let canvasHeight = bounds.height
-        canvas.frame = CGRect(x: 0, y: top, width: canvasWidth, height: canvasHeight)
-        self.addSubview(canvas)
+        
+        canvas.textView = textView
+        canvas.pianoable = pianoLabel
+        
+        canvas.frame = textView.bounds
+        addSubview(canvas)
+        canvas.snp.makeConstraints { (make) in
+            make.edges.equalTo(textView)
+        }
     }
     
-    func detachCanvas() {
+    private func detachCanvas() {
         canvas.removeFromSuperview()
+        pianoLabel.isHidden = false
     }
     
     // MARK: keyboard
@@ -255,122 +269,10 @@ enum EditMode: Int {
          */
     }
     
-    // MARK: private methods
-    private func prepareToReuse() {
-        images.removeAll()
-        textView.prepareForReuse()
-        canvas.removeFromSuperview()
-    }
-}
-
-
-extension PNEditor: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        /*
-         guard memo != nil else {
-         addNewMemo()
-         return
-         }
-         */
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        //setTextViewEditedState()
-        updateCellInfo()
-    }
-    
-    //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
-    func updateCellInfo() {
-        /*
-         guard let memo = self.memo,
-         let textView = self.textView,
-         let attrText = textView.attributedText else { return }
-         
-         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
-         let firstLine: String
-         switch text {
-         case let x where x.characters.count > 50:
-         firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
-         case let x where x.characters.count == 0:
-         //이미지만 있는 경우에도 해당됨
-         firstLine = "NewMemo".localized(withComment: "새로운 메모")
-         default:
-         firstLine = text
-         }
-         
-         memo.firstLine = firstLine
-         
-         let hasAttachments = attrText.containsAttachments(in: NSMakeRange(0, attrText.length))
-         
-         guard hasAttachments else {
-         memo.imageData = nil
-         return
-         }
-         
-         attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-         
-         guard let attachment = value as? NSTextAttachment,
-         let image = attachment.image else { return }
-         
-         guard firstImage != image else {
-         stop.pointee = true
-         return
-         }
-         
-         firstImage = image
-         
-         let oldWidth = image.size.width;
-         
-         //I'm subtracting 10px to make the image display nicely, accounting
-         //for the padding inside the textView
-         let ratio = 60 / oldWidth;
-         
-         let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-         image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-         UIGraphicsEndImageContext()
-         if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
-         memo.imageData = data as NSData
-         stop.pointee = true
-         }
-         
-         }
-         */
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        /*
-         if textView.mode != .typing {
-         textView.attachCanvas()
-         }
-         */
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        /*
-         if textView.mode != .typing {
-         textView.attachCanvas()
-         }
-         */
-    }
 }
 
 extension PNEditor: Effectable {
     func setEffect(textEffect: TextEffect){
         canvas.textEffect = textEffect
-    }
-}
-
-fileprivate extension PianoTextView {
-    var topConstraint: NSLayoutConstraint? {
-        for constraint in constraints {
-            if constraint.firstAttribute == .top {
-                return constraint
-            }
-        }
-        
-        return nil
     }
 }

@@ -327,22 +327,11 @@
 		3131F6D01DDD2E3D00EC4229 /* Piano */ = {
 			isa = PBXGroup;
 			children = (
-				F40D0B2B1EEA3684003B8ED6 /* UI */,
-				F49B3C7A1EE1A38900A0E81C /* Common */,
-				0A8B992E1E407C1700130F7F /* Localizable.strings */,
-				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
-				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
-				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
-				0A15B1921E41B6A3000DC102 /* Value */,
+				F40D0B2B1EEA3684003B8ED6 /* App */,
 				0A15B1911E41B69B000DC102 /* Model */,
-				0A5B08221E3EB0EA0074E5CA /* Extension */,
-				0A5B08231E3EB0F20074E5CA /* Protocol */,
-				0A08184E1E0B8D300001304F /* DeletedMemoList */,
-				0A0818511E0B96320001304F /* DeletedMemo */,
+				F49B3C7A1EE1A38900A0E81C /* Common */,
 				31575C981DE8260700373ADD /* PNEditor */,
-				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
-				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
-				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
+				F414F6F71EFB88D6002E599F /* Resource */,
 			);
 			path = Piano;
 			sourceTree = "<group>";
@@ -390,9 +379,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F40D0B2B1EEA3684003B8ED6 /* UI */ = {
+		F40D0B2B1EEA3684003B8ED6 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
+				0A0818511E0B96320001304F /* DeletedMemo */,
+				0A08184E1E0B8D300001304F /* DeletedMemoList */,
 				0A15B18F1E41B67B000DC102 /* Memo */,
 				0A15B18A1E41B623000DC102 /* ThanksTo */,
 				0A15B18B1E41B63F000DC102 /* Setting */,
@@ -400,7 +392,30 @@
 				0A15B18D1E41B666000DC102 /* ConfigureFolder */,
 				0A15B1901E41B684000DC102 /* SelectEffect */,
 			);
-			name = UI;
+			name = App;
+			sourceTree = "<group>";
+		};
+		F414F6F71EFB88D6002E599F /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
+				0A8B992E1E407C1700130F7F /* Localizable.strings */,
+				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
+				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
+				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
+				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		F414F6F81EFB8908002E599F /* etc */ = {
+			isa = PBXGroup;
+			children = (
+				0A5B08231E3EB0F20074E5CA /* Protocol */,
+				0A5B08221E3EB0EA0074E5CA /* Extension */,
+				0A15B1921E41B6A3000DC102 /* Value */,
+			);
+			name = etc;
 			sourceTree = "<group>";
 		};
 		F49B3C691EE1752800A0E81C /* Core */ = {
@@ -418,6 +433,7 @@
 		F49B3C7A1EE1A38900A0E81C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F414F6F81EFB8908002E599F /* etc */,
 				F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */,
 				F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */,
 				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,

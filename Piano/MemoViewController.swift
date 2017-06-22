@@ -53,7 +53,7 @@ class MemoViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: nil) {[weak self] (_) in
-            self?.editor.prepareToEditing()
+            self?.editor.editMode = .typing
         }
     }
     
@@ -65,8 +65,12 @@ class MemoViewController: UIViewController {
     private func saveMemoIfNeeded() {
         guard let memo = memo else { return }
         
-        guard (editor?.isEdited == true) && (editor?.attributedText.length != 0) else {
+        guard editor?.attributedText.length != 0 else {
             MemoManager.remove(memo, completion: nil)
+            return
+        }
+        
+        guard editor?.isEdited == true else {
             return
         }
         
@@ -76,18 +80,6 @@ class MemoViewController: UIViewController {
         memo.content = data as NSData
         
         MemoManager.save(memo)
-    }
-    
-    
-    // MARK: segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        editor.resignFirstResponder()
-        
-        if segue.identifier == "TextEffect" {
-            let selectedButton = sender as! EffectButton
-            let des = segue.destination as! SelectEffectViewController
-            des.selectedButton = selectedButton
-        }
     }
     
     // MARK: move memo to trash
@@ -126,6 +118,14 @@ class MemoViewController: UIViewController {
         navigationController?.setToolbarHidden(true, animated: true)
     }
 
+    @IBAction func tapCompleteButton(_ sendder: Any) {
+        editor.editMode = .typing
+        editor.sizeToFit()
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
     @IBAction func tapSendEmail(_ sender: Any) {
         let content = memo?.attrbutedString ?? NSAttributedString()
         MailSender.sendMail(with: content) {

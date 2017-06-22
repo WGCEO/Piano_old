@@ -24,6 +24,7 @@ class PianoTextView: UITextView {
         super.init(frame: frame, textContainer: textContainer)
         
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,12 +35,21 @@ class PianoTextView: UITextView {
     public func prepareForReuse() {
         isWaitingState = false
         isEdited = false
-        //editMode = .typing
         clearText()
         
         contentOffset = CGPoint.zero
         
         resignFirstResponder()
+    }
+    
+    private func clearText() {
+        textAlignment = .left
+        attributedText = nil
+        typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
+                             NSUnderlineStyleAttributeName: 0,
+                         NSStrikethroughStyleAttributeName: 0,
+                            NSBackgroundColorAttributeName: UIColor.clear,
+                                       NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
     }
     
     public func addImage(_ image: UIImage) {
@@ -56,19 +66,7 @@ class PianoTextView: UITextView {
         didUpdateText(in: range)
     }
     
-    private func clearText() {
-        textAlignment = .left
-        attributedText = nil
-        typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
-                             NSUnderlineStyleAttributeName: 0,
-                         NSStrikethroughStyleAttributeName: 0,
-                            NSBackgroundColorAttributeName: UIColor.clear,
-                                       NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
-    }
-    
     private func didUpdateText(in range: NSRange) {
-        isEdited = true
-        
         selectedRange =
             NSMakeRange(range.location+2, range.length)
         appearKeyboard()
@@ -135,6 +133,66 @@ class PianoTextView: UITextView {
         }
     }
     
+    //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
+    func updateCellInfo() {
+        /*
+         guard let memo = self.memo,
+         let textView = self.textView,
+         let attrText = textView.attributedText else { return }
+         
+         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
+         let firstLine: String
+         switch text {
+         case let x where x.characters.count > 50:
+         firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
+         case let x where x.characters.count == 0:
+         //이미지만 있는 경우에도 해당됨
+         firstLine = "NewMemo".localized(withComment: "새로운 메모")
+         default:
+         firstLine = text
+         }
+         
+         memo.firstLine = firstLine
+         
+         let hasAttachments = attrText.containsAttachments(in: NSMakeRange(0, attrText.length))
+         
+         guard hasAttachments else {
+         memo.imageData = nil
+         return
+         }
+         
+         attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
+         
+         guard let attachment = value as? NSTextAttachment,
+         let image = attachment.image else { return }
+         
+         guard firstImage != image else {
+         stop.pointee = true
+         return
+         }
+         
+         firstImage = image
+         
+         let oldWidth = image.size.width;
+         
+         //I'm subtracting 10px to make the image display nicely, accounting
+         //for the padding inside the textView
+         let ratio = 60 / oldWidth;
+         
+         let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+         image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+         UIGraphicsEndImageContext()
+         if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+         memo.imageData = data as NSData
+         stop.pointee = true
+         }
+         
+         }
+         */
+    }
+    
     // MARK: private methods
     private func tappedURL(textPosition: UITextPosition) -> URL? {
         guard let attrSubString = getAttrSubString(textPosition) else { return nil }
@@ -153,7 +211,6 @@ class PianoTextView: UITextView {
         isEditable = false
         isSelectable = true
         isWaitingState = false
-        //mode = .typing
     }
     
     func makeUnableTap() {
@@ -165,7 +222,6 @@ class PianoTextView: UITextView {
         isEditable = false
         isSelectable = false
         isWaitingState = true
-        //mode = .effect
     }
 
     func appearKeyboard(){
@@ -176,12 +232,12 @@ class PianoTextView: UITextView {
 }
 
 
-extension PianoTextView: Effectable {
-    func setEffect(textEffect: TextEffect) {
-        
+extension PianoTextView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        isEdited = true
+        updateCellInfo()
     }
 }
-
 
 fileprivate extension UITextView {
     func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {

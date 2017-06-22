@@ -60,7 +60,7 @@ class PaletteView: UIView {
     // MARK: private
     private func configure() {
         setupEffectButtons()
-        backgroundColor = UIColor.pianoBackgroundColor
+        backgroundColor = PianoColor.lightGray
     }
     
     private func removeButtons() {
@@ -123,26 +123,35 @@ class PaletteView: UIView {
         let colorEffectButton = EffectButton()
         colorEffectButton.textEffect = .color(.red)
         colorEffectButton.setTitle("\u{f031}", for: .normal)
+        colorEffectButton.setTitleColor(PianoColor.red, for: .normal)
+        colorEffectButton.setTitleColor(PianoColor.red, for: .selected)
+        colorEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
         colorEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
         effectButtons.append(colorEffectButton)
         
         let sizeEffectButton = EffectButton()
         sizeEffectButton.textEffect = .title(.title3)
         sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
-        colorEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
+        sizeEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
+        sizeEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
+        sizeEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 26)
+        sizeEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
         effectButtons.append(sizeEffectButton)
         
         let lineEffectButton = EffectButton()
         lineEffectButton.textEffect = .line(.strikethrough)
         lineEffectButton.setTitle("\u{f0cc}", for: .normal)
-        colorEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
+        lineEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
+        lineEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
+        lineEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
+        lineEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
         effectButtons.append(lineEffectButton)
         
         self.effectButtons = effectButtons
     }
     
     // MARK: actions
-    @objc private func didSelectButton(button: EffectButton) {
+    func didSelectButton(button: EffectButton) {
         effector?.setEffect(textEffect: button.textEffect)
         
         changeTitle(of: button)
