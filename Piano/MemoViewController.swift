@@ -120,6 +120,10 @@ class MemoViewController: UIViewController {
     // MARK: show effect buttons
     @IBAction func tapEffectButton(_ sender: Any) {
         editor.editMode = .effect
+        editor.sizeToFit()
+        
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setToolbarHidden(true, animated: true)
     }
 
     @IBAction func tapSendEmail(_ sender: Any) {
