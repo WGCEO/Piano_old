@@ -9,8 +9,6 @@
 import UIKit
 
 class PianoTextView: UITextView {
-    var mode: TextViewMode = .typing
-    
     var isWaitingState: Bool = false
     var isEdited = false {
         didSet {
@@ -36,10 +34,12 @@ class PianoTextView: UITextView {
     public func prepareForReuse() {
         isWaitingState = false
         isEdited = false
-        mode = .typing
+        //editMode = .typing
         clearText()
         
         contentOffset = CGPoint.zero
+        
+        resignFirstResponder()
     }
     
     public func addImage(_ image: UIImage) {
@@ -153,7 +153,7 @@ class PianoTextView: UITextView {
         isEditable = false
         isSelectable = true
         isWaitingState = false
-        mode = .typing
+        //mode = .typing
     }
     
     func makeUnableTap() {
@@ -165,7 +165,7 @@ class PianoTextView: UITextView {
         isEditable = false
         isSelectable = false
         isWaitingState = true
-        mode = .effect
+        //mode = .effect
     }
 
     func appearKeyboard(){
@@ -175,6 +175,12 @@ class PianoTextView: UITextView {
     }
 }
 
+
+extension PianoTextView: Effectable {
+    func setEffect(textEffect: TextEffect) {
+        
+    }
+}
 
 
 fileprivate extension UITextView {

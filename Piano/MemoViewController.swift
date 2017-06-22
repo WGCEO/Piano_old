@@ -40,6 +40,7 @@ class MemoViewController: UIViewController {
         
         // TODO: 어떤 경우에 Needed되는지 확인
         editor.appearKeyboardIfNeeded()
+        editor.editMode = .typing
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -56,7 +57,7 @@ class MemoViewController: UIViewController {
         }
     }
     
-    // MARR: setup views
+    // MARR: memo
     private func showMemo() {
         editor?.attributedText = memo?.attrbutedString ?? NSAttributedString()
     }
@@ -76,6 +77,7 @@ class MemoViewController: UIViewController {
         
         MemoManager.save(memo)
     }
+    
     
     // MARK: segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -117,19 +119,7 @@ class MemoViewController: UIViewController {
     
     // MARK: show effect buttons
     @IBAction func tapEffectButton(_ sender: Any) {
-        /*
-        guard canDoAnotherTask() else { return }
-        setTextViewEditedState()
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        
-         DispatchQueue.main.async { [unowned self] in
-         self.textView.sizeToFit()
-         self.showTopView(bool: true)
-         self.textView.attachCanvas()
-         self.activityIndicator.stopAnimating()
-         }
-         */
+        editor.editMode = .effect
     }
 
     @IBAction func tapSendEmail(_ sender: Any) {

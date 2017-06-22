@@ -11,12 +11,14 @@ import UIKit
 import CoreData
 import SnapKit
 
-@objc class PNEditor: UIView {
-    var textView: PianoTextView!
-    var paletteView: PaletteView!
-    var canvas = PianoControl()
-    var images: [UIImage] = []
+@objc(PNEditorEditMode)
+enum EditMode: Int {
+    case typing
+    case effect
+    case none
+}
 
+@objc class PNEditor: UIView {
     public var attributedText: NSAttributedString {
         get {
             return textView.attributedText
@@ -31,6 +33,17 @@ import SnapKit
     public var isEdited: Bool {
         return textView.isEdited
     }
+    
+    public var editMode: EditMode = .none {
+        didSet {
+            prepare(editMode)
+        }
+    }
+    
+    internal var textView: PianoTextView!
+    internal var paletteView: PaletteView!
+    internal var canvas = PianoControl()
+    private var images: [UIImage] = []
     
     // MARK: public methods
     public func addImage(_ image: UIImage) {
@@ -117,15 +130,34 @@ import SnapKit
     }
     
     func prepareToEditing() {
+        /*
         if textView.mode != .typing {
             attachCanvas()
+        }
+        */
+    }
+    
+    func prepare(_ editMode: EditMode) {
+        switch editMode {
+        case .effect:
+            showPaletteView()
+            attachCanvas()
+            //setTextViewEditedState()
+        case .typing:
+            hidePaletteView()
+            detachCanvas()
+            //setTextViewEditedState()
+        case .none:
+            textView.isEditable = false
         }
     }
     
     func showPaletteView() {
         textView.makeEffectable()
+        textView.sizeToFit()
         
         paletteView.isHidden = false
+        bringSubview(toFront: paletteView)
         
         animateTextView()
     }
@@ -137,6 +169,7 @@ import SnapKit
         
         animateTextView()
     }
+    
     
     private func animateTextView() {
         let navigationController = AppNavigator.currentNavigationController
@@ -187,6 +220,10 @@ import SnapKit
         self.addSubview(canvas)
     }
     
+    func detachCanvas() {
+        canvas.removeFromSuperview()
+    }
+    
     // MARK: keyboard
     func keyboardWillShow(notification: Notification){
         /*
@@ -220,10 +257,8 @@ import SnapKit
     
     // MARK: private methods
     private func prepareToReuse() {
-        MemoManager.saveCoreDataIfNeeded()
-        
         images.removeAll()
-        textView.resignFirstResponder()
+        textView.prepareForReuse()
         canvas.removeFromSuperview()
     }
 }
@@ -319,6 +354,12 @@ extension PNEditor: UITextViewDelegate {
          textView.attachCanvas()
          }
          */
+    }
+}
+
+extension PNEditor: Effectable {
+    func setEffect(textEffect: TextEffect){
+        canvas.textEffect = textEffect
     }
 }
 
