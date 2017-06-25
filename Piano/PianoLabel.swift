@@ -19,8 +19,8 @@ class PianoLabel: UILabel {
     var textEffect: TextEffect = .color(.red)
     var attributes: [[String : Any]] = []
     
-    var cosQuarterPeriod: CGFloat = 70 //이거 Designable
-    var cosMaxHeight: CGFloat = 60  //이것도 Designable
+    var cosHalfPeriod: CGFloat = 80 //이거 Designable
+    var cosMaxHeight: CGFloat = 40  //이것도 Designable
     
     var textRect = CGRect.zero
     
@@ -100,7 +100,7 @@ class PianoLabel: UILabel {
 //            let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
             
             
-            let y = cosMaxHeight * cos(CGFloat.pi / (2 * cosQuarterPeriod) * distance)
+            let y = cosMaxHeight * (cos(CGFloat.pi * distance / cosHalfPeriod ) + 1)
             
             //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
 //            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
@@ -166,7 +166,7 @@ class PianoLabel: UILabel {
             
             //효과 입히기
 //            if x > -waveLength && x < waveLength {
-            if distance > -cosQuarterPeriod && distance < cosQuarterPeriod {
+            if distance > -cosHalfPeriod && distance < cosHalfPeriod {
             
                 let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
 //                let size = s.size(attributes: attribute)

@@ -53,10 +53,10 @@ class PianoControl: UIControl {
         let (text, range) = textView.getTextAndRange(from: rect)
         guard !text.isEmptyOrWhitespace() else { return false }
         
-        //2
+        //2 TODO:  이거 continue로 옮기기
         textView.attachEraseView(rect: rect)
         
-        //3
+        //3 TODO: 이거 역시 continue로 옮기기
         delegate?.textFromTextView(text: text)
         selectedRange = range
         
