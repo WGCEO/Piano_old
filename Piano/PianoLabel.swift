@@ -19,8 +19,8 @@ class PianoLabel: UILabel {
     var textEffect: TextEffect = .color(.red)
     var attributes: [[String : Any]] = []
     
-    var cosHalfPeriod: CGFloat = 100 //이거 Designable
-    var cosMaxHeight: CGFloat = 60  //이것도 Designable
+    var cosHalfPeriod: CGFloat = 80 //이거 Designable
+    var cosMaxHeight: CGFloat = 50  //이것도 Designable
     
     var textRect = CGRect.zero
     
@@ -179,7 +179,7 @@ class PianoLabel: UILabel {
                 }
                 
                 let font = attribute[NSFontAttributeName] as! UIFont
-                attribute[NSFontAttributeName] = UIFont.systemFont(ofSize: font.pointSize + (y * progress / 6))
+                attribute[NSFontAttributeName] = UIFont.systemFont(ofSize: font.pointSize + (y * progress / 5))
                 
                 
                 //TODO: 네이밍, 리펙토링
