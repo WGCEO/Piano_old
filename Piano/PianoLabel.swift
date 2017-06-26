@@ -19,8 +19,8 @@ class PianoLabel: UILabel {
     var textEffect: TextEffect = .color(.red)
     var attributes: [[String : Any]] = []
     
-    var cosHalfPeriod: CGFloat = 80 //이거 Designable
-    var cosMaxHeight: CGFloat = 40  //이것도 Designable
+    var cosHalfPeriod: CGFloat = 100 //이거 Designable
+    var cosMaxHeight: CGFloat = 60  //이것도 Designable
     
     var textRect = CGRect.zero
     
@@ -165,23 +165,29 @@ class PianoLabel: UILabel {
             
             
             //효과 입히기
-//            if x > -waveLength && x < waveLength {
             if distance > -cosHalfPeriod && distance < cosHalfPeriod {
             
                 let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
-//                let size = s.size(attributes: attribute)
-                let x = rect.origin.x
-                let y = rect.origin.y - y * progress
-//                let y = rect.origin.y - (isSelectedCharacter ?
-//                    (y + size.height / 2) * progress  :
-//                    y * progress)
-                let point = CGPoint(x: x, y: y)
+
+                let pointX = rect.origin.x
+                let pointY = rect.origin.y - y * progress
+
                 
-                if isSelectedCharacter {
-                    let font = attribute[NSFontAttributeName] as! UIFont
-                    attribute[NSFontAttributeName] = UIFont.boldSystemFont(ofSize: font.pointSize)
-                    
+                if !isSelectedCharacter {
+                    let tempColorAttr = attribute[NSForegroundColorAttributeName] as! UIColor
+                    attribute[NSForegroundColorAttributeName] = tempColorAttr.withAlphaComponent(0.3)
                 }
+                
+                let font = attribute[NSFontAttributeName] as! UIFont
+                attribute[NSFontAttributeName] = UIFont.systemFont(ofSize: font.pointSize + (y * progress / 6))
+                
+                
+                //TODO: 네이밍, 리펙토링
+                let subtractHalfWidth = (s.size(attributes: attribute).width - charSize.width) / 2
+                let subtrachHeight = s.size(attributes: attribute).height - charSize.height
+            
+                let point = CGPoint(x: pointX - subtractHalfWidth, y: pointY + subtrachHeight)
+                
                 
                 s.draw(at: point, withAttributes: attribute)
             } else {
