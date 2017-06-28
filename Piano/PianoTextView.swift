@@ -8,9 +8,12 @@
 
 import UIKit
 
+protocol PianoTextViewDelegate {
+    func textViewDidChange(_ textView: PianoTextView)
+}
+
 class PianoTextView: UITextView {
-    var isWaitingState: Bool = false
-    var isEdited = false {
+    internal(set) var isEdited = false {
         didSet {
             if isEdited == true {
                 editDate = NSDate()
@@ -19,7 +22,11 @@ class PianoTextView: UITextView {
     }
     var editDate: NSDate?
     
-    
+    var isWaitingState: Bool = false
+    override var canBecomeFirstResponder: Bool {
+        return (isWaitingState == false)
+    }
+
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
@@ -42,6 +49,27 @@ class PianoTextView: UITextView {
         resignFirstResponder()
     }
     
+    public func makeTappable() {
+        isEditable = false
+        isSelectable = true
+        isWaitingState = false
+    }
+    
+    public func makeUnableTap() {
+        isWaitingState = true
+    }
+    
+    public func makeEffectable() {
+        isEditable = false
+        isSelectable = false
+        isWaitingState = true
+    }
+    
+    public func appearKeyboard(){
+        isSelectable = true
+        isEditable = true
+        becomeFirstResponder()
+    }
     private func clearText() {
         textAlignment = .left
         attributedText = nil
@@ -64,6 +92,44 @@ class PianoTextView: UITextView {
         attributedText = attributedString
         
         didUpdateText(in: range)
+    }
+    
+    public func eraseCurrentLine() {
+        guard selectedRange.location != 0 else { return }
+        
+        let beginning: UITextPosition = beginningOfDocument
+        var offset = selectedRange.location
+        
+        while true {
+            if offset == 0 {
+                removeSubrange(from: offset)
+                break
+            }
+            
+            guard let start = position(from: beginning, offset: offset - 1),
+                let end = position(from: beginning, offset: offset),
+                let textRange = textRange(from: start, to: end),
+                let text = text(in: textRange) else { return }
+            
+            let whitespacesAndNewlines = CharacterSet.whitespacesAndNewlines
+            let range = text.rangeOfCharacter(from: whitespacesAndNewlines)
+            
+            if range == nil {
+                removeSubrange(from: offset-1)
+                break
+            }
+            
+            offset -= 1
+        }
+        
+        isEdited = true
+        updateCellInfo()
+    }
+    
+    func removeSubrange(from: Int) {
+        let range = NSMakeRange(from, selectedRange.location - from)
+        layoutManager.textStorage?.deleteCharacters(in: range)
+        selectedRange = NSRange(location: from, length: 0)
     }
     
     private func didUpdateText(in range: NSRange) {
@@ -135,62 +201,46 @@ class PianoTextView: UITextView {
     
     //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
     func updateCellInfo() {
-        /*
-         guard let memo = self.memo,
-         let textView = self.textView,
-         let attrText = textView.attributedText else { return }
-         
-         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
-         let firstLine: String
-         switch text {
-         case let x where x.characters.count > 50:
-         firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
-         case let x where x.characters.count == 0:
-         //이미지만 있는 경우에도 해당됨
-         firstLine = "NewMemo".localized(withComment: "새로운 메모")
-         default:
-         firstLine = text
-         }
-         
-         memo.firstLine = firstLine
-         
-         let hasAttachments = attrText.containsAttachments(in: NSMakeRange(0, attrText.length))
-         
-         guard hasAttachments else {
-         memo.imageData = nil
-         return
-         }
-         
-         attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-         
-         guard let attachment = value as? NSTextAttachment,
-         let image = attachment.image else { return }
-         
-         guard firstImage != image else {
-         stop.pointee = true
-         return
-         }
-         
-         firstImage = image
-         
-         let oldWidth = image.size.width;
-         
-         //I'm subtracting 10px to make the image display nicely, accounting
-         //for the padding inside the textView
-         let ratio = 60 / oldWidth;
-         
-         let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-         image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-         UIGraphicsEndImageContext()
-         if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
-         memo.imageData = data as NSData
-         stop.pointee = true
-         }
-         
-         }
-         */
+        let memo = MemoManager.currentMemo
+        
+        memo?.firstLine = getFirstLineText()
+        
+        let hasAttachments = attributedText.containsAttachments(in: NSMakeRange(0, attributedText.length))
+        guard hasAttachments else {
+            memo?.imageData = nil
+            return
+        }
+        
+        attributedText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
+            guard let attachment = value as? NSTextAttachment,
+                let image = attachment.image else { return }
+            
+            /*
+            guard firstImage != image else {
+                stop.pointee = true
+                return
+            }
+            
+            firstImage = image
+            */
+            
+            let oldWidth = image.size.width;
+            
+            //I'm subtracting 10px to make the image display nicely, accounting
+            //for the padding inside the textView
+            let ratio = 60 / oldWidth;
+            
+            let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+            UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+                memo?.imageData = data as NSData
+                stop.pointee = true
+            }
+            
+        }
     }
     
     // MARK: private methods
@@ -201,33 +251,17 @@ class PianoTextView: UITextView {
         return url
     }
     
-    override var canBecomeFirstResponder: Bool {
-        get {
-            return isWaitingState ? false : true
+    private func getFirstLineText() -> String {
+        let trim = self.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
+        switch trim {
+        case let x where x.characters.count > 50:
+            return x.substring(to: x.index(x.startIndex, offsetBy: 50))
+        case let x where x.characters.count == 0:
+            //이미지만 있는 경우에도 해당됨
+            return "NewMemo".localized(withComment: "새로운 메모")
+        default:
+            return trim
         }
-    }
-    
-    func makeTappable() {
-        isEditable = false
-        isSelectable = true
-        isWaitingState = false
-    }
-    
-    func makeUnableTap() {
-        isWaitingState = true
-    }
-    
-    
-    func makeEffectable() {
-        isEditable = false
-        isSelectable = false
-        isWaitingState = true
-    }
-
-    func appearKeyboard(){
-        isSelectable = true
-        isEditable = true
-        becomeFirstResponder()
     }
 }
 
@@ -236,6 +270,12 @@ extension PianoTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         isEdited = true
         updateCellInfo()
+    }
+}
+
+extension PianoTextView: NSLayoutManagerDelegate {
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return 8
     }
 }
 

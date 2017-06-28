@@ -59,6 +59,7 @@ class MemoViewController: UIViewController {
     
     // MARR: memo
     private func showMemo() {
+        // TODO: CoreData와 연동이 되게끔
         editor?.attributedText = memo?.attrbutedString ?? NSAttributedString()
     }
     
@@ -74,6 +75,7 @@ class MemoViewController: UIViewController {
             return
         }
         
+        // TODO: copy
         guard let copy = editor?.attributedText.copy() else { return }
         
         let data = NSKeyedArchiver.archivedData(withRootObject: copy)
@@ -172,48 +174,7 @@ class MemoViewController: UIViewController {
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
-        //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
-        
-        //커서가 맨 앞에 있으면 탈출
-        /*
-        guard textView.selectedRange.location != 0 else { return }
-        
-        let beginning: UITextPosition = textView.beginningOfDocument
-        var offset = textView.selectedRange.location
-        var findWord = false
-        
-        while true {
-            guard offset != 0 else {
-                removeSubrange(from: offset)
-                break
-            }
-            
-            guard let start = textView.position(from: beginning, offset: offset - 1),
-                let end = textView.position(from: beginning, offset: offset),
-                let textRange = textView.textRange(from: start, to: end),
-                let text = textView.text(in: textRange) else { return }
-            
-            let whitespacesAndNewlines = CharacterSet.whitespacesAndNewlines
-            let range = text.rangeOfCharacter(from: whitespacesAndNewlines)
-            
-            guard range != nil else { //단어가 있다는 말
-                findWord = true
-                offset -= 1
-                continue
-            }
-            
-            //whitespace발견!
-            if findWord {
-                removeSubrange(from: offset)
-                break
-            } else {
-                offset -= 1
-            }
-        }
-        
-        setTextViewEditedState()
-        updateCellInfo()
-        */
+        editor?.eraseCurrentLine()
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
@@ -223,11 +184,6 @@ class MemoViewController: UIViewController {
     }
 }
 
-extension MemoViewController: NSLayoutManagerDelegate {
-    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-        return 8
-    }
-}
 
 extension Memo {
     var attrbutedString: NSAttributedString? {

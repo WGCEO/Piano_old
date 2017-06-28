@@ -44,13 +44,7 @@ enum EditMode: Int {
     internal var paletteView: PaletteView!
     internal var pianoLabel: PianoLabel!
     internal var canvas = PianoControl()
-    
-    // MARK: views
-    lazy var eraseTextView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        return view
-    }()
+    internal var coverView: UIView?
     
     // MARK: life cycle
     override init(frame: CGRect) {
@@ -129,51 +123,38 @@ enum EditMode: Int {
         self.pianoLabel = pianoLabel
     }
     
-    // MARK: public methods
+    // MARK: - public methods
     func appearKeyboardIfNeeded() {
         textView.isWaitingState = false
-        
-        //TODO: 코드 리펙토링제대로하기
-        //textView.isWaitingState = false
-        //appearKeyboardIfNeeded()
-        //appearKeyboardIfNeeded = { }
+        appearKeyboardIfNeeded()
     }
     
     public func addImage(_ image: UIImage) {
         textView.addImage(image)
     }
     
-    func showPaletteView() {
-        textView.makeEffectable()
-        textView.sizeToFit()
-        
-        paletteView.isHidden = false
-        bringSubview(toFront: paletteView)
-        
-        animateTextView()
+    public func eraseCurrentLine() {
+        textView.eraseCurrentLine()
     }
     
-    func hidePaletteView() {
-        textView.makeTappable()
+    private func attachCoverView(rect: CGRect) {
+        let coverView = UIView()
         
-        paletteView.isHidden = true
-        
-        animateTextView()
-    }
-    
-    public func attachEraseView(rect: CGRect) {
         let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
         let top = textView.textContainerInset.top
-        eraseTextView.frame = rect.offsetBy(dx: left, dy: top)
+        coverView.frame = rect.offsetBy(dx: left, dy: top)
         
-        self.addSubview(eraseTextView)
+        addSubview(coverView)
+        
+        self.coverView = coverView
     }
     
-    public func removeEraseView() {
-        eraseTextView.removeFromSuperview()
+    private func detachCoverView() {
+        coverView?.removeFromSuperview()
+        coverView = nil
     }
     
-    // MARK: private methods
+    // MARK: - private methods
     private func prepareToReuse() {
         textView.prepareForReuse()
         canvas.removeFromSuperview()
@@ -196,6 +177,24 @@ enum EditMode: Int {
         }
     }
     
+    private func showPaletteView() {
+        textView.makeEffectable()
+        textView.sizeToFit()
+        
+        paletteView.isHidden = false
+        bringSubview(toFront: paletteView)
+        
+        animateTextView()
+    }
+    
+    private func hidePaletteView() {
+        textView.makeTappable()
+        
+        paletteView.isHidden = true
+        
+        animateTextView()
+    }
+    
     private func animateTextView() {
         let amount = paletteView.isHidden ? 0 : 100
         
@@ -207,16 +206,6 @@ enum EditMode: Int {
             })
             self?.layoutIfNeeded()
         }
-    }
-    
-    // MARK: edit text?
-    func removeSubrange(from: Int) {
-        //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
-        /*
-         let range = NSMakeRange(from, textView.selectedRange.location - from)
-         textView.layoutManager.textStorage?.deleteCharacters(in: range)
-         textView.selectedRange = NSRange(location: from, length: 0)
-         */
     }
     
     // MARK: editing
@@ -240,12 +229,11 @@ enum EditMode: Int {
     
     // MARK: keyboard
     func keyboardWillShow(notification: Notification){
-        /*
          textView.isWaitingState = true
          
          guard let userInfo = notification.userInfo,
-         let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
-         let height = navigationController?.toolbar.bounds.height else { return }
+            let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
+            let height = AppNavigator.currentNavigationController?.toolbar.bounds.height else { return }
          
          
          //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
@@ -253,20 +241,16 @@ enum EditMode: Int {
          textView.contentInset = inset
          textView.scrollIndicatorInsets = inset
          textView.scrollRangeToVisible(textView.selectedRange)
-         */
     }
     
     func keyboardDidHide(notification: Notification) {
-        //textView.makeTappable()
+        textView.makeTappable()
     }
     
     func keyboardWillHide(notification: Notification){
-        /*
-         textView.makeUnableTap()
-         
-         textView.contentInset = UIEdgeInsets.zero
-         textView.scrollIndicatorInsets = UIEdgeInsets.zero
-         */
+        textView.makeUnableTap()
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
 }
