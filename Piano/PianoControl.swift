@@ -78,7 +78,7 @@ class PianoControl: UIControl {
         let (text, range) = textView.getTextAndRange(from: rect)
         guard !text.isEmptyOrWhitespace() else { return false }
         
-        editor?.attachEraseView(rect: rect)
+        editor?.attachCoverView(rect: rect)
         pianoable?.textFromTextView(text: text)
         selectedRange = range
         
@@ -113,7 +113,7 @@ class PianoControl: UIControl {
     
     internal override func cancelTracking(with event: UIEvent?) {
         pianoable?.cancelAnimating(completion: { [unowned self] in
-            self.editor?.removeEraseView()
+            self.editor?.detach()
             self.selectedRange = nil
         })
     }

@@ -133,11 +133,12 @@ enum EditMode: Int {
         textView.addImage(image)
     }
     
+    // TODO : eraseView to textview
     public func eraseCurrentLine() {
         textView.eraseCurrentLine()
     }
     
-    private func attachCoverView(rect: CGRect) {
+    public func attachCoverView(rect: CGRect) {
         let coverView = UIView()
         
         let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
@@ -149,7 +150,7 @@ enum EditMode: Int {
         self.coverView = coverView
     }
     
-    private func detachCoverView() {
+    public func detachCoverView() {
         coverView?.removeFromSuperview()
         coverView = nil
     }
@@ -252,7 +253,6 @@ enum EditMode: Int {
         textView.contentInset = UIEdgeInsets.zero
         textView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
-    
 }
 
 extension PNEditor: Effectable {
