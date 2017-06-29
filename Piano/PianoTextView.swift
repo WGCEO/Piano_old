@@ -223,13 +223,13 @@ class PianoTextView: UITextView {
         
         if let url = tappedURL(textPosition: textPosition) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            
+        } else {
             appearKeyboard()
         }
     }
     
     //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
-    func updateCellInfo() {
+    internal func updateCellInfo() {
         let memo = MemoManager.currentMemo
         
         memo?.firstLine = getFirstLineText()
@@ -263,12 +263,22 @@ class PianoTextView: UITextView {
         }
     }
     
-    // MARK: private methods
+    // MARK: - private methods
     private func tappedURL(textPosition: UITextPosition) -> URL? {
         guard let attrSubString = getAttrSubString(textPosition) else { return nil }
         
-        let url = attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL
-        return url
+        return attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL
+    }
+    
+    private func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {
+        guard let position = position(from: textPosition, offset: 1),
+            let range = textRange(from: textPosition, to: position) else { return nil }
+        
+        let startOffset = offset(from: beginningOfDocument, to: range.start)
+        let endOffset = offset(from: beginningOfDocument, to: range.end)
+        let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
+        
+        return attributedText.attributedSubstring(from: offsetRange)
     }
     
     private func getFirstLineText() -> String {
@@ -326,21 +336,6 @@ extension PianoTextView: NSLayoutManagerDelegate {
         return 8
     }
 }
-
-fileprivate extension UITextView {
-    func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {
-        guard let position = position(from: textPosition, offset: 1),
-            let range = textRange(from: textPosition, to: position) else { return nil }
-        
-        let startOffset = offset(from: beginningOfDocument, to: range.start)
-        let endOffset = offset(from: beginningOfDocument, to: range.end)
-        let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
-        
-        return attributedText.attributedSubstring(from: offsetRange)
-    }
-}
-
-
 
 fileprivate extension NSMutableAttributedString {
     func insertImage(_ image: UIImage, in range: NSRange) {

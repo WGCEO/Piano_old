@@ -92,6 +92,7 @@ enum EditMode: Int {
     private func configurePaletteView() {
         let paletteView = PaletteView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 100))
         paletteView.isHidden = true
+        paletteView.effector = canvas
         
         addSubview(paletteView)
         paletteView.snp.makeConstraints { (make) in
@@ -203,11 +204,5 @@ enum EditMode: Int {
     private func detachCanvas() {
         canvas.removeFromSuperview()
         pianoLabel.isHidden = false
-    }
-}
-
-extension PNEditor: Effectable {
-    func setEffect(textEffect: TextEffect){
-        canvas.textEffect = textEffect
     }
 }

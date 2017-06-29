@@ -60,6 +60,8 @@ class PaletteView: UIView {
     // MARK: private
     private func configure() {
         setupEffectButtons()
+        effectButtons[0].isSelected = true
+        
         backgroundColor = PianoColor.lightGray
     }
     

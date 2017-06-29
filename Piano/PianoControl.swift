@@ -94,7 +94,7 @@ class PianoControl: UIControl {
         
         //TODO: TopView = 100 이걸 리터럴이 아닌 값으로 표현해야함
         let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
-        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 100
+        let shiftY = textView.textContainerInset.top - textView.contentOffset.y
         let newRect = rect.offsetBy(dx: shiftX, dy: shiftY)
 
         pianoable?.rectForText(newRect)
@@ -148,6 +148,11 @@ class PianoControl: UIControl {
     }
 }
 
+extension PianoControl: Effectable {
+    func setEffect(textEffect: TextEffect){
+        self.textEffect = textEffect
+    }
+}
 
 
 
