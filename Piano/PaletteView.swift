@@ -125,7 +125,7 @@ class PaletteView: UIView {
         let colorEffectButton = EffectButton()
         colorEffectButton.textEffect = .color(.red)
         colorEffectButton.setTitle("\u{f031}", for: .normal)
-        colorEffectButton.setTitleColor(PianoColor.red, for: .normal)
+        colorEffectButton.setTitleColor(PianoColor.red.withAlphaComponent(0.3), for: .normal)
         colorEffectButton.setTitleColor(PianoColor.red, for: .selected)
         colorEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
         colorEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
