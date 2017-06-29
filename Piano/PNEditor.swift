@@ -44,7 +44,6 @@ enum EditMode: Int {
     internal var paletteView: PaletteView!
     internal var pianoLabel: PianoLabel!
     internal var canvas = PianoControl()
-    internal var coverView: UIView?
     
     // MARK: life cycle
     override init(frame: CGRect) {
@@ -62,13 +61,7 @@ enum EditMode: Int {
     private func configure() {
         configureSubviews()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        editMode = .typing
     }
     
     // MARK: configure subviews
@@ -126,7 +119,7 @@ enum EditMode: Int {
     // MARK: - public methods
     func appearKeyboardIfNeeded() {
         textView.isWaitingState = false
-        appearKeyboardIfNeeded()
+        textView.appearKeyboard()
     }
     
     public func addImage(_ image: UIImage) {
@@ -138,22 +131,6 @@ enum EditMode: Int {
         textView.eraseCurrentLine()
     }
     
-    public func attachCoverView(rect: CGRect) {
-        let coverView = UIView()
-        
-        let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
-        let top = textView.textContainerInset.top
-        coverView.frame = rect.offsetBy(dx: left, dy: top)
-        
-        addSubview(coverView)
-        
-        self.coverView = coverView
-    }
-    
-    public func detachCoverView() {
-        coverView?.removeFromSuperview()
-        coverView = nil
-    }
     
     // MARK: - private methods
     private func prepareToReuse() {
@@ -226,32 +203,6 @@ enum EditMode: Int {
     private func detachCanvas() {
         canvas.removeFromSuperview()
         pianoLabel.isHidden = false
-    }
-    
-    // MARK: keyboard
-    func keyboardWillShow(notification: Notification){
-         textView.isWaitingState = true
-         
-         guard let userInfo = notification.userInfo,
-            let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
-            let height = AppNavigator.currentNavigationController?.toolbar.bounds.height else { return }
-         
-         
-         //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
-         let inset = UIEdgeInsetsMake(0, 0, UIScreen.main.bounds.height - kbFrame.origin.y - height, 0)
-         textView.contentInset = inset
-         textView.scrollIndicatorInsets = inset
-         textView.scrollRangeToVisible(textView.selectedRange)
-    }
-    
-    func keyboardDidHide(notification: Notification) {
-        textView.makeTappable()
-    }
-    
-    func keyboardWillHide(notification: Notification){
-        textView.makeUnableTap()
-        textView.contentInset = UIEdgeInsets.zero
-        textView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }
 

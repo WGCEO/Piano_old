@@ -13,6 +13,8 @@ protocol PianoTextViewDelegate {
 }
 
 class PianoTextView: UITextView {
+    internal var coverView: UIView?
+    
     internal(set) var isEdited = false {
         didSet {
             if isEdited == true {
@@ -32,10 +34,18 @@ class PianoTextView: UITextView {
         
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: public methods
@@ -70,6 +80,7 @@ class PianoTextView: UITextView {
         isEditable = true
         becomeFirstResponder()
     }
+    
     private func clearText() {
         textAlignment = .left
         attributedText = nil
@@ -78,6 +89,24 @@ class PianoTextView: UITextView {
                          NSStrikethroughStyleAttributeName: 0,
                             NSBackgroundColorAttributeName: UIColor.clear,
                                        NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
+    }
+    
+    public func cover(_ rect: CGRect) {
+        let coverView = UIView()
+        
+        let left = textContainerInset.left + textContainer.lineFragmentPadding
+        let top = textContainerInset.top
+        coverView.frame = rect.offsetBy(dx: left, dy: top)
+        
+        addSubview(coverView)
+        
+        self.coverView = coverView
+        
+    }
+    
+    public func uncover() {
+        coverView?.removeFromSuperview()
+        coverView = nil
     }
     
     public func addImage(_ image: UIImage) {
@@ -166,7 +195,7 @@ class PianoTextView: UITextView {
             }
         }
         
-        //detailViewController?.updateCellInfo() memo를 활용
+        updateCellInfo()
         
         DispatchQueue.main.async { [unowned self] in
             self.scrollRangeToVisible(self.selectedRange)
@@ -215,15 +244,6 @@ class PianoTextView: UITextView {
             guard let attachment = value as? NSTextAttachment,
                 let image = attachment.image else { return }
             
-            /*
-            guard firstImage != image else {
-                stop.pointee = true
-                return
-            }
-            
-            firstImage = image
-            */
-            
             let oldWidth = image.size.width;
             
             //I'm subtracting 10px to make the image display nicely, accounting
@@ -270,6 +290,34 @@ extension PianoTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         isEdited = true
         updateCellInfo()
+    }
+}
+
+// MARK: keyboard
+extension PianoTextView {
+    func keyboardWillShow(notification: Notification){
+        isWaitingState = true
+        
+        guard let userInfo = notification.userInfo,
+            let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
+            let height = AppNavigator.currentNavigationController?.toolbar.bounds.height else { return }
+        
+        
+        //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
+        let inset = UIEdgeInsetsMake(0, 0, UIScreen.main.bounds.height - kbFrame.origin.y - height, 0)
+        contentInset = inset
+        scrollIndicatorInsets = inset
+        scrollRangeToVisible(selectedRange)
+    }
+    
+    func keyboardDidHide(notification: Notification) {
+        makeTappable()
+    }
+    
+    func keyboardWillHide(notification: Notification){
+        makeUnableTap()
+        contentInset = UIEdgeInsets.zero
+        scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }
 

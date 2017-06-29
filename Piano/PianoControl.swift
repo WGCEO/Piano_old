@@ -78,7 +78,7 @@ class PianoControl: UIControl {
         let (text, range) = textView.getTextAndRange(from: rect)
         guard !text.isEmptyOrWhitespace() else { return false }
         
-        editor?.attachCoverView(rect: rect)
+        textView?.cover(rect)
         pianoable?.textFromTextView(text: text)
         selectedRange = range
         
@@ -113,7 +113,7 @@ class PianoControl: UIControl {
     
     internal override func cancelTracking(with event: UIEvent?) {
         pianoable?.cancelAnimating(completion: { [unowned self] in
-            self.editor?.detach()
+            self.textView?.uncover()
             self.selectedRange = nil
         })
     }
@@ -123,7 +123,7 @@ class PianoControl: UIControl {
         guard let touch = touch else { return }
         let x = touch.location(in: self).x
         pianoable?.finishAnimating(at: x, completion: { [unowned self] in
-            self.editor?.removeEraseView()
+            self.textView?.uncover()
             
             if let range = self.selectedRange,
                 let indexsForAdd = self.pianoable?.getIndexesForAdd(),
