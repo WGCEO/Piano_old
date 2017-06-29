@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol PianoTextViewDelegate {
-    func textViewDidChange(_ textView: PianoTextView)
-}
-
 class PianoTextView: UITextView {
     internal var coverView: UIView?
     
@@ -29,11 +25,14 @@ class PianoTextView: UITextView {
         return (isWaitingState == false)
     }
 
+    var textChangedHandler: ((NSAttributedString)->Void)?
+    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         delegate = self
+        layoutManager.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -92,7 +91,10 @@ class PianoTextView: UITextView {
     }
     
     public func cover(_ rect: CGRect) {
+        uncover()
+        
         let coverView = UIView()
+        coverView.backgroundColor = UIColor.white
         
         let left = textContainerInset.left + textContainer.lineFragmentPadding
         let top = textContainerInset.top
@@ -101,7 +103,6 @@ class PianoTextView: UITextView {
         addSubview(coverView)
         
         self.coverView = coverView
-        
     }
     
     public func uncover() {
@@ -123,6 +124,7 @@ class PianoTextView: UITextView {
         didUpdateText(in: range)
     }
     
+    /* To Remove
     public func eraseCurrentLine() {
         guard selectedRange.location != 0 else { return }
         
@@ -152,15 +154,17 @@ class PianoTextView: UITextView {
         }
         
         isEdited = true
-        updateCellInfo()
+        textChangedHandler?(attributedText)
     }
     
-    func removeSubrange(from: Int) {
+    private func removeSubrange(from: Int) {
         let range = NSMakeRange(from, selectedRange.location - from)
         layoutManager.textStorage?.deleteCharacters(in: range)
         selectedRange = NSRange(location: from, length: 0)
-    }
+     }
+     */
     
+    // MARK: - private methods
     private func didUpdateText(in range: NSRange) {
         selectedRange =
             NSMakeRange(range.location+2, range.length)
@@ -172,6 +176,23 @@ class PianoTextView: UITextView {
                 self?.scrollRangeToVisible(NSMakeRange(location + 3, 0))
             }
         }
+     }
+    
+    private func tappedURL(textPosition: UITextPosition) -> URL? {
+        guard let attrSubString = getAttrSubString(textPosition) else { return nil }
+        
+        return attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL
+    }
+    
+    private func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {
+        guard let position = position(from: textPosition, offset: 1),
+            let range = textRange(from: textPosition, to: position) else { return nil }
+        
+        let startOffset = offset(from: beginningOfDocument, to: range.start)
+        let endOffset = offset(from: beginningOfDocument, to: range.end)
+        let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
+        
+        return attributedText.attributedSubstring(from: offsetRange)
     }
     
     // MARK: UIResponder
@@ -195,20 +216,20 @@ class PianoTextView: UITextView {
             }
         }
         
-        updateCellInfo()
+        textChangedHandler?(attributedText)
         
         DispatchQueue.main.async { [unowned self] in
             self.scrollRangeToVisible(self.selectedRange)
         }
     }
-
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let firstTouch = touches.first else { return }
         
         let location = firstTouch.location(in: self)
         
         guard let textPosition = closestPosition(to: location) else {
-            appearKeyboard()
+            textChangedHandler?(attributedText)
             return
         }
         
@@ -224,88 +245,22 @@ class PianoTextView: UITextView {
         if let url = tappedURL(textPosition: textPosition) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            appearKeyboard()
-        }
-    }
-    
-    //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
-    internal func updateCellInfo() {
-        let memo = MemoManager.currentMemo
-        
-        memo?.firstLine = getFirstLineText()
-        
-        let hasAttachments = attributedText.containsAttachments(in: NSMakeRange(0, attributedText.length))
-        guard hasAttachments else {
-            memo?.imageData = nil
-            return
-        }
-        
-        attributedText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
-            guard let attachment = value as? NSTextAttachment,
-                let image = attachment.image else { return }
-            
-            let oldWidth = image.size.width;
-            
-            //I'm subtracting 10px to make the image display nicely, accounting
-            //for the padding inside the textView
-            let ratio = 60 / oldWidth;
-            
-            let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-            UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-            image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
-                memo?.imageData = data as NSData
-                stop.pointee = true
-            }
-            
-        }
-    }
-    
-    // MARK: - private methods
-    private func tappedURL(textPosition: UITextPosition) -> URL? {
-        guard let attrSubString = getAttrSubString(textPosition) else { return nil }
-        
-        return attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL
-    }
-    
-    private func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {
-        guard let position = position(from: textPosition, offset: 1),
-            let range = textRange(from: textPosition, to: position) else { return nil }
-        
-        let startOffset = offset(from: beginningOfDocument, to: range.start)
-        let endOffset = offset(from: beginningOfDocument, to: range.end)
-        let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
-        
-        return attributedText.attributedSubstring(from: offsetRange)
-    }
-    
-    private func getFirstLineText() -> String {
-        let trim = self.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
-        switch trim {
-        case let x where x.characters.count > 50:
-            return x.substring(to: x.index(x.startIndex, offsetBy: 50))
-        case let x where x.characters.count == 0:
-            //이미지만 있는 경우에도 해당됨
-            return "NewMemo".localized(withComment: "새로운 메모")
-        default:
-            return trim
+            textChangedHandler?(attributedText)
         }
     }
 }
 
 
 extension PianoTextView: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
+    internal func textViewDidChange(_ textView: UITextView) {
         isEdited = true
-        updateCellInfo()
+        textChangedHandler?(attributedText)
     }
 }
 
 // MARK: keyboard
 extension PianoTextView {
-    func keyboardWillShow(notification: Notification){
+    internal func keyboardWillShow(notification: Notification){
         isWaitingState = true
         
         guard let userInfo = notification.userInfo,
@@ -320,11 +275,11 @@ extension PianoTextView {
         scrollRangeToVisible(selectedRange)
     }
     
-    func keyboardDidHide(notification: Notification) {
+    internal func keyboardDidHide(notification: Notification) {
         makeTappable()
     }
     
-    func keyboardWillHide(notification: Notification){
+    internal func keyboardWillHide(notification: Notification){
         makeUnableTap()
         contentInset = UIEdgeInsets.zero
         scrollIndicatorInsets = UIEdgeInsets.zero
@@ -334,6 +289,21 @@ extension PianoTextView {
 extension PianoTextView: NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
         return 8
+    }
+}
+
+public extension NSAttributedString {
+    var firstLine: String {
+        let trim = string.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
+        switch trim {
+        case let x where x.characters.count > 50:
+            return x.substring(to: x.index(x.startIndex, offsetBy: 50))
+        case let x where x.characters.count == 0:
+            //이미지만 있는 경우에도 해당됨
+            return "NewMemo".localized(withComment: "새로운 메모")
+        default:
+            return trim
+        }
     }
 }
 

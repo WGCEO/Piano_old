@@ -25,7 +25,7 @@ enum EditMode: Int {
         } set {
             guard newValue != attributedText else { return }
             
-            prepareToReuse()
+            prepareForReuse()
             textView.attributedText = newValue
         }
     }
@@ -118,7 +118,7 @@ enum EditMode: Int {
     }
     
     // MARK: - public methods
-    func appearKeyboardIfNeeded() {
+    public func appearKeyboardIfNeeded() {
         textView.isWaitingState = false
         textView.appearKeyboard()
     }
@@ -127,16 +127,19 @@ enum EditMode: Int {
         textView.addImage(image)
     }
     
-    // TODO : eraseView to textview
     public func eraseCurrentLine() {
-        textView.eraseCurrentLine()
+        //textView.eraseCurrentLine()
     }
     
+    public func handleChangedText(_ handler: ((NSAttributedString)->Void)?) {
+        textView.textChangedHandler = handler
+    }
     
     // MARK: - private methods
-    private func prepareToReuse() {
+    private func prepareForReuse() {
         textView.prepareForReuse()
         canvas.removeFromSuperview()
+        pianoLabel.isHidden = true
     }
     
     private func prepare(_ editMode: EditMode) {
@@ -203,6 +206,10 @@ enum EditMode: Int {
     
     private func detachCanvas() {
         canvas.removeFromSuperview()
-        pianoLabel.isHidden = false
+        
+        canvas.pianoable = nil
+        canvas.textView = nil
+        
+        pianoLabel.isHidden = true
     }
 }

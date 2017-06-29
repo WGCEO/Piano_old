@@ -33,6 +33,37 @@ class MemoViewController: UIViewController {
         }
         
         showMemo()
+        editor.handleChangedText { [weak self] (attributedText) in
+            guard let memo = self?.memo else { return }
+                
+            memo.firstLine = attributedText.firstLine
+            let hasAttachments = attributedText.containsAttachments(in: NSMakeRange(0, attributedText.length))
+            guard hasAttachments else {
+                memo.imageData = nil
+                return
+            }
+                
+            attributedText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
+                guard let attachment = value as? NSTextAttachment,
+                    let image = attachment.image else { return }
+                
+                let oldWidth = image.size.width;
+                
+                //I'm subtracting 10px to make the image display nicely, accounting
+                //for the padding inside the textView
+                let ratio = 60 / oldWidth;
+                
+                let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+                UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+                image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+                    memo.imageData = data as NSData
+                    stop.pointee = true
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
