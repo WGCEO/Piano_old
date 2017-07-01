@@ -40,6 +40,8 @@ enum EditMode: Int {
         }
     }
     
+    var textChangedHandler: ((NSAttributedString)->Void)?
+    
     internal var textView: PianoTextView!
     internal var paletteView: PaletteView!
     internal var pianoLabel: PianoLabel!
@@ -130,13 +132,14 @@ enum EditMode: Int {
     }
     
     public func handleChangedText(_ handler: ((NSAttributedString)->Void)?) {
-        textView.textChangedHandler = handler
+        textChangedHandler = handler
     }
     
     // MARK: - private methods
     private func prepareForReuse() {
         textView.prepareForReuse()
         detachCanvas()
+        textChangedHandler = nil
     }
     
     private func prepare(_ editMode: EditMode) {
@@ -217,6 +220,13 @@ enum EditMode: Int {
 }
 
 extension PNEditor: UITextViewDelegate {
+    internal func textViewDidChange(_ textView: UITextView) {
+        guard let textView = textView as? PianoTextView else { return }
+        
+        textView.isEdited = true
+        textChangedHandler?(textView.attributedText)
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if editMode != .typing {
             updateCanvasFrame()

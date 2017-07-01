@@ -54,7 +54,6 @@ class PianoLabel: UILabel {
         return displayLink
     }()
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -67,7 +66,6 @@ class PianoLabel: UILabel {
     
     // Could be enhanced by kerning text:
     // http://stackoverflow.com/questions/21443625/core-text-calculate-letter-frame-in-ios
-    
     override open func drawText(in rect: CGRect) {
         guard let text = self.text,
             let touchPointX = self.touchPointX else { return }
@@ -94,30 +92,26 @@ class PianoLabel: UILabel {
             
             let s = String(char)
             var attribute = attributes[index]
-            let charSize = s.size(attributes: attribute)
+            var charSize: CGSize
+            if (s == "\t") {
+                let size = s.size(attributes: attribute)
+                charSize = CGSize(width: getTabLength(of: index, from: text), height: size.height)
+                print( getTabLength(of: index, from: text))
+            } else {
+                charSize = s.size(attributes: attribute)
+            }
+            
             let rect = CGRect(origin: CGPoint(x: leftOffset, y: topOffset)
                 , size: charSize)
             
             let charCenter = leftOffset + charSize.width / 2
             let distance = touchPointX - charCenter
-            // x = 거리의 절대값
-//            let x = distance < 0 ? -distance : distance
-            
-//            let leftLamda = (x + waveLength) / waveLength
-//            let rightLamda = (x - waveLength) / waveLength
-            // 4차식
-//            let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
-            
             
             let y = cosMaxHeight * cos(CGFloat.pi / (2 * cosQuarterPeriod) * distance)
             
-            //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
-//            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
-            
-            //touchPointX < leftOffset || touchPointX > charSize.width + leftOffset
             //가장 왼쪽의 터치가 단어의 오른쪽 끝보다 왼쪽에 있어야 하고, 현재 터치포인트가 단어의 오른쪽 끝보다 크면 효과 적용
             let isApplyEffect = leftOffset + charSize.width > leftEndTouchX
-                && touchPointX > leftOffset + charSize.width //&& !isSelectedCharacter ? true : false
+                && touchPointX > leftOffset + charSize.width
             
             // 가장 오른쪽의 터치가 단어의 왼쪽 끝보다 오른쪽에 있어야 하고, 현재 터치 포인트가 단어의 왼쪽 끝보다 작으면 효과 제거
             let isRemoveEffect = leftOffset > touchPointX && leftOffset < rightEndTouchX
@@ -173,17 +167,12 @@ class PianoLabel: UILabel {
             
 
             
-            //효과 입히기
-//            if x > -waveLength && x < waveLength {
+            //피아노 효과 입히기
             if distance > -cosQuarterPeriod && distance < cosQuarterPeriod {
             
                 let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
-//                let size = s.size(attributes: attribute)
                 let x = rect.origin.x
                 let y = rect.origin.y - y * progress
-//                let y = rect.origin.y - (isSelectedCharacter ?
-//                    (y + size.height / 2) * progress  :
-//                    y * progress)
                 let point = CGPoint(x: x, y: y)
                 
                 if isSelectedCharacter {
@@ -216,6 +205,25 @@ class PianoLabel: UILabel {
             attribute = [NSUnderlineStyleAttributeName : 1]
         }
         return attribute
+    }
+    
+    private func getTabLength(of tabIndex: Int, from text: String) -> CGFloat {
+        var length: CGFloat = 0
+        for (index, char) in text.characters.enumerated() {
+            let standard = "\t".size(attributes: attributes[tabIndex]).width
+            let s = String(char)
+            if tabIndex == index && s == "\t" {
+                return standard-(length-(standard*CGFloat(Int(length/standard))))
+            }
+            
+            if (s == "\t") {
+                length += getTabLength(of: index, from: text)
+            } else {
+                length += s.size(attributes: attributes[index]).width
+            }
+        }
+        
+        return 0
     }
 }
 
@@ -326,5 +334,4 @@ extension PianoLabel: Pianoable {
     func set(effect: TextEffect) {
         textEffect = effect
     }
-
 }

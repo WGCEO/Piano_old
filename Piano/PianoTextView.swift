@@ -22,21 +22,15 @@ class PianoTextView: UITextView {
     
     var isWaitingState: Bool = false
     override var canBecomeFirstResponder: Bool {
-        return (isWaitingState == false)
+        return true
     }
-
-    var textChangedHandler: ((NSAttributedString)->Void)?
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
-        autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        delegate = self
         layoutManager.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,6 +82,10 @@ class PianoTextView: UITextView {
                          NSStrikethroughStyleAttributeName: 0,
                             NSBackgroundColorAttributeName: UIColor.clear,
                                        NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
+    }
+    
+    public func didEdited() {
+        isEdited = true
     }
     
     public func cover(_ rect: CGRect) {
@@ -216,8 +214,6 @@ class PianoTextView: UITextView {
             }
         }
         
-        textChangedHandler?(attributedText)
-        
         DispatchQueue.main.async { [unowned self] in
             self.scrollRangeToVisible(self.selectedRange)
         }
@@ -229,7 +225,7 @@ class PianoTextView: UITextView {
         let location = firstTouch.location(in: self)
         
         guard let textPosition = closestPosition(to: location) else {
-            textChangedHandler?(attributedText)
+            appearKeyboard()
             return
         }
         
@@ -245,16 +241,8 @@ class PianoTextView: UITextView {
         if let url = tappedURL(textPosition: textPosition) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            textChangedHandler?(attributedText)
+            appearKeyboard()
         }
-    }
-}
-
-
-extension PianoTextView: UITextViewDelegate {
-    internal func textViewDidChange(_ textView: UITextView) {
-        isEdited = true
-        textChangedHandler?(attributedText)
     }
 }
 
@@ -273,16 +261,6 @@ extension PianoTextView {
         contentInset = inset
         scrollIndicatorInsets = inset
         scrollRangeToVisible(selectedRange)
-    }
-    
-    internal func keyboardDidHide(notification: Notification) {
-        makeTappable()
-    }
-    
-    internal func keyboardWillHide(notification: Notification){
-        makeUnableTap()
-        contentInset = UIEdgeInsets.zero
-        scrollIndicatorInsets = UIEdgeInsets.zero
     }
 }
 
