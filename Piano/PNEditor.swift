@@ -84,8 +84,6 @@ enum EditMode: Int {
             make.edges.equalTo(self)
         }
         
-        canvas.textView = textView
-        
         self.textView = textView
     }
     
@@ -192,7 +190,7 @@ enum EditMode: Int {
     
     // MARK: editing
     private func attachCanvas() {
-        canvas.removeFromSuperview()
+        detachCanvas()
         
         canvas.textView = textView
         canvas.pianoable = pianoLabel

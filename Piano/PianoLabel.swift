@@ -54,6 +54,17 @@ class PianoLabel: UILabel {
         return displayLink
     }()
 
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        isUserInteractionEnabled = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // Could be enhanced by kerning text:
     // http://stackoverflow.com/questions/21443625/core-text-calculate-letter-frame-in-ios
     

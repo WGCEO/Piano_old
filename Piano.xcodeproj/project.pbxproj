@@ -357,7 +357,11 @@
 		31575C981DE8260700373ADD /* PNEditor */ = {
 			isa = PBXGroup;
 			children = (
-				F49B3C691EE1752800A0E81C /* Core */,
+				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
+				F49B3C6D1EE196A300A0E81C /* PaletteView.swift */,
+				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
+				31575C941DE80BB600373ADD /* PianoControl.swift */,
+				31575C9C1DEA594800373ADD /* PianoLabel.swift */,
 			);
 			name = PNEditor;
 			sourceTree = "<group>";
@@ -416,18 +420,6 @@
 				0A15B1921E41B6A3000DC102 /* Value */,
 			);
 			name = etc;
-			sourceTree = "<group>";
-		};
-		F49B3C691EE1752800A0E81C /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
-				F49B3C6D1EE196A300A0E81C /* PaletteView.swift */,
-				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
-				31575C941DE80BB600373ADD /* PianoControl.swift */,
-				31575C9C1DEA594800373ADD /* PianoLabel.swift */,
-			);
-			name = Core;
 			sourceTree = "<group>";
 		};
 		F49B3C7A1EE1A38900A0E81C /* Common */ = {
