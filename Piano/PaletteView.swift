@@ -11,8 +11,9 @@ import UIKit
 
 enum TextEffect {
     case color(UIColor)
-    case bold(UIFontTextStyle)
+    case title(UIFontTextStyle)
     case line(LineFamily)
+    case bold
 }
 
 protocol Effectable: class {
@@ -97,10 +98,12 @@ class PaletteView: UIView {
         case .line(let x):
             button.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .selected)
             button.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .normal)
-        case .title(let x):
-            let font = UIFont.preferredFont(forTextStyle: x)
-            let size = font.pointSize + CGFloat(6)
+        case .bold:
+            let font = UIFont.preferredFont(forTextStyle: .title3)
+            let size = font.pointSize
             button.titleLabel?.font = button.titleLabel?.font.withSize(size)
+        case .title:
+            break
         }
     }
     
@@ -131,14 +134,14 @@ class PaletteView: UIView {
         colorEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
         effectButtons.append(colorEffectButton)
         
-        let sizeEffectButton = EffectButton()
-        sizeEffectButton.textEffect = .title(.title3)
-        sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
-        sizeEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
-        sizeEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
-        sizeEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
-        sizeEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
-        effectButtons.append(sizeEffectButton)
+        let boldEffectButton = EffectButton()
+        boldEffectButton.textEffect = .bold
+        boldEffectButton.setTitle("\u{f1dc}", for: .normal)
+        boldEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
+        boldEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
+        boldEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
+        boldEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
+        effectButtons.append(boldEffectButton)
         
         let lineEffectButton = EffectButton()
         lineEffectButton.textEffect = .line(.strikethrough)

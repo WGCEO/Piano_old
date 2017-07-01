@@ -36,24 +36,32 @@ class PianoControl: UIControl {
     }
     
     private func setAttribute(effect:TextEffect, range: NSRange) {
-        let attribute: [String : Any]
+        var attribute: [String : Any] = [:]
         switch effect {
         case .color(let x):
             attribute = [NSForegroundColorAttributeName : x]
-        case .bold(let x):
+        case .title(let x):
             let size = UIFont.preferredFont(forTextStyle: x).pointSize
             attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         case .line(.underline):
             attribute = [NSUnderlineStyleAttributeName : 1]
         case .line(.strikethrough):
             attribute = [NSStrikethroughStyleAttributeName : 1]
+        case .bold:
+            for index in range.location...(range.location+range.length) {
+                let attributes = textView.layoutManager.textStorage?.attributes(at: index, effectiveRange: nil)
+                if let font = attributes?[NSFontAttributeName] as? UIFont {
+                    let attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: font.pointSize)]
+                    textView.layoutManager.textStorage?.addAttributes(attribute, range: NSMakeRange(index, 1))
+                }
+            }
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
     }
     
     private func removeAttribute(effect: TextEffect, range: NSRange) {
-        let attribute: [String : Any]
+        var attribute: [String : Any] = [:]
         switch effect {
         case .color:
             attribute = [NSForegroundColorAttributeName : UIColor.piano]
@@ -63,6 +71,14 @@ class PianoControl: UIControl {
             attribute = [NSStrikethroughStyleAttributeName : 0]
         case .line(.underline):
             attribute = [NSUnderlineStyleAttributeName : 0]
+        case .bold:
+            for index in range.location...(range.location+range.length) {
+                let attributes = textView.layoutManager.textStorage?.attributes(at: index, effectiveRange: nil)
+                if let font = attributes?[NSFontAttributeName] as? UIFont {
+                    let attribute = [NSFontAttributeName : UIFont.systemFont(ofSize: font.pointSize)]
+                    textView.layoutManager.textStorage?.addAttributes(attribute, range: NSMakeRange(index, 1))
+                }
+            }
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)

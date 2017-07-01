@@ -124,7 +124,11 @@ class PianoLabel: UILabel {
             if isRemoveEffect {
                 removeEffectIndexSet.insert(index)
                 
-                let newAttr = makeAttribute(by: textEffect)
+                var fontSize: CGFloat = 0.0
+                if let font = attribute[NSFontAttributeName] as? UIFont {
+                    fontSize = font.pointSize
+                }
+                let newAttr = makeAttribute(by: textEffect, with: fontSize)
                 
                 if let _ = newAttr[NSFontAttributeName] {
                     attribute[NSFontAttributeName] = UIFont.preferredFont(forTextStyle: .body)
@@ -149,7 +153,11 @@ class PianoLabel: UILabel {
             if isApplyEffect {
                 applyEffectIndexSet.insert(index)
                 
-                let newAttr = makeAttribute(by: textEffect)
+                var fontSize: CGFloat = 0.0
+                if let font = attribute[NSFontAttributeName] as? UIFont {
+                    fontSize = font.pointSize
+                }
+                let newAttr = makeAttribute(by: textEffect, with: fontSize)
                 
                 if let font = newAttr[NSFontAttributeName] {
                     attribute[NSFontAttributeName] = font
@@ -195,7 +203,7 @@ class PianoLabel: UILabel {
         }
     }
     
-    func makeAttribute(by effect: TextEffect) -> [String : Any] {
+    func makeAttribute(by effect: TextEffect, with size: CGFloat = 0.0) -> [String : Any] {
         let attribute: [String : Any]
         
         switch effect {
@@ -208,6 +216,8 @@ class PianoLabel: UILabel {
             attribute = [NSStrikethroughStyleAttributeName : 1]
         case .line(.underline):
             attribute = [NSUnderlineStyleAttributeName : 1]
+        case .bold:
+            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         }
         return attribute
     }
