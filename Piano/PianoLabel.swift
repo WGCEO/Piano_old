@@ -22,7 +22,13 @@ class PianoLabel: UILabel {
     
     var textRect = CGRect.zero
     
-    var animatingState: PianoLabelAnimation = .begin
+    var animatingState: PianoLabelAnimation = .begin {
+        didSet {
+            if animatingState == .begin {
+                widthCache = [:]
+            }
+        }
+    }
     var animateComplete: () -> Void = {}
     
     var animationProgress: CGFloat = 0.0
@@ -96,7 +102,6 @@ class PianoLabel: UILabel {
             if (s == "\t") {
                 let size = s.size(attributes: attribute)
                 charSize = CGSize(width: getTabLength(of: index, from: text), height: size.height)
-                print( getTabLength(of: index, from: text))
             } else {
                 charSize = s.size(attributes: attribute)
             }
@@ -207,19 +212,31 @@ class PianoLabel: UILabel {
         return attribute
     }
     
+    private var widthCache: [Int:CGFloat] = [:]
+    //Tab Key('\t')의 유동적인 길이를 구하는 메서드
     private func getTabLength(of tabIndex: Int, from text: String) -> CGFloat {
         var length: CGFloat = 0
         for (index, char) in text.characters.enumerated() {
             let standard = "\t".size(attributes: attributes[tabIndex]).width
             let s = String(char)
             if tabIndex == index && s == "\t" {
-                return standard-(length-(standard*CGFloat(Int(length/standard))))
+                let width = standard-(length-(standard*CGFloat(Int(length/standard))))
+                widthCache[tabIndex] = width
+                return width
             }
             
-            if (s == "\t") {
-                length += getTabLength(of: index, from: text)
+            if let width = widthCache[index] {
+                length += width
             } else {
-                length += s.size(attributes: attributes[index]).width
+                var width: CGFloat = 0
+                if (s == "\t") {
+                    width = getTabLength(of: index, from: text)
+                } else {
+                    width = s.size(attributes: attributes[index]).width
+                }
+                
+                widthCache[index] = width
+                length += width
             }
         }
         

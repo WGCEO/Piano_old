@@ -40,7 +40,7 @@ class PianoControl: UIControl {
         switch effect {
         case .color(let x):
             attribute = [NSForegroundColorAttributeName : x]
-        case .title(let x):
+        case .bold(let x):
             let size = UIFont.preferredFont(forTextStyle: x).pointSize
             attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         case .line(.underline):

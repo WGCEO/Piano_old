@@ -11,7 +11,7 @@ import UIKit
 
 enum TextEffect {
     case color(UIColor)
-    case title(UIFontTextStyle)
+    case bold(UIFontTextStyle)
     case line(LineFamily)
 }
 
@@ -136,7 +136,7 @@ class PaletteView: UIView {
         sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
         sizeEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
         sizeEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
-        sizeEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 26)
+        sizeEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
         sizeEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
         effectButtons.append(sizeEffectButton)
         
