@@ -76,8 +76,8 @@ enum EditMode: Int {
         
         textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
-        textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         textView.allowsEditingTextAttributes = true
+        textView.delegate = self
         
         addSubview(textView)
         textView.snp.makeConstraints { (make) in
@@ -136,8 +136,7 @@ enum EditMode: Int {
     // MARK: - private methods
     private func prepareForReuse() {
         textView.prepareForReuse()
-        canvas.removeFromSuperview()
-        pianoLabel.isHidden = true
+        detachCanvas()
     }
     
     private func prepare(_ editMode: EditMode) {
@@ -187,19 +186,16 @@ enum EditMode: Int {
             self?.layoutIfNeeded()
         }
     }
-    
-    // MARK: editing
+
     private func attachCanvas() {
         detachCanvas()
         
         canvas.textView = textView
         canvas.pianoable = pianoLabel
         
-        canvas.frame = textView.bounds
-        addSubview(canvas)
-        canvas.snp.makeConstraints { (make) in
-            make.edges.equalTo(textView)
-        }
+        textView.addSubview(canvas)
+        
+        updateCanvasFrame()
     }
     
     private func detachCanvas() {
@@ -209,5 +205,27 @@ enum EditMode: Int {
         canvas.textView = nil
         
         pianoLabel.isHidden = true
+    }
+    
+    internal func updateCanvasFrame() {
+        let y = textView.contentOffset.y
+        let height = textView.bounds.height
+        let width = textView.bounds.width
+        
+        canvas.frame = CGRect(x: 0, y: y, width: width, height: height)
+    }
+}
+
+extension PNEditor: UITextViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if editMode != .typing {
+            updateCanvasFrame()
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if editMode != .typing {
+            updateCanvasFrame()
+        }
     }
 }
