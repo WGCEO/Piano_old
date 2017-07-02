@@ -246,6 +246,7 @@ class PianoTextView: UITextView {
     }
 }
 
+
 // MARK: keyboard
 extension PianoTextView {
     internal func keyboardWillShow(notification: Notification){
@@ -269,6 +270,7 @@ extension PianoTextView: NSLayoutManagerDelegate {
         return 8
     }
 }
+
 
 public extension NSAttributedString {
     var firstLine: String {

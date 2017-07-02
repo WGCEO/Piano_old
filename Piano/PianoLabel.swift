@@ -326,6 +326,7 @@ extension PianoLabel: Pianoable {
         animatingState = .begin
         displayLink.isPaused = false
         touchPointX = x
+        NSLayoutManager
     }
     
     func finishAnimating(at x: CGFloat, completion: @escaping () -> Void) {

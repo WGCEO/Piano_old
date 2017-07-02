@@ -9,30 +9,68 @@
 import UIKit
 
 protocol Pianoable: class {
-    func textFromTextView(text: String)
-    func rectForText(_ rect: CGRect)
-    func getIndexesForAdd() -> [Int]
-    func getIndexesForRemove() -> [Int]
-    func beginAnimating(at x: CGFloat)
-    func finishAnimating(at x: CGFloat, completion: @escaping () -> Void)
-    func progressAnimating(at x: CGFloat)
-    func cancelAnimating(completion: @escaping () -> Void)
-    func set(effect: TextEffect)
-    func attributesForText(_ attributes: [[String : Any]])
-    func ismoveDirectly(bool : Bool)
+    func preparePiano(in rect: CGRect, with attributedString: NSAttributedString, standard: CGPoint)
+    func showPiano(with textEffect: TextEffect, to point: CGPoint)
+    func hidePiano()
 }
 
 class PianoControl: UIControl {
 
     weak var pianoable: Pianoable?
     weak var textView: PianoTextView!
-    weak var editor: PNEditor?
     
-    var selectedRange: NSRange?
-    var textEffect: TextEffect = .color(.red) {
-        didSet {
-            pianoable?.set(effect: textEffect)
+    var textEffect: TextEffect = .color(.red)
+    var startPoint: CGPoint = CGPoint.zero
+    
+    // MARK: override methods
+    internal override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        
+        //1. 텍스트 뷰의 좌표로 점 평행이동(여기선 수직 오프셋값 - 텍스트 마진)
+        let point = touch.location(in: self).move(x: 0, y: textView.contentOffset.y - textView.textContainerInset.top)
+        
+        //2. 가리키고 있는 줄에 있는 attributedText 얻어오기
+        let rect = textView.getRect(including: point)
+        let attributedText = textView.getAttributedString(in: rect)
+        guard attributedText.string.isNotEmptyOrWhitespace else { return false }
+        
+        //3. attributedText의 rect 얻어오기
+        let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
+        let shiftY = textView.textContainerInset.top - textView.contentOffset.y
+        let newRect = rect.offsetBy(dx: shiftX, dy: shiftY)
+
+        //4. 얻은 정보들을 가지고 Piano 효과를 준비한다.
+        textView.cover(rect)
+        pianoable?.preparePiano(in: newRect, with: textView.attributedText, standard: point)
+        
+        return true
+    }
+    
+    internal override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        pianoable?.showPiano(with: textEffect, to: touch.location(in: self))
+
+        return true
+    }
+    
+    internal override func cancelTracking(with event: UIEvent?) {
+        finishPiano()
+    }
+    
+    internal override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        finishPiano()
+        
+        if let endPoint = touch?.location(in: self) {
+            applyTextEffect(from: startPoint, to: endPoint)
         }
+    }
+    
+    // MARK: - private methods
+    private func finishPiano() {
+        pianoable?.hidePiano()
+        textView.uncover()
+    }
+    
+    private func applyTextEffect(from: CGPoint, to: CGPoint) {
+        
     }
     
     private func setAttribute(effect:TextEffect, range: NSRange) {
@@ -82,85 +120,6 @@ class PianoControl: UIControl {
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
-    }
-
-    // MARK: override methods
-    internal override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        
-        //1. 텍스트 뷰의 좌표로 점 평행이동(여기선 수직 오프셋값 - 텍스트 마진)
-        let point = touch.location(in: self).move(x: 0, y: textView.contentOffset.y - textView.textContainerInset.top)
-
-        let rect = textView.getRect(including: point)
-        let (text, range) = textView.getTextAndRange(from: rect)
-        guard !text.isEmptyOrWhitespace() else { return false }
-        
-        textView?.cover(rect)
-        pianoable?.textFromTextView(text: text)
-        selectedRange = range
-        
-        var attributes:[[String : Any]] = []
-        textView.attributedText.enumerateAttributes(in: range, options: []) { (attribute, range, _) in
-            //length가 1보다 크면 for문 돌아서 차례대로 더하기
-            for _ in 1...range.length {
-                attributes.append(attribute)
-            }
-        }
-        pianoable?.attributesForText(attributes)
-        
-        
-        //TODO: TopView = 100 이걸 리터럴이 아닌 값으로 표현해야함
-        let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
-        let shiftY = textView.textContainerInset.top - textView.contentOffset.y
-        let newRect = rect.offsetBy(dx: shiftX, dy: shiftY)
-
-        pianoable?.rectForText(newRect)
-        
-        //여기서 레이블을 애니메이션으로 띄워야 함
-        pianoable?.beginAnimating(at: point.x)
-        return true
-    }
-    
-    internal override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        pianoable?.progressAnimating(at: touch.location(in: self).x)
-        let isMoveDirectly = touch.previousLocation(in: self).x != touch.location(in: self).x
-        pianoable?.ismoveDirectly(bool: isMoveDirectly)
-        return true
-    }
-    
-    internal override func cancelTracking(with event: UIEvent?) {
-        pianoable?.cancelAnimating(completion: { [unowned self] in
-            self.textView?.uncover()
-            self.selectedRange = nil
-        })
-    }
-    
-    internal override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-
-        guard let touch = touch else { return }
-        let x = touch.location(in: self).x
-        pianoable?.finishAnimating(at: x, completion: { [unowned self] in
-            self.textView?.uncover()
-            
-            if let range = self.selectedRange,
-                let indexsForAdd = self.pianoable?.getIndexesForAdd(),
-                let firstIndexForAdd = indexsForAdd.first,
-                let lastIndexForAdd = indexsForAdd.last {
-                let selectedTextRangeForAdd = NSRange(location: range.location + firstIndexForAdd, length: lastIndexForAdd - firstIndexForAdd + 1)
-                self.setAttribute(effect: self.textEffect, range: selectedTextRangeForAdd)
-                
-            }
-            
-            if let range = self.selectedRange,
-                let indexsForRemove = self.pianoable?.getIndexesForRemove(),
-                let firstIndexForRemove = indexsForRemove.first,
-                let lastIndexForRemove = indexsForRemove.last{
-                let selectedTextRangeForRemove = NSRange(location: range.location + firstIndexForRemove, length: lastIndexForRemove - firstIndexForRemove + 1)
-                
-                self.removeAttribute(effect: self.textEffect, range: selectedTextRangeForRemove)
-            }
-            
-            self.selectedRange = nil
-        }) 
     }
 }
 

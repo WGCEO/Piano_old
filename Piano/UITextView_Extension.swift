@@ -34,6 +34,12 @@ extension UITextView {
         return text
     }
     
+    func getAttributedString(in rect: CGRect) -> NSAttributedString {
+        let range = self.layoutManager.glyphRange(forBoundingRect: rect, in: self.textContainer)
+        
+        return attributedText.attributedSubstring(from: range)
+    }
+    
     func getRect(including point: CGPoint) -> CGRect {
         let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
         return self.layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
@@ -48,8 +54,5 @@ extension UITextView {
         let endIndex = self.layoutManager.glyphIndex(for: textViewTouchEndPoint, in: self.textContainer)
         
         return NSRange(location: beginIndex, length: endIndex - beginIndex)
-        
     }
-    
-    
 }
