@@ -12,7 +12,7 @@ class PianoLabel: UILabel {
     
     
     var leftEndTouchX: CGFloat = CGFloat.greatestFiniteMagnitude
-    var rightEndTouchX: CGFloat = 0
+    var rightEndTouchX: CGFloat = -10
     var applyEffectIndexSet: Set<Int> = []
     var removeEffectIndexSet: Set<Int> = []
 
@@ -179,7 +179,8 @@ class PianoLabel: UILabel {
                 }
                 
                 let font = attribute[NSFontAttributeName] as! UIFont
-                attribute[NSFontAttributeName] = UIFont.systemFont(ofSize: font.pointSize + (y * progress / 5))
+                let size = round(font.pointSize + (y * progress / 5))
+                attribute[NSFontAttributeName] = UIFont.systemFont(ofSize: size)
                 
                 
                 //TODO: 네이밍, 리펙토링
