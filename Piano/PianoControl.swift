@@ -9,114 +9,72 @@
 import UIKit
 
 protocol Pianoable: class {
-    func textFromTextView(text: String)
-    func rectForText(_ rect: CGRect)
-    func getIndexesForAdd() -> [Int]
-    func getIndexesForRemove() -> [Int]
-    func beginAnimating(at x: CGFloat)
-    func finishAnimating(at x: CGFloat, completion: @escaping () -> Void)
-    func progressAnimating(at x: CGFloat)
-    func cancelAnimating(completion: @escaping () -> Void)
-    func set(effect: TextEffect)
-    func attributesForText(_ attributes: [[String : Any]])
-    func ismoveDirectly(bool : Bool)
+    func preparePiano(in rect: CGRect, with attributedString: NSAttributedString, standard: CGPoint)
+    func showPiano(with textEffect: TextEffect, to point: CGPoint)
+    func hidePiano()
 }
 
 class PianoControl: UIControl {
 
-    weak var delegate: Pianoable?
+    weak var pianoable: Pianoable?
     weak var textView: PianoTextView!
-    weak var editor: PNEditor?
     
-    var selectedRange: NSRange?
-    var textEffect: TextEffect = .color(.red) {
-        didSet {
-            delegate?.set(effect: textEffect)
-        }
-    }
+    var textEffect: TextEffect = .color(.red)
+    var startPoint: CGPoint = CGPoint.zero
     
-    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    // MARK: override methods
+    internal override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         
         //1. 텍스트 뷰의 좌표로 점 평행이동(여기선 수직 오프셋값 - 텍스트 마진)
         let point = touch.location(in: self).move(x: 0, y: textView.contentOffset.y - textView.textContainerInset.top)
-
+        
+        //2. 가리키고 있는 줄에 있는 attributedText 얻어오기
         let rect = textView.getRect(including: point)
-        let (text, range) = textView.getTextAndRange(from: rect)
-        guard !text.isEmptyOrWhitespace() else { return false }
+        let attributedText = textView.getAttributedString(in: rect)
+        guard attributedText.string.isNotEmptyOrWhitespace else { return false }
         
-        editor?.attachEraseView(rect: rect)
-        delegate?.textFromTextView(text: text)
-        selectedRange = range
-        
-        var attributes:[[String : Any]] = []
-        textView.attributedText.enumerateAttributes(in: range, options: []) { (attribute, range, _) in
-            //length가 1보다 크면 for문 돌아서 차례대로 더하기
-            for _ in 1...range.length {
-                attributes.append(attribute)
-            }
-        }
-        delegate?.attributesForText(attributes)
-        
-        
-        //TODO: TopView = 100 이걸 리터럴이 아닌 값으로 표현해야함
+        //3. attributedText의 rect 얻어오기
         let shiftX = textView.textContainer.lineFragmentPadding + textView.textContainerInset.left
-        let shiftY = textView.textContainerInset.top - textView.contentOffset.y + 100
+        let shiftY = textView.textContainerInset.top - textView.contentOffset.y
         let newRect = rect.offsetBy(dx: shiftX, dy: shiftY)
 
-        delegate?.rectForText(newRect)
+        //4. 얻은 정보들을 가지고 Piano 효과를 준비한다.
+        textView.cover(rect)
+        pianoable?.preparePiano(in: newRect, with: textView.attributedText, standard: point)
         
-        //여기서 레이블을 애니메이션으로 띄워야 함
-        delegate?.beginAnimating(at: point.x)
         return true
     }
     
-    
-    //TODO:
-    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        delegate?.progressAnimating(at: touch.location(in: self).x)
-        let isMoveDirectly = touch.previousLocation(in: self).x != touch.location(in: self).x
-        delegate?.ismoveDirectly(bool: isMoveDirectly)
-        return true
-    }
-    
-    override func cancelTracking(with event: UIEvent?) {
-        delegate?.cancelAnimating(completion: { [unowned self] in
-            self.editor?.removeEraseView()
-            self.selectedRange = nil
-        })
-    }
-    
-    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+    internal override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        pianoable?.showPiano(with: textEffect, to: touch.location(in: self))
 
-        guard let touch = touch else { return }
-        let x = touch.location(in: self).x
-        delegate?.finishAnimating(at: x, completion: { [unowned self] in
-            self.editor?.removeEraseView()
-            
-            if let range = self.selectedRange,
-                let indexsForAdd = self.delegate?.getIndexesForAdd(),
-                let firstIndexForAdd = indexsForAdd.first,
-                let lastIndexForAdd = indexsForAdd.last {
-                let selectedTextRangeForAdd = NSRange(location: range.location + firstIndexForAdd, length: lastIndexForAdd - firstIndexForAdd + 1)
-                self.setAttribute(effect: self.textEffect, range: selectedTextRangeForAdd)
-                
-            }
-            
-            if let range = self.selectedRange,
-                let indexsForRemove = self.delegate?.getIndexesForRemove(),
-                let firstIndexForRemove = indexsForRemove.first,
-                let lastIndexForRemove = indexsForRemove.last{
-                let selectedTextRangeForRemove = NSRange(location: range.location + firstIndexForRemove, length: lastIndexForRemove - firstIndexForRemove + 1)
-                
-                self.removeAttribute(effect: self.textEffect, range: selectedTextRangeForRemove)
-            }
-            
-            self.selectedRange = nil
-        }) 
+        return true
     }
     
-    func setAttribute(effect:TextEffect, range: NSRange) {
-        let attribute: [String : Any]
+    internal override func cancelTracking(with event: UIEvent?) {
+        finishPiano()
+    }
+    
+    internal override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        finishPiano()
+        
+        if let endPoint = touch?.location(in: self) {
+            applyTextEffect(from: startPoint, to: endPoint)
+        }
+    }
+    
+    // MARK: - private methods
+    private func finishPiano() {
+        pianoable?.hidePiano()
+        textView.uncover()
+    }
+    
+    private func applyTextEffect(from: CGPoint, to: CGPoint) {
+        
+    }
+    
+    private func setAttribute(effect:TextEffect, range: NSRange) {
+        var attribute: [String : Any] = [:]
         switch effect {
         case .color(let x):
             attribute = [NSForegroundColorAttributeName : x]
@@ -127,13 +85,21 @@ class PianoControl: UIControl {
             attribute = [NSUnderlineStyleAttributeName : 1]
         case .line(.strikethrough):
             attribute = [NSStrikethroughStyleAttributeName : 1]
+        case .bold:
+            for index in range.location...(range.location+range.length) {
+                let attributes = textView.layoutManager.textStorage?.attributes(at: index, effectiveRange: nil)
+                if let font = attributes?[NSFontAttributeName] as? UIFont {
+                    let attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: font.pointSize)]
+                    textView.layoutManager.textStorage?.addAttributes(attribute, range: NSMakeRange(index, 1))
+                }
+            }
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
     }
     
-    func removeAttribute(effect: TextEffect, range: NSRange) {
-        let attribute: [String : Any]
+    private func removeAttribute(effect: TextEffect, range: NSRange) {
+        var attribute: [String : Any] = [:]
         switch effect {
         case .color:
             attribute = [NSForegroundColorAttributeName : UIColor.piano]
@@ -143,14 +109,24 @@ class PianoControl: UIControl {
             attribute = [NSStrikethroughStyleAttributeName : 0]
         case .line(.underline):
             attribute = [NSUnderlineStyleAttributeName : 0]
+        case .bold:
+            for index in range.location...(range.location+range.length) {
+                let attributes = textView.layoutManager.textStorage?.attributes(at: index, effectiveRange: nil)
+                if let font = attributes?[NSFontAttributeName] as? UIFont {
+                    let attribute = [NSFontAttributeName : UIFont.systemFont(ofSize: font.pointSize)]
+                    textView.layoutManager.textStorage?.addAttributes(attribute, range: NSMakeRange(index, 1))
+                }
+            }
         }
         
         textView.layoutManager.textStorage?.addAttributes(attribute, range: range)
     }
-    
-
 }
 
-
+extension PianoControl: Effectable {
+    func setEffect(textEffect: TextEffect){
+        self.textEffect = textEffect
+    }
+}
 
 

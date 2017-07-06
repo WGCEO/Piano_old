@@ -10,49 +10,122 @@ import Foundation
 import UIKit
 import CoreData
 
-class MemoManager {
-    lazy var privateMOC: NSManagedObjectContext = {
-        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        moc.parent = PianoData.coreDataStack.viewContext
-        return moc
-    }()
+enum Storage {
+    case iCloud
+    case coreData
+    case cache
+}
+
+enum Interest {
+    case memo
+    case folder
+    case none
+}
+
+typealias ChangeType = NSFetchedResultsChangeType
+
+protocol Watchable: class {
+    func Interests() -> [Interest]
+    func update(at indexPath: IndexPath?, for type: ChangeType)
+}
+
+class MemoManager: NSObject {
+    internal static let sharedInstance = MemoManager()
     
-    static var cache: [String:Memo] = [:]
+    internal var watchers: [Watchable] = []
     
-    static var currentFolder: Folder?
+    static var currentFolder: Folder? {
+        didSet {
+            let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+            request.predicate = NSPredicate(format: "isInTrash == false AND folder = %@", currentFolder ?? " ")
+            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)]
+            
+            let context = PianoData.coreDataStack.viewContext
+            
+            memoResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+        }
+    }
     static var currentMemo: Memo?
     
-    // MARK: public methods
-    class func getMemo(at index: Int, in folder: Folder? = nil) -> Memo? {
-        // 임시
-        return Memo()
-    }
-    
-    // for cache?
-    class func getMemo(key: String) -> Memo? {
+    static var folders: [Folder] {
+        if folderResultsController.fetchedObjects == nil {
+            do {
+                try folderResultsController.performFetch()
+            } catch {
+                print("Error performing fetch \(error.localizedDescription)")
+            }
+        }
         
-        return cache[key]
+        return folderResultsController.fetchedObjects ?? []
     }
     
-    class func selectedMemo() -> Memo? {
-        // 임시
-        return Memo()
+    static var memoes: [Memo] {
+        return memoResultsController?.fetchedObjects ?? []
     }
     
+    static var folderResultsController: NSFetchedResultsController<Folder> = {
+        let context = PianoData.coreDataStack.viewContext
+        let request: NSFetchRequest<Folder> = Folder.fetchRequest()
+        let dateSort = NSSortDescriptor(key: #keyPath(Folder.date), ascending: true)
+        request.sortDescriptors = [dateSort]
+        return NSFetchedResultsController(fetchRequest: request,
+                                          managedObjectContext:context,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
+    }()
     
+    static var memoResultsController: NSFetchedResultsController<Memo>? {
+        didSet {
+            memoResultsController?.delegate = sharedInstance
+            
+            try? memoResultsController?.performFetch()
+        }
+    }
+    
+    // MARK: read
+    class func memo(at indexPath: IndexPath) -> Memo? {
+        return memoResultsController?.object(at: indexPath)
+    }
+    
+    class func sections() -> [NSFetchedResultsSectionInfo]? {
+        return memoResultsController?.sections
+    }
+    
+    class func fetchMemoes() {
+        do {
+            try memoResultsController?.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        } 
+    }
+    
+    class func fetchFolders() {
+        do {
+            try folderResultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: delete
     class func remove(_ memo: Memo, completion: ((Bool, Memo?) -> Void)?) {
         memo.isInTrash = true
         
         PianoData.save()
         
-        let first = getMemo(at: 0, in: memo.folder)
-        
-        completion?(true, first)
+        completion?(true, memoes.first)
     }
     
-    
+    class func delete(_ memo: Memo, completion: (() -> Void)?) {
+        PianoData.coreDataStack.viewContext.delete(memo)
+        
+        PianoData.save()
+        
+        completion?()
+    }
+    // MARK: create
     class func newMemo() -> Memo {
-        showAddFolderAlertIfNeeded()
+        //showAddFolderAlertIfNeeded()
         
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
         memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
@@ -62,6 +135,8 @@ class MemoManager {
         PianoData.save()
          
         currentMemo = memo
+        
+        fetchMemoes()
         
         return memo
     }
@@ -87,91 +162,93 @@ class MemoManager {
         }
     }
     
+    internal lazy var privateMOC: NSManagedObjectContext = {
+        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        moc.parent = PianoData.coreDataStack.viewContext
+        return moc
+    }()
     
-    class func saveCoreDataIfNeeded(){
-        /*
-         guard let unwrapTextView = textView,
-         let unwrapOldMemo = memo,
-         unwrapTextView.isEdited else { return }
-         
-         if unwrapTextView.attributedText.length != 0 {
-         let copyAttrText = unwrapTextView.attributedText.copy() as! NSAttributedString
-         
-         privateMOC.perform({ [unowned self] in
-         self.delayAttrDic[unwrapOldMemo.objectID] = copyAttrText
-         let data = NSKeyedArchiver.archivedData(withRootObject: copyAttrText)
-         unwrapOldMemo.content = data as NSData
-         do {
-         try self.privateMOC.save()
-         PianoData.coreDataStack.viewContext.performAndWait({
-         do {
-         try PianoData.coreDataStack.viewContext.save()
-         //지연 큐에서 제거해버리기
-         self.delayAttrDic[unwrapOldMemo.objectID] = nil
-         } catch {
-         print("Failure to save context: error: \(error)")
-         }
-         })
-         } catch {
-         print("Failture to save context error: \(error)")
-         }
-         })
-         
-         } else {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         PianoData.save()
-         }
-         */
+    internal var cache: [NSManagedObjectID: Memo] = [:]
+    internal var temporary: [NSManagedObjectID: Memo] = [:]
+}
+
+// MARK: save data
+extension MemoManager {
+    class func save(_ memo: Memo) {
+        sharedInstance.privateMOC.perform({
+            sharedInstance.cache[memo.objectID] = memo
+            
+            do {
+                // 저장
+                try sharedInstance.privateMOC.save()
+                PianoData.coreDataStack.viewContext.performAndWait({
+                    savePermanently()
+                    
+                    sharedInstance.cache[memo.objectID] = nil
+                })
+            } catch {
+                print("Failure to save context error: \(error)")
+            }
+        })
     }
     
-    class func saveCoreDataWhenExit(isTerminal: Bool) {
-        /*
-         if let unwrapTextView = textView,
-         let unwrapOldMemo = memo,
-         unwrapTextView.isEdited {
-         
-         if unwrapTextView.attributedText.length != 0 {
-         //지금 있는 것도 대기열에 넣기
-         delayAttrDic[unwrapOldMemo.objectID] = unwrapTextView.attributedText
-         } else {
-         if isTerminal {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         }
-         }
-         }
-         
-         //대기열에 있는 모든 것들 순차적으로 저장
-         for (id, value) in delayAttrDic {
-         do {
-         let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
-         let data = NSKeyedArchiver.archivedData(withRootObject: value)
-         memo.content = data as NSData
-         
-         } catch {
-         print(error)
-         }
-         }
-         //다 저장했으면 지우기
-         delayAttrDic.removeAll()
-         
-         do {
-         try PianoData.coreDataStack.viewContext.save()
-         } catch {
-         print(error)
-         }
-         */
+    class func savePermanently() {
+        do {
+            try PianoData.coreDataStack.viewContext.save()
+        } catch {
+            print("Failure to save context: error: \(error)")
+        }
     }
     
-    //TODO: 다음 업데이트때 이거 수정해야함 위의 함수와 유사함
-    class func saveCoreDataIfIphone(){
-        /*
-         guard let unwrapTextView = textView, let unwrapOldMemo = memo else { return }
-         
-         if unwrapTextView.attributedText.length == 0 {
-         PianoData.coreDataStack.viewContext.delete(unwrapOldMemo)
-         PianoData.save()
-         }
-         */
+    class func saveAllNow() {
+        for (id, value) in sharedInstance.temporary {
+            do {
+                let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
+                let data = NSKeyedArchiver.archivedData(withRootObject: value)
+                memo.content = data as NSData
+                
+            } catch {
+                print("Failure to get existingObject: error: \(error)")
+            }
+        }
+        
+        sharedInstance.temporary.removeAll()
+        
+        savePermanently()
+    }
+}
+
+// MARK: fetchedResultsControllerDelegate
+extension MemoManager: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        var interest: Interest
+        switch anObject {
+        case is Memo:
+            interest = .memo
+        case is Folder:
+            interest = .folder
+        default:
+            interest = .none
+        }
+        
+        for watcher in watchers {
+            if watcher.Interests().contains(interest) {
+                watcher.update(at: indexPath, for: type)
+            }
+        }
+    }
+}
+
+
+// MARK: for watchers
+extension MemoManager {
+    class func regist(_ watcher: Watchable) {
+        sharedInstance.watchers.append(watcher)
     }
     
+    class func remove(_ watcher: Watchable) {
+        let watchers = sharedInstance.watchers
+        
+        sharedInstance.watchers = watchers.filter { return !($0 === watcher) }
+    }
 }

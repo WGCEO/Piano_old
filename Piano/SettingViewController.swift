@@ -60,16 +60,13 @@ class SettingViewController: UIViewController {
         iLovePiano()
     }
   
-    
     @IBAction func tapReportIdeaAndBug(_ sender: Any) {
         reportIdeaAndBug()
     }
     
- 
     @IBAction func tapExtraInfo(_ sender: Any) {
         extraInfo()
     }
-
     
     func sendEmail(withTitle: String) {
         let mailComposeViewController = configuredMailComposeViewController(withTitle: withTitle)

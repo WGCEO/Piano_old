@@ -9,8 +9,6 @@
 import UIKit
 
 class PianoLabel: UILabel {
-    
-    
     var leftEndTouchX: CGFloat = CGFloat.greatestFiniteMagnitude
     var rightEndTouchX: CGFloat = 0
     var applyEffectIndexSet: Set<Int> = []
@@ -24,7 +22,13 @@ class PianoLabel: UILabel {
     
     var textRect = CGRect.zero
     
-    var animatingState: PianoLabelAnimation = .begin
+    var animatingState: PianoLabelAnimation = .begin {
+        didSet {
+            if animatingState == .begin {
+                widthCache = [:]
+            }
+        }
+    }
     var animateComplete: () -> Void = {}
     
     var animationProgress: CGFloat = 0.0
@@ -56,9 +60,18 @@ class PianoLabel: UILabel {
         return displayLink
     }()
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        isUserInteractionEnabled = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // Could be enhanced by kerning text:
     // http://stackoverflow.com/questions/21443625/core-text-calculate-letter-frame-in-ios
-    
     override open func drawText(in rect: CGRect) {
         guard let text = self.text,
             let touchPointX = self.touchPointX else { return }
@@ -85,30 +98,25 @@ class PianoLabel: UILabel {
             
             let s = String(char)
             var attribute = attributes[index]
-            let charSize = s.size(attributes: attribute)
+            var charSize: CGSize
+            if (s == "\t") {
+                let size = s.size(attributes: attribute)
+                charSize = CGSize(width: getTabLength(of: index, from: text), height: size.height)
+            } else {
+                charSize = s.size(attributes: attribute)
+            }
+            
             let rect = CGRect(origin: CGPoint(x: leftOffset, y: topOffset)
                 , size: charSize)
             
             let charCenter = leftOffset + charSize.width / 2
             let distance = touchPointX - charCenter
-            // x = 거리의 절대값
-//            let x = distance < 0 ? -distance : distance
-            
-//            let leftLamda = (x + waveLength) / waveLength
-//            let rightLamda = (x - waveLength) / waveLength
-            // 4차식
-//            let y = leftLamda * leftLamda * rightLamda * rightLamda * waveLength
-            
             
             let y = cosMaxHeight * cos(CGFloat.pi / (2 * cosQuarterPeriod) * distance)
             
-            //isSelectedCharacter와 관련된 주석을 다 지우면 현재 선택된 글자에 대한 처리를 할 수 있음(크기 등)
-//            let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
-            
-            //touchPointX < leftOffset || touchPointX > charSize.width + leftOffset
             //가장 왼쪽의 터치가 단어의 오른쪽 끝보다 왼쪽에 있어야 하고, 현재 터치포인트가 단어의 오른쪽 끝보다 크면 효과 적용
             let isApplyEffect = leftOffset + charSize.width > leftEndTouchX
-                && touchPointX > leftOffset + charSize.width //&& !isSelectedCharacter ? true : false
+                && touchPointX > leftOffset + charSize.width
             
             // 가장 오른쪽의 터치가 단어의 왼쪽 끝보다 오른쪽에 있어야 하고, 현재 터치 포인트가 단어의 왼쪽 끝보다 작으면 효과 제거
             let isRemoveEffect = leftOffset > touchPointX && leftOffset < rightEndTouchX
@@ -116,7 +124,11 @@ class PianoLabel: UILabel {
             if isRemoveEffect {
                 removeEffectIndexSet.insert(index)
                 
-                let newAttr = makeAttribute(by: textEffect)
+                var fontSize: CGFloat = 0.0
+                if let font = attribute[NSFontAttributeName] as? UIFont {
+                    fontSize = font.pointSize
+                }
+                let newAttr = makeAttribute(by: textEffect, with: fontSize)
                 
                 if let _ = newAttr[NSFontAttributeName] {
                     attribute[NSFontAttributeName] = UIFont.preferredFont(forTextStyle: .body)
@@ -141,7 +153,11 @@ class PianoLabel: UILabel {
             if isApplyEffect {
                 applyEffectIndexSet.insert(index)
                 
-                let newAttr = makeAttribute(by: textEffect)
+                var fontSize: CGFloat = 0.0
+                if let font = attribute[NSFontAttributeName] as? UIFont {
+                    fontSize = font.pointSize
+                }
+                let newAttr = makeAttribute(by: textEffect, with: fontSize)
                 
                 if let font = newAttr[NSFontAttributeName] {
                     attribute[NSFontAttributeName] = font
@@ -164,17 +180,12 @@ class PianoLabel: UILabel {
             
 
             
-            //효과 입히기
-//            if x > -waveLength && x < waveLength {
+            //피아노 효과 입히기
             if distance > -cosQuarterPeriod && distance < cosQuarterPeriod {
             
                 let isSelectedCharacter = touchPointX > leftOffset && touchPointX < charSize.width + leftOffset
-//                let size = s.size(attributes: attribute)
                 let x = rect.origin.x
                 let y = rect.origin.y - y * progress
-//                let y = rect.origin.y - (isSelectedCharacter ?
-//                    (y + size.height / 2) * progress  :
-//                    y * progress)
                 let point = CGPoint(x: x, y: y)
                 
                 if isSelectedCharacter {
@@ -192,7 +203,7 @@ class PianoLabel: UILabel {
         }
     }
     
-    func makeAttribute(by effect: TextEffect) -> [String : Any] {
+    func makeAttribute(by effect: TextEffect, with size: CGFloat = 0.0) -> [String : Any] {
         let attribute: [String : Any]
         
         switch effect {
@@ -205,8 +216,41 @@ class PianoLabel: UILabel {
             attribute = [NSStrikethroughStyleAttributeName : 1]
         case .line(.underline):
             attribute = [NSUnderlineStyleAttributeName : 1]
+        case .bold:
+            attribute = [NSFontAttributeName : UIFont.boldSystemFont(ofSize: size)]
         }
         return attribute
+    }
+    
+    private var widthCache: [Int:CGFloat] = [:]
+    //Tab Key('\t')의 유동적인 길이를 구하는 메서드
+    private func getTabLength(of tabIndex: Int, from text: String) -> CGFloat {
+        var length: CGFloat = 0
+        for (index, char) in text.characters.enumerated() {
+            let standard = "\t".size(attributes: attributes[tabIndex]).width
+            let s = String(char)
+            if tabIndex == index && s == "\t" {
+                let width = standard-(length-(standard*CGFloat(Int(length/standard))))
+                widthCache[tabIndex] = width
+                return width
+            }
+            
+            if let width = widthCache[index] {
+                length += width
+            } else {
+                var width: CGFloat = 0
+                if (s == "\t") {
+                    width = getTabLength(of: index, from: text)
+                } else {
+                    width = s.size(attributes: attributes[index]).width
+                }
+                
+                widthCache[index] = width
+                length += width
+            }
+        }
+        
+        return 0
     }
 }
 
@@ -282,6 +326,7 @@ extension PianoLabel: Pianoable {
         animatingState = .begin
         displayLink.isPaused = false
         touchPointX = x
+        NSLayoutManager
     }
     
     func finishAnimating(at x: CGFloat, completion: @escaping () -> Void) {
@@ -317,5 +362,4 @@ extension PianoLabel: Pianoable {
     func set(effect: TextEffect) {
         textEffect = effect
     }
-
 }

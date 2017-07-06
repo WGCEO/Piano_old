@@ -9,10 +9,9 @@
 import UIKit
 
 class PianoTextView: UITextView {
-    var mode: TextViewMode = .typing
+    internal var coverView: UIView?
     
-    var isWaitingState: Bool = false
-    var isEdited = false {
+    internal(set) var isEdited = false {
         didSet {
             if isEdited == true {
                 editDate = NSDate()
@@ -21,25 +20,92 @@ class PianoTextView: UITextView {
     }
     var editDate: NSDate?
     
+    var isWaitingState: Bool = false
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
-        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        layoutManager.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: public methods
     public func prepareForReuse() {
         isWaitingState = false
         isEdited = false
-        mode = .typing
         clearText()
         
         contentOffset = CGPoint.zero
+        
+        resignFirstResponder()
+    }
+    
+    public func makeTappable() {
+        isEditable = false
+        isSelectable = true
+        isWaitingState = false
+    }
+    
+    public func makeUnableTap() {
+        isWaitingState = true
+    }
+    
+    public func makeEffectable() {
+        isEditable = false
+        isSelectable = false
+        isWaitingState = true
+    }
+    
+    public func appearKeyboard(){
+        isSelectable = true
+        isEditable = true
+        becomeFirstResponder()
+    }
+    
+    private func clearText() {
+        textAlignment = .left
+        attributedText = nil
+        typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
+                             NSUnderlineStyleAttributeName: 0,
+                         NSStrikethroughStyleAttributeName: 0,
+                            NSBackgroundColorAttributeName: UIColor.clear,
+                                       NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
+    }
+    
+    public func didEdited() {
+        isEdited = true
+    }
+    
+    public func cover(_ rect: CGRect) {
+        uncover()
+        
+        let coverView = UIView()
+        coverView.backgroundColor = UIColor.white
+        
+        let left = textContainerInset.left + textContainer.lineFragmentPadding
+        let top = textContainerInset.top
+        coverView.frame = rect.offsetBy(dx: left, dy: top)
+        
+        addSubview(coverView)
+        
+        self.coverView = coverView
+    }
+    
+    public func uncover() {
+        coverView?.removeFromSuperview()
+        coverView = nil
     }
     
     public func addImage(_ image: UIImage) {
@@ -56,19 +122,48 @@ class PianoTextView: UITextView {
         didUpdateText(in: range)
     }
     
-    private func clearText() {
-        textAlignment = .left
-        attributedText = nil
-        typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
-                             NSUnderlineStyleAttributeName: 0,
-                         NSStrikethroughStyleAttributeName: 0,
-                            NSBackgroundColorAttributeName: UIColor.clear,
-                                       NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)]
+    /* To Remove
+    public func eraseCurrentLine() {
+        guard selectedRange.location != 0 else { return }
+        
+        let beginning: UITextPosition = beginningOfDocument
+        var offset = selectedRange.location
+        
+        while true {
+            if offset == 0 {
+                removeSubrange(from: offset)
+                break
+            }
+            
+            guard let start = position(from: beginning, offset: offset - 1),
+                let end = position(from: beginning, offset: offset),
+                let textRange = textRange(from: start, to: end),
+                let text = text(in: textRange) else { return }
+            
+            let whitespacesAndNewlines = CharacterSet.whitespacesAndNewlines
+            let range = text.rangeOfCharacter(from: whitespacesAndNewlines)
+            
+            if range == nil {
+                removeSubrange(from: offset-1)
+                break
+            }
+            
+            offset -= 1
+        }
+        
+        isEdited = true
+        textChangedHandler?(attributedText)
     }
     
+    private func removeSubrange(from: Int) {
+        let range = NSMakeRange(from, selectedRange.location - from)
+        layoutManager.textStorage?.deleteCharacters(in: range)
+        selectedRange = NSRange(location: from, length: 0)
+     }
+     */
+    
+    // MARK: - private methods
     private func didUpdateText(in range: NSRange) {
-        isEdited = true
-        
         selectedRange =
             NSMakeRange(range.location+2, range.length)
         appearKeyboard()
@@ -79,6 +174,23 @@ class PianoTextView: UITextView {
                 self?.scrollRangeToVisible(NSMakeRange(location + 3, 0))
             }
         }
+     }
+    
+    private func tappedURL(textPosition: UITextPosition) -> URL? {
+        guard let attrSubString = getAttrSubString(textPosition) else { return nil }
+        
+        return attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL
+    }
+    
+    private func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {
+        guard let position = position(from: textPosition, offset: 1),
+            let range = textRange(from: textPosition, to: position) else { return nil }
+        
+        let startOffset = offset(from: beginningOfDocument, to: range.start)
+        let endOffset = offset(from: beginningOfDocument, to: range.end)
+        let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
+        
+        return attributedText.attributedSubstring(from: offsetRange)
     }
     
     // MARK: UIResponder
@@ -102,13 +214,11 @@ class PianoTextView: UITextView {
             }
         }
         
-        //detailViewController?.updateCellInfo() memo를 활용
-        
         DispatchQueue.main.async { [unowned self] in
             self.scrollRangeToVisible(self.selectedRange)
         }
     }
-
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let firstTouch = touches.first else { return }
         
@@ -130,67 +240,52 @@ class PianoTextView: UITextView {
         
         if let url = tappedURL(textPosition: textPosition) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            
+        } else {
             appearKeyboard()
         }
     }
-    
-    // MARK: private methods
-    private func tappedURL(textPosition: UITextPosition) -> URL? {
-        guard let attrSubString = getAttrSubString(textPosition) else { return nil }
+}
+
+
+// MARK: keyboard
+extension PianoTextView {
+    internal func keyboardWillShow(notification: Notification){
+        isWaitingState = true
         
-        let url = attrSubString.attribute(NSLinkAttributeName, at: 0, effectiveRange: nil) as? URL
-        return url
+        guard let userInfo = notification.userInfo,
+            let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
+            let height = AppNavigator.currentNavigationController?.toolbar.bounds.height else { return }
+        
+        
+        //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
+        let inset = UIEdgeInsetsMake(0, 0, UIScreen.main.bounds.height - kbFrame.origin.y - height, 0)
+        contentInset = inset
+        scrollIndicatorInsets = inset
+        scrollRangeToVisible(selectedRange)
     }
-    
-    override var canBecomeFirstResponder: Bool {
-        get {
-            return isWaitingState ? false : true
+}
+
+extension PianoTextView: NSLayoutManagerDelegate {
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return 8
+    }
+}
+
+
+public extension NSAttributedString {
+    var firstLine: String {
+        let trim = string.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
+        switch trim {
+        case let x where x.characters.count > 50:
+            return x.substring(to: x.index(x.startIndex, offsetBy: 50))
+        case let x where x.characters.count == 0:
+            //이미지만 있는 경우에도 해당됨
+            return "NewMemo".localized(withComment: "새로운 메모")
+        default:
+            return trim
         }
     }
-    
-    func makeTappable() {
-        isEditable = false
-        isSelectable = true
-        isWaitingState = false
-        mode = .typing
-    }
-    
-    func makeUnableTap() {
-        isWaitingState = true
-    }
-    
-    
-    func makeEffectable() {
-        isEditable = false
-        isSelectable = false
-        isWaitingState = true
-        mode = .effect
-    }
-
-    func appearKeyboard(){
-        isSelectable = true
-        isEditable = true
-        becomeFirstResponder()
-    }
 }
-
-
-
-fileprivate extension UITextView {
-    func getAttrSubString(_ textPosition: UITextPosition) -> NSAttributedString? {
-        guard let position = position(from: textPosition, offset: 1),
-            let range = textRange(from: textPosition, to: position) else { return nil }
-        
-        let startOffset = offset(from: beginningOfDocument, to: range.start)
-        let endOffset = offset(from: beginningOfDocument, to: range.end)
-        let offsetRange = NSMakeRange(startOffset, endOffset - startOffset)
-        
-        return attributedText.attributedSubstring(from: offsetRange)
-    }
-}
-
-
 
 fileprivate extension NSMutableAttributedString {
     func insertImage(_ image: UIImage, in range: NSRange) {

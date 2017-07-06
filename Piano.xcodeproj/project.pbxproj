@@ -39,7 +39,6 @@
 		3131F6D91DDD2E3D00EC4229 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */; };
 		3131F6E71DDD2E3D00EC4229 /* PianoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6E61DDD2E3D00EC4229 /* PianoTests.swift */; };
 		3131F6F21DDD2E3D00EC4229 /* PianoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3131F6F11DDD2E3D00EC4229 /* PianoUITests.swift */; };
-		31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C921DE808FA00373ADD /* TextViewMode.swift */; };
 		31575C951DE80BB600373ADD /* PianoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C941DE80BB600373ADD /* PianoControl.swift */; };
 		31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31575C9C1DEA594800373ADD /* PianoLabel.swift */; };
 		315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315A53821DF311FA00BB7367 /* NSRange_Extension.swift */; };
@@ -51,7 +50,6 @@
 		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
 		F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */; };
 		F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6D1EE196A300A0E81C /* PaletteView.swift */; };
-		F49B3C711EE1A10300A0E81C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C701EE1A10300A0E81C /* Utils.swift */; };
 		F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */; };
 		F49B3C751EE1A2AF00A0E81C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */; };
 		F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C761EE1A2B800A0E81C /* MailSender.swift */; };
@@ -146,7 +144,6 @@
 		3131F6ED1DDD2E3D00EC4229 /* PianoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PianoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3131F6F11DDD2E3D00EC4229 /* PianoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoUITests.swift; sourceTree = "<group>"; };
 		3131F6F31DDD2E3D00EC4229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		31575C921DE808FA00373ADD /* TextViewMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewMode.swift; sourceTree = "<group>"; };
 		31575C941DE80BB600373ADD /* PianoControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoControl.swift; sourceTree = "<group>"; };
 		31575C9C1DEA594800373ADD /* PianoLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoLabel.swift; sourceTree = "<group>"; };
 		315A53821DF311FA00BB7367 /* NSRange_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSRange_Extension.swift; sourceTree = "<group>"; };
@@ -159,7 +156,6 @@
 		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
 		F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNEditor.swift; sourceTree = "<group>"; };
 		F49B3C6D1EE196A300A0E81C /* PaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
-		F49B3C701EE1A10300A0E81C /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		F49B3C761EE1A2B800A0E81C /* MailSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailSender.swift; sourceTree = "<group>"; };
@@ -275,7 +271,6 @@
 			children = (
 				0AEE6D841E123FD8009C98F4 /* ColorPalette.swift */,
 				0A2CE68D1E121CBB0003F3CB /* LineFamily.swift */,
-				31575C921DE808FA00373ADD /* TextViewMode.swift */,
 				315A53881DF6729F00BB7367 /* TextEffectAttribute.swift */,
 				315A53841DF4790200BB7367 /* PianoLabelAnimation.swift */,
 			);
@@ -332,22 +327,11 @@
 		3131F6D01DDD2E3D00EC4229 /* Piano */ = {
 			isa = PBXGroup;
 			children = (
-				F40D0B2B1EEA3684003B8ED6 /* UI */,
-				F49B3C7A1EE1A38900A0E81C /* Common */,
-				0A8B992E1E407C1700130F7F /* Localizable.strings */,
-				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
-				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
-				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
-				0A15B1921E41B6A3000DC102 /* Value */,
+				F40D0B2B1EEA3684003B8ED6 /* App */,
 				0A15B1911E41B69B000DC102 /* Model */,
-				0A5B08221E3EB0EA0074E5CA /* Extension */,
-				0A5B08231E3EB0F20074E5CA /* Protocol */,
-				0A08184E1E0B8D300001304F /* DeletedMemoList */,
-				0A0818511E0B96320001304F /* DeletedMemo */,
+				F49B3C7A1EE1A38900A0E81C /* Common */,
 				31575C981DE8260700373ADD /* PNEditor */,
-				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
-				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
-				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
+				F414F6F71EFB88D6002E599F /* Resource */,
 			);
 			path = Piano;
 			sourceTree = "<group>";
@@ -373,9 +357,11 @@
 		31575C981DE8260700373ADD /* PNEditor */ = {
 			isa = PBXGroup;
 			children = (
-				F49B3C6F1EE1A0F000A0E81C /* Utils */,
-				F49B3C6A1EE1772A00A0E81C /* UI */,
-				F49B3C691EE1752800A0E81C /* Core */,
+				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
+				F49B3C6D1EE196A300A0E81C /* PaletteView.swift */,
+				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
+				31575C941DE80BB600373ADD /* PianoControl.swift */,
+				31575C9C1DEA594800373ADD /* PianoLabel.swift */,
 			);
 			name = PNEditor;
 			sourceTree = "<group>";
@@ -397,9 +383,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F40D0B2B1EEA3684003B8ED6 /* UI */ = {
+		F40D0B2B1EEA3684003B8ED6 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				3131F6D11DDD2E3D00EC4229 /* AppDelegate.swift */,
+				0A0818511E0B96320001304F /* DeletedMemo */,
+				0A08184E1E0B8D300001304F /* DeletedMemoList */,
 				0A15B18F1E41B67B000DC102 /* Memo */,
 				0A15B18A1E41B623000DC102 /* ThanksTo */,
 				0A15B18B1E41B63F000DC102 /* Setting */,
@@ -407,39 +396,36 @@
 				0A15B18D1E41B666000DC102 /* ConfigureFolder */,
 				0A15B1901E41B684000DC102 /* SelectEffect */,
 			);
-			name = UI;
+			name = App;
 			sourceTree = "<group>";
 		};
-		F49B3C691EE1752800A0E81C /* Core */ = {
+		F414F6F71EFB88D6002E599F /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				31575C941DE80BB600373ADD /* PianoControl.swift */,
-				31575C9C1DEA594800373ADD /* PianoLabel.swift */,
+				3131F6D81DDD2E3D00EC4229 /* Assets.xcassets */,
+				0A8B992E1E407C1700130F7F /* Localizable.strings */,
+				3131F6DD1DDD2E3D00EC4229 /* Info.plist */,
+				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
+				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
+				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 			);
-			name = Core;
+			name = Resource;
 			sourceTree = "<group>";
 		};
-		F49B3C6A1EE1772A00A0E81C /* UI */ = {
+		F414F6F81EFB8908002E599F /* etc */ = {
 			isa = PBXGroup;
 			children = (
-				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
-				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
-				F49B3C6D1EE196A300A0E81C /* PaletteView.swift */,
+				0A5B08231E3EB0F20074E5CA /* Protocol */,
+				0A5B08221E3EB0EA0074E5CA /* Extension */,
+				0A15B1921E41B6A3000DC102 /* Value */,
 			);
-			name = UI;
-			sourceTree = "<group>";
-		};
-		F49B3C6F1EE1A0F000A0E81C /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				F49B3C701EE1A10300A0E81C /* Utils.swift */,
-			);
-			name = Utils;
+			name = etc;
 			sourceTree = "<group>";
 		};
 		F49B3C7A1EE1A38900A0E81C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F414F6F81EFB8908002E599F /* etc */,
 				F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */,
 				F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */,
 				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,
@@ -683,7 +669,6 @@
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
 				F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */,
 				0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */,
-				F49B3C711EE1A10300A0E81C /* Utils.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
@@ -691,7 +676,6 @@
 				0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				0A8815A91E31FB1D00ABEB98 /* MemoViewController.swift in Sources */,
-				31575C931DE808FA00373ADD /* TextViewMode.swift in Sources */,
 				F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				0A8B994A1E40CE2D00130F7F /* ThanksToViewController.swift in Sources */,

@@ -11,35 +11,43 @@ import UIKit
 import CoreData
 import SnapKit
 
+@objc(PNEditorEditMode)
+enum EditMode: Int {
+    case typing
+    case effect
+    case none
+}
+
 @objc class PNEditor: UIView {
-    var textView: PianoTextView!
-    var paletteView: PaletteView!
-    var canvas = PianoControl()
-    var images: [UIImage] = []
-    
     public var attributedText: NSAttributedString {
         get {
             return textView.attributedText
         } set {
             guard newValue != attributedText else { return }
             
-            prepareToReuse()
+            prepareForReuse()
             textView.attributedText = newValue
         }
     }
     
-    // MARK: public methods
-    public func addImage(_ image: UIImage) {
-        textView.addImage(image)
+    public var isEdited: Bool {
+        return textView.isEdited
     }
     
-    // MARK: views
-    lazy var eraseTextView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        return view
-    }()
+    public var editMode: EditMode = .none {
+        didSet {
+            prepare(editMode)
+        }
+    }
     
+    var textChangedHandler: ((NSAttributedString)->Void)?
+    
+    internal var textView: PianoTextView!
+    internal var paletteView: PaletteView!
+    internal var pianoLabel: PianoLabel!
+    internal var canvas = PianoControl()
+    
+    // MARK: life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,19 +63,14 @@ import SnapKit
     private func configure() {
         configureSubviews()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PNEditor.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        editMode = .typing
     }
     
     // MARK: configure subviews
     private func configureSubviews() {
         configurePianoTextView()
         configurePaletteView()
+        configurePianoLabel()
     }
     
     private func configurePianoTextView() {
@@ -75,21 +78,21 @@ import SnapKit
         
         textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
-        textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         textView.allowsEditingTextAttributes = true
+        textView.delegate = self
         
         addSubview(textView)
         textView.snp.makeConstraints { (make) in
             make.edges.equalTo(self)
         }
         
-        canvas.textView = textView
-        
         self.textView = textView
     }
     
     private func configurePaletteView() {
-        let paletteView = PaletteView(frame: CGRect.zero)
+        let paletteView = PaletteView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 100))
+        paletteView.isHidden = true
+        paletteView.effector = canvas
         
         addSubview(paletteView)
         paletteView.snp.makeConstraints { (make) in
@@ -102,31 +105,71 @@ import SnapKit
         self.paletteView = paletteView
     }
     
-    // MARK: public methods
-    func appearKeyboardIfNeeded() {
-        textView.isWaitingState = false
+    public func configurePianoLabel() {
+        let pianoLabel = PianoLabel(frame: bounds)
+        pianoLabel.isHidden = true
         
-        //TODO: 코드 리펙토링제대로하기
-        //textView.isWaitingState = false
-        //appearKeyboardIfNeeded()
-        //appearKeyboardIfNeeded = { }
+        addSubview(pianoLabel)
+        pianoLabel.snp.makeConstraints { (make) in
+            make.edges.equalTo(textView)
+        }
+        
+        self.pianoLabel = pianoLabel
     }
     
-    func prepareToEditing() {
-        if textView.mode != .typing {
+    // MARK: - public methods
+    public func appearKeyboardIfNeeded() {
+        textView.isWaitingState = false
+        textView.appearKeyboard()
+    }
+    
+    public func addImage(_ image: UIImage) {
+        textView.addImage(image)
+    }
+    
+    public func eraseCurrentLine() {
+        //textView.eraseCurrentLine()
+    }
+    
+    public func handleChangedText(_ handler: ((NSAttributedString)->Void)?) {
+        textChangedHandler = handler
+    }
+    
+    // MARK: - private methods
+    private func prepareForReuse() {
+        textView.prepareForReuse()
+        detachCanvas()
+        textChangedHandler = nil
+    }
+    
+    private func prepare(_ editMode: EditMode) {
+        switch editMode {
+        case .effect:
+            showPaletteView()
             attachCanvas()
+            textView.isEditable = false
+        case .typing:
+            hidePaletteView()
+            detachCanvas()
+            textView.isEditable = true
+        case .none:
+            hidePaletteView()
+            detachCanvas()
+            textView.isEditable = false
         }
     }
     
-    func showPaletteView() {
+    private func showPaletteView() {
         textView.makeEffectable()
+        textView.sizeToFit()
         
         paletteView.isHidden = false
+        bringSubview(toFront: paletteView)
         
         animateTextView()
     }
     
-    func hidePaletteView() {
+    private func hidePaletteView() {
         textView.makeTappable()
         
         paletteView.isHidden = true
@@ -135,197 +178,64 @@ import SnapKit
     }
     
     private func animateTextView() {
-        let navigationController = AppNavigator.currentNavigationController
-        let isHidden = !(paletteView.isHidden)
-        
-        navigationController?.setNavigationBarHidden(!isHidden, animated: true)
-        navigationController?.setToolbarHidden(!isHidden, animated: true)
+        let amount = paletteView.isHidden ? 0 : 100
         
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.textView.contentInset.bottom = isHidden ? 50 : 0
-            self?.textView.topConstraint?.constant = isHidden ? 100 : 0
+            self?.textView.snp.updateConstraints({ [weak self] (make) in
+                guard let strongSelf = self else { return }
+                
+                make.top.equalTo(strongSelf).inset(amount)
+            })
             self?.layoutIfNeeded()
         }
     }
-    
-    // MARK: edit text?
-    func removeSubrange(from: Int) {
-        //layoutManager에서 접근을 해야 캐릭터들을 올바르게 지울 수 있음(안그러면 이미지가 다 지워져버림)
-        /*
-         let range = NSMakeRange(from, textView.selectedRange.location - from)
-         textView.layoutManager.textStorage?.deleteCharacters(in: range)
-         textView.selectedRange = NSRange(location: from, length: 0)
-         */
-    }
-    
-    // MARK: eraserView
-    func attachEraseView(rect: CGRect) {
-        let left = textView.textContainerInset.left + textView.textContainer.lineFragmentPadding
-        let top = textView.textContainerInset.top
-        eraseTextView.frame = rect.offsetBy(dx: left, dy: top)
+
+    private func attachCanvas() {
+        detachCanvas()
         
-        self.addSubview(eraseTextView)
-    }
-    
-    func removeEraseView() {
-        eraseTextView.removeFromSuperview()
-    }
-    
-    // MARK: canvas
-    func attachCanvas() {
-        let contentOffset = textView.contentOffset
+        canvas.textView = textView
+        canvas.pianoable = pianoLabel
         
+        textView.addSubview(canvas)
+        
+        updateCanvasFrame()
+    }
+    
+    private func detachCanvas() {
         canvas.removeFromSuperview()
-        let top = contentOffset.y
-        let canvasWidth = bounds.width
-        let canvasHeight = bounds.height
-        canvas.frame = CGRect(x: 0, y: top, width: canvasWidth, height: canvasHeight)
-        self.addSubview(canvas)
-    }
-    
-    // MARK: keyboard
-    func keyboardWillShow(notification: Notification){
-        /*
-         textView.isWaitingState = true
-         
-         guard let userInfo = notification.userInfo,
-         let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue,
-         let height = navigationController?.toolbar.bounds.height else { return }
-         
-         
-         //kbFrame의 y좌표가 실제로 키보드의 위치임 따라서 화면 높이에서 프레임 y를 뺸 게 바텀이면 됨!
-         let inset = UIEdgeInsetsMake(0, 0, UIScreen.main.bounds.height - kbFrame.origin.y - height, 0)
-         textView.contentInset = inset
-         textView.scrollIndicatorInsets = inset
-         textView.scrollRangeToVisible(textView.selectedRange)
-         */
-    }
-    
-    func keyboardDidHide(notification: Notification) {
-        //textView.makeTappable()
-    }
-    
-    func keyboardWillHide(notification: Notification){
-        /*
-         textView.makeUnableTap()
-         
-         textView.contentInset = UIEdgeInsets.zero
-         textView.scrollIndicatorInsets = UIEdgeInsets.zero
-         */
-    }
-    
-    // MARK: private methods
-    private func prepareToReuse() {
-        MemoManager.saveCoreDataIfNeeded()
         
-        images.removeAll()
-        textView.resignFirstResponder()
-        canvas.removeFromSuperview()
+        canvas.pianoable = nil
+        canvas.textView = nil
+        
+        pianoLabel.isHidden = true
+    }
+    
+    internal func updateCanvasFrame() {
+        let y = textView.contentOffset.y
+        let height = textView.bounds.height
+        let width = textView.bounds.width
+        
+        canvas.frame = CGRect(x: 0, y: y, width: width, height: height)
     }
 }
 
-
 extension PNEditor: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        /*
-         guard memo != nil else {
-         addNewMemo()
-         return
-         }
-         */
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        //setTextViewEditedState()
-        updateCellInfo()
-    }
-    
-    //첫번째 이미지 캐싱해놓고, 첫번째 attachment 이미지와 캐싱한 이미지가 다를 경우에만 실행
-    func updateCellInfo() {
-        /*
-         guard let memo = self.memo,
-         let textView = self.textView,
-         let attrText = textView.attributedText else { return }
-         
-         let text = textView.text.trimmingCharacters(in: .symbols).trimmingCharacters(in: .newlines)
-         let firstLine: String
-         switch text {
-         case let x where x.characters.count > 50:
-         firstLine = x.substring(to: x.index(x.startIndex, offsetBy: 50))
-         case let x where x.characters.count == 0:
-         //이미지만 있는 경우에도 해당됨
-         firstLine = "NewMemo".localized(withComment: "새로운 메모")
-         default:
-         firstLine = text
-         }
-         
-         memo.firstLine = firstLine
-         
-         let hasAttachments = attrText.containsAttachments(in: NSMakeRange(0, attrText.length))
-         
-         guard hasAttachments else {
-         memo.imageData = nil
-         return
-         }
-         
-         attrText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attrText.length), options: []) { (value, range, stop) in
-         
-         guard let attachment = value as? NSTextAttachment,
-         let image = attachment.image else { return }
-         
-         guard firstImage != image else {
-         stop.pointee = true
-         return
-         }
-         
-         firstImage = image
-         
-         let oldWidth = image.size.width;
-         
-         //I'm subtracting 10px to make the image display nicely, accounting
-         //for the padding inside the textView
-         let ratio = 60 / oldWidth;
-         
-         let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-         image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-         UIGraphicsEndImageContext()
-         if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
-         memo.imageData = data as NSData
-         stop.pointee = true
-         }
-         
-         }
-         */
+    internal func textViewDidChange(_ textView: UITextView) {
+        guard let textView = textView as? PianoTextView else { return }
+        
+        textView.isEdited = true
+        textChangedHandler?(textView.attributedText)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        /*
-         if textView.mode != .typing {
-         textView.attachCanvas()
-         }
-         */
+        if editMode != .typing {
+            updateCanvasFrame()
+        }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        /*
-         if textView.mode != .typing {
-         textView.attachCanvas()
-         }
-         */
-    }
-}
-
-fileprivate extension PianoTextView {
-    var topConstraint: NSLayoutConstraint? {
-        for constraint in constraints {
-            if constraint.firstAttribute == .top {
-                return constraint
-            }
+        if editMode != .typing {
+            updateCanvasFrame()
         }
-        
-        return nil
     }
 }

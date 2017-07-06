@@ -9,6 +9,17 @@
 import Foundation
 
 extension String {
+    var isNotEmptyOrWhitespace: Bool {
+        if(self.isEmpty) {
+            return false
+        }
+        return (self.trimmingCharacters(in: .whitespacesAndNewlines).characters.count != 0)
+    }
+    
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
+    }
+    
     func nsRange(from range: Range<String.Index>) -> NSRange {
         let from = range.lowerBound.samePosition(in: utf16)
         let to = range.upperBound.samePosition(in: utf16)
@@ -26,19 +37,7 @@ extension String {
         return from ..< to
     }
     
-    func isEmptyOrWhitespace() -> Bool {
-        
-        if(self.isEmpty) {
-            return true
-        }
-        return (self.trimmingCharacters(in: .whitespacesAndNewlines).characters.count == 0)
-    }
-    
     func localized(withComment:String) -> String {
         return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: withComment)
-    }
-    
-    var localized: String {
-        return NSLocalizedString(self, comment: "")
     }
 }

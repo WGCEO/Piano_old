@@ -14,7 +14,7 @@ class MemoViewController: UIViewController {
     @IBOutlet weak var editor: PNEditor!
 
     private var canDoAnotherTask: Bool {
-        return ActivityIndicator.sharedInstace.isAnimating
+        return ActivityIndicator.isAnimating
     }
 
     var memo: Memo? {
@@ -29,10 +29,41 @@ class MemoViewController: UIViewController {
         
         if memo == nil {
             // TODO: iPad일 경우 첫 번째 메모를 가져와야 함 -> Master에서 하는 것이 좋을 듯
-            memo = MemoManager.selectedMemo()
+            memo = MemoManager.memoes.first
         }
         
         showMemo()
+        editor.handleChangedText { [weak self] (attributedText) in
+            guard let memo = self?.memo else { return }
+                
+            memo.firstLine = attributedText.firstLine
+            let hasAttachments = attributedText.containsAttachments(in: NSMakeRange(0, attributedText.length))
+            guard hasAttachments else {
+                memo.imageData = nil
+                return
+            }
+                
+            attributedText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
+                guard let attachment = value as? NSTextAttachment,
+                    let image = attachment.image else { return }
+                
+                let oldWidth = image.size.width;
+                
+                //I'm subtracting 10px to make the image display nicely, accounting
+                //for the padding inside the textView
+                let ratio = 60 / oldWidth;
+                
+                let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+                UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+                image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+                let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                if let scaledImage = scaledImage, let data = UIImagePNGRepresentation(scaledImage) {
+                    memo.imageData = data as NSData
+                    stop.pointee = true
+                }
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,67 +71,48 @@ class MemoViewController: UIViewController {
         
         // TODO: 어떤 경우에 Needed되는지 확인
         editor.appearKeyboardIfNeeded()
+        editor.editMode = .typing
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        saveMemoIfNeeded()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: nil) {[weak self] (_) in
-            self?.editor.prepareToEditing()
+            self?.editor.editMode = .typing
         }
     }
     
-    // MARR: setup views
+    // MARR: memo
     private func showMemo() {
+        // TODO: CoreData와 연동이 되게끔
         editor?.attributedText = memo?.attrbutedString ?? NSAttributedString()
     }
     
-    private func createAlertController() {
-        /*
-         let alert = UIAlertController(title: "AddFolderTitle".localized(withComment: "폴더 생성"), message: "AddFolderMessage".localized(withComment: "폴더의 이름을 적어주세요."), preferredStyle: .alert)
-         
-         guard let text = alert.textFields?.first?.text else { return }
-         let context = PianoData.coreDataStack.viewContext
-         do {
-         let newFolder = Folder(context: context)
-         newFolder.name = text
-         newFolder.date = NSDate()
-         newFolder.memos = []
-         
-         try context.save()
-         
-         guard let masterViewController = self.delegate as? MasterViewController else { return }
-         masterViewController.fetchFolderResultsController()
-         masterViewController.selectSpecificFolder(selectedFolder: newFolder)
-         } catch {
-         print("Error importing folders: \(error.localizedDescription)")
-         }
-         }
-         
-         ok.isEnabled = false
-         alert.addAction(cancel)
-         alert.addAction(ok)
-         
-         alert.addTextField { (textField) in
-         textField.placeholder = "FolderName".localized(withComment: "폴더이름")
-         textField.returnKeyType = .done
-         textField.enablesReturnKeyAutomatically = true
-         textField.addTarget(self, action: #selector(self.textChanged), for: .editingChanged)
-         }
-         
-         present(alert, animated: true, completion: nil)
-         */
-    }
-    
-    // MARK: segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        editor.resignFirstResponder()
+    private func saveMemoIfNeeded() {
+        guard let memo = memo else { return }
         
-        if segue.identifier == "TextEffect" {
-            let selectedButton = sender as! EffectButton
-            let des = segue.destination as! SelectEffectViewController
-            des.selectedButton = selectedButton
+        guard editor?.attributedText.length != 0 else {
+            MemoManager.remove(memo, completion: nil)
+            return
         }
+        
+        guard editor?.isEdited == true else {
+            return
+        }
+        
+        // TODO: copy
+        guard let copy = editor?.attributedText.copy() else { return }
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: copy)
+        memo.content = data as NSData
+        
+        MemoManager.save(memo)
     }
     
     // MARK: move memo to trash
@@ -132,24 +144,24 @@ class MemoViewController: UIViewController {
     
     // MARK: show effect buttons
     @IBAction func tapEffectButton(_ sender: Any) {
-        /*
-        guard canDoAnotherTask() else { return }
-        setTextViewEditedState()
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
+        editor.editMode = .effect
+        editor.sizeToFit()
         
-         DispatchQueue.main.async { [unowned self] in
-         self.textView.sizeToFit()
-         self.showTopView(bool: true)
-         self.textView.attachCanvas()
-         self.activityIndicator.stopAnimating()
-         }
-         */
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setToolbarHidden(true, animated: true)
     }
 
+    @IBAction func tapCompleteButton(_ sendder: Any) {
+        editor.editMode = .typing
+        editor.sizeToFit()
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
     @IBAction func tapSendEmail(_ sender: Any) {
         let content = memo?.attrbutedString ?? NSAttributedString()
-        MailSender.sendMail(with: content) { in
+        MailSender.sendMail(with: content) {
             //self?.editor.makeTappable()
         }
     }
@@ -193,48 +205,7 @@ class MemoViewController: UIViewController {
     }
     
     @IBAction func tapEraseButton(_ sender: Any) {
-        //현재 커서 왼쪽에 단어 있나 체크, 없으면 리턴하고 있다면 whitespace가 아닌 지 체크 <- 이를 반복해서 whitespace가 아니라면 그다음부터 whitespace인지 체크, whitespace 일 경우의 전 range까지 텍스트 지워버리기.
-        
-        //커서가 맨 앞에 있으면 탈출
-        /*
-        guard textView.selectedRange.location != 0 else { return }
-        
-        let beginning: UITextPosition = textView.beginningOfDocument
-        var offset = textView.selectedRange.location
-        var findWord = false
-        
-        while true {
-            guard offset != 0 else {
-                removeSubrange(from: offset)
-                break
-            }
-            
-            guard let start = textView.position(from: beginning, offset: offset - 1),
-                let end = textView.position(from: beginning, offset: offset),
-                let textRange = textView.textRange(from: start, to: end),
-                let text = textView.text(in: textRange) else { return }
-            
-            let whitespacesAndNewlines = CharacterSet.whitespacesAndNewlines
-            let range = text.rangeOfCharacter(from: whitespacesAndNewlines)
-            
-            guard range != nil else { //단어가 있다는 말
-                findWord = true
-                offset -= 1
-                continue
-            }
-            
-            //whitespace발견!
-            if findWord {
-                removeSubrange(from: offset)
-                break
-            } else {
-                offset -= 1
-            }
-        }
-        
-        setTextViewEditedState()
-        updateCellInfo()
-        */
+        editor?.eraseCurrentLine()
     }
     
     @IBAction func tapKeyboardHideButton(_ sender: Any) {
@@ -244,11 +215,6 @@ class MemoViewController: UIViewController {
     }
 }
 
-extension MemoViewController: NSLayoutManagerDelegate {
-    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-        return 8
-    }
-}
 
 extension Memo {
     var attrbutedString: NSAttributedString? {

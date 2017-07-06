@@ -22,6 +22,8 @@ class SelectEffectViewController: UIViewController {
             return [.title(.title3), .title(.title2), .title(.title1)]
         case .line:
             return [.line(.strikethrough), .line(.underline)]
+        case .bold:
+            return [.bold]
         }
     }()
     
@@ -42,6 +44,8 @@ class SelectEffectViewController: UIViewController {
             descriptionLabel.text = "SelectTitle".localized(withComment: "제목의 크기를 선택해주세요.")
         case .line:
             descriptionLabel.text = "SelectLine".localized(withComment: "선의 종류를 선택해주세요.")
+        case .bold:
+            descriptionLabel.text = ""
         }
 
         // Do any additional setup after loading the view.
@@ -71,18 +75,13 @@ extension SelectEffectViewController: UICollectionViewDataSource {
             cell.backgroundColor = x
             cell.awesomeLabel.text = ""
             cell.awesomeLabel.textColor = x
-        case .title(let x):
-            
-            let font = UIFont.preferredFont(forTextStyle: x)
-            let size = font.pointSize + CGFloat(6)
-            cell.awesomeLabel.font = cell.awesomeLabel.font.withSize(size)
-            cell.awesomeLabel.text = "\u{f1dc}"
-            cell.awesomeLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            
         case .line(let x):
-            
             cell.awesomeLabel.text = x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}"
             cell.awesomeLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        case .bold:
+            break
+        case .title:
+            break
         }
         
         return cell
@@ -116,12 +115,13 @@ extension SelectEffectViewController: UICollectionViewDelegateFlowLayout {
             return edge > 0 ?
                 UIEdgeInsetsMake(0, edge, 0, edge) :
                 UIEdgeInsetsMake(0, padding, 0, padding)
-        case .title:
-            let edge = (view.bounds.width - (cellSize.width * 3 + padding * 2)) / 2
-            return UIEdgeInsetsMake(0, edge, 0, edge)
         case .line:
             let edge = (view.bounds.width - (cellSize.width * 2 + padding * 1)) / 2
             return UIEdgeInsetsMake(0, edge, 0, edge)
+        case .bold:
+            return UIEdgeInsetsMake(0, 0, 0, 0)
+        case .title:
+            return UIEdgeInsetsMake(0, 0, 0, 0)
         }
     }
     

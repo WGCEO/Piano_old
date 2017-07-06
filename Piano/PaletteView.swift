@@ -13,18 +13,23 @@ enum TextEffect {
     case color(UIColor)
     case title(UIFontTextStyle)
     case line(LineFamily)
+    case bold
 }
 
-protocol effectShowable: class {
+protocol Effectable: class {
     func setEffect(textEffect: TextEffect)
 }
 
 class PaletteView: UIView {
-    @IBOutlet weak var colorEffectButton: EffectButton!
-    @IBOutlet weak var sizeEffectButton: EffectButton!
-    @IBOutlet weak var lineEffectButton: EffectButton!
+    private var effectButtons: [EffectButton] = [] {
+        willSet {
+            removeButtons()
+        } didSet {
+            addButtons()
+        }
+    }
     
-    weak var delegate: effectShowable?
+    weak var effector: Effectable?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,87 +37,130 @@ class PaletteView: UIView {
         configure()
     }
     
+    convenience init(effectButtons: [EffectButton]) {
+        self.init(frame: CGRect.zero)
+        
+        self.effectButtons = effectButtons
+    }
+    
+    convenience init(frame: CGRect, effectButtons: [EffectButton]) {
+        self.init(frame: frame)
+        
+        self.effectButtons = effectButtons
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configure() {
-        // setTextEffect
-        colorEffectButton.textEffect = .color(.red)
-        sizeEffectButton.textEffect = .title(.title3)
-        lineEffectButton.textEffect = .line(.strikethrough)
-        
-        // setTitle: setFontAwesomeIcon
-        colorEffectButton.setTitle("\u{f031}", for: .normal)
-        sizeEffectButton.setTitle("\u{f1dc}", for: .normal)
-        lineEffectButton.setTitle("\u{f0cc}", for: .normal)
+    // MARK: public
+    public func setEffectButton(_ effectButtons: [EffectButton]) {
+        self.effectButtons = effectButtons
     }
     
-    private func didSelectButton(button: EffectButton) {
-        delegate?.setEffect(textEffect: button.textEffect)
-        /*
+    // MARK: private
+    private func configure() {
+        setupEffectButtons()
+        effectButtons[0].isSelected = true
+        
+        backgroundColor = PianoColor.lightGray
+    }
+    
+    private func removeButtons() {
+        for effectButton in effectButtons {
+            effectButton.removeFromSuperview()
+        }
+    }
+    
+    private func addButtons() {
+        for effectButton in effectButtons {
+            addSubview(effectButton)
+        }
+        
+        layoutIfNeeded()
+    }
+    
+    override func layoutSubviews() {
+        let width = bounds.width/CGFloat(effectButtons.count)
+        let height = bounds.height
+        
+        for (index, effectButton) in effectButtons.enumerated() {
+            effectButton.frame = CGRect(x: width*CGFloat(index), y: 0.0, width: width, height: height)
+            
+        }
+    }
+    
+    private func changeTitle(of button: EffectButton) {
         switch button.textEffect {
         case .color(let x):
-            self.setTitleColor(x, for: .selected)
-            self.setTitleColor(x.withAlphaComponent(0.3), for: .normal)
+            button.setTitleColor(x, for: .selected)
+            button.setTitleColor(x.withAlphaComponent(0.3), for: .normal)
         case .line(let x):
-            self.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .selected)
-            self.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .normal)
-        case .title(let x):
-            let font = UIFont.preferredFont(forTextStyle: x)
-            let size = font.pointSize + CGFloat(6)
-            titleLabel?.font = titleLabel?.font.withSize(size)
+            button.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .selected)
+            button.setTitle(x != .strikethrough ?  "\u{f0cd}" : "\u{f0cc}", for: .normal)
+        case .bold:
+            let font = UIFont.preferredFont(forTextStyle: .title3)
+            let size = font.pointSize
+            button.titleLabel?.font = button.titleLabel?.font.withSize(size)
+        case .title:
+            break
         }
-        */
     }
     
-    // MAKR: touch events - 추후 기능 업데이트 예정(Tab&Drag&Up)
-    @IBAction func tapFinishEffectButton(_ sender: EffectButton) {
-        tapFinishEffect()
-        //setTextViewEditedState()
-    }
-    
-    func tapFinishEffect() {
-        //showTopView(bool: false)
-        //textView.canvas.removeFromSuperview()
-    }
-    
-    @IBAction func tapColorEffectButton(_ sender: EffectButton) {
-        if colorEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 효과 선택화면 띄워주기
-            //performSegue(withIdentifier: "TextEffect", sender: sender)
+    private func showSelectView(of selectedButton: EffectButton) {
+        if selectedButton.isSelected == true {
+            //AppNavigator.present("TextEffecSelectView")
         }
         
-        //textView.canvas.textEffect = sender.textEffect
+        for effectButton in effectButtons {
+            if effectButton == selectedButton {
+                effectButton.isSelected = true
+            } else {
+                effectButton.isSelected = false
+            }
+        }
+    }
+
+    // MARK: view configure
+    private func setupEffectButtons() {
+        var effectButtons: [EffectButton] = []
         
-        colorEffectButton.isSelected = true
-        sizeEffectButton.isSelected = false
-        lineEffectButton.isSelected = false
+        let colorEffectButton = EffectButton()
+        colorEffectButton.textEffect = .color(.red)
+        colorEffectButton.setTitle("\u{f031}", for: .normal)
+        colorEffectButton.setTitleColor(PianoColor.red.withAlphaComponent(0.3), for: .normal)
+        colorEffectButton.setTitleColor(PianoColor.red, for: .selected)
+        colorEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
+        colorEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
+        effectButtons.append(colorEffectButton)
+        
+        let boldEffectButton = EffectButton()
+        boldEffectButton.textEffect = .bold
+        boldEffectButton.setTitle("\u{f1dc}", for: .normal)
+        boldEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
+        boldEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
+        boldEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
+        boldEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
+        effectButtons.append(boldEffectButton)
+        
+        let lineEffectButton = EffectButton()
+        lineEffectButton.textEffect = .line(.strikethrough)
+        lineEffectButton.setTitle("\u{f0cc}", for: .normal)
+        lineEffectButton.setTitleColor(UIColor.lightGray, for: .normal)
+        lineEffectButton.setTitleColor(PianoColor.darkGray, for: .selected)
+        lineEffectButton.titleLabel?.font = UIFont(name: "FontAwesome", size: 20)
+        lineEffectButton.addTarget(self, action: #selector(didSelectButton(button:)), for: .touchUpInside)
+        effectButtons.append(lineEffectButton)
+        
+        self.effectButtons = effectButtons
     }
     
-    @IBAction func tapSizeEffectButton(_ sender: EffectButton) {
-        if sizeEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 크기 선택화면 띄워주기
-            //performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
+    // MARK: actions
+    func didSelectButton(button: EffectButton) {
+        effector?.setEffect(textEffect: button.textEffect)
         
-        //textView.canvas.textEffect = sender.textEffect
-        
-        colorEffectButton.isSelected = false
-        sizeEffectButton.isSelected = true
-        lineEffectButton.isSelected = false
-    }
-    
-    @IBAction func tapLineEffectButton(_ sender: EffectButton) {
-        if lineEffectButton.isSelected {
-            //기존에 이미 선택되어 있다면 라인 선택화면 띄워주기
-            //performSegue(withIdentifier: "TextEffect", sender: sender)
-        }
-        
-        //textView.canvas.textEffect = sender.textEffect
-        colorEffectButton.isSelected = false
-        sizeEffectButton.isSelected = false
-        lineEffectButton.isSelected = true
+        changeTitle(of: button)
+        showSelectView(of: button)
     }
 }
 
