@@ -297,10 +297,22 @@ extension PianoLabel {
 }
 
 extension PianoLabel: Pianoable {
+    func hidePiano() {
+        
+    }
+
+    func showPiano(with textEffect: TextEffect, to point: CGPoint) {
+        
+    }
+
+    func preparePiano(in rect: CGRect, with attributedString: NSAttributedString, standard: CGPoint) {
+        
+    }
     
     func attributesForText(_ attributes: [[String : Any]]) {
         self.attributes = attributes
     }
+    
     func textFromTextView(text: String) {
         self.text = text
     }
@@ -326,7 +338,6 @@ extension PianoLabel: Pianoable {
         animatingState = .begin
         displayLink.isPaused = false
         touchPointX = x
-        NSLayoutManager
     }
     
     func finishAnimating(at x: CGFloat, completion: @escaping () -> Void) {

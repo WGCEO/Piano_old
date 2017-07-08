@@ -48,6 +48,7 @@
 		316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F157B1DEC140A007693D9 /* UITextView_Extension.swift */; };
 		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
 		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
+		F48685881F10E43B0028537D /* PianoLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48685871F10E43B0028537D /* PianoLayoutManager.swift */; };
 		F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */; };
 		F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6D1EE196A300A0E81C /* PaletteView.swift */; };
 		F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */; };
@@ -154,6 +155,7 @@
 		AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.debug.xcconfig"; sourceTree = "<group>"; };
 		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
 		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
+		F48685871F10E43B0028537D /* PianoLayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoLayoutManager.swift; sourceTree = "<group>"; };
 		F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNEditor.swift; sourceTree = "<group>"; };
 		F49B3C6D1EE196A300A0E81C /* PaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		F49B3C721EE1A2A500A0E81C /* AppNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
 				31575C941DE80BB600373ADD /* PianoControl.swift */,
 				31575C9C1DEA594800373ADD /* PianoLabel.swift */,
+				F48685871F10E43B0028537D /* PianoLayoutManager.swift */,
 			);
 			name = PNEditor;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				0A8B994A1E40CE2D00130F7F /* ThanksToViewController.swift in Sources */,
 				315A53891DF6729F00BB7367 /* TextEffectAttribute.swift in Sources */,
 				F49B3C6E1EE196A400A0E81C /* PaletteView.swift in Sources */,
+				F48685881F10E43B0028537D /* PianoLayoutManager.swift in Sources */,
 				0A8B997C1E41AD1C00130F7F /* UIColor_Extension.swift in Sources */,
 				0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */,
 				315A53851DF4790200BB7367 /* PianoLabelAnimation.swift in Sources */,
