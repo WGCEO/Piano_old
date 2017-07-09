@@ -76,7 +76,7 @@ enum EditMode: Int {
     private func configurePianoTextView() {
         let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
         
-        textView.textContainerInset = UIEdgeInsetsMake(20, 25, 0, 25)
+        textView.textContainerInset = UIEdgeInsetsMake(0, 10, 0, 10)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
         textView.allowsEditingTextAttributes = true
         textView.delegate = self
@@ -240,33 +240,12 @@ extension PNEditor: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        detectIndentation()
+        guard let textView = textView as? PianoTextView,
+            let textRange = range.toTextRange(textInput: textView) else { return true }
         
-        return true
-    }
-}
-
-// MARK: - Detect indentation & Set indentation attribute
-extension PNEditor {
-    func detectIndentation() {
-        clearIndentation()
+        textView.replace(textRange, withText: text)
+        textView.detectIndentation()
         
-        guard let regex = try? NSRegularExpression(pattern: PNIndentationRegexPattern, options: []) else { return }
-        
-        // set attribute in range for indentation
-        let matches = regex.matches(in: textView.text, options: [], range: NSMakeRange(0, textView.text.characters.count))
-        for match in matches {
-            for index in 0..<match.numberOfRanges {
-                let range = match.rangeAt(index)
-                textView.addIndentationAttribute(in: range)
-                
-                print("\(range.location)-\(range.length) : indentation")
-            }
-        }
-    }
-    
-    private func clearIndentation() {
-        let textRange = NSMakeRange(0, textView.text.characters.count)
-        textView.removeIndentationAttribute(in: textRange)
+        return false
     }
 }

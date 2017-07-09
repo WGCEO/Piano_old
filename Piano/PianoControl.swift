@@ -128,5 +128,3 @@ extension PianoControl: Effectable {
         self.textEffect = textEffect
     }
 }
-
-

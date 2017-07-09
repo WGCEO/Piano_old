@@ -17,8 +17,4 @@ extension NSRange {
         
         return textInput.textRange(from: rangeStart, to: rangeEnd)
     }
-    
-    
 }
-
-

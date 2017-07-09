@@ -55,4 +55,15 @@ extension UITextView {
         
         return NSRange(location: beginIndex, length: endIndex - beginIndex)
     }
+    
+    func getParagraphInfo(with range: NSRange) -> (range: NSRange, textRange: UITextRange, text: String)?{
+        guard !(range.location + range.length > self.text.characters.count) else {
+            return nil
+        }
+        let paragraphRange = (self.text as NSString).paragraphRange(for: range)
+        guard let paragraphTextRange = paragraphRange.toTextRange(textInput: self),
+            let paragraphText = self.text(in: paragraphTextRange)
+            else { return nil }
+        return (paragraphRange, paragraphTextRange, paragraphText)
+    }
 }

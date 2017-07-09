@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 public let PNIndentationAttributeName = "IndentationAttributeName"
-public let PNIndentationRegexPattern = "[\n]*[0-9]+.[ \t]"
+public let PNIndentationRegexPatterns = ["^[\\s\\t]*\\d+(?=\\. )"]
 
 fileprivate let lineSpacing: CGFloat = 8.0
 
@@ -63,20 +63,55 @@ class PianoLayoutManager: NSObject, NSLayoutManagerDelegate {
     func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
         return lineSpacing
     }
-    
-    func layoutManager(_ layoutManager: NSLayoutManager, boundingBoxForControlGlyphAt glyphIndex: Int, for textContainer: NSTextContainer, proposedLineFragment proposedRect: CGRect, glyphPosition: CGPoint, characterIndex charIndex: Int) -> CGRect {
-        
-        return CGRect.zero
-    }
 }
 
 
 extension PianoTextView {
-    public func addIndentationAttribute(in range: NSRange) {
-        textStorage.addAttributes([PNIndentationAttributeName: 1], range: range)
+    public func detectIndentation() {
+        let text = textStorage.string as NSString
+        let range = NSMakeRange(0, text.length)
+        
+        text.enumerateSubstrings(in: range, options: .byParagraphs) { [weak self] (paragraph: String?, paragraphRange: NSRange, enclosingRange: NSRange, stop) in
+            guard let paragraph = paragraph else { return }
+            
+            if paragraph.match() {
+                self?.removeIndentationAttribute(in: paragraphRange)
+            } else {
+                self?.addIndentationAttribute(in: paragraphRange)
+            }
+            
+            print("paragraph(\(paragraphRange.location)~\(paragraphRange.length)): \(paragraph)")
+        }
     }
     
-    public func removeIndentationAttribute(in range: NSRange) {
-        textStorage.addAttributes([PNIndentationAttributeName: 0], range: range)
+    private func addIndentationAttribute(in range: NSRange) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = 30.0
+        paragraphStyle.headIndent = 30.0
+        
+        textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
+    }
+    
+    private func removeIndentationAttribute(in range: NSRange) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = 0.0
+        paragraphStyle.headIndent = 0.0
+        
+        textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
+    }
+    
+}
+
+extension String {
+    func match() -> Bool {
+        guard let regex = try? NSRegularExpression(pattern: PNIndentationRegexPatterns[0], options: []) else { return false }
+        
+        // set attribute in range for indentation
+        let matches = regex.matches(in: self, options: [], range: NSMakeRange(0, characters.count))
+        for match in matches {
+            return true
+        }
+        
+        return false
     }
 }
