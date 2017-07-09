@@ -41,6 +41,7 @@ enum EditMode: Int {
     }
     
     var textChangedHandler: ((NSAttributedString)->Void)?
+    var layoutManagerDelegate: PNLayoutManagerDelegate?
     
     internal var textView: PianoTextView!
     internal var paletteView: PaletteView!
@@ -74,7 +75,18 @@ enum EditMode: Int {
     }
     
     private func configurePianoTextView() {
-        let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
+        let layoutManager = PNLayoutManager()
+        
+        let layoutManagerDelegate = PNLayoutManagerDelegate()
+        layoutManager.delegate = layoutManagerDelegate
+        
+        let textContainer = NSTextContainer()
+        layoutManager.addTextContainer(textContainer)
+        
+        let textStorage = NSTextStorage()
+        textStorage.addLayoutManager(layoutManager)
+        
+        let textView = PianoTextView(frame: CGRect.zero, textContainer: textContainer)
         
         textView.textContainerInset = UIEdgeInsetsMake(0, 10, 0, 10)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
@@ -87,6 +99,7 @@ enum EditMode: Int {
         }
         
         self.textView = textView
+        self.layoutManagerDelegate = layoutManagerDelegate
     }
     
     private func configurePaletteView() {

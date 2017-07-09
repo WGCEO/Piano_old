@@ -25,15 +25,8 @@ class PianoTextView: UITextView {
         return true
     }
     
-    var pianoLayoutManager: NSLayoutManagerDelegate?
-    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
-        
-        let pianoLayoutManager = PianoLayoutManager()
-        layoutManager.delegate = pianoLayoutManager
-        
-        self.pianoLayoutManager = pianoLayoutManager
         
         NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
     }
@@ -80,7 +73,7 @@ class PianoTextView: UITextView {
     }
     
     private func clearText() {
-        textAlignment = .left
+        //textAlignment = .left
         attributedText = nil
         typingAttributes = [NSForegroundColorAttributeName: UIColor.piano,
                              NSUnderlineStyleAttributeName: 0,
