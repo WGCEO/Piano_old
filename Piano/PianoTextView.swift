@@ -30,7 +30,11 @@ class PianoTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
+        layoutManager.delegate = self
+        
         NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        
+        font = UIFont.systemFont(ofSize: 16)
     }
     
     required init?(coder aDecoder: NSCoder) {

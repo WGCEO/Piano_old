@@ -41,7 +41,6 @@ enum EditMode: Int {
     }
     
     var textChangedHandler: ((NSAttributedString)->Void)?
-    var layoutManagerDelegate: PNLayoutManagerDelegate?
     
     internal var textView: PianoTextView!
     internal var paletteView: PaletteView!
@@ -75,18 +74,7 @@ enum EditMode: Int {
     }
     
     private func configurePianoTextView() {
-        let layoutManager = PNLayoutManager()
-        
-        let layoutManagerDelegate = PNLayoutManagerDelegate()
-        layoutManager.delegate = layoutManagerDelegate
-        
-        let textContainer = NSTextContainer()
-        layoutManager.addTextContainer(textContainer)
-        
-        let textStorage = NSTextStorage()
-        textStorage.addLayoutManager(layoutManager)
-        
-        let textView = PianoTextView(frame: CGRect.zero, textContainer: textContainer)
+        let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
         
         textView.textContainerInset = UIEdgeInsetsMake(0, 10, 0, 10)
         textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
@@ -99,7 +87,6 @@ enum EditMode: Int {
         }
         
         self.textView = textView
-        self.layoutManagerDelegate = layoutManagerDelegate
     }
     
     private func configurePaletteView() {
@@ -237,6 +224,8 @@ extension PNEditor: UITextViewDelegate {
         guard let textView = textView as? PianoTextView else { return }
         
         textView.isEdited = true
+        textView.detectIndentation()
+        
         textChangedHandler?(textView.attributedText)
     }
     
@@ -252,6 +241,8 @@ extension PNEditor: UITextViewDelegate {
         }
     }
     
+    
+    /*
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textView = textView as? PianoTextView,
             let textRange = range.toTextRange(textInput: textView) else { return true }
@@ -261,4 +252,5 @@ extension PNEditor: UITextViewDelegate {
         
         return false
     }
+    */
 }
