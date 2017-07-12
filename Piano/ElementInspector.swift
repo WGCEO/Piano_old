@@ -9,19 +9,10 @@
 import Foundation
 
 enum Type: String {
-    case number = "(?=[\n]*)\\d+\\. "
-    case list = "(?=[\n]*)\\-\\. "
-    case checkbox = "(?=[\n]*)\\*\\. "
-    
-    var pattern: String {
-        return self.rawValue
-    }
-}
-
-enum Unit: String {
-    case dot = "\\."
-    case whitespace = " "
-    case characters = "\\d+(?=\\. )"
+    case number = "(?=[\n]*)\\d+(?=\\. )"
+    case list = "(?=[\n]*)\\-(?=\\. )"
+    case checkbox = "(?=[\n]*)\\*(?=\\. )"
+    case none = ""
     
     var pattern: String {
         return self.rawValue
@@ -29,34 +20,57 @@ enum Unit: String {
 }
 
 class ElementInspector {
-    func inspect(_ text: NSString, handler: (([Unit: (NSString, NSRange)]?)->Void)?) {
+    static let sharedInstance = ElementInspector()
+    
+    private init() {
+        
+    }
+    
+    func inspect(_ text: NSString, handler: ((_ type: Type, _ text: NSString, _ range: NSRange)->Void)?) {
         for type in iterateEnum(Type.self) {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
             if let range = matches.first?.range {
-                let units = map(text.substring(with: range) as NSString)
-                handler?(units)
+                handler?(type, text.substring(with: range) as NSString, range)
                 
                 return
-            } else {
-                handler?(nil)
             }
         }
+        
+        handler?(.none, "", NSMakeRange(0, 0))
     }
     
-    private func map(_ text: NSString) -> [Unit: (NSString, NSRange)] {
-        var units = [Unit: (NSString, NSRange)]()
-        
-        for unit in iterateEnum(Unit.self) {
-            guard let regex = try? NSRegularExpression(pattern: unit.pattern, options: []) else { continue }
+    func inspect(_ text: NSString) -> (type: Type, text: NSString) {
+        for type in iterateEnum(Type.self) {
+            guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
             if let range = matches.first?.range {
-                units[unit] = (text.substring(with: range) as NSString, range)
+                return (type, text.substring(with: range) as NSString)
             }
         }
-        return units
+        
+        return (.none, "")
+    }
+    
+    func context(of range: NSRange, in text: NSString) -> (before: (type: Type, text: NSString)?, after: (type: Type, text: NSString)?) {
+        var before: (type: Type, text: NSString)?
+        var after: (type: Type, text: NSString)?
+        
+        for paragraph in text.components(separatedBy: .newlines) {
+            let paragraphRange = text.range(of: paragraph)
+            
+            if paragraphRange.location < range.location {
+                before = inspect(paragraph as NSString)
+            } else if (paragraphRange.length+paragraphRange.length) < range.location && paragraphRange.location < 10000000 { // TODO: how to detect range location overflow 
+                after = inspect(paragraph as NSString)
+                
+                break
+            }
+        }
+        
+        return (before, after)
     }
 }
 

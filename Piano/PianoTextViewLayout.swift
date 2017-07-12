@@ -20,35 +20,52 @@ extension PianoTextView {
         text.enumerateSubstrings(in: range, options: .byParagraphs) { [weak self] (paragraph: String?, paragraphRange: NSRange, enclosingRange: NSRange, stop) in
             guard let paragraph = paragraph as NSString? else { return }
             
-            let inspector = ElementInspector()
-            inspector.inspect(paragraph, handler: { (units: [Unit : (NSString, NSRange)]?) in
-                if units == nil {
+            ElementInspector.sharedInstance.inspect(paragraph, handler: { (type: Type, text: NSString, range: NSRange) in
+                if type == .none {
                     self?.addIndentationAttribute(in: paragraphRange)
                     return
+                } else if type == .number {
+                    guard let font = self?.font else { return }
+                    
+                    // 1. 숫자의 width를 검사하기
+                    var width: CGFloat = 0.0
+                    var attributedText = NSMutableAttributedString(string: text as String)
+                    attributedText.addAttributes([NSFontAttributeName : font], range: range)
+                    width = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
+                    
+                    // 2. 마침표의 길이 구하기
+                    attributedText = NSMutableAttributedString(string: ".")
+                    attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
+                    width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1 // Todo: 커닝 적용하고 1.3으으로 바꿔야 함
+                    
+                    // 3. 공백의 길이 구하기
+                    attributedText = NSMutableAttributedString(string: " ")
+                    attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
+                    width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1
+                    
+                    self?.removeIndentationAttribute(width, in: paragraphRange)
                 }
-                
-                // 1. 숫자의 width를 검사하기
-                guard let (text, range) = units?[.characters],
-                    let font = self?.font else { return }
-                
-                var width: CGFloat = 0.0
-                var attributedText = NSMutableAttributedString(string: text as String)
-                attributedText.addAttributes([NSFontAttributeName : font], range: range)
-                width = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
-                
-                // 2. 마침표의 길이 구하기
-                attributedText = NSMutableAttributedString(string: ".")
-                attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
-                width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1 // Todo: 커닝 적용하고 1.3으으로 바꿔야 함
-                
-                // 3. 공백의 길이 구하기
-                attributedText = NSMutableAttributedString(string: " ")
-                attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
-                width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1 
-                
-                self?.removeIndentationAttribute(width, in: paragraphRange)
             })
         }
+    }
+    
+    public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> Bool {
+        let (before, _) = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString)
+        
+        if replacementText.rangeOfCharacter(from: .newlines).length > 0 {
+            guard let (type, text) = before else { return true }
+            if type == .number {
+                let next = text.intValue + 1
+                let element = "\n\(next). "
+                if let newRange = range.toTextRange(textInput: self) {
+                    replace(newRange, withText: element)
+                    
+                    return false
+                }
+            }
+        }
+        
+        return true
     }
     
     private func addIndentationAttribute(in range: NSRange) {
@@ -66,4 +83,5 @@ extension PianoTextView {
         
         textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
     }
+    
 }

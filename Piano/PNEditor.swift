@@ -242,15 +242,9 @@ extension PNEditor: UITextViewDelegate {
     }
     
     
-    /*
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard let textView = textView as? PianoTextView,
-            let textRange = range.toTextRange(textInput: textView) else { return true }
+        guard let textView = textView as? PianoTextView else { return true}
         
-        textView.replace(textRange, withText: text)
-        textView.detectIndentation()
-        
-        return false
+        return textView.addElementIfNeeded(text as NSString, in: range)
     }
-    */
 }
