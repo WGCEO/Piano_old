@@ -8,6 +8,8 @@
 
 import UIKit
 
+fileprivate let lineSpacing: CGFloat = 8.0
+
 class PianoTextView: UITextView {
     internal var coverView: UIView?
     
@@ -260,6 +262,14 @@ extension PianoTextView {
         contentInset = inset
         scrollIndicatorInsets = inset
         scrollRangeToVisible(selectedRange)
+    }
+}
+
+extension PianoTextView: NSLayoutManagerDelegate {
+    
+    // MARK: - Handling Line Fragments
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return lineSpacing
     }
 }
 
