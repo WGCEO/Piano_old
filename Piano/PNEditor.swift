@@ -224,7 +224,8 @@ extension PNEditor: UITextViewDelegate {
         guard let textView = textView as? PianoTextView else { return }
         
         textView.isEdited = true
-        textView.detectIndentation()
+        textView.chainElements()
+        textView.detectIndent()
         
         textChangedHandler?(textView.attributedText)
     }

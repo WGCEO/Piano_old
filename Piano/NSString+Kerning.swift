@@ -25,7 +25,8 @@ extension NSString {
                 attributedText.addAttributes([NSFontAttributeName : font, NSKernAttributeName: 0], range: NSMakeRange(0, 1))
                 let width = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
                 
-                //let kerning = (standardWidth - width) / 2
+                let kerning = (standardWidth - width)
+                
                 handler?(index, 0)
             } else if charString == "." {
                 let attributedText = NSMutableAttributedString(string: ".")
@@ -51,32 +52,16 @@ extension NSString {
         return width
     }
     
-    func standardWidth(_ font: UIFont) -> CGFloat {
-        let attributedText = NSMutableAttributedString(string: standardCharacter)
-        attributedText.addAttributes([NSFontAttributeName : font, NSKernAttributeName: 0], range: NSMakeRange(0, 1))
-        let standardWidth = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
-        
-        return standardWidth
-    }
-    
     func kernedWidth(_ font: UIFont) -> CGFloat {
         var width: CGFloat = 0.0
-        //var beforeKern: CGFloat = 0.0
         
-        //let standardWidth = self.standardWidth(font)
         var attributedText: NSMutableAttributedString
         for character in (self as String).characters.reversed() {
             attributedText = NSMutableAttributedString(string: String(describing: character))
             attributedText.addAttributes([NSFontAttributeName: font, NSKernAttributeName: 0], range: NSMakeRange(0, 1))
             let charWidth = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
             
-            /*
-            let diff = (standardWidth - charWidth)
-            
-            width += charWidth + (diff / 2) + beforeKern
-            beforeKern = diff/2
-             */
-            width = charWidth
+            width += charWidth
         }
         
         return width

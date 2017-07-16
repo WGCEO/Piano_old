@@ -15,7 +15,7 @@ fileprivate let indentWidth: CGFloat = 30.0
 extension PianoTextView {
     
     // MARK: - public methods
-    public func detectIndentation() {
+    public func detectIndent() {
         let text = textStorage.string as NSString
         let range = NSMakeRange(0, text.length)
         
@@ -42,9 +42,33 @@ extension PianoTextView {
             }
         }
         
-        detectIndentation()
-        
         return true
+    }
+    
+    public func chainElements() {
+        var before: Element?
+        var location = 0
+        for paragraph in textStorage.string.components(separatedBy: .newlines) {
+            let current = ElementInspector.sharedInstance.inspect(paragraph as NSString)
+            if let before = before {
+                if current.type == .number && current.type == before.type {
+                    let elementText = before.text.substring(with: NSMakeRange(before.range.location, before.range.length-2))
+                    if let beforeElement = Int(elementText),
+                        let range = NSMakeRange(location+current.range.location,current.range.length).toTextRange(textInput: self) {
+                        let currentElementText = "\(beforeElement + 1). "
+                        if currentElementText != (current.text as String) {
+                            print(currentElementText,location+current.range.location,current.range.length)
+                            replace(range, withText: currentElementText)
+                            
+                            return
+                        }
+                    }
+                }
+            }
+            
+            before = current
+            location += paragraph.characters.count + 1
+        }
     }
     
     // MARK: - numbering
@@ -106,19 +130,6 @@ extension PianoTextView {
             
             let range = NSMakeRange(textRange.location + index, 1)
             self?.textStorage.addAttributes(attributes, range: range)
-            
-            // for debugging
-            if index==0 {
-                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.red], range: range)
-            } else if index == 1{
-                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.blue], range: range)
-            } else if index == 2{
-                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.yellow], range: range)
-            } else if index == 3{
-                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.green], range: range)
-            } else if index == 4{
-                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.black], range: range)
-            }
         }
     }
 }
