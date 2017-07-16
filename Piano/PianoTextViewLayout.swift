@@ -100,11 +100,25 @@ extension PianoTextView {
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
         textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: paragraphRange)
-        
+
         text.enumerateKernings(font) { [weak self] (index, kerning) in
             let attributes: [String : Any] = [NSKernAttributeName: kerning]
+            
             let range = NSMakeRange(textRange.location + index, 1)
             self?.textStorage.addAttributes(attributes, range: range)
+            
+            // for debugging
+            if index==0 {
+                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.red], range: range)
+            } else if index == 1{
+                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.blue], range: range)
+            } else if index == 2{
+                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.yellow], range: range)
+            } else if index == 3{
+                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.green], range: range)
+            } else if index == 4{
+                self?.textStorage.addAttributes([NSBackgroundColorAttributeName: UIColor.black], range: range)
+            }
         }
     }
 }
