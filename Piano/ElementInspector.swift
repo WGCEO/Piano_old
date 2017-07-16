@@ -9,15 +9,18 @@
 import Foundation
 
 enum Type: String {
-    case number = "(?=[\n]*)\\d+(?=\\. )"
-    case list = "(?=[\n]*)\\-(?=\\. )"
-    case checkbox = "(?=[\n]*)\\*(?=\\. )"
+    case number = "(?=[\n]*)\\d+\\. "
+    case list = "(?=[\n]*)\\-\\. "
+    case checkbox = "(?=[\n]*)\\*\\. "
     case none = ""
     
     var pattern: String {
         return self.rawValue
     }
 }
+
+typealias Element = (type: Type, text: NSString, range: NSRange)
+typealias Context = (before: Element?, after: Element?)
 
 class ElementInspector {
     static let sharedInstance = ElementInspector()
@@ -26,45 +29,43 @@ class ElementInspector {
         
     }
     
-    func inspect(_ text: NSString, handler: ((_ type: Type, _ text: NSString, _ range: NSRange)->Void)?) {
+    func inspect(_ text: NSString, handler: ((Element)->Void)?) {
+        let element = inspect(text)
+        handler?(element)
+    }
+    
+    func inspect(_ text: NSString) -> Element {
         for type in iterateEnum(Type.self) {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
             if let range = matches.first?.range {
-                handler?(type, text.substring(with: range) as NSString, range)
-                
-                return
+                return (type, text.substring(with: range) as NSString, range)
             }
         }
         
-        handler?(.none, "", NSMakeRange(0, 0))
+        return (.none, "", NSMakeRange(0, 0))
     }
     
-    func inspect(_ text: NSString) -> (type: Type, text: NSString) {
-        for type in iterateEnum(Type.self) {
-            guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
-            
-            let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
-            if let range = matches.first?.range {
-                return (type, text.substring(with: range) as NSString)
-            }
-        }
+    func context(of range: NSRange, in text: NSString) -> Context {
+        var before: Element?
+        var after: Element?
         
-        return (.none, "")
-    }
-    
-    func context(of range: NSRange, in text: NSString) -> (before: (type: Type, text: NSString)?, after: (type: Type, text: NSString)?) {
-        var before: (type: Type, text: NSString)?
-        var after: (type: Type, text: NSString)?
-        
+        var position = 0
         for paragraph in text.components(separatedBy: .newlines) {
-            let paragraphRange = text.range(of: paragraph)
+            let paragraphRange = NSMakeRange(position, paragraph.characters.count)
+            position += paragraph.characters.count + 1
             
-            if paragraphRange.location < range.location {
+            if paragraphRange.location <= range.location {
                 before = inspect(paragraph as NSString)
-            } else if (paragraphRange.length+paragraphRange.length) < range.location && paragraphRange.location < 10000000 { // TODO: how to detect range location overflow 
+                if let range = before?.range {
+                    before?.range = NSMakeRange(paragraphRange.location + range.location, range.length)
+                }
+            } else if (paragraphRange.length+paragraphRange.length) < range.location && paragraphRange.location < 10000000 { // TODO: how to detect range location overflow
                 after = inspect(paragraph as NSString)
+                if let range = after?.range {
+                    after?.range = NSMakeRange(paragraphRange.location + range.location, range.length)
+                }
                 
                 break
             }

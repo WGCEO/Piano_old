@@ -13,18 +13,18 @@ import UIKit
 fileprivate let indentWidth: CGFloat = 30.0
 
 extension PianoTextView {
+    
+    // MARK: - public methods
     public func detectIndentation() {
         let text = textStorage.string as NSString
         let range = NSMakeRange(0, text.length)
         
+        addIndentAttribute(in: range)
         text.enumerateSubstrings(in: range, options: .byParagraphs) { [weak self] (paragraph: String?, paragraphRange: NSRange, enclosingRange: NSRange, stop) in
             guard let paragraph = paragraph as NSString? else { return }
-            
             ElementInspector.sharedInstance.inspect(paragraph, handler: { (type: Type, text: NSString, range: NSRange) in
-                if type == .none {
-                    self?.addIndentationAttribute(in: paragraphRange)
-                    return
-                } else if type == .number {
+                
+                if type == .number {
                     guard let font = self?.font else { return }
                     
                     // 1. 숫자의 width를 검사하기
@@ -43,32 +43,64 @@ extension PianoTextView {
                     attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
                     width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1
                     
-                    self?.removeIndentationAttribute(width, in: paragraphRange)
+                    self?.removeIndentAttribute(width, in: paragraphRange)
                 }
             })
         }
     }
     
     public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> Bool {
-        let (before, _) = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString)
-        
+        let context = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString)
+    
         if replacementText.rangeOfCharacter(from: .newlines).length > 0 {
-            guard let (type, text) = before else { return true }
-            if type == .number {
-                let next = text.intValue + 1
-                let element = "\n\(next). "
-                if let newRange = range.toTextRange(textInput: self) {
-                    replace(newRange, withText: element)
-                    
-                    return false
-                }
+            guard let element = context.before else { return true }
+            if element.type == .number {
+                return changeNumberElement(context: context, in: range)
             }
         }
+        
+        detectIndentation()
         
         return true
     }
     
-    private func addIndentationAttribute(in range: NSRange) {
+    // MARK: - numbering
+    private func changeNumberElement(context: Context, in range: NSRange) -> Bool {
+        guard let before = context.before,
+            let current = Int(before.text.substring(with: NSMakeRange(0, before.range.length-2))) else { return true }
+        
+        if (before.range.location + before.range.length) == range.location { // 아무것도 입력하지 않았을 경우
+            removeNumberElement(in: before.range)
+        } else { // 무언가 입력했을 경우
+            let next = current + 1
+            addNumberElement(number: next, in: range)
+        }
+        
+        return false
+    }
+    
+    private func addNumberElement(number: Int, in range: NSRange) {
+        let elementText = "\n\(number). "
+        
+        if let range = range.toTextRange(textInput: self) {
+            replace(range, withText: elementText)
+        }
+    }
+    
+    public func removeNumberElement(in range: NSRange) {
+        if let range = range.toTextRange(textInput: self) {
+            replace(range, withText: "")
+        }
+        
+        print("remove \(range.location)-\(range.length): ?")
+    }
+    
+    // MARK: - checkboxing
+    
+    // MARK: - listing
+    
+    // MARK: - indenting
+    private func addIndentAttribute(in range: NSRange) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
@@ -76,7 +108,7 @@ extension PianoTextView {
         textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
     }
     
-    private func removeIndentationAttribute(_ width: CGFloat, in range: NSRange) {
+    private func removeIndentAttribute(_ width: CGFloat, in range: NSRange) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth-width
         paragraphStyle.headIndent = indentWidth-width
