@@ -29,12 +29,12 @@ class ElementInspector {
         
     }
     
-    func inspect(_ text: NSString, handler: ((Element)->Void)?) {
+    public func inspect(_ text: NSString, handler: ((Element)->Void)?) {
         let element = inspect(text)
         handler?(element)
     }
     
-    func inspect(_ text: NSString) -> Element {
+    public func inspect(_ text: NSString) -> Element {
         for type in iterateEnum(Type.self) {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
@@ -47,7 +47,7 @@ class ElementInspector {
         return (.none, "", NSMakeRange(0, 0))
     }
     
-    func context(of range: NSRange, in text: NSString) -> Context {
+    public func context(of range: NSRange, in text: NSString) -> Context {
         var before: Element?
         var after: Element?
         

@@ -19,31 +19,14 @@ extension PianoTextView {
         let text = textStorage.string as NSString
         let range = NSMakeRange(0, text.length)
         
-        addIndentAttribute(in: range)
+        addIndent(in: range)
         text.enumerateSubstrings(in: range, options: .byParagraphs) { [weak self] (paragraph: String?, paragraphRange: NSRange, enclosingRange: NSRange, stop) in
             guard let paragraph = paragraph as NSString? else { return }
-            ElementInspector.sharedInstance.inspect(paragraph, handler: { (type: Type, text: NSString, range: NSRange) in
+            ElementInspector.sharedInstance.inspect(paragraph, handler: { (element: Element) in
+                let textRange = NSMakeRange(paragraphRange.location + element.range.location, range.length)
                 
-                if type == .number {
-                    guard let font = self?.font else { return }
-                    
-                    // 1. 숫자의 width를 검사하기
-                    var width: CGFloat = 0.0
-                    var attributedText = NSMutableAttributedString(string: text as String)
-                    attributedText.addAttributes([NSFontAttributeName : font], range: range)
-                    width = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
-                    
-                    // 2. 마침표의 길이 구하기
-                    attributedText = NSMutableAttributedString(string: ".")
-                    attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
-                    width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1 // Todo: 커닝 적용하고 1.3으으로 바꿔야 함
-                    
-                    // 3. 공백의 길이 구하기
-                    attributedText = NSMutableAttributedString(string: " ")
-                    attributedText.addAttributes([NSFontAttributeName : font], range: NSMakeRange(0, 1))
-                    width += attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1
-                    
-                    self?.removeIndentAttribute(width, in: paragraphRange)
+                if element.type == .number {
+                    self?.removeIndent(element.text, textRange, paragraphRange)
                 }
             })
         }
@@ -91,8 +74,6 @@ extension PianoTextView {
         if let range = range.toTextRange(textInput: self) {
             replace(range, withText: "")
         }
-        
-        print("remove \(range.location)-\(range.length): ?")
     }
     
     // MARK: - checkboxing
@@ -100,20 +81,30 @@ extension PianoTextView {
     // MARK: - listing
     
     // MARK: - indenting
-    private func addIndentAttribute(in range: NSRange) {
+    private func addIndent(in range: NSRange) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
         
         textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
-    }
-    
-    private func removeIndentAttribute(_ width: CGFloat, in range: NSRange) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = indentWidth-width
-        paragraphStyle.headIndent = indentWidth-width
         
-        textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
+        // TODO: add to indentation
     }
     
+    private func removeIndent(_ text: NSString, _ textRange: NSRange, _ paragraphRange: NSRange) {
+        let attributes = textStorage.attributes(at: textRange.location, effectiveRange: nil)
+        guard let font = attributes[NSFontAttributeName] as? UIFont else { return }
+        
+        let width = text.width(font)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = indentWidth - width
+        paragraphStyle.headIndent = indentWidth - width
+        textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: paragraphRange)
+        
+        text.enumerateKernings(font) { [weak self] (index, kerning) in
+            let attributes: [String : Any] = [NSKernAttributeName: kerning]
+            let range = NSMakeRange(textRange.location + index, 1)
+            self?.textStorage.addAttributes(attributes, range: range)
+        }
+    }
 }

@@ -56,6 +56,7 @@
 		F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C761EE1A2B800A0E81C /* MailSender.swift */; };
 		F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C781EE1A2C200A0E81C /* MemoManager.swift */; };
 		F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */; };
+		F4D52ACF1F1B21F600E38A79 /* NSString+Kerning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */; };
 		F4EB6CA41F16557500AF0FFF /* ElementInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,7 @@
 		F49B3C761EE1A2B800A0E81C /* MailSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailSender.swift; sourceTree = "<group>"; };
 		F49B3C781EE1A2C200A0E81C /* MemoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
 		F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+Kerning.swift"; sourceTree = "<group>"; };
 		F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -368,6 +370,7 @@
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
 				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
+				F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */,
 			);
 			name = PNEditor;
 			sourceTree = "<group>";
@@ -700,6 +703,7 @@
 				F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */,
 				0ACC37781E3E2EA50079FA93 /* ConfigureFolderViewController.swift in Sources */,
 				316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */,
+				F4D52ACF1F1B21F600E38A79 /* NSString+Kerning.swift in Sources */,
 				0A2CE68E1E121CBB0003F3CB /* LineFamily.swift in Sources */,
 				F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */,
 				31575C9D1DEA594800373ADD /* PianoLabel.swift in Sources */,
