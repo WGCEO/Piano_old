@@ -37,7 +37,7 @@ extension UIAlertController {
         return alert
     }
     
-    internal class func textChanged(sender: AnyObject) {
+    @objc func textChanged(sender: AnyObject) {
         let tf = sender as! UITextField
         var resp : UIResponder! = tf
         while !(resp is UIAlertController) { resp = resp.next }

@@ -16,21 +16,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        guard let window = window, let splitViewController = window.rootViewController as? UISplitViewController else {
-            return true
-        }
-        
-        PianoData.deleteMemosIfPassOneMonth()
-        
-        let navigationController = splitViewController.viewControllers.last as! UINavigationController
-        let detailViewController = navigationController.topViewController as! MemoViewController
-        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        detailViewController.navigationItem.leftItemsSupplementBackButton = true
-        splitViewController.preferredDisplayMode = .allVisible
-        
-        splitViewController.minimumPrimaryColumnWidth = 375
-        splitViewController.maximumPrimaryColumnWidth = 375
-        splitViewController.delegate = self
+//        guard let window = window, let splitViewController = window.rootViewController as? UISplitViewController else {
+//            return true
+//        }
+//
+//        PianoData.deleteMemosIfPassOneMonth()
+//
+//        let navigationController = splitViewController.viewControllers.last as! UINavigationController
+//        let detailViewController = navigationController.topViewController as! MemoViewController
+//        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+//        detailViewController.navigationItem.leftItemsSupplementBackButton = true
+//        splitViewController.preferredDisplayMode = .allVisible
+//
+//        splitViewController.minimumPrimaryColumnWidth = 375
+//        splitViewController.maximumPrimaryColumnWidth = 375
+//        splitViewController.delegate = self
         return true
     }
 
@@ -61,9 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-extension AppDelegate: UISplitViewControllerDelegate {
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        return true
-    }
-}
+//extension AppDelegate: UISplitViewControllerDelegate {
+//    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+//        return true
+//    }
+//}
 

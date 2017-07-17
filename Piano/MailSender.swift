@@ -36,7 +36,7 @@ class MailSender: NSObject, MFMailComposeViewControllerDelegate {
         let mutableAttrbutedString = NSMutableAttributedString(attributedString: attributedString)
         
         //images
-        attributedString.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedString.length), options: []) { (value, range, stop) in
+        attributedString.enumerateAttribute(NSAttributedStringKey.attachment, in: NSMakeRange(0, attributedString.length), options: []) { (value, range, stop) in
             guard let attachment = value as? NSTextAttachment,
                 let image = attachment.image,
                 let data = UIImagePNGRepresentation(image) else { return }
@@ -46,11 +46,11 @@ class MailSender: NSObject, MFMailComposeViewControllerDelegate {
         }
         
         //font
-        attributedString.enumerateAttribute(NSFontAttributeName, in: NSMakeRange(0, attributedString.length), options: []) { (value, range, stop) in
+        attributedString.enumerateAttribute(.font, in: NSMakeRange(0, attributedString.length), options: []) { (value, range, stop) in
             guard let font = value as? UIFont else { return }
             
             let newFont = font.withSize(font.pointSize - 4)
-            mutableAttrbutedString.addAttributes([NSFontAttributeName : newFont], range: range)
+            mutableAttrbutedString.addAttributes([.font : newFont], range: range)
         }
         
         return mutableAttrbutedString
@@ -71,7 +71,7 @@ class MailSender: NSObject, MFMailComposeViewControllerDelegate {
 
 fileprivate extension NSAttributedString {
     func parseToHTMLString() -> String? {
-        let attributes = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType]
+        let attributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         do {
             let range = NSMakeRange(0, length)
             let data = try self.data(from: range, documentAttributes: attributes)

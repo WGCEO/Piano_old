@@ -10,6 +10,8 @@ import UIKit
 import Photos
 import MessageUI
 
+/*
+
 class MemoViewController: UIViewController {
     @IBOutlet weak var editor: PNEditor!
 
@@ -43,7 +45,7 @@ class MemoViewController: UIViewController {
                 return
             }
                 
-            attributedText.enumerateAttribute(NSAttachmentAttributeName, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
+            attributedText.enumerateAttribute(NSAttributedStringKey.attachment, in: NSMakeRange(0, attributedText.length), options: []) { (value, range, stop) in
                 guard let attachment = value as? NSTextAttachment,
                     let image = attachment.image else { return }
                 
@@ -223,3 +225,5 @@ extension Memo {
         return NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString
     }
 }
+
+*/

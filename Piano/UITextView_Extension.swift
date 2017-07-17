@@ -9,20 +9,6 @@
 import UIKit
 
 extension UITextView {
-    func getTextAndRange(from rect: CGRect) -> (String, NSRange) {
-        var newRect = rect
-        newRect.size.height -= 4
-        newRect.origin.y += 4
-        let range = self.layoutManager.glyphRange(forBoundingRect: newRect, in: self.textContainer)
-        let begin = self.beginningOfDocument
-        guard let start = self.position(from: begin, offset: range.location),
-            let end = self.position(from: start, offset: range.length),
-            let textRange = self.textRange(from: start, to: end),
-            let text = self.text(in: textRange) 
-            else { return ("", range) }
-        return (text, range)
-    }
-    
     func getText(from rect: CGRect) -> String {
         let range = self.layoutManager.glyphRange(forBoundingRect: rect, in: self.textContainer)
         let begin = self.beginningOfDocument
@@ -34,26 +20,25 @@ extension UITextView {
         return text
     }
     
-    func getAttributedString(in rect: CGRect) -> NSAttributedString {
-        let range = self.layoutManager.glyphRange(forBoundingRect: rect, in: self.textContainer)
+    //이놈 시키기 문제인듯 방법: apply와 remove를 위한 range를 따로 만들자!!
+    func getRangeForApply(farLeft: CGPoint, final: CGPoint) -> NSRange {
+        let beginIndex = self.layoutManager.glyphIndex(for: farLeft, in: self.textContainer)
+        let endIndex = self.layoutManager.glyphIndex(for: final, in: self.textContainer)
+        let endFrame = self.layoutManager.boundingRect(forGlyphRange: NSMakeRange(endIndex, 1), in: self.textContainer)
         
-        return attributedText.attributedSubstring(from: range)
+        let length = endFrame.origin.x + endFrame.size.width < final.x ? endIndex - beginIndex + 1 : endIndex - beginIndex
+        
+        return NSRange(location: beginIndex, length: length)
     }
     
-    func getRect(including point: CGPoint) -> CGRect {
-        let index = self.layoutManager.glyphIndex(for: point, in: self.textContainer)
-        return self.layoutManager.lineFragmentRect(forGlyphAt: index, effectiveRange: nil)
-    }
-    
-    func getRange(begin: CGPoint, end: CGPoint) -> NSRange {
-        let beginY = begin.y + self.contentOffset.y - self.textContainerInset.top
-        let endY = end.y + self.contentOffset.y - self.textContainerInset.top
-        let textViewTouchBeginPoint = CGPoint(x: begin.x, y: beginY)
-        let textViewTouchEndPoint = CGPoint(x: end.x, y: endY)
-        let beginIndex = self.layoutManager.glyphIndex(for: textViewTouchBeginPoint, in: self.textContainer)
-        let endIndex = self.layoutManager.glyphIndex(for: textViewTouchEndPoint, in: self.textContainer)
+    func getRangeForRemove(final: CGPoint, farRight: CGPoint) -> NSRange {
+        let beginIndex = self.layoutManager.glyphIndex(for: final, in: self.textContainer)
+        let endIndex = self.layoutManager.glyphIndex(for: farRight, in: self.textContainer)
+        let beginFrame = self.layoutManager.boundingRect(forGlyphRange: NSMakeRange(beginIndex, 1), in: self.textContainer)
+        let location = beginFrame.origin.x > final.x ? beginIndex : beginIndex + 1
+        let length = beginFrame.origin.x > final.x ? endIndex - beginIndex + 1 : endIndex - beginIndex
+        return NSRange(location: location, length: length)
         
-        return NSRange(location: beginIndex, length: endIndex - beginIndex)
     }
     
     func getParagraphInfo(with range: NSRange) -> (range: NSRange, textRange: UITextRange, text: String)?{

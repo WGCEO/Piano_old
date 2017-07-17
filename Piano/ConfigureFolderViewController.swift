@@ -79,8 +79,8 @@ class ConfigureFolderViewController: UIViewController {
 
     func setTableViewCellHeight() {
         let str: String = "ForBodySize"
-        let bodySize: CGSize = str.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
-        let captionSize: CGSize = str.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .caption1)])
+        let bodySize: CGSize = str.size(withAttributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .body)])
+        let captionSize: CGSize = str.size(withAttributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption1)])
         let margin: CGFloat = 12
         
         tableView.rowHeight = bodySize.height + captionSize.height + (margin * 2)

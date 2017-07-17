@@ -36,7 +36,7 @@ extension NSPersistentContainer {
                 
                 let memo = Memo(context: viewContext)
                 
-                let content =  NSAttributedString(string: "PianoTutorial".localized(withComment: "피아노 튜토리얼 내용"), attributes: [NSFontAttributeName : UIFont.preferredFont(forTextStyle: .body), NSForegroundColorAttributeName : UIColor.piano])
+                let content =  NSAttributedString(string: "PianoTutorial".localized(withComment: "피아노 튜토리얼 내용"), attributes: [NSAttributedStringKey.font : UIFont.preferredFont(forTextStyle: .body), NSAttributedStringKey.foregroundColor : UIColor.piano])
                 
                 let data = NSKeyedArchiver.archivedData(withRootObject: content)
                 

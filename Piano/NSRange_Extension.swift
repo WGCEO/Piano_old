@@ -12,9 +12,15 @@ extension NSRange {
     func toTextRange(textInput:UITextInput) -> UITextRange? {
         guard let rangeStart = textInput.position(from: textInput.beginningOfDocument, offset: location),
             let rangeEnd = textInput.position(from: rangeStart, offset: length) else {
-            return nil
+                return nil
         }
         
         return textInput.textRange(from: rangeStart, to: rangeEnd)
     }
+}
+
+infix operator +: AdditionPrecedence
+
+func +(left: NSRange, right: NSRange) -> NSRange {
+    return NSMakeRange(left.location + right.location, left.length + right.length)
 }

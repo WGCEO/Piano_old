@@ -110,23 +110,23 @@ extension PianoTextView {
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
         
-        textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: range)
+        textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: range)
         
         // TODO: add to indentation
     }
     
     private func removeIndent(_ text: NSString, _ textRange: NSRange, _ paragraphRange: NSRange) {
         let attributes = textStorage.attributes(at: textRange.location, effectiveRange: nil)
-        guard let font = attributes[NSFontAttributeName] as? UIFont else { return }
+        guard let font = attributes[NSAttributedStringKey.font] as? UIFont else { return }
         
         let width = text.width(font)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
-        textStorage.addAttributes([NSParagraphStyleAttributeName: paragraphStyle], range: paragraphRange)
+        textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
 
         text.enumerateKernings(font) { [weak self] (index, kerning) in
-            let attributes: [String : Any] = [NSKernAttributeName: kerning]
+            let attributes = [NSAttributedStringKey.kern : kerning]
             
             let range = NSMakeRange(textRange.location + index, 1)
             self?.textStorage.addAttributes(attributes, range: range)

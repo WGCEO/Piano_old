@@ -51,8 +51,8 @@ class DeletedMemoListViewController: UIViewController {
     func setTableViewCellHeight() {
         let originalString: String = "ForBodySize"
         let myString = originalString
-        let bodySize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .body)])
-        let callOutSize: CGSize = myString.size(attributes: [NSFontAttributeName: UIFont.preferredFont(forTextStyle: .callout)])
+        let bodySize: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .body)])
+        let callOutSize: CGSize = myString.size(withAttributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .callout)])
         let margin: CGFloat = 10
         
         tableView.rowHeight = bodySize.height + callOutSize.height + (margin * 2)

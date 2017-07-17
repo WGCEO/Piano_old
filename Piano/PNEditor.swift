@@ -6,6 +6,7 @@
 //  Copyright © 2017년 Piano. All rights reserved.
 //
 
+/*
 import Foundation
 import UIKit
 import CoreData
@@ -77,7 +78,7 @@ enum EditMode: Int {
         let textView = PianoTextView(frame: CGRect.zero, textContainer: nil)
         
         textView.textContainerInset = UIEdgeInsetsMake(0, 10, 0, 10)
-        textView.linkTextAttributes = [NSUnderlineStyleAttributeName: 1]
+        textView.linkTextAttributes = [NSUnderlineStyleAttributeName.rawValue: 1]
         textView.allowsEditingTextAttributes = true
         textView.delegate = self
         
@@ -249,3 +250,5 @@ extension PNEditor: UITextViewDelegate {
         return textView.addElementIfNeeded(text as NSString, in: range)
     }
 }
+ 
+ */
