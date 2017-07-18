@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 
+private let indentWidth: CGFloat = 30.0
 
-fileprivate let indentWidth: CGFloat = 30.0
+public let ElementAttributeName: NSAttributedStringKey = NSAttributedStringKey("ElementAttributeName")
 
 extension PianoTextView {
     
@@ -23,10 +24,11 @@ extension PianoTextView {
         text.enumerateSubstrings(in: range, options: .byParagraphs) { [weak self] (paragraph: String?, paragraphRange: NSRange, enclosingRange: NSRange, stop) in
             guard let paragraph = paragraph as NSString? else { return }
             ElementInspector.sharedInstance.inspect(paragraph, handler: { (element: Element) in
-                let textRange = NSMakeRange(paragraphRange.location + element.range.location, range.length)
+                if element.type != .none {
+                    let textRange = NSMakeRange(paragraphRange.location + element.range.location, element.range.length)
+                    let elementOnDocument: Element = (element.type, element.text, textRange)
                 
-                if element.type == .number {
-                    self?.removeIndent(element.text, textRange, paragraphRange)
+                    self?.removeIndent(elementOnDocument, paragraphRange)
                 }
             })
         }
@@ -115,20 +117,23 @@ extension PianoTextView {
         // TODO: add to indentation
     }
     
-    private func removeIndent(_ text: NSString, _ textRange: NSRange, _ paragraphRange: NSRange) {
-        let attributes = textStorage.attributes(at: textRange.location, effectiveRange: nil)
+    private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
+        let attributes = textStorage.attributes(at: element.range.location, effectiveRange: nil)
         guard let font = attributes[NSAttributedStringKey.font] as? UIFont else { return }
         
-        let width = text.width(font)
+        let width = element.text.width(font)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
-
-        text.enumerateKernings(font) { [weak self] (index, kerning) in
+        
+        let elementAttributes: [NSAttributedStringKey: Any] = [ElementAttributeName: element.type]
+        textStorage.addAttributes(elementAttributes, range: NSMakeRange(element.range.location, element.range.length-1))
+        
+        element.text.enumerateKernings(font) { [weak self] (index, kerning) in
             let attributes = [NSAttributedStringKey.kern : kerning]
             
-            let range = NSMakeRange(textRange.location + index, 1)
+            let range = NSMakeRange(element.range.location + index, 1)
             self?.textStorage.addAttributes(attributes, range: range)
         }
     }
