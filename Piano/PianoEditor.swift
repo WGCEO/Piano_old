@@ -16,8 +16,6 @@ enum PianoMode: Int {
 class PianoEditor: UIView {
     
     // MARK: property
-    @IBOutlet var formInputView: FormInputView!
-    @IBOutlet var mrInputAccessoryView: MRInputAccessoryView!
     @IBOutlet weak var textView: PianoTextView!
     @IBOutlet weak var pianoView: PianoView!
     @IBOutlet weak var topViewTop: NSLayoutConstraint!
@@ -27,21 +25,12 @@ class PianoEditor: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         setValuesForChildViews()
-        textView.inputAccessoryView = mrInputAccessoryView
-        formInputView.delegate = textView
     }
     
     //MARK: Public
     @IBAction func tapTopButton(_ sender: UIButton) {
         setPianoViewAttributeStyle(by: sender)
         animate(for: sender)
-    }
-    
-    @IBAction func tapPlusButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        
-        textView.inputView = sender.isSelected ? formInputView : nil
-        textView.reloadInputViews()
     }
     
     @IBAction func tapCloseKeyboardButton(_ sender: Any) {
@@ -64,7 +53,6 @@ class PianoEditor: UIView {
     private func setValuesForChildViews() {
         textView.control.pianoable = pianoView
         textView.control.effectable = textView
-        textView.delegate = self
     }
     
     private func setPianoViewAttributeStyle(by button: UIButton) {
@@ -110,46 +98,4 @@ class PianoEditor: UIView {
         }
         return (topValue, insetTop, completion)
     }
-}
-
-// MARK: UITextViewDelegate
-extension PianoEditor : UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
-    }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
-    }
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
-        textView.attachControl()
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard let textView = scrollView as? PianoTextView, !textView.isEditable, !decelerate else { return }
-        textView.attachControl()
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
-        textView.detachControl()
-    }
-    
-    internal func textViewDidChange(_ textView: UITextView) {
-        guard let textView = textView as? PianoTextView else { return }
-        
-        textView.chainElements()
-        textView.detectIndent()
-        
-//        textChangedHandler?(textView.attributedText)
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard let textView = textView as? PianoTextView else { return true}
-        
-        return textView.addElementIfNeeded(text as NSString, in: range)
-    }
-    
 }

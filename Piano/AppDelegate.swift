@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        MemoManager.migrateVersionTwo()
+        
+        
 //        guard let window = window, let splitViewController = window.rootViewController as? UISplitViewController else {
 //            return true
 //        }

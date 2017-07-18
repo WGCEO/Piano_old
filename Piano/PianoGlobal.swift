@@ -17,7 +17,7 @@ struct PianoGlobal {
     static let navigationBarHeight: CGFloat = 64
     static let toolBarHeight: CGFloat = 44
     static let accessoryViewHeight: CGFloat = 44
-    static let duration: Double = 0.3
+    static let duration: Double = 0.2
     static let opacity: CGFloat = 1
     static let transparent: CGFloat = 0.3
     static let mirrorFont: CGFloat = 31

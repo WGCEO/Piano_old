@@ -49,7 +49,7 @@ class MoveMemoViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(MoveMemoViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
-    func preferredContentSizeChanged(notification: Notification) {
+    @objc func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
     

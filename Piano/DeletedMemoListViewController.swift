@@ -78,7 +78,7 @@ class DeletedMemoListViewController: UIViewController {
         
     }
     
-    func preferredContentSizeChanged(notification: Notification) {
+    @objc func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
     

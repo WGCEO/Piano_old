@@ -109,6 +109,7 @@ extension PianoTextView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
+        paragraphStyle.lineSpacing = 10
         
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: range)
         
@@ -123,6 +124,7 @@ extension PianoTextView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
+        paragraphStyle.lineSpacing = 10
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
 
         text.enumerateKernings(font) { [weak self] (index, kerning) in

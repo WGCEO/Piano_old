@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16E144f" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13196.5" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Folder" representedClassName="Folder" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="order" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="memos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Memo" inverseName="folder" inverseEntity="Memo" syncable="YES"/>
     </entity>
     <entity name="Memo" representedClassName="Memo" syncable="YES" codeGenerationType="class">
@@ -13,14 +14,16 @@
         <attribute name="isInTrash" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="priority" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="folder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Folder" inverseName="memos" inverseEntity="Folder" syncable="YES"/>
+        <relationship name="staticFolder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StaticFolder" inverseName="memos" inverseEntity="StaticFolder" syncable="YES"/>
     </entity>
-    <entity name="Preference" representedClassName="Preference" syncable="YES" codeGenerationType="class">
-        <attribute name="isFirstLaunching" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="isPaidUser" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+    <entity name="StaticFolder" representedClassName="StaticFolder" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="memos" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Memo" inverseName="staticFolder" inverseEntity="Memo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Folder" positionX="-54" positionY="-9" width="128" height="90"/>
-        <element name="Memo" positionX="196" positionY="-18" width="128" height="150"/>
-        <element name="Preference" positionX="72" positionY="36" width="128" height="75"/>
+        <element name="Folder" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Memo" positionX="196" positionY="-18" width="128" height="165"/>
+        <element name="StaticFolder" positionX="81" positionY="54" width="128" height="90"/>
     </elements>
 </model>
