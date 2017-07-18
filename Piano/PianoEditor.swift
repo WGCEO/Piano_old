@@ -23,11 +23,14 @@ class PianoEditor: UIView {
     @IBOutlet weak var topViewTop: NSLayoutConstraint!
     @IBOutlet var topButtons: [UIButton]!
     
+    let elementLayoutManager = ElementLayoutManager()
+    
     // MARK: init
     override func awakeFromNib() {
         super.awakeFromNib()
         setValuesForChildViews()
         textView.inputAccessoryView = mrInputAccessoryView
+        textView.layoutManager.delegate = elementLayoutManager
         formInputView.delegate = textView
     }
     

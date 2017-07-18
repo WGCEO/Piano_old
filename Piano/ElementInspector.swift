@@ -47,6 +47,20 @@ class ElementInspector {
         return (.none, "", NSMakeRange(0, 0))
     }
     
+    public func inspect(document text: NSString) -> [Element] {
+        var location: Int = 0
+        var elements: [Element] = []
+        for paragraph in text.components(separatedBy: .newlines) {
+            var element = inspect(paragraph as NSString)
+            element.range = NSMakeRange(location + element.range.location, element.range.length)
+            elements.append(element)
+            
+            location += paragraph.characters.count + 1
+        }
+        
+        return elements
+    }
+    
     public func context(of range: NSRange, in text: NSString) -> Context {
         var before: Element?
         var after: Element?

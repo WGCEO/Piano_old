@@ -69,6 +69,7 @@
 		F4A84DE71F1E31C800C4B765 /* DocumentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */; };
 		F4D52ACF1F1B21F600E38A79 /* NSString+Kerning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */; };
 		F4EB6CA41F16557500AF0FFF /* ElementInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */; };
+		F4EFC4B11F1E4D560004F691 /* ElementLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFC4B01F1E4D560004F691 /* ElementLayoutManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +190,7 @@
 		F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRenderer.swift; sourceTree = "<group>"; };
 		F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+Kerning.swift"; sourceTree = "<group>"; };
 		F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
+		F4EFC4B01F1E4D560004F691 /* ElementLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementLayoutManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,6 +493,7 @@
 				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
 				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
 				F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */,
+				F4EFC4B01F1E4D560004F691 /* ElementLayoutManager.swift */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				DAC900741F1C6FE80011B870 /* ImageCell.swift in Sources */,
 				DAC900611F1C6ACF0011B870 /* PianoAttributeStyle.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
+				F4EFC4B11F1E4D560004F691 /* ElementLayoutManager.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */,
