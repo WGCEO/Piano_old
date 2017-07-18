@@ -128,8 +128,8 @@ class MemoManager: NSObject {
         //showAddFolderAlertIfNeeded()
         
         let memo = Memo(context: PianoData.coreDataStack.viewContext)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString()) as NSData
-        memo.date = NSDate()
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: NSAttributedString())
+        memo.date = Date()
         memo.folder = currentFolder
         memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
         PianoData.save()
@@ -144,7 +144,7 @@ class MemoManager: NSObject {
     class func newFolder(_ name: String) -> Folder {
         let newFolder = Folder(context: PianoData.coreDataStack.viewContext)
         newFolder.name = name
-        newFolder.date = NSDate()
+        newFolder.date = Date()
         newFolder.memos = []
         
         PianoData.save()
@@ -205,7 +205,7 @@ extension MemoManager {
             do {
                 let memo = try PianoData.coreDataStack.viewContext.existingObject(with: id) as! Memo
                 let data = NSKeyedArchiver.archivedData(withRootObject: value)
-                memo.content = data as NSData
+                memo.content = data
                 
             } catch {
                 print("Failure to get existingObject: error: \(error)")

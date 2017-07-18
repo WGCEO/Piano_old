@@ -32,7 +32,7 @@ extension NSPersistentContainer {
             if folderCount == 0 {
                 let pianoFolder = Folder(context: viewContext)
                 pianoFolder.name = "Piano"
-                pianoFolder.date = NSDate()
+                pianoFolder.date = Date()
                 
                 let memo = Memo(context: viewContext)
                 
@@ -41,8 +41,8 @@ extension NSPersistentContainer {
                 let data = NSKeyedArchiver.archivedData(withRootObject: content)
                 
                 memo.firstLine = content.string.trimmingCharacters(in: CharacterSet.newlines)
-                memo.content = data as NSData
-                memo.date = NSDate()
+                memo.content = data
+                memo.date = Date()
                 memo.folder = pianoFolder
                 
                 pianoFolder.memos = [memo]
