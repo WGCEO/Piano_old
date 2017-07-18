@@ -377,9 +377,6 @@
 			children = (
 				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
 				DAC9006A1F1C6B8E0011B870 /* PianoView.swift */,
-				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
-				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
-				F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */,
 			);
 			name = PNEditor;
 			sourceTree = "<group>";
@@ -404,9 +401,10 @@
 		DA53FDA21F1C752000CA8587 /* NewPiano */ = {
 			isa = PBXGroup;
 			children = (
+				DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */,
+				F417A9321F1E1EDD000EC48C /* Layout */,
 				DAC900771F1C70530011B870 /* Mirroring */,
 				DAC900701F1C6E300011B870 /* Keyboard */,
-				DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */,
 				DA53FDA31F1C755100CA8587 /* PianoEditor */,
 			);
 			name = NewPiano;
@@ -483,6 +481,16 @@
 				0A5B08221E3EB0EA0074E5CA /* Extension */,
 			);
 			name = etc;
+			sourceTree = "<group>";
+		};
+		F417A9321F1E1EDD000EC48C /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
+				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
+				F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */,
+			);
+			name = Layout;
 			sourceTree = "<group>";
 		};
 		F49B3C7A1EE1A38900A0E81C /* Common */ = {
