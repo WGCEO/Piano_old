@@ -66,6 +66,7 @@
 		F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C761EE1A2B800A0E81C /* MailSender.swift */; };
 		F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C781EE1A2C200A0E81C /* MemoManager.swift */; };
 		F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */; };
+		F4A84DE71F1E31C800C4B765 /* DocumentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */; };
 		F4D52ACF1F1B21F600E38A79 /* NSString+Kerning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */; };
 		F4EB6CA41F16557500AF0FFF /* ElementInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */; };
 /* End PBXBuildFile section */
@@ -185,6 +186,7 @@
 		F49B3C761EE1A2B800A0E81C /* MailSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailSender.swift; sourceTree = "<group>"; };
 		F49B3C781EE1A2C200A0E81C /* MemoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
 		F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRenderer.swift; sourceTree = "<group>"; };
 		F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+Kerning.swift"; sourceTree = "<group>"; };
 		F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -502,6 +504,7 @@
 				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,
 				F49B3C781EE1A2C200A0E81C /* MemoManager.swift */,
 				F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */,
+				F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */,
+				F4A84DE71F1E31C800C4B765 /* DocumentRenderer.swift in Sources */,
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
 				0AEC95941E3C86580039A47F /* SettingViewController.swift in Sources */,
 				DAC900651F1C6B020011B870 /* PianoGlobal.swift in Sources */,

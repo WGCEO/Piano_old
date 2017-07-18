@@ -69,7 +69,7 @@ class MailSender: NSObject, MFMailComposeViewControllerDelegate {
     }
 }
 
-fileprivate extension NSAttributedString {
+extension NSAttributedString {
     func parseToHTMLString() -> String? {
         let attributes = [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html]
         do {

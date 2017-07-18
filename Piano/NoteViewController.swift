@@ -5,9 +5,6 @@
 //  Created by changi kim on 2017. 7. 17..
 //  Copyright © 2017년 Piano. All rights reserved.
 //
-
-import UIKit
-
 import UIKit
 
 class NoteViewController: UIViewController {
@@ -52,6 +49,16 @@ class NoteViewController: UIViewController {
     
     @IBAction func tapImagePicker(_ sender: UIButton){
         
+    }
+    
+    @IBAction func tapShareButton(_ sender: Any) {
+        guard let htmlString = editor.textView.attributedText.parseToHTMLString() else { return }
+        
+        let renderer = DocumentRenderer()
+        let pdfDocument = renderer.render(type: .pdf, with: htmlString)
+        
+        let activityViewController = UIActivityViewController(activityItems: [pdfDocument], applicationActivities: nil)
+        AppNavigator.present(activityViewController)
     }
     
     private func animate(for mode: PianoMode) {
