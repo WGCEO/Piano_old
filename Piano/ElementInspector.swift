@@ -10,8 +10,8 @@ import Foundation
 
 enum Type: String {
     case number = "(?=[\n]*)\\d+\\. "
-    case list = "(?=[\n]*)\\-\\. "
-    case checkbox = "(?=[\n]*)\\*\\. "
+    case list = "(?=[\n]*)- "
+    case checkbox = "(?=[\n]*)\\* "
     case none = ""
     
     var pattern: String {

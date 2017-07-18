@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-
-fileprivate let indentWidth: CGFloat = 30.0
+private let indentWidth: CGFloat = 30.0
 
 extension PianoTextView {
     
@@ -25,7 +24,7 @@ extension PianoTextView {
             ElementInspector.sharedInstance.inspect(paragraph, handler: { (element: Element) in
                 let textRange = NSMakeRange(paragraphRange.location + element.range.location, range.length)
                 
-                if element.type == .number {
+                if element.type != .none {
                     self?.removeIndent(element.text, textRange, paragraphRange)
                 }
             })
@@ -124,7 +123,7 @@ extension PianoTextView {
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
-
+        
         text.enumerateKernings(font) { [weak self] (index, kerning) in
             let attributes = [NSAttributedStringKey.kern : kerning]
             
