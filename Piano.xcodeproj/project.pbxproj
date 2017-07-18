@@ -380,7 +380,6 @@
 			isa = PBXGroup;
 			children = (
 				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
-				DAC9006A1F1C6B8E0011B870 /* PianoView.swift */,
 				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
 				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
 				F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */,
@@ -421,6 +420,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC900681F1C6B6A0011B870 /* PianoViewData.swift */,
+				DAC9006A1F1C6B8E0011B870 /* PianoView.swift */,
 				DAC900661F1C6B490011B870 /* PianoResult.swift */,
 				DAC9006C1F1C6CA50011B870 /* PianoEditor.swift */,
 				31575C941DE80BB600373ADD /* PianoControl.swift */,

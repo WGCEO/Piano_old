@@ -11,7 +11,7 @@ import UIKit
 struct PianoGlobal {
     static var color = UIColor.red
     static var defaultColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
-    static var fontSize: CGFloat = 16
+    static var fontSize: CGFloat = 17
     
     static let paletteViewHeight: CGFloat = 100
     static let navigationBarHeight: CGFloat = 64

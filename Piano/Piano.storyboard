@@ -34,7 +34,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="urk-od-v7F" customClass="PianoTextView" customModule="Piano" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <mutableString key="text">1. 사진앨범이 키보드로 뜰 때 앨범 누르면 앨범폴더가 새 화면에 뜨는 게 아닌 키보드 영역에서 쭈루륵 떠서 선택이 쉽고 폴더를 누르면 다시 키보드 영역에서 이미지가 나란히 배열됨
+                                        <string key="text">1. 사진앨범이 키보드로 뜰 때 앨범 누르면 앨범폴더가 새 화면에 뜨는 게 아닌 키보드 영역에서 쭈루륵 떠서 선택이 쉽고 폴더를 누르면 다시 키보드 영역에서 이미지가 나란히 배열됨
 2. 글꼴 조절하는 곳에 맞춤법 탐지 등등의 기능 on/off 넣는 거에 대한 고민
 3. 링크, 연락처, 주소 등등이 검출될 때마다 “유용한 웹사이트로 등록하시겠습니까? 와 같은 노티가 뜨고 특정 보관함에 보관하던가 캘린더, 주소록 등등에 추가하기
 4. 해당 메모의 scrollOffset을 기억하고 있기 (사용자 경험 개선)
@@ -48,8 +48,8 @@
 12. 설정 아이콘을 기존 아이콘에서 피아노 아이콘으로 변경(유저들이 어떻게 느낄 지 생각하면 충분히 괜찮음)
 13. html 데이터 가져올 때 폰트 크기 파싱하기(몇이상 몇 이하는 바디, 몇이상 몇 이하는 헤더 이런식으루)
 14. 피아노메모리스트 검색과 결합시키기
-15. 맥 버전에 오른쪽에 툴바가 있고 거기에 단축키가 다 적혀있는데 단축키 가리기 누르면 안보임</mutableString>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+15. 맥 버전에 오른쪽에 툴바가 있고 거기에 단축키가 다 적혀있는데 단축키 가리기 누르면 안보임</string>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no"/>
                                     </textView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nCb-vW-5Kt">
@@ -161,16 +161,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="0e5-aP-g5F">
-                                        <rect key="frame" x="34.5" y="-10" width="306" height="64"/>
+                                        <rect key="frame" x="34.5" y="-10" width="306" height="65"/>
                                         <subviews>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pi-82-2wg">
-                                                <rect key="frame" x="0.0" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="64" id="MJj-en-tvM"/>
+                                                    <constraint firstAttribute="height" constant="65" id="MJj-en-tvM"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="16"/>
-                                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="8"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -184,7 +184,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pG0-l8-Bn6">
-                                                <rect key="frame" x="46" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="46" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -194,7 +194,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tmX-iq-nLV">
-                                                <rect key="frame" x="92" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="92" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -204,7 +204,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OSg-s4-2ik">
-                                                <rect key="frame" x="138" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="138" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -214,7 +214,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U6V-rj-6qe">
-                                                <rect key="frame" x="184" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="184" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -224,7 +224,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T0P-4a-vPg">
-                                                <rect key="frame" x="230" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="230" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -234,7 +234,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DnQ-Zf-WGO">
-                                                <rect key="frame" x="276" y="0.0" width="30" height="64"/>
+                                                <rect key="frame" x="276" y="0.0" width="30" height="65"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="A">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -257,13 +257,13 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="GJq-cv-mze"/>
+                                    <barButtonItem style="done" systemItem="trash" id="5j3-6a-uWI"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="bC5-IW-bcw"/>
                                     <barButtonItem image="list" id="ZRM-z6-dXV">
                                         <connections>
                                             <action selector="tapListButton:" destination="FNd-rg-CDG" id="lwn-yn-qgL"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="bC5-IW-bcw"/>
-                                    <barButtonItem image="createMemo" id="MMu-fL-Rfr"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="8CH-IP-UQY"/>
                                     <barButtonItem image="textEffect" id="z7Y-BF-WZb">
                                         <connections>
@@ -271,9 +271,9 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="mS4-ZF-EC2"/>
-                                    <barButtonItem style="done" systemItem="trash" id="5j3-6a-uWI"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aG4-Tr-MRh"/>
                                     <barButtonItem systemItem="action" id="o1J-LL-cIS"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aG4-Tr-MRh"/>
+                                    <barButtonItem image="createMemo" id="MMu-fL-Rfr"/>
                                     <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="029-KS-nlg"/>
                                 </items>
                             </toolbar>
@@ -600,7 +600,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ER3-0v-Jyd">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="616"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="612"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="ghE-zT-zFh">
@@ -727,13 +727,18 @@
                             <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" distribution="fillEqually" alignment="bottom" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="FV3-Ub-qS3">
                                 <rect key="frame" x="34.5" y="607" width="306" height="70"/>
                                 <subviews>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DmN-7F-eXg">
-                                        <rect key="frame" x="0.0" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DmN-7F-eXg">
+                                        <rect key="frame" x="0.0" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="ojB-rm-tys"/>
+                                            <constraint firstAttribute="width" constant="30" id="Rrm-Dj-nHM"/>
+                                            <constraint firstAttribute="height" constant="65" id="ojB-rm-tys"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="A">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -743,12 +748,16 @@
                                             <action selector="touchUpFolder:" destination="j6n-ev-p59" eventType="touchUpInside" id="R0g-zL-Lhd"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-vQ-pfH">
-                                        <rect key="frame" x="46" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-vQ-pfH">
+                                        <rect key="frame" x="46" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="eNs-ER-IN5"/>
+                                            <constraint firstAttribute="height" constant="65" id="eNs-ER-IN5"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="B">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -758,12 +767,16 @@
                                             <action selector="touchUpFolder:" destination="j6n-ev-p59" eventType="touchUpInside" id="YT6-Rd-N1I"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2uD-YE-n7f">
-                                        <rect key="frame" x="92" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2uD-YE-n7f">
+                                        <rect key="frame" x="92" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="Ca8-1s-DVH"/>
+                                            <constraint firstAttribute="height" constant="65" id="Ca8-1s-DVH"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="C">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -773,12 +786,16 @@
                                             <action selector="touchUpFolder:" destination="j6n-ev-p59" eventType="touchUpInside" id="pwi-ab-P8n"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLK-UG-hzh">
-                                        <rect key="frame" x="138" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLK-UG-hzh">
+                                        <rect key="frame" x="138" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="RoD-Ue-o2G"/>
+                                            <constraint firstAttribute="height" constant="65" id="RoD-Ue-o2G"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="D">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -788,12 +805,16 @@
                                             <action selector="touchUpFolder:" destination="j6n-ev-p59" eventType="touchUpInside" id="3YN-NH-bZb"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Xz-tA-VFY">
-                                        <rect key="frame" x="184" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Xz-tA-VFY">
+                                        <rect key="frame" x="184" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="VVX-qW-T6y"/>
+                                            <constraint firstAttribute="height" constant="65" id="VVX-qW-T6y"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="E">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -803,12 +824,16 @@
                                             <action selector="touchUpFolder:" destination="j6n-ev-p59" eventType="touchUpInside" id="QGW-11-hBg"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCI-qX-oni">
-                                        <rect key="frame" x="230" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCI-qX-oni">
+                                        <rect key="frame" x="230" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="Peq-14-p9z"/>
+                                            <constraint firstAttribute="height" constant="65" id="Peq-14-p9z"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="F">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -818,12 +843,16 @@
                                             <action selector="touchUpFolder:" destination="j6n-ev-p59" eventType="touchUpInside" id="CgY-zD-w0Y"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" alpha="0.10000000000000001" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jxo-vp-XMi">
-                                        <rect key="frame" x="276" y="0.0" width="30" height="70"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <button opaque="NO" clipsSubviews="YES" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jxo-vp-XMi">
+                                        <rect key="frame" x="276" y="5" width="30" height="65"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="qJ6-h2-GSd"/>
+                                            <constraint firstAttribute="height" constant="65" id="qJ6-h2-GSd"/>
                                         </constraints>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                                        <state key="normal" title="G">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="8"/>
@@ -848,7 +877,7 @@
                             <constraint firstAttribute="trailing" secondItem="ER3-0v-Jyd" secondAttribute="trailing" id="SUU-YT-eTp"/>
                             <constraint firstItem="YIa-En-X3X" firstAttribute="top" secondItem="zMP-Gu-38V" secondAttribute="top" id="dZG-lw-iX9"/>
                             <constraint firstItem="FV3-Ub-qS3" firstAttribute="centerX" secondItem="zMP-Gu-38V" secondAttribute="centerX" id="eau-CU-aaK"/>
-                            <constraint firstAttribute="bottom" secondItem="ER3-0v-Jyd" secondAttribute="bottom" constant="51" id="j9D-ps-5Ta"/>
+                            <constraint firstAttribute="bottom" secondItem="ER3-0v-Jyd" secondAttribute="bottom" constant="55" id="j9D-ps-5Ta"/>
                             <constraint firstItem="YIa-En-X3X" firstAttribute="leading" secondItem="4vo-3R-82G" secondAttribute="leading" id="z43-Ls-RH0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4vo-3R-82G"/>
@@ -886,4 +915,5 @@
         <image name="textEffect" width="33" height="24"/>
         <image name="underline" width="28" height="29"/>
     </resources>
+    <color key="tintColor" red="1" green="0.38423171570430126" blue="0.36945866545264938" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

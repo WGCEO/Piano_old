@@ -43,11 +43,13 @@ class NoteListViewController: UIViewController {
         for button in folderButtons {
             if sender != button {
                 UIView.animate(withDuration: 0.2, animations: {
-                    button.alpha = 0.1
+                    button.backgroundColor = .white
+                    button.setTitleColor(.black, for: .normal)
                 })
             } else {
                 UIView.animate(withDuration: 0.2, animations: {
-                    button.alpha = 1
+                    button.backgroundColor = .black
+                    button.setTitleColor(.white, for: .normal)
                 })
             }
         }
