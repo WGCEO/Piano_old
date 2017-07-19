@@ -19,5 +19,8 @@ class TrashViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func back(_ sender: Any) {
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
 }

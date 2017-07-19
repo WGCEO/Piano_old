@@ -9,6 +9,10 @@
 import UIKit
 
 class ReviewViewController: UIViewController {
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,20 +20,31 @@ class ReviewViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func moveToAppStore(_ sender: Any) {
+        
+        rateApp(appId: "1200863515", completion: nil)
+    }
+    
+    @IBAction func close(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func showBasicAlertController(title: String, message: String) {
+        let alertViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK".localized(withComment: "확인"), style: .cancel, handler: nil)
+        alertViewController.addAction(cancel)
+        present(alertViewController, animated: true, completion: nil)
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func rateApp(appId: String, completion: ((_ success: Bool)->())?) {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/id" + appId) else {
+            completion?(false)
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
-    */
+    
 
 }

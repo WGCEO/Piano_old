@@ -1,5 +1,5 @@
 //
-//  FAQViewController.swift
+//  LicenseViewController.swift
 //  Piano
 //
 //  Created by changi kim on 2017. 7. 19..
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FAQViewController: UIViewController {
+class LicenseViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true
