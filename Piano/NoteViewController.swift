@@ -25,12 +25,17 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setChildViews()
         
         //TODO: 나중에 지우기
         setTempParagraphStyle()
         // 여기까지
+        
+        //TODO: 코드 분기 태워서 아이폰 5s일 경우
+        setChildViews()
     }
+    
+    
+    
     
     private func setChildViews(){
         editor.textView.inputAccessoryView = mrInputAccessoryView
@@ -47,7 +52,7 @@ class NoteViewController: UIViewController {
         mutableParagraph.setParagraphStyle(paragraph)
         mutableParagraph.headIndent = 30
         mutableParagraph.firstLineHeadIndent = 30
-        mutableParagraph.tailIndent = -30
+        mutableParagraph.tailIndent = -15
         mutableParagraph.lineSpacing = 10
         mutableString.addAttributes([.paragraphStyle : mutableParagraph, .foregroundColor : PianoGlobal.defaultColor], range: NSMakeRange(0, mutableString.length))
         editor.textView.attributedText = mutableString
@@ -82,31 +87,27 @@ class NoteViewController: UIViewController {
     }
     
     private func animate(for mode: PianoMode) {
-        let (topViewTop, bottomViewBottom, completeButtonBottom) = animateValues(for: mode)
+        let (bottomViewBottom, completeButtonBottom) = animateValues(for: mode)
         
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.topViewTop.constant = topViewTop
             self?.bottomViewBottom.constant = bottomViewBottom
             self?.completeButtonBottom.constant = completeButtonBottom
             self?.view.layoutIfNeeded()
         }
     }
     
-    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat) {
-        let topViewTop: CGFloat
+    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat) {
         let bottomViewBottom: CGFloat
         let completeButtonBottom: CGFloat
         switch mode {
         case .on:
-            topViewTop = -64
             bottomViewBottom = -44
             completeButtonBottom = 0
         case .off:
-            topViewTop = 0
             bottomViewBottom = 0
             completeButtonBottom = -44
         }
-        return (topViewTop, bottomViewBottom, completeButtonBottom)
+        return (bottomViewBottom, completeButtonBottom)
     }
     
     @IBAction func tapListButton(_ sender: Any) {
@@ -153,9 +154,8 @@ extension NoteViewController : UITextViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         moveTopView(from: scrollView)
-        
+        print(scrollView.contentOffset.y)
     }
     
     private func moveTopView(from scrollView: UIScrollView){

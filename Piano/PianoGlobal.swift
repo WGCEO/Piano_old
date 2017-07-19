@@ -21,5 +21,6 @@ struct PianoGlobal {
     static let opacity: CGFloat = 1
     static let transparent: CGFloat = 0.3
     static let mirrorFont: CGFloat = 31
+    static let backgroundColor: UIColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
     
 }

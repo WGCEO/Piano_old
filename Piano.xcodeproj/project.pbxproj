@@ -44,6 +44,9 @@
 		DA53FDA11F1C745B00CA8587 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */; };
 		DA53FDA51F1C79D400CA8587 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53FDA41F1C79D400CA8587 /* NoteListViewController.swift */; };
 		DA53FDAA1F1C7A3100CA8587 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53FDA91F1C7A3100CA8587 /* NoteCell.swift */; };
+		DA8A6D581F1EE79500F8A9FC /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8A6D571F1EE79500F8A9FC /* Setting.storyboard */; };
+		DA8A6D5D1F1EFA1400F8A9FC /* DefaultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A6D5C1F1EFA1400F8A9FC /* DefaultViewController.swift */; };
+		DA8A6D631F1EFB9100F8A9FC /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */; };
 		DAC9005B1F1C5AA30011B870 /* Piano.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAC9005A1F1C5AA30011B870 /* Piano.storyboard */; };
 		DAC9005D1F1C6A650011B870 /* NSAttributedString_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9005C1F1C6A650011B870 /* NSAttributedString_Extension.swift */; };
 		DAC9005F1F1C6A930011B870 /* CGRect_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9005E1F1C6A930011B870 /* CGRect_Extension.swift */; };
@@ -59,6 +62,10 @@
 		DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900751F1C704B0011B870 /* MRScrollView.swift */; };
 		DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900781F1C70900011B870 /* UILabel_Extension.swift */; };
 		DAC9007B1F1C70C30011B870 /* MRInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */; };
+		DAF2EC751F1F0363009B49BA /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC741F1F0363009B49BA /* TrashViewController.swift */; };
+		DAF2EC771F1F15EC009B49BA /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */; };
+		DAF2EC791F1F1619009B49BA /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC781F1F1619009B49BA /* FAQViewController.swift */; };
+		DAF2EC7B1F1F1646009B49BA /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */; };
 		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
 		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
 		F48685881F10E43B0028537D /* PianoTextViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48685871F10E43B0028537D /* PianoTextViewLayout.swift */; };
@@ -165,6 +172,9 @@
 		DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		DA53FDA41F1C79D400CA8587 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
 		DA53FDA91F1C7A3100CA8587 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
+		DA8A6D571F1EE79500F8A9FC /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		DA8A6D5C1F1EFA1400F8A9FC /* DefaultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewController.swift; sourceTree = "<group>"; };
+		DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		DAC9005A1F1C5AA30011B870 /* Piano.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Piano.storyboard; sourceTree = "<group>"; };
 		DAC9005C1F1C6A650011B870 /* NSAttributedString_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString_Extension.swift; sourceTree = "<group>"; };
 		DAC9005E1F1C6A930011B870 /* CGRect_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect_Extension.swift; sourceTree = "<group>"; };
@@ -180,6 +190,10 @@
 		DAC900751F1C704B0011B870 /* MRScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRScrollView.swift; sourceTree = "<group>"; };
 		DAC900781F1C70900011B870 /* UILabel_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel_Extension.swift; sourceTree = "<group>"; };
 		DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRInputAccessoryView.swift; sourceTree = "<group>"; };
+		DAF2EC741F1F0363009B49BA /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
+		DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
+		DAF2EC781F1F1619009B49BA /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
 		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
 		F48685871F10E43B0028537D /* PianoTextViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextViewLayout.swift; sourceTree = "<group>"; };
@@ -407,6 +421,9 @@
 		DA53FDA21F1C752000CA8587 /* NewPiano */ = {
 			isa = PBXGroup;
 			children = (
+				DA8A6D5C1F1EFA1400F8A9FC /* DefaultViewController.swift */,
+				DAC900641F1C6B020011B870 /* PianoGlobal.swift */,
+				DA8A6D5B1F1EEEB400F8A9FC /* Setting */,
 				DAC900771F1C70530011B870 /* Mirroring */,
 				DAC900701F1C6E300011B870 /* Keyboard */,
 				DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */,
@@ -426,7 +443,6 @@
 				31575C941DE80BB600373ADD /* PianoControl.swift */,
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				DAC900601F1C6ACF0011B870 /* PianoAttributeStyle.swift */,
-				DAC900641F1C6B020011B870 /* PianoGlobal.swift */,
 			);
 			name = PianoEditor;
 			sourceTree = "<group>";
@@ -438,6 +454,18 @@
 				DA53FDA91F1C7A3100CA8587 /* NoteCell.swift */,
 			);
 			name = NoteList;
+			sourceTree = "<group>";
+		};
+		DA8A6D5B1F1EEEB400F8A9FC /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */,
+				DAF2EC741F1F0363009B49BA /* TrashViewController.swift */,
+				DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */,
+				DAF2EC781F1F1619009B49BA /* FAQViewController.swift */,
+				DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */,
+			);
+			name = Setting;
 			sourceTree = "<group>";
 		};
 		DAC900701F1C6E300011B870 /* Keyboard */ = {
@@ -485,6 +513,7 @@
 				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				DAC9005A1F1C5AA30011B870 /* Piano.storyboard */,
+				DA8A6D571F1EE79500F8A9FC /* Setting.storyboard */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 			);
 			name = Resource;
@@ -661,6 +690,7 @@
 			files = (
 				0A8B992C1E407C1700130F7F /* Localizable.strings in Resources */,
 				0A2CE6841E10FC610003F3CB /* fontawesome-webfont.ttf in Resources */,
+				DA8A6D581F1EE79500F8A9FC /* Setting.storyboard in Resources */,
 				DAC9005B1F1C5AA30011B870 /* Piano.storyboard in Resources */,
 				3131F6D91DDD2E3D00EC4229 /* Assets.xcassets in Resources */,
 				0AEC95881E3A001E0039A47F /* Launch Screen.storyboard in Resources */,
@@ -737,7 +767,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA8A6D631F1EFB9100F8A9FC /* SettingTableViewController.swift in Sources */,
 				0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */,
+				DAF2EC7B1F1F1646009B49BA /* ReviewViewController.swift in Sources */,
 				DAC9005D1F1C6A650011B870 /* NSAttributedString_Extension.swift in Sources */,
 				F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */,
 				DAC900691F1C6B6A0011B870 /* PianoViewData.swift in Sources */,
@@ -754,13 +786,16 @@
 				F49B3C751EE1A2AF00A0E81C /* ImagePicker.swift in Sources */,
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
 				DA53FDA11F1C745B00CA8587 /* NoteViewController.swift in Sources */,
+				DAF2EC771F1F15EC009B49BA /* UsageViewController.swift in Sources */,
 				F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */,
+				DA8A6D5D1F1EFA1400F8A9FC /* DefaultViewController.swift in Sources */,
 				0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */,
 				DAC9005F1F1C6A930011B870 /* CGRect_Extension.swift in Sources */,
 				310870A21DE14D6A0044BA5D /* PianoTextView.swift in Sources */,
 				DAC900741F1C6FE80011B870 /* ImageCell.swift in Sources */,
 				DAC900611F1C6ACF0011B870 /* PianoAttributeStyle.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
+				DAF2EC791F1F1619009B49BA /* FAQViewController.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */,
@@ -780,6 +815,7 @@
 				DA53FDA51F1C79D400CA8587 /* NoteListViewController.swift in Sources */,
 				F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */,
 				DAC9006D1F1C6CA50011B870 /* PianoEditor.swift in Sources */,
+				DAF2EC751F1F0363009B49BA /* TrashViewController.swift in Sources */,
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */,

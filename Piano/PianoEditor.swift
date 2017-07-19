@@ -42,7 +42,7 @@ class PianoEditor: UIView {
         
         UIView.animate(withDuration: PianoGlobal.duration, animations: { [weak self] in
             self?.topViewTop.constant = topValue
-            self?.textView.contentInset.top = insetTop
+//            self?.textView.contentInset.top = insetTop
             self?.layoutIfNeeded()
         }) { (_) in
             completion()
