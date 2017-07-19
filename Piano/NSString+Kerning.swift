@@ -18,7 +18,7 @@ extension NSString {
         return width * 0.3
     }
     
-    func boundingWidth(with type: Type, font: UIFont) -> CGFloat {
+    func boundingWidth(with type: ElementType, font: UIFont) -> CGFloat {
         var width = whiteSpaceWidth(font)
         width += dotWidth(font) * 1.3
         
