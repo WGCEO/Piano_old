@@ -9,11 +9,18 @@
 import UIKit
 
 class UsageViewController: UIViewController {
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func back(_ sender: Any) {
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
 }

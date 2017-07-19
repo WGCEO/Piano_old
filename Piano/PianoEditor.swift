@@ -18,8 +18,8 @@ class PianoEditor: UIView {
     // MARK: property
     @IBOutlet weak var textView: PianoTextView!
     @IBOutlet weak var pianoView: PianoView!
-    @IBOutlet weak var topViewTop: NSLayoutConstraint!
     @IBOutlet var topButtons: [UIButton]!
+    @IBOutlet weak var palleteViewTop: NSLayoutConstraint!
     
     // MARK: init
     override func awakeFromNib() {
@@ -41,8 +41,9 @@ class PianoEditor: UIView {
         let (topValue, insetTop, completion) = animateValues(for: mode)
         
         UIView.animate(withDuration: PianoGlobal.duration, animations: { [weak self] in
-            self?.topViewTop.constant = topValue
-//            self?.textView.contentInset.top = insetTop
+            self?.palleteViewTop.constant = topValue
+            self?.textView.contentInset.top = insetTop
+            
             self?.layoutIfNeeded()
         }) { (_) in
             completion()

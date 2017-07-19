@@ -11,7 +11,6 @@ import UIKit
 class NoteCell: UITableViewCell {
     
     @IBOutlet weak var headerLabel: UILabel!
-    @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var ibImageView: UIImageView!
     

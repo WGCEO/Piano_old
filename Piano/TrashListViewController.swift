@@ -1,22 +1,19 @@
 //
-//  DeletedMemoListViewController.swift
+//  TrashViewController.swift
 //  Piano
 //
-//  Created by kevin on 2016. 12. 22..
-//  Copyright © 2016년 Piano. All rights reserved.
+//  Created by changi kim on 2017. 7. 19..
+//  Copyright © 2017년 Piano. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class DeletedMemoListViewController: UIViewController {
-
-    let coreDataStack = PianoData.coreDataStack
+class TrashListViewController: UIViewController {
+    
     @IBOutlet weak var tableView: UITableView!
-    
-    var indicatingCell: () -> Void = {}
-    
-    lazy var formatter: DateFormatter = {
+    private let coreDataStack = PianoData.coreDataStack
+    lazy private var formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
@@ -24,7 +21,7 @@ class DeletedMemoListViewController: UIViewController {
         return formatter
     }()
     
-    lazy var resultsController: NSFetchedResultsController<Memo> = {
+    lazy private var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
         request.predicate = NSPredicate(format: "isInTrash == true")
         let context = self.coreDataStack.viewContext
@@ -35,17 +32,8 @@ class DeletedMemoListViewController: UIViewController {
         return controller
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setTableViewCellHeight()
-//        PianoData.deleteMemosIfPassOneMonth()
-        
-        do {
-            try resultsController.performFetch()
-        } catch {
-            print("Error performing fetch \(error.localizedDescription)")
-        }
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     func setTableViewCellHeight() {
@@ -56,6 +44,18 @@ class DeletedMemoListViewController: UIViewController {
         let margin: CGFloat = 10
         
         tableView.rowHeight = bodySize.height + callOutSize.height + (margin * 2)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setTableViewCellHeight()
+        
+        do {
+            try resultsController.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,14 +70,6 @@ class DeletedMemoListViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        indicatingCell()
-        indicatingCell = {}
-        
-        
-    }
-    
     @objc func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
@@ -86,36 +78,45 @@ class DeletedMemoListViewController: UIViewController {
         guard let identifier = segue.identifier else { return }
         
         switch identifier {
-        case "DeletedMemo":
+        case "TrashViewController":
             let des = segue.destination as! DeletedMemoViewController
             des.coreDataStack = coreDataStack
             guard let memo = sender as? Memo else { return }
             des.memo = memo
-
+            
         default:
             ()
         }
     }
+    
+    
+    @IBAction func back(_ sender: Any) {
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
 }
 
-extension DeletedMemoListViewController: UITableViewDataSource {
+extension TrashListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "DeletedMemoCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell") as! NoteCell
         configure(cell: cell, at: indexPath)
         
         return cell
     }
     
-    func configure(cell: UITableViewCell, at indexPath: IndexPath) {
+    func configure(cell: NoteCell, at indexPath: IndexPath) {
         let memo = resultsController.object(at: indexPath)
         
+        cell.headerLabel.text = memo.firstLine
+        cell.dateLabel.text = formatter.string(from: memo.date! as Date)
         
-        let view = UIView()
-        view.backgroundColor = UIColor.piano
-        cell.selectedBackgroundView = view
         
-        cell.textLabel?.text = memo.firstLine
-        cell.detailTextLabel?.text = formatter.string(from: memo.date! as Date)
+        if let data = memo.imageData {
+            let image = UIImage(data: data as Data)
+            cell.ibImageView.image = image
+        } else {
+            cell.ibImageView.image = nil
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,19 +128,15 @@ extension DeletedMemoListViewController: UITableViewDataSource {
     }
 }
 
-extension DeletedMemoListViewController: UITableViewDelegate {
+extension TrashListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let memo = resultsController.object(at: indexPath)
-        performSegue(withIdentifier: "DeletedMemo", sender: memo)
-        
-        indicatingCell = { [unowned self] in
-            self.tableView.deselectRow(at: indexPath, animated: true)
-        }
+        let note = resultsController.object(at: indexPath)
+        performSegue(withIdentifier: "TrashViewController", sender: note)
     }
 }
 
-extension DeletedMemoListViewController: NSFetchedResultsControllerDelegate {
+extension TrashListViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -154,7 +151,7 @@ extension DeletedMemoListViewController: NSFetchedResultsControllerDelegate {
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
             guard let indexPath = indexPath else { return }
-            if let cell = tableView.cellForRow(at: indexPath) {
+            if let cell = tableView.cellForRow(at: indexPath) as? NoteCell {
                 configure(cell: cell, at: indexPath)
                 cell.setNeedsLayout()
             }

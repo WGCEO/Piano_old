@@ -314,6 +314,8 @@ extension MemoManager {
                 return
             } else {
                 //한번도 생성한 적이 없다면
+                
+                //스테틱 폴더 생성
                 var staticFolders: [StaticFolder] = []
                 if staticFolderCount == 0 {
                     for i in 0...6 {
@@ -332,6 +334,7 @@ extension MemoManager {
                             staticFolders[6].memos = originalForder.memos
                         }
                     }
+                    
                     try context.save()
                 }
             }
@@ -339,6 +342,8 @@ extension MemoManager {
             print("마이그레이션 도중 에러발생, 원인: \(error.localizedDescription)")
         }
     }
+    
+    
 }
 
 

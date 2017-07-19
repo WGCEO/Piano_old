@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FAQViewController: UIViewController {
+class OldNoteViewController: UIViewController {
     
     override var prefersStatusBarHidden: Bool {
         return true

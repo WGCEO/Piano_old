@@ -62,9 +62,9 @@
 		DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900751F1C704B0011B870 /* MRScrollView.swift */; };
 		DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900781F1C70900011B870 /* UILabel_Extension.swift */; };
 		DAC9007B1F1C70C30011B870 /* MRInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */; };
-		DAF2EC751F1F0363009B49BA /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC741F1F0363009B49BA /* TrashViewController.swift */; };
+		DAF2EC751F1F0363009B49BA /* TrashListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC741F1F0363009B49BA /* TrashListViewController.swift */; };
 		DAF2EC771F1F15EC009B49BA /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */; };
-		DAF2EC791F1F1619009B49BA /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC781F1F1619009B49BA /* FAQViewController.swift */; };
+		DAF2EC791F1F1619009B49BA /* OldNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC781F1F1619009B49BA /* OldNoteViewController.swift */; };
 		DAF2EC7B1F1F1646009B49BA /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */; };
 		DAF2EC7D1F1F26FB009B49BA /* LicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC7C1F1F26FB009B49BA /* LicenseViewController.swift */; };
 		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
@@ -191,9 +191,9 @@
 		DAC900751F1C704B0011B870 /* MRScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRScrollView.swift; sourceTree = "<group>"; };
 		DAC900781F1C70900011B870 /* UILabel_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel_Extension.swift; sourceTree = "<group>"; };
 		DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRInputAccessoryView.swift; sourceTree = "<group>"; };
-		DAF2EC741F1F0363009B49BA /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
+		DAF2EC741F1F0363009B49BA /* TrashListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashListViewController.swift; sourceTree = "<group>"; };
 		DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
-		DAF2EC781F1F1619009B49BA /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
+		DAF2EC781F1F1619009B49BA /* OldNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldNoteViewController.swift; sourceTree = "<group>"; };
 		DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		DAF2EC7C1F1F26FB009B49BA /* LicenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
 		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
@@ -438,10 +438,10 @@
 		DA53FDA31F1C755100CA8587 /* PianoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				DAC9006C1F1C6CA50011B870 /* PianoEditor.swift */,
 				DAC900681F1C6B6A0011B870 /* PianoViewData.swift */,
 				DAC9006A1F1C6B8E0011B870 /* PianoView.swift */,
 				DAC900661F1C6B490011B870 /* PianoResult.swift */,
-				DAC9006C1F1C6CA50011B870 /* PianoEditor.swift */,
 				31575C941DE80BB600373ADD /* PianoControl.swift */,
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
 				DAC900601F1C6ACF0011B870 /* PianoAttributeStyle.swift */,
@@ -462,9 +462,9 @@
 			isa = PBXGroup;
 			children = (
 				DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */,
-				DAF2EC741F1F0363009B49BA /* TrashViewController.swift */,
+				DAF2EC741F1F0363009B49BA /* TrashListViewController.swift */,
 				DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */,
-				DAF2EC781F1F1619009B49BA /* FAQViewController.swift */,
+				DAF2EC781F1F1619009B49BA /* OldNoteViewController.swift */,
 				DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */,
 				DAF2EC7C1F1F26FB009B49BA /* LicenseViewController.swift */,
 			);
@@ -798,7 +798,7 @@
 				DAC900741F1C6FE80011B870 /* ImageCell.swift in Sources */,
 				DAC900611F1C6ACF0011B870 /* PianoAttributeStyle.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
-				DAF2EC791F1F1619009B49BA /* FAQViewController.swift in Sources */,
+				DAF2EC791F1F1619009B49BA /* OldNoteViewController.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */,
@@ -819,7 +819,7 @@
 				DA53FDA51F1C79D400CA8587 /* NoteListViewController.swift in Sources */,
 				F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */,
 				DAC9006D1F1C6CA50011B870 /* PianoEditor.swift in Sources */,
-				DAF2EC751F1F0363009B49BA /* TrashViewController.swift in Sources */,
+				DAF2EC751F1F0363009B49BA /* TrashListViewController.swift in Sources */,
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */,

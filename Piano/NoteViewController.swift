@@ -17,8 +17,7 @@ class NoteViewController: UIViewController {
     @IBOutlet weak var editor: PianoEditor!
     @IBOutlet weak var bottomViewBottom: NSLayoutConstraint!
     @IBOutlet weak var completeButtonBottom: NSLayoutConstraint!
-    @IBOutlet weak var topViewTop: NSLayoutConstraint!
-    
+    @IBOutlet weak var folderViewTop: NSLayoutConstraint!
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -87,27 +86,31 @@ class NoteViewController: UIViewController {
     }
     
     private func animate(for mode: PianoMode) {
-        let (bottomViewBottom, completeButtonBottom) = animateValues(for: mode)
+        let (topViewTop, bottomViewBottom, completeButtonBottom) = animateValues(for: mode)
         
         UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.folderViewTop.constant = topViewTop
             self?.bottomViewBottom.constant = bottomViewBottom
             self?.completeButtonBottom.constant = completeButtonBottom
             self?.view.layoutIfNeeded()
         }
     }
     
-    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat) {
+    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat) {
+        let folderViewTop: CGFloat
         let bottomViewBottom: CGFloat
         let completeButtonBottom: CGFloat
         switch mode {
         case .on:
+            folderViewTop = -64
             bottomViewBottom = -44
             completeButtonBottom = 0
         case .off:
+            folderViewTop = 0
             bottomViewBottom = 0
             completeButtonBottom = -44
         }
-        return (bottomViewBottom, completeButtonBottom)
+        return (folderViewTop, bottomViewBottom, completeButtonBottom)
     }
     
     @IBAction func tapListButton(_ sender: Any) {
@@ -162,12 +165,12 @@ extension NoteViewController : UITextViewDelegate {
         guard let textView = scrollView as? PianoTextView, textView.isEditable else { return }
         let offsetY = scrollView.contentOffset.y
         if (offsetY <= -PianoGlobal.navigationBarHeight) {
-            topViewTop.constant = 0
+            folderViewTop.constant = 0
         } else if (offsetY <= 0) {
             let value = -(PianoGlobal.navigationBarHeight+offsetY)
-            topViewTop.constant = value
+            folderViewTop.constant = value
         } else {
-            topViewTop.constant = -PianoGlobal.navigationBarHeight
+            folderViewTop.constant = -PianoGlobal.navigationBarHeight
         }
     }
     
