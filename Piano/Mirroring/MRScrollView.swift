@@ -38,6 +38,7 @@ class MRScrollView: UIScrollView {
         
         //4. 다음 두개를 세팅: 1) scrollOffsetX    2) 미러링 커서 위치
         let frontRange = NSMakeRange(0, textView.selectedRange.location - paragraphRange.location)
+        
         let frontWidth = attrText.attributedSubstring(from: frontRange).size().width
         
         setScrollOffset(by: frontWidth)
@@ -47,16 +48,16 @@ class MRScrollView: UIScrollView {
     private func getAttrTextForMirroring(from textView: UITextView, inRange range: NSRange) -> NSAttributedString {
         let attrText = textView.attributedText.attributedSubstring(from: range)
         
-        var mutableAttrText = NSMutableAttributedString(attributedString: attrText)
-        var mutableAttrTextRange = NSMakeRange(0, mutableAttrText.length)
+        let mutableAttrText = NSMutableAttributedString(attributedString: attrText)
+        let mutableAttrTextRange = NSMakeRange(0, mutableAttrText.length)
         
         if mutableAttrText.length != 0 {
-            attrText.enumerateAttribute(NSAttributedStringKey.attachment, in: mutableAttrTextRange, options: [], using: { (value, range, stop) in
-                guard value is ImageTextAttachment else { return }
-                mutableAttrText = NSMutableAttributedString(string: " ")
-                mutableAttrTextRange = NSMakeRange(0, mutableAttrText.length)
-                stop.pointee = true
-            })
+//            attrText.enumerateAttribute(NSAttributedStringKey.attachment, in: mutableAttrTextRange, options: [], using: { (value, range, stop) in
+//                guard value is ImageTextAttachment else { return }
+//                mutableAttrText = NSMutableAttributedString(string: " ")
+//                mutableAttrTextRange = NSMakeRange(0, mutableAttrText.length)
+//                stop.pointee = true
+//            })
             
             let font = UIFont.systemFont(ofSize: PianoGlobal.mirrorFont)
             mutableAttrText.addAttributes([NSAttributedStringKey.font : font,
