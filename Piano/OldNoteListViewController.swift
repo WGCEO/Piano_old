@@ -1,5 +1,5 @@
 //
-//  TrashViewController.swift
+//  FAQViewController.swift
 //  Piano
 //
 //  Created by changi kim on 2017. 7. 19..
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TrashListViewController: UIViewController {
+class OldNoteListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     private let coreDataStack = PianoData.coreDataStack
@@ -23,9 +23,9 @@ class TrashListViewController: UIViewController {
     
     lazy private var resultsController: NSFetchedResultsController<Memo> = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == true")
+        request.predicate = NSPredicate(format: "isInTrash == false")
         let context = self.coreDataStack.viewContext
-        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
+        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: true)
         request.sortDescriptors = [dateSort]
         let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
@@ -35,7 +35,7 @@ class TrashListViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     func setTableViewCellHeight() {
         let originalString: String = "ForBodySize"
         let myString = originalString
@@ -45,10 +45,10 @@ class TrashListViewController: UIViewController {
         
         tableView.rowHeight = bodySize.height + callOutSize.height + (margin * 2)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setTableViewCellHeight()
         
         do {
@@ -61,7 +61,7 @@ class TrashListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(DeletedMemoListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(OldNoteListViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -78,8 +78,8 @@ class TrashListViewController: UIViewController {
         guard let identifier = segue.identifier else { return }
         
         switch identifier {
-        case "TrashViewController":
-            let des = segue.destination as! TrashViewController
+        case "OldNoteViewController":
+            let des = segue.destination as! OldNoteViewController
             des.coreDataStack = coreDataStack
             guard let memo = sender as? Memo else { return }
             des.memo = memo
@@ -88,15 +88,13 @@ class TrashListViewController: UIViewController {
             ()
         }
     }
-    
-    
+
     @IBAction func back(_ sender: Any) {
         let _ = navigationController?.popViewController(animated: true)
     }
-    
 }
 
-extension TrashListViewController: UITableViewDataSource {
+extension OldNoteListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell") as! NoteCell
         configure(cell: cell, at: indexPath)
@@ -128,15 +126,15 @@ extension TrashListViewController: UITableViewDataSource {
     }
 }
 
-extension TrashListViewController: UITableViewDelegate {
+extension OldNoteListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let note = resultsController.object(at: indexPath)
-        performSegue(withIdentifier: "TrashViewController", sender: note)
+        performSegue(withIdentifier: "OldNoteViewController", sender: note)
     }
 }
 
-extension TrashListViewController: NSFetchedResultsControllerDelegate {
+extension OldNoteListViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }

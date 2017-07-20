@@ -1,23 +1,27 @@
 //
-//  DeletedMemoViewController.swift
+//  TrashViewController.swift
 //  Piano
 //
-//  Created by kevin on 2016. 12. 22..
-//  Copyright © 2016년 Piano. All rights reserved.
+//  Created by changi kim on 2017. 7. 20..
+//  Copyright © 2017년 Piano. All rights reserved.
 //
 
 import UIKit
 
-class DeletedMemoViewController: UIViewController {
+class TrashViewController: UIViewController {
 
-    @IBOutlet weak var textView: UITextView!
-    var memo: Memo?
-    var coreDataStack: PianoPersistentContainer!
+    public var memo: Memo?
+    public var coreDataStack: PianoPersistentContainer!
+    
+    @IBOutlet private weak var textView: UITextView!
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        textView.layoutManager.delegate = self
+
         textView.textContainerInset = UIEdgeInsetsMake(20, 10, 80, 10)
         
         if let memo = self.memo {
@@ -44,22 +48,15 @@ class DeletedMemoViewController: UIViewController {
         textView.isScrollEnabled = didAppear
     }
     
-    @IBAction func tapRestoreBarButton(_ sender: Any) {
+    @IBAction func back(_ sender: Any) {
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func restore(_ sender: Any) {
         guard let memo = self.memo else { return }
         memo.isInTrash = false
         memo.date = Date()
         PianoData.save()
         let _ = navigationController?.popViewController(animated: true)
     }
-    
-}
-
-extension DeletedMemoViewController: NSLayoutManagerDelegate {
-    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-        return 8
-    }
-}
-
-extension DeletedMemoViewController: UITextViewDelegate {
-    
 }

@@ -249,10 +249,10 @@
             </objects>
             <point key="canvasLocation" x="519.20000000000005" y="66.11694152923539"/>
         </scene>
-        <!--Old Note View Controller-->
+        <!--Old Note List View Controller-->
         <scene sceneID="mNV-Tg-lcS">
             <objects>
-                <viewController id="c8a-nu-VQw" customClass="OldNoteViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="c8a-nu-VQw" customClass="OldNoteListViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="iYH-bO-FUr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -333,6 +333,7 @@
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstItem="Me9-fc-jDi" firstAttribute="leading" secondItem="rYs-kE-s2V" secondAttribute="leading" constant="24" id="Ht0-ML-DcM"/>
                                                 <constraint firstItem="Me9-fc-jDi" firstAttribute="top" secondItem="rYs-kE-s2V" secondAttribute="top" constant="8" id="SUD-Jn-j3t"/>
@@ -347,6 +348,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="c8a-nu-VQw" id="0AD-Kf-jQz"/>
+                                    <outlet property="delegate" destination="c8a-nu-VQw" id="vYp-ve-bk4"/>
+                                </connections>
                             </tableView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0MX-Li-CN9">
                                 <rect key="frame" x="16" y="601" width="58" height="50"/>
@@ -379,10 +384,88 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0pX-OQ-Km4"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="xgb-XN-Vle" id="tHi-cH-gzD"/>
+                        <segue destination="pUw-WY-ReE" kind="show" identifier="OldNoteViewController" id="0AY-aK-HjT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wJp-NX-ysw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1401" y="-816"/>
+        </scene>
+        <!--Old Note View Controller-->
+        <scene sceneID="Euc-mv-rdA">
+            <objects>
+                <viewController id="pUw-WY-ReE" customClass="OldNoteViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="wpn-xe-3j9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0YV-p1-3nj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8KG-gP-ysd">
+                                <rect key="frame" x="16" y="601" width="58" height="50"/>
+                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="j5A-ZR-4aD"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                                <state key="normal" title="뒤로">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="back:" destination="pUw-WY-ReE" eventType="touchUpInside" id="auc-5I-UKa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1x-Rm-BDF">
+                                <rect key="frame" x="301" y="601" width="58" height="50"/>
+                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="eZU-nc-pEK"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                                <state key="normal" title="삭제">
+                                    <color key="titleColor" red="1" green="0.18808593749999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="moveToTrash:" destination="pUw-WY-ReE" eventType="touchUpInside" id="IYJ-Cf-eC0"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Dhk-er-jq4" firstAttribute="trailing" secondItem="0YV-p1-3nj" secondAttribute="trailing" id="45j-MI-dr4"/>
+                            <constraint firstItem="Dhk-er-jq4" firstAttribute="bottom" secondItem="8KG-gP-ysd" secondAttribute="bottom" constant="16" id="4Yt-RA-5lb"/>
+                            <constraint firstItem="0YV-p1-3nj" firstAttribute="leading" secondItem="Dhk-er-jq4" secondAttribute="leading" id="FLk-87-CFU"/>
+                            <constraint firstItem="Dhk-er-jq4" firstAttribute="trailing" secondItem="O1x-Rm-BDF" secondAttribute="trailing" constant="16" id="G14-Ac-sNq"/>
+                            <constraint firstItem="Dhk-er-jq4" firstAttribute="bottom" secondItem="O1x-Rm-BDF" secondAttribute="bottom" constant="16" id="ObB-It-l1B"/>
+                            <constraint firstAttribute="bottom" secondItem="0YV-p1-3nj" secondAttribute="bottom" id="RjY-NT-m6s"/>
+                            <constraint firstItem="0YV-p1-3nj" firstAttribute="top" secondItem="wpn-xe-3j9" secondAttribute="top" id="faB-cF-DjQ"/>
+                            <constraint firstItem="8KG-gP-ysd" firstAttribute="leading" secondItem="Dhk-er-jq4" secondAttribute="leading" constant="16" id="oKU-bP-NmU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Dhk-er-jq4"/>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="0YV-p1-3nj" id="tEv-WP-Bzn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CiZ-qN-dRF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2262" y="-812"/>
         </scene>
         <!--Review View Controller-->
         <scene sceneID="uxs-ku-Tui">
@@ -696,6 +779,7 @@
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="Oae-AY-mLg" secondAttribute="bottom" constant="8" id="Jwe-Qy-XVZ"/>
                                                 <constraint firstItem="Oae-AY-mLg" firstAttribute="leading" secondItem="N11-gD-k6T" secondAttribute="leading" constant="24" id="QhH-V3-v1s"/>
@@ -796,11 +880,86 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="488-OD-VpU" id="AXT-H2-EHZ"/>
+                        <segue destination="mjg-dw-5s9" kind="show" identifier="TrashViewController" id="RSk-G2-Jlw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n82-fZ-nGX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1401" y="-1487"/>
+        </scene>
+        <!--Trash View Controller-->
+        <scene sceneID="8Ui-8J-xOg">
+            <objects>
+                <viewController id="mjg-dw-5s9" customClass="TrashViewController" customModule="Piano" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="xsz-oY-IHg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qtQ-qj-aPI">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FJC-WP-KTe">
+                                <rect key="frame" x="16" y="601" width="58" height="50"/>
+                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="cVq-2k-eH2"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                                <state key="normal" title="뒤로">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="back:" destination="mjg-dw-5s9" eventType="touchUpInside" id="fWL-gr-5np"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PjW-ML-RbL">
+                                <rect key="frame" x="301" y="601" width="58" height="50"/>
+                                <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dSj-Gq-BOa"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                                <state key="normal" title="복원">
+                                    <color key="titleColor" red="0.019607843140000001" green="0.78823529410000004" blue="0.81414620540000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="restore:" destination="mjg-dw-5s9" eventType="touchUpInside" id="49C-Ly-2ua"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FJC-WP-KTe" firstAttribute="leading" secondItem="mOR-aV-qcT" secondAttribute="leading" constant="16" id="3Gp-zD-76N"/>
+                            <constraint firstItem="mOR-aV-qcT" firstAttribute="bottom" secondItem="FJC-WP-KTe" secondAttribute="bottom" constant="16" id="7U1-aZ-hW4"/>
+                            <constraint firstItem="mOR-aV-qcT" firstAttribute="trailing" secondItem="PjW-ML-RbL" secondAttribute="trailing" constant="16" id="9cI-d6-EY2"/>
+                            <constraint firstItem="mOR-aV-qcT" firstAttribute="bottom" secondItem="PjW-ML-RbL" secondAttribute="bottom" constant="16" id="DBc-08-H2H"/>
+                            <constraint firstItem="qtQ-qj-aPI" firstAttribute="top" secondItem="xsz-oY-IHg" secondAttribute="top" id="L8j-4J-bZg"/>
+                            <constraint firstItem="qtQ-qj-aPI" firstAttribute="leading" secondItem="mOR-aV-qcT" secondAttribute="leading" id="T9h-gF-b3Y"/>
+                            <constraint firstItem="mOR-aV-qcT" firstAttribute="trailing" secondItem="qtQ-qj-aPI" secondAttribute="trailing" id="xmg-3f-04c"/>
+                            <constraint firstItem="mOR-aV-qcT" firstAttribute="bottom" secondItem="qtQ-qj-aPI" secondAttribute="bottom" id="z5a-wT-0Db"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="mOR-aV-qcT"/>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="qtQ-qj-aPI" id="kuz-Bg-2LW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A7X-mz-9mz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2274" y="-1485"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="icl-yd-B3K">
