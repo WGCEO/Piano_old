@@ -31,6 +31,25 @@ class PianoEditor: UIView {
     
     weak var delegate: Navigatable?
     
+    var controlPanelAnimate: Bool = false
+    fileprivate var offSetY: CGFloat = 0 {
+        didSet {
+            if oldValue > offSetY, controlPanelBottom.constant != 7 {
+                //위로 애니메이션하세요.
+                UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                    self?.controlPanelBottom.constant = 7
+                    self?.layoutIfNeeded()
+                })
+            } else if oldValue < offSetY, controlPanelBottom.constant != -44, offSetY > 0 {
+                //아래로 애니메이션하세요.
+                UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                    self?.controlPanelBottom.constant = -44
+                    self?.layoutIfNeeded()
+                })
+            }
+        }
+    }
+    
     // MARK: init
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -60,7 +79,7 @@ class PianoEditor: UIView {
     
     
     public func animate(for mode: PianoMode) {
-        let (textInsetTop, palleteViewTop, completeButtonBottom, controlPanelBottom, completion) = animateValues(for: mode)
+        let (palleteViewTop, completeButtonBottom, controlPanelBottom, completion) = animateValues(for: mode)
         
         UIView.animate(withDuration: PianoGlobal.duration, animations: { [weak self] in
             self?.palleteViewTop.constant = palleteViewTop
@@ -101,8 +120,7 @@ class PianoEditor: UIView {
         }
     }
     
-    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat, CGFloat, completion: () -> Void) {
-        let textInsetTop: CGFloat
+    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat, completion: () -> Void) {
         let palleteViewTop: CGFloat
         let completeButtonBottom: CGFloat
         let controlPanelBottom: CGFloat
@@ -110,7 +128,6 @@ class PianoEditor: UIView {
         
         switch mode {
         case .on:
-            textInsetTop = 110
             palleteViewTop = 0
             completeButtonBottom = 0
             controlPanelBottom = -45
@@ -121,7 +138,6 @@ class PianoEditor: UIView {
                 self?.textView.setOffsetForPreventBug()
             }
         case .off:
-            textInsetTop = 74
             palleteViewTop = -100
             completeButtonBottom = -44
             controlPanelBottom = 7
@@ -131,7 +147,7 @@ class PianoEditor: UIView {
                 self?.textView.detachControl()
             }
         }
-        return (textInsetTop, palleteViewTop, completeButtonBottom, controlPanelBottom, completion)
+        return (palleteViewTop, completeButtonBottom, controlPanelBottom, completion)
     }
 }
 
@@ -164,6 +180,12 @@ extension PianoEditor : UITextViewDelegate {
         guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
         textView.detachControl()
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        offSetY = scrollView.contentOffset.y
+    }
+    
+
     
     
     /*
