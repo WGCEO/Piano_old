@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum Type: String {
+enum ElementType: String {
     case number = "(?=[\n]*)\\d+\\. "
-    case list = "(?=[\n]*)\\-\\. "
-    case checkbox = "(?=[\n]*)\\*\\. "
+    case list = "(?=[\n]*)[•-] "
+    case checkbox = "(?=[\n]*)\\* "
     case none = ""
     
     var pattern: String {
@@ -19,7 +19,8 @@ enum Type: String {
     }
 }
 
-typealias Element = (type: Type, text: NSString, range: NSRange)
+typealias Paragraph = (element: Element, paragraphRange: NSRange)
+typealias Element = (type: ElementType, text: NSString, range: NSRange)
 typealias Context = (before: Element?, after: Element?)
 
 class ElementInspector {
@@ -29,13 +30,33 @@ class ElementInspector {
         
     }
     
-    public func inspect(_ text: NSString, handler: ((Element)->Void)?) {
-        let element = inspect(text)
-        handler?(element)
+    public func inspect(document attributedText: NSAttributedString, handler: ((Paragraph)->Void)?) {
+        let text = attributedText.string as NSString
+        text.enumerateSubstrings(in: NSMakeRange(0, text.length), options: .byParagraphs) { [weak self] (paragraph, paragraphRange, enclosingRange, stop) in
+            guard let strongSelf = self, paragraph != "" else { return }
+            
+            let paragraphAttributedText = attributedText.attributedSubstring(from: paragraphRange)
+            let element = strongSelf.inspect(paragraph: paragraphAttributedText)
+            let paragraph = (element, paragraphRange)
+            
+            handler?(paragraph)
+        }
     }
     
-    public func inspect(_ text: NSString) -> Element {
-        for type in iterateEnum(Type.self) {
+    
+    public func inspect(paragraph attributedText: NSAttributedString) -> Element {
+        let text = attributedText.string as NSString
+        if let attachment = attributedText.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) as? ImageTextAttachment {
+            if attachment.localIdentifier == "checkbox" && text.length > 1 && text.substring(with: NSMakeRange(1,1)) == " " {
+                return (.checkbox, "", NSMakeRange(0, 2))
+            }
+        }
+        
+        return inspect(with: text)
+    }
+    
+    public func inspect(with text: NSString) -> Element {
+        for type in iterateEnum(ElementType.self) {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
@@ -57,12 +78,12 @@ class ElementInspector {
             position += paragraph.characters.count + 1
             
             if paragraphRange.location <= range.location {
-                before = inspect(paragraph as NSString)
+                before = inspect(with: paragraph as NSString)
                 if let range = before?.range {
                     before?.range = NSMakeRange(paragraphRange.location + range.location, range.length)
                 }
             } else if (paragraphRange.length+paragraphRange.length) < range.location && paragraphRange.location < 10000000 { // TODO: how to detect range location overflow
-                after = inspect(paragraph as NSString)
+                after = inspect(with: paragraph as NSString)
                 if let range = after?.range {
                     after?.range = NSMakeRange(paragraphRange.location + range.location, range.length)
                 }

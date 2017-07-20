@@ -9,8 +9,10 @@
 import Foundation
 import UIKit
 
+private let indentWidth: CGFloat = 30.0
 
-fileprivate let indentWidth: CGFloat = 30.0
+let ElementAttributeKey = NSAttributedStringKey("elementAttributeKey")
+
 
 extension PianoTextView {
     
@@ -20,15 +22,26 @@ extension PianoTextView {
         let range = NSMakeRange(0, text.length)
         
         addIndent(in: range)
-        text.enumerateSubstrings(in: range, options: .byParagraphs) { [weak self] (paragraph: String?, paragraphRange: NSRange, enclosingRange: NSRange, stop) in
-            guard let paragraph = paragraph as NSString? else { return }
-            ElementInspector.sharedInstance.inspect(paragraph, handler: { (element: Element) in
-                let textRange = NSMakeRange(paragraphRange.location + element.range.location, range.length)
+        ElementInspector.sharedInstance.inspect(document: attributedText) { [weak self] (paragraph: Paragraph) in
+            guard let strongSelf = self else { return }
+            let (element, paragraphRange) = paragraph
+            let textRange = NSMakeRange(paragraphRange.location + element.range.location, element.range.length)
+            let elementInDocument = (element.type, element.text, textRange)
+            
+            if element.type != .none {
+                strongSelf.removeIndent(elementInDocument, paragraphRange)
+            }
+            
+            if element.type == .checkbox && element.text == "* " {
+                let attachment = ImageTextAttachment(localIdentifier: "checkbox")
+                attachment.image = UIImage(named: "checkbox_on")
+                let attachmentAttributedString = NSAttributedString(attachment: attachment)
                 
-                if element.type == .number {
-                    self?.removeIndent(element.text, textRange, paragraphRange)
-                }
-            })
+                strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: attachmentAttributedString)
+                
+            } else if element.type == .list && element.text == "- " {
+                strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: "•")
+            }
         }
     }
     
@@ -49,7 +62,7 @@ extension PianoTextView {
         var before: Element?
         var location = 0
         for paragraph in textStorage.string.components(separatedBy: .newlines) {
-            let current = ElementInspector.sharedInstance.inspect(paragraph as NSString)
+            let current = ElementInspector.sharedInstance.inspect(with: paragraph as NSString)
             if let before = before {
                 if current.type == .number && current.type == before.type {
                     let elementText = before.text.substring(with: NSMakeRange(before.range.location, before.range.length-2))
@@ -110,26 +123,22 @@ extension PianoTextView {
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
         
-        textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: range)
-        
-        // TODO: add to indentation
+        let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle,
+                          ElementAttributeKey: ElementType.none] as [NSAttributedStringKey: Any]
+        textStorage.addAttributes(attributes, range: range)
+        textStorage.removeAttribute(NSAttributedStringKey.kern, range: range)
     }
     
-    private func removeIndent(_ text: NSString, _ textRange: NSRange, _ paragraphRange: NSRange) {
-        let attributes = textStorage.attributes(at: textRange.location, effectiveRange: nil)
+    private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
+        let attributes = textStorage.attributes(at: element.range.location, effectiveRange: nil)
         guard let font = attributes[NSAttributedStringKey.font] as? UIFont else { return }
         
-        let width = text.width(font)
+        let width = element.text.boundingWidth(with: element.type, font: font)
+        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
-
-        text.enumerateKernings(font) { [weak self] (index, kerning) in
-            let attributes = [NSAttributedStringKey.kern : kerning]
-            
-            let range = NSMakeRange(textRange.location + index, 1)
-            self?.textStorage.addAttributes(attributes, range: range)
-        }
+        textStorage.addAttributes([ElementAttributeKey: element.type], range: element.range)
     }
 }

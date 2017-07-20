@@ -9,57 +9,35 @@
 import Foundation
 import UIKit
 
-fileprivate let standardCharacter = "4"
+fileprivate let standardCharacter: NSString = "4"
 
 extension NSString {
-    func enumerateKernings(_ font: UIFont, _ handler: ((Int, CGFloat)->Void)?) {
-        let attributedText = NSMutableAttributedString(string: standardCharacter)
-        attributedText.addAttributes([NSAttributedStringKey.font : font, NSAttributedStringKey.kern: 0], range: NSMakeRange(0, 1))
-        let standardWidth = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
+    func kerningOfDot(_ font: UIFont) -> CGFloat {
+        let width = dotWidth(font)
         
-        let decimals = CharacterSet.decimalDigits
-        for (index, unicode) in (self as String).unicodeScalars.enumerated() {
-            let charString = String(unicode)
-            if decimals.contains(unicode) {
-                let attributedText = NSMutableAttributedString(string: charString)
-                attributedText.addAttributes([NSAttributedStringKey.font : font, NSAttributedStringKey.kern: 0], range: NSMakeRange(0, 1))
-                let width = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
-                
-                let kerning = (standardWidth - width)
-                
-                handler?(index, 0)
-            } else if charString == "." {
-                let attributedText = NSMutableAttributedString(string: ".")
-                attributedText.addAttributes([NSAttributedStringKey.font : font], range: NSMakeRange(0, 1))
-                let kerning = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 0.3
-                
-                handler?(index, kerning)
-            } else if charString == " " {
-                handler?(index, 0)
-            }
-        }
+        return width * 0.3
     }
     
-    func width(_ font: UIFont) -> CGFloat {
-        let numberRange = NSMakeRange(0, length-2)
-        let numberText = substring(with: numberRange) as NSString
+    func boundingWidth(with type: ElementType, font: UIFont) -> CGFloat {
+        var width = whiteSpaceWidth(font)
+        width += dotWidth(font) * 1.3
         
-        var width: CGFloat = 0.0
-        width += numberText.kernedWidth(font)
-        width += kernedDotWidth(font)
-        width += kernedWhiteSpaceWidth(font)
+        if type == .number {
+            let numberRange = NSMakeRange(0, length-2)
+            let numberText = substring(with: numberRange) as NSString
+            
+            width += numberText.stringWidth(font)
+        } else if type == .list || type == .checkbox {
+            width += standardCharacter.characterWidth(font)
+        }
         
         return width
     }
     
-    func kernedWidth(_ font: UIFont) -> CGFloat {
+    func stringWidth(_ font: UIFont) -> CGFloat {
         var width: CGFloat = 0.0
-        
-        var attributedText: NSMutableAttributedString
         for character in (self as String).characters.reversed() {
-            attributedText = NSMutableAttributedString(string: String(describing: character))
-            attributedText.addAttributes([NSAttributedStringKey.font: font, NSAttributedStringKey.kern: 0], range: NSMakeRange(0, 1))
-            let charWidth = attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width
+            let charWidth = (String(character) as NSString).boundingRect(with: CGSize(), options: [], attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.kern: 0], context: nil).width
             
             width += charWidth
         }
@@ -67,17 +45,19 @@ extension NSString {
         return width
     }
     
-    func kernedDotWidth(_ font: UIFont) -> CGFloat {
-        let attributedText = NSMutableAttributedString(string: ".")
-        attributedText.addAttributes([NSAttributedStringKey.font : font], range: NSMakeRange(0, 1))
-        
-        return attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1.3
+    func characterWidth(_ font: UIFont) -> CGFloat {
+        return boundingRect(with: CGSize(), options: [], attributes: [NSAttributedStringKey.font : font], context: nil).width
     }
     
-    func kernedWhiteSpaceWidth(_ font: UIFont) -> CGFloat {
-        let attributedText = NSMutableAttributedString(string: " ")
-        attributedText.addAttributes([NSAttributedStringKey.font : font], range: NSMakeRange(0, 1))
+    func dotWidth(_ font: UIFont) -> CGFloat {
+        let width = ("." as NSString).boundingRect(with: CGSize(), options: [], attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.kern: 0], context: nil).width
         
-        return attributedText.boundingRect(with: CGSize(width: 0, height: 0), options: [], context: nil).width * 1
+        return width
+    }
+    
+    func whiteSpaceWidth(_ font: UIFont) -> CGFloat {
+        let width = (" " as NSString).boundingRect(with: CGSize(), options: [], attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.kern: 0], context: nil).width
+        
+        return width
     }
 }
