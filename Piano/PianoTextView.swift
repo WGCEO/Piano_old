@@ -10,11 +10,19 @@ import UIKit
 
 class PianoTextView: UITextView {
     private var coverView: UIView?
+    private lazy var formInputView: FormInputView? = {
+        let nib = UINib(nibName: "FormInputView", bundle: nil)
+        guard let formInputView = nib.instantiate(withOwner: self, options: nil).first as? FormInputView else { return nil }
+        formInputView.delegate = self
+        return formInputView
+    }()
     
     //MARK: init
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setValuesForText()
+        setFolderView()
+        setInputAccessoryView()
         keyboard(listen: true)
     }
     
@@ -27,11 +35,22 @@ class PianoTextView: UITextView {
     
     private func setValuesForText(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10, 10, 0, 10)
-        contentInset = UIEdgeInsetsMake(PianoGlobal.navigationBarHeight,
-                                        0,
-                                        PianoGlobal.toolBarHeight,
-                                        0)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight, 10)
+        print(contentInset)
+    }
+    
+    private func setFolderView(){
+        let nib = UINib(nibName: "FolderView", bundle: nil)
+        guard let folderView = nib.instantiate(withOwner: self, options: nil).first as? FolderView else { return }
+        folderView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: 0))
+        addSubview(folderView)
+    }
+    
+    private func setInputAccessoryView(){
+        let nib = UINib(nibName: "MRInputAccessoryView", bundle: nil)
+        guard let mrInputAccessoryView = nib.instantiate(withOwner: self, options: nil).first as? MRInputAccessoryView else { return }
+        mrInputAccessoryView.delegate = self
+        inputAccessoryView = mrInputAccessoryView
     }
     
     private func keyboard(listen: Bool){
@@ -78,9 +97,10 @@ class PianoTextView: UITextView {
     }
     
     private func setAttribute(with result: PianoResult) {
-        let final = result.final.move(x: -textContainerInset.left, y: 0)
-        let farLeft = result.farLeft.move(x: -textContainerInset.left, y: 0)
-        let farRight = result.farRight.move(x: -textContainerInset.left, y: 0)
+        //TODO: 2는 어떤 줄이 윗 줄에 적용되는 버그에 대한 임시 해결책
+        let final = result.final.move(x: -textContainerInset.left, y: -textContainerInset.top + 2)
+        let farLeft = result.farLeft.move(x: -textContainerInset.left, y: -textContainerInset.top + 2)
+        let farRight = result.farRight.move(x: -textContainerInset.left, y: -textContainerInset.top + 2)
         
         let applyRange = getRangeForApply(farLeft: farLeft, final: final)
         if applyRange.length > 0 {
@@ -129,7 +149,7 @@ extension PianoTextView: Effectable {
                     return PianoViewData(rect: CGRect.zero, labelInfos: [])
             }
             
-            let relativePoint = point.move(x: 0, y: strongSelf.contentOffset.y + strongSelf.contentInset.top + strongSelf.textContainerInset.top)
+            let relativePoint = point.move(x: 0, y: strongSelf.contentOffset.y + strongSelf.contentInset.top - strongSelf.textContainerInset.top)
             
             let index = strongSelf.layoutManager.glyphIndex(for: relativePoint, in: strongSelf.textContainer)
             var range = NSRange()
@@ -211,5 +231,16 @@ extension PianoTextView: Insertable {
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return scaledImage
+    }
+}
+
+extension PianoTextView : KeyboardControllable {
+    func resignKeyboard() {
+        resignFirstResponder()
+    }
+    
+    func switchKeyboard(to: KeyboardState) {
+        inputView = to != .normal ? formInputView : nil
+        reloadInputViews()
     }
 }

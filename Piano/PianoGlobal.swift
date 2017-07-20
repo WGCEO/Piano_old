@@ -13,8 +13,7 @@ struct PianoGlobal {
     static var defaultColor = UIColor(red: 85/255, green: 85/255, blue: 85/255, alpha: 1)
     static var fontSize: CGFloat = 17
     
-    static let paletteViewHeight: CGFloat = 100
-    static let navigationBarHeight: CGFloat = 64
+    static let paletteViewHeight: CGFloat = 70
     static let toolBarHeight: CGFloat = 44
     static let accessoryViewHeight: CGFloat = 44
     static let duration: Double = 0.2

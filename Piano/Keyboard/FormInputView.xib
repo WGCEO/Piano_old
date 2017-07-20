@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="WAC-2G-trN" customClass="FormInputView" customModule="Piano" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MZe-9F-8lA">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="lOR-jy-NSZ">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="64"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzL-di-FiV">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="64"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <state key="normal" image="h"/>
+                                    <connections>
+                                        <action selector="tapHeadline:" destination="WAC-2G-trN" eventType="touchUpInside" id="RhF-V8-Fse"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4wc-o1-fCs">
+                                    <rect key="frame" x="80" y="0.0" width="80" height="64"/>
+                                    <state key="normal" image="check"/>
+                                    <connections>
+                                        <action selector="tapChecklist:" destination="WAC-2G-trN" eventType="touchUpInside" id="oju-bF-uWd"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a1H-Dt-6Vs">
+                                    <rect key="frame" x="160" y="0.0" width="80" height="64"/>
+                                    <state key="normal" image="icon"/>
+                                    <connections>
+                                        <action selector="tapList:" destination="WAC-2G-trN" eventType="touchUpInside" id="ZF4-Tn-xOZ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="zzA-P6-AwU">
+                            <rect key="frame" x="0.0" y="64" width="240" height="64"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZkE-OQ-MR4">
+                                    <rect key="frame" x="0.0" y="0.0" width="80" height="64"/>
+                                    <state key="normal" image="image"/>
+                                    <connections>
+                                        <action selector="tapAlbum:" destination="WAC-2G-trN" eventType="touchUpInside" id="QVd-Wx-h32"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuE-fz-eYh">
+                                    <rect key="frame" x="80" y="0.0" width="80" height="64"/>
+                                    <state key="normal" image="code"/>
+                                    <connections>
+                                        <action selector="tapCodeBlock:" destination="WAC-2G-trN" eventType="touchUpInside" id="HUR-F3-5vP"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8xB-lY-t1m">
+                                    <rect key="frame" x="160" y="0.0" width="80" height="64"/>
+                                    <state key="normal" image="seperationLine"/>
+                                    <connections>
+                                        <action selector="tapSeparator:" destination="WAC-2G-trN" eventType="touchUpInside" id="H0E-n9-4Qz"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+                <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="i6h-Xs-Onp">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="XhI-nt-Lp1">
+                        <size key="itemSize" width="70" height="69"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells>
+                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="YES" reuseIdentifier="ImageCell" id="vfS-xf-05A" customClass="ImageCell" customModule="Piano" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="29.5" width="70" height="69"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <rect key="frame" x="0.0" y="0.0" width="70" height="69"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HaV-sD-ciG">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="69"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AnD-4P-dSf">
+                                        <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="iFN-TD-U2S"/>
+                                            <constraint firstAttribute="width" constant="28" id="xlw-jY-aeP"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </view>
+                            <constraints>
+                                <constraint firstItem="AnD-4P-dSf" firstAttribute="leading" secondItem="vfS-xf-05A" secondAttribute="leading" id="5iY-CH-aSO"/>
+                                <constraint firstAttribute="trailing" secondItem="HaV-sD-ciG" secondAttribute="trailing" id="Mwl-TL-SLI"/>
+                                <constraint firstItem="AnD-4P-dSf" firstAttribute="top" secondItem="vfS-xf-05A" secondAttribute="top" id="OzL-SB-9IH"/>
+                                <constraint firstItem="HaV-sD-ciG" firstAttribute="leading" secondItem="vfS-xf-05A" secondAttribute="leading" id="RWM-jT-82C"/>
+                                <constraint firstItem="HaV-sD-ciG" firstAttribute="top" secondItem="vfS-xf-05A" secondAttribute="top" id="a06-H1-bkt"/>
+                                <constraint firstAttribute="bottom" secondItem="HaV-sD-ciG" secondAttribute="bottom" id="qnX-55-ykt"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="imageView" destination="HaV-sD-ciG" id="pgK-ux-Id1"/>
+                                <outlet property="livePhotoBadgeImageView" destination="AnD-4P-dSf" id="pW3-jR-4s5"/>
+                            </connections>
+                        </collectionViewCell>
+                    </cells>
+                    <connections>
+                        <outlet property="dataSource" destination="WAC-2G-trN" id="pE2-D7-PQm"/>
+                        <outlet property="delegate" destination="WAC-2G-trN" id="lh0-R1-TsK"/>
+                    </connections>
+                </collectionView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zCH-Y1-nJm">
+                    <rect key="frame" x="16" y="72" width="40" height="40"/>
+                    <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="2iB-xi-uI8"/>
+                        <constraint firstAttribute="height" constant="40" id="mc4-hL-m7W"/>
+                    </constraints>
+                    <state key="normal" title="앨범"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.92513950889999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="i6h-Xs-Onp" secondAttribute="trailing" id="4af-Kn-nUq"/>
+                <constraint firstItem="i6h-Xs-Onp" firstAttribute="top" secondItem="WAC-2G-trN" secondAttribute="top" id="6g8-oT-5Rp"/>
+                <constraint firstItem="zCH-Y1-nJm" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" constant="16" id="8ML-wo-DjK"/>
+                <constraint firstAttribute="bottom" secondItem="MZe-9F-8lA" secondAttribute="bottom" id="GdD-cl-JU0"/>
+                <constraint firstAttribute="bottom" secondItem="zCH-Y1-nJm" secondAttribute="bottom" constant="16" id="T0I-Km-azW"/>
+                <constraint firstItem="i6h-Xs-Onp" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" id="TFB-U7-90J"/>
+                <constraint firstItem="MZe-9F-8lA" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" id="bDK-KM-Btb"/>
+                <constraint firstAttribute="bottom" secondItem="i6h-Xs-Onp" secondAttribute="bottom" id="h0Q-3C-lev"/>
+                <constraint firstAttribute="trailing" secondItem="MZe-9F-8lA" secondAttribute="trailing" id="qDI-cH-BFJ"/>
+                <constraint firstItem="MZe-9F-8lA" firstAttribute="top" secondItem="WAC-2G-trN" secondAttribute="top" id="rPF-Wb-wzh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="33e-Rk-F9T"/>
+            <connections>
+                <outlet property="collectionView" destination="i6h-Xs-Onp" id="9mO-2V-qJO"/>
+                <outlet property="imagePickerButton" destination="zCH-Y1-nJm" id="q9V-9e-6vp"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="check" width="30" height="30"/>
+        <image name="code" width="28" height="26"/>
+        <image name="h" width="24" height="27"/>
+        <image name="icon" width="12" height="36"/>
+        <image name="image" width="16" height="16"/>
+        <image name="seperationLine" width="24" height="17"/>
+    </resources>
+</document>

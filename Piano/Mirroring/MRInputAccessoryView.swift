@@ -8,10 +8,21 @@
 
 import UIKit
 
+enum KeyboardState {
+    case normal
+    case form
+}
+
+protocol KeyboardControllable: class {
+    func resignKeyboard()
+    func switchKeyboard(to: KeyboardState)
+}
+
 class MRInputAccessoryView: UIView {
     
     @IBOutlet weak var mrScrollView: MRScrollView!
     @IBOutlet weak var accessoryStackView: UIStackView!
+    weak var delegate: KeyboardControllable?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,6 +45,14 @@ class MRInputAccessoryView: UIView {
         
         mrScrollView.isHidden = isBluetoothKB
         accessoryStackView.isHidden = !isBluetoothKB
+    }
+    @IBAction func tapPlusButton(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        delegate?.switchKeyboard(to: sender.isSelected ? .form : .normal)
+        
+    }
+    @IBAction func tapKeyboard(_ sender: Any) {
+        delegate?.resignKeyboard()
     }
     
 }

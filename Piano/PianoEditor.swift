@@ -13,6 +13,12 @@ enum PianoMode: Int {
     case off
 }
 
+protocol Navigatable: class {
+    func moveToNoteListViewController(with folder: StaticFolder)
+    func moveToPreferenceViewController()
+    func moveToNewMemo()
+}
+
 class PianoEditor: UIView {
     
     // MARK: property
@@ -20,30 +26,46 @@ class PianoEditor: UIView {
     @IBOutlet weak var pianoView: PianoView!
     @IBOutlet var topButtons: [UIButton]!
     @IBOutlet weak var palleteViewTop: NSLayoutConstraint!
+    @IBOutlet weak var completeButtonBottom: NSLayoutConstraint!
+    @IBOutlet weak var controlPanelBottom: NSLayoutConstraint!
+    
+    weak var delegate: Navigatable?
     
     // MARK: init
     override func awakeFromNib() {
         super.awakeFromNib()
         setValuesForChildViews()
+        movePalleteViewsOff()
     }
     
     //MARK: Public
-    @IBAction func tapTopButton(_ sender: UIButton) {
+    @IBAction func tapPalleteButton(_ sender: UIButton) {
         setPianoViewAttributeStyle(by: sender)
-        animate(for: sender)
+        changeAlpha(for: sender)
     }
     
-    @IBAction func tapCloseKeyboardButton(_ sender: Any) {
-        textView.resignFirstResponder()
+    @IBAction func tapCompleteButton(_ sender: UIButton){
+        animate(for: PianoMode.off)
     }
+    
+    @IBAction func tapPianoButton(_sender: UIButton){
+        animate(for: PianoMode.on)
+    }
+    
+    @IBAction func tapListButton(_sender: UIButton){
+        //TODO: first 폴더가 아닌 가지고 있는 메모의 스테틱 폴더 넘버로 폴더 찾아 넘겨주기
+        guard let folder = MemoManager.staticFolders.first else { return }
+        delegate?.moveToNoteListViewController(with: folder)
+    }
+    
     
     public func animate(for mode: PianoMode) {
-        let (topValue, insetTop, completion) = animateValues(for: mode)
+        let (textInsetTop, palleteViewTop, completeButtonBottom, controlPanelBottom, completion) = animateValues(for: mode)
         
         UIView.animate(withDuration: PianoGlobal.duration, animations: { [weak self] in
-            self?.palleteViewTop.constant = topValue
-            self?.textView.contentInset.top = insetTop
-            
+            self?.palleteViewTop.constant = palleteViewTop
+            self?.completeButtonBottom.constant = completeButtonBottom
+            self?.controlPanelBottom.constant = controlPanelBottom
             self?.layoutIfNeeded()
         }) { (_) in
             completion()
@@ -51,9 +73,15 @@ class PianoEditor: UIView {
     }
     
     //MARK: Private
+    private func movePalleteViewsOff(){
+        palleteViewTop.constant = -100
+        completeButtonBottom.constant = -44
+    }
+    
     private func setValuesForChildViews() {
         textView.control.pianoable = pianoView
         textView.control.effectable = textView
+        textView.delegate = self
     }
     
     private func setPianoViewAttributeStyle(by button: UIButton) {
@@ -61,7 +89,7 @@ class PianoEditor: UIView {
         pianoView.attributeStyle = style
     }
     
-    private func animate(for selectedButton: UIButton){
+    private func changeAlpha(for selectedButton: UIButton){
         for button in topButtons {
             UIView.animate(withDuration: PianoGlobal.duration, animations: {
                 if button == selectedButton {
@@ -73,15 +101,19 @@ class PianoEditor: UIView {
         }
     }
     
-    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, completion: () -> Void) {
-        let topValue: CGFloat
-        let insetTop: CGFloat
+    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat, CGFloat, completion: () -> Void) {
+        let textInsetTop: CGFloat
+        let palleteViewTop: CGFloat
+        let completeButtonBottom: CGFloat
+        let controlPanelBottom: CGFloat
         let completion: () -> Void
         
         switch mode {
         case .on:
-            topValue = 0
-            insetTop = PianoGlobal.paletteViewHeight
+            textInsetTop = 110
+            palleteViewTop = 0
+            completeButtonBottom = 0
+            controlPanelBottom = -45
             completion = { [weak self] in
                 self?.textView.isEditable = false
                 self?.textView.isSelectable = false
@@ -89,14 +121,65 @@ class PianoEditor: UIView {
                 self?.textView.setOffsetForPreventBug()
             }
         case .off:
-            topValue = -PianoGlobal.paletteViewHeight
-            insetTop = PianoGlobal.navigationBarHeight
+            textInsetTop = 74
+            palleteViewTop = -100
+            completeButtonBottom = -44
+            controlPanelBottom = 7
             completion = { [weak self] in
                 self?.textView.isEditable = true
                 self?.textView.isSelectable = true
                 self?.textView.detachControl()
             }
         }
-        return (topValue, insetTop, completion)
+        return (textInsetTop, palleteViewTop, completeButtonBottom, controlPanelBottom, completion)
     }
+}
+
+// MARK: UITextViewDelegate
+extension PianoEditor : UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        showMirroring(textView)
+    }
+    
+    private func showMirroring(_ textView: UITextView) {
+        guard let pianoTextView = textView as? PianoTextView, let inputAccessoryView = pianoTextView.inputAccessoryView as? MRInputAccessoryView else { return }
+        inputAccessoryView.mrScrollView.showMirroring(from: textView)
+    }
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        showMirroring(textView)
+    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
+        textView.attachControl()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard let textView = scrollView as? PianoTextView, !textView.isEditable, !decelerate else { return }
+        textView.attachControl()
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
+        textView.detachControl()
+    }
+    
+    
+    /*
+     internal func textViewDidChange(_ textView: UITextView) {
+     guard let textView = textView as? PianoTextView else { return }
+     
+     textView.chainElements()
+     textView.detectIndent()
+     
+     textChangedHandler?(textView.attributedText)
+     }
+     
+     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+     guard let textView = textView as? PianoTextView else { return true}
+     
+     return textView.addElementIfNeeded(text as NSString, in: range)
+     }
+     */
 }
