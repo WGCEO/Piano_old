@@ -24,23 +24,23 @@ extension PianoTextView {
         addIndent(in: range)
         ElementInspector.sharedInstance.inspect(document: attributedText) { [weak self] (paragraph: Paragraph) in
             guard let strongSelf = self else { return }
-            let (element, paragraphRange) = paragraph
+            let (element, paragraphRange) = (paragraph.element, paragraph.range)
             let textRange = NSMakeRange(paragraphRange.location + element.range.location, element.range.length)
-            let elementInDocument = (element.type, element.text, textRange)
-            
-            if element.type != .none {
-                strongSelf.removeIndent(elementInDocument, paragraphRange)
-            }
+            let elementInDocument = Element(with: element.type, element.text, textRange)
             
             if element.type == .checkbox && element.text == "* " {
                 let attachment = ImageTextAttachment(localIdentifier: "checkbox")
                 attachment.image = UIImage(named: "checkbox_on")
+                
                 let attachmentAttributedString = NSAttributedString(attachment: attachment)
                 
                 strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: attachmentAttributedString)
-                
             } else if element.type == .list && element.text == "- " {
                 strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: "•")
+            }
+            
+            if element.type != .none {
+                strongSelf.removeIndent(elementInDocument, paragraphRange)
             }
         }
     }
@@ -131,14 +131,25 @@ extension PianoTextView {
     
     private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
         let attributes = textStorage.attributes(at: element.range.location, effectiveRange: nil)
-        guard let font = attributes[NSAttributedStringKey.font] as? UIFont else { return }
+        var font: UIFont
+        if element.type == .checkbox {
+            font = UIFont.systemFont(ofSize: 16)
+        } else {
+            guard let fontAtLocation = attributes[NSAttributedStringKey.font] as? UIFont else { return }
+                
+            font = fontAtLocation
+        }
         
-        let width = element.text.boundingWidth(with: element.type, font: font)
+        let width = ElementCalculator.sharedInstance.calculateWidth(with: element, font: font)
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
         textStorage.addAttributes([ElementAttributeKey: element.type], range: element.range)
+        
+        ElementCalculator.sharedInstance.enumerateKerning(with: element, font: font) { [weak self] (kerning: CGFloat, unit: Unit) in
+            self?.textStorage.addAttributes([NSAttributedStringKey.kern: kerning], range: unit.range)
+        }
     }
 }

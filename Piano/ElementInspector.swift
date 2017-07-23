@@ -8,19 +8,6 @@
 
 import Foundation
 
-enum ElementType: String {
-    case number = "(?=[\n]*)\\d+\\. "
-    case list = "(?=[\n]*)[•-] "
-    case checkbox = "(?=[\n]*)\\* "
-    case none = ""
-    
-    var pattern: String {
-        return self.rawValue
-    }
-}
-
-typealias Paragraph = (element: Element, paragraphRange: NSRange)
-typealias Element = (type: ElementType, text: NSString, range: NSRange)
 typealias Context = (before: Element?, after: Element?)
 
 class ElementInspector {
@@ -37,18 +24,18 @@ class ElementInspector {
             
             let paragraphAttributedText = attributedText.attributedSubstring(from: paragraphRange)
             let element = strongSelf.inspect(paragraph: paragraphAttributedText)
-            let paragraph = (element, paragraphRange)
+            let paragraph = Paragraph(with: element, paragraphRange)
             
             handler?(paragraph)
         }
     }
     
-    
+     
     public func inspect(paragraph attributedText: NSAttributedString) -> Element {
         let text = attributedText.string as NSString
         if let attachment = attributedText.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) as? ImageTextAttachment {
             if attachment.localIdentifier == "checkbox" && text.length > 1 && text.substring(with: NSMakeRange(1,1)) == " " {
-                return (.checkbox, "", NSMakeRange(0, 2))
+                return Element(with: .checkbox, "* ", NSMakeRange(0, 2))
             }
         }
         
@@ -61,11 +48,11 @@ class ElementInspector {
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
             if let range = matches.first?.range {
-                return (type, text.substring(with: range) as NSString, range)
+                return Element(with: type, text.substring(with: range) as NSString, range)
             }
         }
         
-        return (.none, "", NSMakeRange(0, 0))
+        return Element(with: .none, "", NSMakeRange(0, 0))
     }
     
     public func context(of range: NSRange, in text: NSString) -> Context {
