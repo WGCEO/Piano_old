@@ -9,11 +9,13 @@
 import UIKit
 
 class PianoTextView: UITextView {
+    
     private var coverView: UIView?
     private lazy var formInputView: FormInputView? = {
         let nib = UINib(nibName: "FormInputView", bundle: nil)
         guard let formInputView = nib.instantiate(withOwner: self, options: nil).first as? FormInputView else { return nil }
         formInputView.delegate = self
+        formInputView.prepare()
         return formInputView
     }()
     
@@ -35,8 +37,7 @@ class PianoTextView: UITextView {
     
     private func setValuesForText(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight, 10)
-        print(contentInset)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight * 2, 10)
     }
     
     private func setFolderView(){
@@ -51,16 +52,6 @@ class PianoTextView: UITextView {
         guard let mrInputAccessoryView = nib.instantiate(withOwner: self, options: nil).first as? MRInputAccessoryView else { return }
         mrInputAccessoryView.delegate = self
         inputAccessoryView = mrInputAccessoryView
-    }
-    
-    private func keyboard(listen: Bool){
-        if listen {
-            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        } else {
-            NotificationCenter.default.removeObserver(self)
-        }
     }
     
     private func addCoverView(rect: CGRect) {
@@ -121,6 +112,19 @@ class PianoTextView: UITextView {
 }
 
 extension PianoTextView {
+    private func keyboard(listen: Bool){
+        if listen {
+            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
+            
+        } else {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
     @objc internal func keyboardWillShow(notification: Notification){
         
         guard let userInfo = notification.userInfo,
@@ -131,12 +135,24 @@ extension PianoTextView {
         contentInset.bottom = bottom
         scrollIndicatorInsets.bottom = bottom
         scrollRangeToVisible(selectedRange)
+        
+        setFormInputView(height: kbFrame.size.height - 44)
     }
     
     @objc internal func keyboardWillHide(notification: Notification){
-        contentInset.bottom = PianoGlobal.toolBarHeight
-        scrollIndicatorInsets.bottom = PianoGlobal.toolBarHeight
+        contentInset = UIEdgeInsets.zero
+        scrollIndicatorInsets = contentInset
         setOffsetForPreventBug()
+        
+    }
+    
+    @objc internal func keyboardDidHide(notification: Notification){
+        setOffsetForPreventBug()
+        formInputView?.reset()
+    }
+    
+    private func setFormInputView(height: CGFloat){
+        formInputView?.frame.size.height = height
     }
 }
 

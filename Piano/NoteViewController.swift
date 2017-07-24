@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-import UIKit
+import  CoreData
 
 class NoteViewController: UIViewController {
     
@@ -24,6 +23,7 @@ class NoteViewController: UIViewController {
         //TODO: 나중에 지우기
         setTempParagraphStyle()
         // 여기까지
+
         
     }
     

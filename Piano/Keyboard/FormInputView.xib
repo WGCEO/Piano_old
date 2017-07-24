@@ -83,40 +83,7 @@
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
-                    <cells>
-                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="YES" reuseIdentifier="ImageCell" id="vfS-xf-05A" customClass="ImageCell" customModule="Piano" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="29.5" width="70" height="69"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                <rect key="frame" x="0.0" y="0.0" width="70" height="69"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HaV-sD-ciG">
-                                        <rect key="frame" x="0.0" y="0.0" width="70" height="69"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AnD-4P-dSf">
-                                        <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="28" id="iFN-TD-U2S"/>
-                                            <constraint firstAttribute="width" constant="28" id="xlw-jY-aeP"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                            </view>
-                            <constraints>
-                                <constraint firstItem="AnD-4P-dSf" firstAttribute="leading" secondItem="vfS-xf-05A" secondAttribute="leading" id="5iY-CH-aSO"/>
-                                <constraint firstAttribute="trailing" secondItem="HaV-sD-ciG" secondAttribute="trailing" id="Mwl-TL-SLI"/>
-                                <constraint firstItem="AnD-4P-dSf" firstAttribute="top" secondItem="vfS-xf-05A" secondAttribute="top" id="OzL-SB-9IH"/>
-                                <constraint firstItem="HaV-sD-ciG" firstAttribute="leading" secondItem="vfS-xf-05A" secondAttribute="leading" id="RWM-jT-82C"/>
-                                <constraint firstItem="HaV-sD-ciG" firstAttribute="top" secondItem="vfS-xf-05A" secondAttribute="top" id="a06-H1-bkt"/>
-                                <constraint firstAttribute="bottom" secondItem="HaV-sD-ciG" secondAttribute="bottom" id="qnX-55-ykt"/>
-                            </constraints>
-                            <connections>
-                                <outlet property="imageView" destination="HaV-sD-ciG" id="pgK-ux-Id1"/>
-                                <outlet property="livePhotoBadgeImageView" destination="AnD-4P-dSf" id="pW3-jR-4s5"/>
-                            </connections>
-                        </collectionViewCell>
-                    </cells>
+                    <cells/>
                     <connections>
                         <outlet property="dataSource" destination="WAC-2G-trN" id="pE2-D7-PQm"/>
                         <outlet property="delegate" destination="WAC-2G-trN" id="lh0-R1-TsK"/>
@@ -158,7 +125,7 @@
         <image name="code" width="28" height="26"/>
         <image name="h" width="24" height="27"/>
         <image name="icon" width="12" height="36"/>
-        <image name="image" width="16" height="16"/>
+        <image name="image" width="20" height="15"/>
         <image name="seperationLine" width="24" height="17"/>
     </resources>
 </document>

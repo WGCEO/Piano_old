@@ -71,9 +71,9 @@ class MemoManager: NSObject {
         return staticFolderResultsController.fetchedObjects ?? []
     }
     
-//    static var memoes: [Memo] {
-//        return memoResultsController?.fetchedObjects ?? []
-//    }
+    static var memoes: [Memo] {
+        return memoResultsController?.fetchedObjects ?? []
+    }
     
     static var folderResultsController: NSFetchedResultsController<Folder> = {
         let context = PianoData.coreDataStack.viewContext
@@ -97,30 +97,41 @@ class MemoManager: NSObject {
                                           cacheName: nil)
     }()
     
-//    static var memoResultsController: NSFetchedResultsController<Memo>? {
-//        didSet {
-//            memoResultsController?.delegate = sharedInstance
-//
-//            try? memoResultsController?.performFetch()
-//        }
-//    }
+    static var memoResultsController: NSFetchedResultsController<Memo>? {
+        didSet {
+            memoResultsController?.delegate = sharedInstance
+
+            try? memoResultsController?.performFetch()
+        }
+    }
+    
+    static var noteResultsController: NSFetchedResultsController<Memo> = {
+        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        request.predicate = NSPredicate(format: "isInTrash == false")
+        let context = PianoData.coreDataStack.viewContext
+        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
+        request.sortDescriptors = [dateSort]
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+        controller.delegate = sharedInstance
+        return controller
+    }()
     
     // MARK: read
-//    class func memo(at indexPath: IndexPath) -> Memo? {
-//        return memoResultsController?.object(at: indexPath)
-//    }
-//
-//    class func sections() -> [NSFetchedResultsSectionInfo]? {
-//        return memoResultsController?.sections
-//    }
-//
-//    class func fetchMemoes() {
-//        do {
-//            try memoResultsController?.performFetch()
-//        } catch {
-//            print("Error performing fetch \(error.localizedDescription)")
-//        }
-//    }
+    class func memo(at indexPath: IndexPath) -> Memo? {
+        return memoResultsController?.object(at: indexPath)
+    }
+
+    class func sections() -> [NSFetchedResultsSectionInfo]? {
+        return memoResultsController?.sections
+    }
+
+    class func fetchMemoes() {
+        do {
+            try memoResultsController?.performFetch()
+        } catch {
+            print("Error performing fetch \(error.localizedDescription)")
+        }
+    }
     
     class func fetchFolders() {
         do {
@@ -139,13 +150,13 @@ class MemoManager: NSObject {
     }
     
     // MARK: delete
-//    class func remove(_ memo: Memo, completion: ((Bool, Memo?) -> Void)?) {
-//        memo.isInTrash = true
-//
-//        PianoData.save()
-//
-//        completion?(true, memoes.first)
-//    }
+    class func remove(_ memo: Memo, completion: ((Bool, Memo?) -> Void)?) {
+        memo.isInTrash = true
+
+        PianoData.save()
+
+        completion?(true, memoes.first)
+    }
     
     class func delete(_ memo: Memo, completion: (() -> Void)?) {
         PianoData.coreDataStack.viewContext.delete(memo)
@@ -172,16 +183,16 @@ class MemoManager: NSObject {
 //        return memo
 //    }
     
-//    class func newFolder(_ name: String) -> Folder {
-//        let newFolder = Folder(context: PianoData.coreDataStack.viewContext)
-//        newFolder.name = name
-//        newFolder.date = Date()
-//        newFolder.memos = []
-//
-//        PianoData.save()
-//
-//        return Folder()
-//    }
+    class func newFolder(_ name: String) -> Folder {
+        let newFolder = Folder(context: PianoData.coreDataStack.viewContext)
+        newFolder.name = name
+        newFolder.date = Date()
+        newFolder.memos = []
+
+        PianoData.save()
+
+        return Folder()
+    }
     
 //    class func showAddFolderAlertIfNeeded() {
 //        if currentFolder == nil {

@@ -36,24 +36,10 @@ class FormInputView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(FormInputView.keyboardDidShow(notification:)), name: Notification.Name.UIKeyboardDidShow, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(FormInputView.keyboardDidHide), name: Notification.Name.UIKeyboardDidHide, object: nil)
-        
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    @objc internal func keyboardDidShow(notification: Notification){
-        
-        guard let userInfo = notification.userInfo,
-            var kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-            else { return }
-        kbFrame.size.height -= PianoGlobal.accessoryViewHeight
-        frame.size.height = kbFrame.size.height
     }
     
     @objc internal func keyboardDidHide(){
@@ -93,8 +79,12 @@ class FormInputView: UIView {
         imagePickerButton.isHidden = false
     }
     
+    func prepare(){
+        let nib = UINib(nibName: "ImageCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: ImageCell.reuseIdentifier)
+    }
     
-    private func reset(){
+    func reset(){
         allPhotos = nil
         collectionView.reloadData()
         collectionView.isHidden = true

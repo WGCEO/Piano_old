@@ -34,19 +34,7 @@ class PianoEditor: UIView {
     var controlPanelAnimate: Bool = false
     fileprivate var offSetY: CGFloat = 0 {
         didSet {
-            if oldValue > offSetY, controlPanelBottom.constant != 7 {
-                //위로 애니메이션하세요.
-                UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                    self?.controlPanelBottom.constant = 7
-                    self?.layoutIfNeeded()
-                })
-            } else if oldValue < offSetY, controlPanelBottom.constant != -44, offSetY > 0 {
-                //아래로 애니메이션하세요.
-                UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                    self?.controlPanelBottom.constant = -44
-                    self?.layoutIfNeeded()
-                })
-            }
+            animateControlPannel(previousOffsetY: oldValue, currentOffsetY: offSetY)
         }
     }
     
@@ -92,6 +80,25 @@ class PianoEditor: UIView {
     }
     
     //MARK: Private
+    private func animateControlPannel(previousOffsetY: CGFloat, currentOffsetY: CGFloat){
+        // TODO: 에디터가 편집모드일 땐 애니메이션 하면 안됨. 하지만 이 모드인걸 체크하는 방식이 이거밖에 안떠올라서 이렇게 구현함
+        guard completeButtonBottom.constant != 0 else { return }
+        
+        if previousOffsetY > currentOffsetY, controlPanelBottom.constant != 7 {
+            //appear
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.controlPanelBottom.constant = 7
+                self?.layoutIfNeeded()
+            })
+        } else if previousOffsetY < currentOffsetY, controlPanelBottom.constant != -44, offSetY > 0 {
+            //hide
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.controlPanelBottom.constant = -44
+                self?.layoutIfNeeded()
+            })
+        }
+    }
+    
     private func movePalleteViewsOff(){
         palleteViewTop.constant = -100
         completeButtonBottom.constant = -44
@@ -185,8 +192,14 @@ extension PianoEditor : UITextViewDelegate {
         offSetY = scrollView.contentOffset.y
     }
     
-
+//    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+//        <#code#>
+//    }
     
+    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        print("shouldInteractWith textAttachment")
+        return true
+    }
     
     /*
      internal func textViewDidChange(_ textView: UITextView) {

@@ -72,6 +72,7 @@
 		DAF33EAB1F2086DA00DE48A9 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF33EAA1F2086DA00DE48A9 /* FolderView.swift */; };
 		DAF33EAD1F208EAE00DE48A9 /* FormInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EAC1F208EAE00DE48A9 /* FormInputView.xib */; };
 		DAF33EAF1F20912A00DE48A9 /* MRInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EAE1F20912A00DE48A9 /* MRInputAccessoryView.xib */; };
+		DAF33EB11F21D50B00DE48A9 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */; };
 		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
 		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
 		F48685881F10E43B0028537D /* PianoTextViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48685871F10E43B0028537D /* PianoTextViewLayout.swift */; };
@@ -206,6 +207,7 @@
 		DAF33EAA1F2086DA00DE48A9 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		DAF33EAC1F208EAE00DE48A9 /* FormInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormInputView.xib; sourceTree = "<group>"; };
 		DAF33EAE1F20912A00DE48A9 /* MRInputAccessoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MRInputAccessoryView.xib; sourceTree = "<group>"; };
+		DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
 		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
 		F48685871F10E43B0028537D /* PianoTextViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextViewLayout.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 			children = (
 				DAF33EAC1F208EAE00DE48A9 /* FormInputView.xib */,
 				DAC9006E1F1C6E260011B870 /* FormInputView.swift */,
+				DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */,
 				DAC900731F1C6FE80011B870 /* ImageCell.swift */,
 				DAC900711F1C6F9B0011B870 /* ImageTextAttachment.swift */,
 			);
@@ -712,6 +715,7 @@
 				DA8A6D581F1EE79500F8A9FC /* Setting.storyboard in Resources */,
 				DAC9005B1F1C5AA30011B870 /* Piano.storyboard in Resources */,
 				DAF33EAF1F20912A00DE48A9 /* MRInputAccessoryView.xib in Resources */,
+				DAF33EB11F21D50B00DE48A9 /* ImageCell.xib in Resources */,
 				3131F6D91DDD2E3D00EC4229 /* Assets.xcassets in Resources */,
 				0AEC95881E3A001E0039A47F /* Launch Screen.storyboard in Resources */,
 				DAF33EA91F2085FB00DE48A9 /* FolderView.xib in Resources */,
