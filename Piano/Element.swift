@@ -13,9 +13,9 @@ private let standardCharacter: NSString = "4"
 
 enum ElementType: String {
     case none = ""
-    case number = "(?=[\n]*)\\d+\\. "
-    case list = "(?=[\n]*)[•-] "
-    //case checkbox = "(?=[\n]*)\\* "
+    case number = "^((?=[\n]*)\\d+\\. )"
+    case list = "^((?=[\n]*)[•-] )"
+    //case checkbox = "^((?=[\n]*)\\* )"
     
     var pattern: String {
         return self.rawValue
