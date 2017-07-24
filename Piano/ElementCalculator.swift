@@ -18,7 +18,7 @@ fileprivate struct VariableContainer: Hashable {
     let unitType: UnitType
     
     var hashValue: Int {
-        return font.hashValue ^ elementType.hashValue ^ unitType.hashValue
+        return font.hashValue
     }
     
     init(_ elementType: ElementType, _ unitType: UnitType, _ font: UIFont) {
@@ -28,7 +28,9 @@ fileprivate struct VariableContainer: Hashable {
     }
     
     static func ==(lhs: VariableContainer, rhs: VariableContainer) -> Bool {
-        return lhs.hashValue == rhs.hashValue
+        return lhs.font.hashValue == rhs.font.hashValue
+            && lhs.elementType.hashValue == rhs.elementType.hashValue
+            && lhs.unitType.hashValue == rhs.unitType.hashValue
     }
 }
 
@@ -68,9 +70,10 @@ class ElementCalculator {
             width += calculateTextWidth(with: numberText, font: font)
         } else if element.type == .list {
             width += calculateCharacterWidth(with: "•", font: font)
-        } else if element.type == .checkbox {
-            width += calculateCharacterWidth(with: standardText, font: font)
         }
+//        else if element.type == .checkbox {
+//            width += calculateCharacterWidth(with: standardText, font: font)
+//        }
         
         widthCache[variableContainer] = width
         return width
@@ -89,8 +92,8 @@ class ElementCalculator {
             kerning = calculateKerningInNumber(unitType: unitType, font: font)
         case .list:
             kerning = calculateKerningInList(unitType: unitType, font: font)
-        case .checkbox:
-            kerning = calculateKerningInCheckBox(unitType: unitType, font: UIFont.systemFont(ofSize: 16))
+//        case .checkbox:
+//            kerning = calculateKerningInCheckBox(unitType: unitType, font: UIFont.systemFont(ofSize: 16))
         case .none:
             kerning = nil
         }
@@ -125,6 +128,7 @@ class ElementCalculator {
         }
     }
     
+    /*
     private func calculateKerningInCheckBox(unitType: UnitType, font: UIFont) -> CGFloat? {
         switch unitType {
         case .head:
@@ -137,6 +141,7 @@ class ElementCalculator {
             return nil
         }
     }
+     */
     
     // MARK: - calculate width
     private func calculateTextWidth(with text: NSString, font: UIFont) -> CGFloat {

@@ -116,11 +116,11 @@ class PianoEditor: UIView {
 extension PianoEditor : UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        //mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
+        mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
     }
     
     func textViewDidChangeSelection(_ textView: UITextView) {
-        //mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
+        mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }

@@ -28,15 +28,20 @@ extension PianoTextView {
             let textRange = NSMakeRange(paragraphRange.location + element.range.location, element.range.length)
             let elementInDocument = Element(with: element.type, element.text, textRange)
             
-            if element.type == .checkbox && element.text == "* " {
-                let attachment = ImageTextAttachment(localIdentifier: "checkbox")
-                attachment.image = UIImage(named: "checkbox_on")
-                
-                let attachmentAttributedString = NSAttributedString(attachment: attachment)
-                
-                strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: attachmentAttributedString)
-            } else if element.type == .list && element.text == "- " {
+//            if element.type == .checkbox && element.text == "* " {
+//                let attachment = ImageTextAttachment(localIdentifier: "checkbox")
+//                attachment.image = UIImage(named: "checkbox_on")
+//
+//                let attachmentAttributedString = NSAttributedString(attachment: attachment)
+//
+//                strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: attachmentAttributedString)
+//            } else
+            if element.type == .list && element.text == "- " {
                 strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: "•")
+            } else if element.type == .none && element.text.contains("•") {
+                if let range = element.text.range(of: "•").toTextRange(textInput: strongSelf) {
+                    strongSelf.replace(range, withText: "-")
+                }
             }
             
             if element.type != .none {
@@ -52,6 +57,8 @@ extension PianoTextView {
             guard let element = context.before else { return true }
             if element.type == .number {
                 return changeNumberElement(context: context, in: range)
+            } else if element.type == .list {
+                return changeListElement(context: context, in: range)
             }
         }
         
@@ -70,7 +77,6 @@ extension PianoTextView {
                         let range = NSMakeRange(location+current.range.location,current.range.length).toTextRange(textInput: self) {
                         let currentElementText = "\(beforeElement + 1). "
                         if currentElementText != (current.text as String) {
-                            print(currentElementText,location+current.range.location,current.range.length)
                             replace(range, withText: currentElementText)
                             
                             return
@@ -113,9 +119,32 @@ extension PianoTextView {
         }
     }
     
-    // MARK: - checkboxing
-    
     // MARK: - listing
+    private func changeListElement(context: Context, in range: NSRange) -> Bool {
+        guard let before = context.before else { return true }
+        
+        if (before.range.location + before.range.length) == range.location { // 아무것도 입력하지 않았을 경우
+            removeListElement(in: before.range)
+        } else { // 무언가 입력했을 경우
+            addListElement(in: range)
+        }
+        
+        return false
+    }
+    
+    private func addListElement(in range: NSRange) {
+        let elementText = "\n• "
+        
+        if let range = range.toTextRange(textInput: self) {
+            replace(range, withText: elementText)
+        }
+    }
+    
+    private func removeListElement(in range: NSRange) {
+        if let range = range.toTextRange(textInput: self) {
+            replace(range, withText: "")
+        }
+    }
     
     // MARK: - indenting
     private func addIndent(in range: NSRange) {
@@ -131,7 +160,8 @@ extension PianoTextView {
     
     private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
         let attributes = textStorage.attributes(at: element.range.location, effectiveRange: nil)
-        var font: UIFont
+        /*
+         var font: UIFont
         if element.type == .checkbox {
             font = UIFont.systemFont(ofSize: 16)
         } else {
@@ -139,6 +169,8 @@ extension PianoTextView {
                 
             font = fontAtLocation
         }
+         */
+        guard let font = attributes[NSAttributedStringKey.font] as? UIFont else { return }
         
         let width = ElementCalculator.sharedInstance.calculateWidth(with: element, font: font)
         
