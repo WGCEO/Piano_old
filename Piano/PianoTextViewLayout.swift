@@ -13,7 +13,6 @@ private let indentWidth: CGFloat = 30.0
 
 let ElementAttributeKey = NSAttributedStringKey("elementAttributeKey")
 
-
 extension PianoTextView {
     
     // MARK: - public methods
@@ -48,6 +47,29 @@ extension PianoTextView {
                 strongSelf.removeIndent(elementInDocument, paragraphRange)
             }
         }
+    }
+    
+    public func addDivisionLine() {
+        let attachment = ImageTextAttachment(localIdentifier: "divisionLine")
+        attachment.image = UIImage.makeDivisionLine(with: CGSize(width: UIScreen.main.bounds.width-50, height: 25))
+        
+        let attributedString = NSMutableAttributedString(string: "\n\n\n")
+        attributedString.replaceCharacters(in: NSMakeRange(1, 1), with: NSAttributedString(attachment: attachment))
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = indentWidth
+        paragraphStyle.headIndent = indentWidth
+        
+        var attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle,
+                          ElementAttributeKey: ElementType.division] as [NSAttributedStringKey : Any]
+        if let font = self.font {
+            attributes[NSAttributedStringKey.font] = font
+        }
+        attributedString.addAttributes(attributes, range: NSMakeRange(0, 3))
+        
+        textStorage.replaceCharacters(in: selectedRange, with: attributedString)
+        
+        selectedRange = NSMakeRange(selectedRange.location + 3, 0)
     }
     
     public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> Bool {
@@ -159,7 +181,6 @@ extension PianoTextView {
     }
     
     private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
-        let attributes = textStorage.attributes(at: element.range.location, effectiveRange: nil)
         /*
          var font: UIFont
         if element.type == .checkbox {
@@ -170,7 +191,7 @@ extension PianoTextView {
             font = fontAtLocation
         }
          */
-        guard let font = attributes[NSAttributedStringKey.font] as? UIFont else { return }
+        guard let font = self.font else { return }
         
         let width = ElementCalculator.sharedInstance.calculateWidth(with: element, font: font)
         
@@ -178,7 +199,11 @@ extension PianoTextView {
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
-        textStorage.addAttributes([ElementAttributeKey: element.type], range: element.range)
+        
+        let elementAttributes = [ElementAttributeKey: element.type,
+                                 NSAttributedStringKey.strokeColor: UIColor.black,
+                                 NSAttributedStringKey.font: font] as [NSAttributedStringKey : Any]
+        textStorage.addAttributes(elementAttributes, range: element.range)
         
         ElementCalculator.sharedInstance.enumerateKerning(with: element, font: font) { [weak self] (kerning: CGFloat, unit: Unit) in
             self?.textStorage.addAttributes([NSAttributedStringKey.kern: kerning], range: unit.range)

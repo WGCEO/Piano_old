@@ -16,6 +16,7 @@ enum ElementType: String {
     case number = "^((?=[\n]*)\\d+\\. )"
     case list = "^((?=[\n]*)[•-] )"
     //case checkbox = "^((?=[\n]*)\\* )"
+    case division = "divisionLine"
     
     var pattern: String {
         return self.rawValue
@@ -87,7 +88,7 @@ struct Element {
             handler?(Unit(with: .head, headText as NSString, NSMakeRange(range.location + headRange.location, headRange.length)))
         //case .checkbox:
         //    handler?(Unit(with: .head, "*" , NSMakeRange(range.location, 1)))
-        case .none: ()
+        default: ()
         }
     }
 }

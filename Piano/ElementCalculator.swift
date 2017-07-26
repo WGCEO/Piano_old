@@ -94,7 +94,7 @@ class ElementCalculator {
             kerning = calculateKerningInList(unitType: unitType, font: font)
 //        case .checkbox:
 //            kerning = calculateKerningInCheckBox(unitType: unitType, font: UIFont.systemFont(ofSize: 16))
-        case .none:
+        default:
             kerning = nil
         }
         
