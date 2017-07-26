@@ -27,8 +27,8 @@ class NoteViewController: UIViewController {
         mutableParagraph.lineSpacing = 10
         mutableString.addAttributes([.paragraphStyle : mutableParagraph, .foregroundColor : PianoGlobal.defaultColor], range: NSMakeRange(0, mutableString.length))
         editor.textView.attributedText = mutableString
-        
     }
+    
     @IBAction func tapFolderSpecificationButton(_ sender: Any) {
         //폴더가 한개도 없다면 얼럿을 띄우기
         
@@ -55,7 +55,7 @@ class NoteViewController: UIViewController {
         guard let htmlString = editor.textView.attributedText.parseToHTMLString() else { return }
         
         let renderer = DocumentRenderer()
-        let pdfDocument = renderer.render(type: .pdf, with: htmlString)
+        let pdfDocument = renderer.render(type: .pdf, with: editor.textView)
         
         let activityViewController = UIActivityViewController(activityItems: [pdfDocument], applicationActivities: nil)
         AppNavigator.present(activityViewController)
