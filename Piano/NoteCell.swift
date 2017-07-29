@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NoteCell: UITableViewCell {
+class NoteCell: UITableViewCell, Reusable {
     
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!

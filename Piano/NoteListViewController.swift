@@ -25,18 +25,15 @@ class NoteListViewController: UIViewController {
         
         guard let folder = selectedFolder else { return }
         for button in folderButtons {
-            
             if button.tag == folder.order {
                 button.sendActions(for: .touchUpInside)
                 break
             }
         }
-        
     }
     
     @IBAction func touchUpFolder(_ sender: UIButton) {
         animateFolderButtons(sender)
-        
     }
     
     private func animateFolderButtons(_ sender: UIButton){
@@ -54,8 +51,6 @@ class NoteListViewController: UIViewController {
             }
         }
     }
-    
-    
 }
 
 //extension NoteListViewController: UITableViewDataSource {
@@ -70,6 +65,10 @@ class NoteListViewController: UIViewController {
 //    func numberOfSections(in tableView: UITableView) -> Int {
 //        // 1. 핀 2. 일주일간 3.일주일이후
 //        return 3
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        <#code#>
 //    }
 //
 //}

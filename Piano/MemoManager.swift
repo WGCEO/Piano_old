@@ -296,13 +296,13 @@ extension MemoManager {
 }
 
 enum StaticFolderName: Int {
-    case C = 0
+    case A = 0
+    case B
+    case C
     case D
     case E
     case F
     case G
-    case A
-    case B
     
     func string() -> String {
         let note = String(describing: self)
@@ -344,6 +344,7 @@ extension MemoManager {
                             //나머지 메모들은 맨 마지막 폴더에 할당
                             staticFolders[6].memos = originalForder.memos
                         }
+                        
                     }
                     
                     try context.save()

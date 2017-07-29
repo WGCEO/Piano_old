@@ -41,7 +41,7 @@ class PianoEditor: UIView {
     // MARK: init
     override func awakeFromNib() {
         super.awakeFromNib()
-        setValuesForChildViews()
+        setup()
         movePalleteViewsOff()
     }
     
@@ -61,7 +61,7 @@ class PianoEditor: UIView {
     
     @IBAction func tapListButton(_sender: UIButton){
         //TODO: first 폴더가 아닌 가지고 있는 메모의 스테틱 폴더 넘버로 폴더 찾아 넘겨주기
-        guard let folder = MemoManager.staticFolders.first else { return }
+        guard let folder = textView.note?.staticFolder else { return }
         delegate?.moveToNoteListViewController(with: folder)
     }
     
@@ -104,7 +104,7 @@ class PianoEditor: UIView {
         completeButtonBottom.constant = -44
     }
     
-    private func setValuesForChildViews() {
+    private func setup() {
         textView.control.pianoable = pianoView
         textView.control.effectable = textView
         textView.delegate = self

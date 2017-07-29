@@ -270,52 +270,70 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="612"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="25" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" id="ghE-zT-zFh">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="203"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTU-yJ-b0y">
-                                            <rect key="frame" x="20" y="64" width="108" height="41"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9RC-5W-vkH">
-                                            <rect key="frame" x="10" y="115" width="355" height="40"/>
-                                            <color key="backgroundColor" white="0.92513950889999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="40" id="Y38-CP-KYw"/>
-                                            </constraints>
-                                            <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            <state key="normal" title="검색">
-                                                <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                    <integer key="value" value="8"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7s6-1h-d5N">
-                                            <rect key="frame" x="24" y="163" width="133" height="32"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                            <state key="normal" title="새로운 노트 작성하기">
-                                                <color key="titleColor" red="0.019607843140000001" green="0.78823529410000004" blue="0.81414620540000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </state>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstItem="9RC-5W-vkH" firstAttribute="top" secondItem="LTU-yJ-b0y" secondAttribute="bottom" constant="10" id="2IU-4i-EUj"/>
-                                        <constraint firstItem="7s6-1h-d5N" firstAttribute="leading" secondItem="ghE-zT-zFh" secondAttribute="leading" constant="24" id="5CQ-d4-3oJ"/>
-                                        <constraint firstItem="9RC-5W-vkH" firstAttribute="leading" secondItem="ghE-zT-zFh" secondAttribute="leading" constant="10" id="6Tv-8x-OgN"/>
-                                        <constraint firstItem="LTU-yJ-b0y" firstAttribute="top" secondItem="ghE-zT-zFh" secondAttribute="top" constant="64" id="jVs-Ap-tRm"/>
-                                        <constraint firstItem="LTU-yJ-b0y" firstAttribute="leading" secondItem="ghE-zT-zFh" secondAttribute="leading" constant="20" id="jWr-0l-mdo"/>
-                                        <constraint firstAttribute="trailing" secondItem="9RC-5W-vkH" secondAttribute="trailing" constant="10" id="jfv-Mh-QdN"/>
-                                        <constraint firstItem="7s6-1h-d5N" firstAttribute="top" secondItem="9RC-5W-vkH" secondAttribute="bottom" constant="8" id="qId-bc-HXt"/>
-                                    </constraints>
-                                </view>
                                 <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteHeaderCell" rowHeight="203" id="9TB-np-d2Q" customClass="NoteHeaderCell" customModule="Piano" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="203"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9TB-np-d2Q" id="kdm-HH-ily">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="202.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Agd-Rb-QVB">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="202.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="C Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Znn-l3-5ft">
+                                                            <rect key="frame" x="20" y="64" width="108" height="41"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cO4-xi-Ldv">
+                                                            <rect key="frame" x="10" y="115" width="355" height="40"/>
+                                                            <color key="backgroundColor" white="0.92513950889999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="40" id="lbR-QK-h27"/>
+                                                            </constraints>
+                                                            <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <state key="normal" title="검색">
+                                                                <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="8"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGS-4P-tS8">
+                                                            <rect key="frame" x="24" y="163" width="133" height="32"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                            <state key="normal" title="새로운 노트 작성하기">
+                                                                <color key="titleColor" red="0.019607843140000001" green="0.78823529410000004" blue="0.81414620540000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="cO4-xi-Ldv" secondAttribute="trailing" constant="10" id="9yE-KL-BlG"/>
+                                                        <constraint firstItem="ZGS-4P-tS8" firstAttribute="leading" secondItem="Agd-Rb-QVB" secondAttribute="leading" constant="24" id="Dbt-Zw-qeX"/>
+                                                        <constraint firstItem="cO4-xi-Ldv" firstAttribute="leading" secondItem="Agd-Rb-QVB" secondAttribute="leading" constant="10" id="Gke-Yw-yyF"/>
+                                                        <constraint firstItem="Znn-l3-5ft" firstAttribute="top" secondItem="Agd-Rb-QVB" secondAttribute="top" constant="64" id="dm8-1v-Ii2"/>
+                                                        <constraint firstItem="cO4-xi-Ldv" firstAttribute="top" secondItem="Znn-l3-5ft" secondAttribute="bottom" constant="10" id="kcX-1A-6wE"/>
+                                                        <constraint firstItem="Znn-l3-5ft" firstAttribute="leading" secondItem="Agd-Rb-QVB" secondAttribute="leading" constant="20" id="n7b-mU-xS0"/>
+                                                        <constraint firstItem="ZGS-4P-tS8" firstAttribute="top" secondItem="cO4-xi-Ldv" secondAttribute="bottom" constant="8" id="wyb-BH-RW4"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Agd-Rb-QVB" secondAttribute="trailing" id="H2c-Yp-BmO"/>
+                                                <constraint firstItem="Agd-Rb-QVB" firstAttribute="top" secondItem="kdm-HH-ily" secondAttribute="top" id="cP9-F7-q1z"/>
+                                                <constraint firstAttribute="bottom" secondItem="Agd-Rb-QVB" secondAttribute="bottom" id="elv-02-STi"/>
+                                                <constraint firstItem="Agd-Rb-QVB" firstAttribute="leading" secondItem="kdm-HH-ily" secondAttribute="leading" id="qij-Dc-prB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="titleLabel" destination="Znn-l3-5ft" id="aFE-LB-c27"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoteCell" rowHeight="70" id="4xU-FK-EVE" customClass="NoteCell" customModule="Piano" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="231" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -556,7 +574,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yiz-m6-80z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1438" y="-117"/>
+            <point key="canvasLocation" x="1437.5999999999999" y="-117.39130434782609"/>
         </scene>
     </scenes>
     <resources>

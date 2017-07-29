@@ -32,25 +32,27 @@ class NoteViewController: UIViewController {
         editor.delegate = self
         
         //TODO: 나중에 지우기
-        setTempParagraphStyle()
+//        setTempParagraphStyle()
         // 여기까지
         
+        MemoManager.migrateVersionTwo()
         
         
-//        if let recentlyData = UserDefaults.standard.object(forKey: "recentlyNote") as? Data, let attrText = NSKeyedUnarchiver.unarchiveObject(with: recentlyData) as? NSAttributedString {
-//            editor.textView.attributedText = attrText
-//        } else {
-//            do {
-//                try resultsController.performFetch()
-//
-//                guard let recentlyMemo = resultsController.fetchedObjects?.first,
-//                    let data = recentlyMemo.content,
-//                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
-//                editor.textView.attributedText = attrText
-//            } catch {
-//                print("Error performing fetch \(error.localizedDescription)")
-//            }
-//        }
+        if let recentlyData = UserDefaults.standard.object(forKey: "recentlyNote") as? Data, let attrText = NSKeyedUnarchiver.unarchiveObject(with: recentlyData) as? NSAttributedString {
+            editor.textView.attributedText = attrText
+        } else {
+            do {
+                try resultsController.performFetch()
+
+                guard let recentlyMemo = resultsController.fetchedObjects?.first,
+                    let data = recentlyMemo.content,
+                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
+                editor.textView.note = recentlyMemo
+                editor.textView.attributedText = attrText
+            } catch {
+                print("Error performing fetch \(error.localizedDescription)")
+            }
+        }
         
     }
     

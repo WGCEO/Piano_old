@@ -14,5 +14,4 @@ struct PianoResult {
     var farRight: CGPoint
     let applyAttribute: [NSAttributedStringKey : Any]
     let removeAttribute: [NSAttributedStringKey : Any]
-    
 }

@@ -10,20 +10,37 @@ import UIKit
 
 class PianoTextView: UITextView {
     
+    //lazy var로 만들어서 코어데이터 첫 메모를 fetch하기
+    internal var note: Memo? {
+        didSet {
+            folderView?.setFolders(for: note)
+        }
+    }
+    
     private var coverView: UIView?
+    
     private lazy var formInputView: FormInputView? = {
         let nib = UINib(nibName: "FormInputView", bundle: nil)
         guard let formInputView = nib.instantiate(withOwner: self, options: nil).first as? FormInputView else { return nil }
         formInputView.delegate = self
-        formInputView.prepare()
+        formInputView.setup()
         return formInputView
+    }()
+    
+    //TODO: iOS9 컨스트레인트 사용하는 법 체크해서 적용하기
+    private lazy var folderView: FolderView? = {
+        let nib = UINib(nibName: "FolderView", bundle: nil)
+        guard let folderView = nib.instantiate(withOwner: self, options: nil).first as? FolderView else { return nil }
+        folderView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: 0))
+        folderView.delegate = self
+        addSubview(folderView)
+        return folderView
     }()
     
     //MARK: init
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setValuesForText()
-        setFolderView()
+        setInsets()
         setInputAccessoryView()
         keyboard(listen: true)
     }
@@ -35,16 +52,9 @@ class PianoTextView: UITextView {
     //MARK:
     public var control = PianoControl()
     
-    private func setValuesForText(){
+    private func setInsets(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight * 2, 10)
-    }
-    
-    private func setFolderView(){
-        let nib = UINib(nibName: "FolderView", bundle: nil)
-        guard let folderView = nib.instantiate(withOwner: self, options: nil).first as? FolderView else { return }
-        folderView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: 0))
-        addSubview(folderView)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 0, PianoGlobal.toolBarHeight * 2, 0)
     }
     
     private func setInputAccessoryView(){
@@ -70,6 +80,7 @@ class PianoTextView: UITextView {
         var size = bounds.size
         size.height -= (contentInset.top + contentInset.bottom)
         control.frame = CGRect(origin: point, size: size)
+        control.backgroundColor = UIColor.red.withAlphaComponent(0.3)
         addSubview(control)
     }
     
@@ -205,41 +216,41 @@ extension PianoTextView: Effectable {
 extension PianoTextView: Insertable {
     func insert(form: UIImage) {
         //
+        
     }
     
     func insert(image: UIImage, localIdentifier: String) {
         
-        let attachment = ImageTextAttachment(localIdentifier: localIdentifier)
-        attachment.image = resizeToFitIndent(image: image)
+        let attachment = ImageTextAttachment(originalImage: image)
         let attrString = NSAttributedString(attachment: attachment)
-        let enterAttrText = NSMutableAttributedString(string: "\n")
+//        let enterAttrText = NSMutableAttributedString(string: "\n")
         
-        let mutableAttrText = NSMutableAttributedString(attributedString: enterAttrText)
-        mutableAttrText.append(attrString)
-        mutableAttrText.append(enterAttrText)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = 30
-        paragraphStyle.headIndent = 30
-        paragraphStyle.tailIndent = -30
-        paragraphStyle.lineSpacing = 10
-        
-        let font = UIFont.systemFont(ofSize: PianoGlobal.fontSize)
-        let fontColor = PianoGlobal.defaultColor
-        
-        mutableAttrText.addAttributes([.paragraphStyle : paragraphStyle,
-                                       .font : font,
-                                       .foregroundColor : fontColor],
-                                      range: NSMakeRange(1, mutableAttrText.length - 1))
-        
+//        let mutableAttrText = NSMutableAttributedString(attributedString: enterAttrText)
+//        mutableAttrText.append(attrString)
+//        mutableAttrText.append(enterAttrText)
+//
+//        let paragraphStyle = NSMutableParagraphStyle()
+//        paragraphStyle.firstLineHeadIndent = 30
+//        paragraphStyle.headIndent = 30
+//        paragraphStyle.tailIndent = -30
+//        paragraphStyle.lineSpacing = 10
+//
+//        let font = UIFont.systemFont(ofSize: PianoGlobal.fontSize)
+//        let fontColor = PianoGlobal.defaultColor
+//
+//        mutableAttrText.addAttributes([.paragraphStyle : paragraphStyle,
+//                                       .font : font,
+//                                       .foregroundColor : fontColor],
+//                                      range: NSMakeRange(1, mutableAttrText.length - 1))
+//
         let mutableAttrString = NSMutableAttributedString(attributedString: attributedText)
-        mutableAttrString.insert(mutableAttrText, at: selectedRange.location)
+        mutableAttrString.insert(attrString, at: selectedRange.location)
         attributedText = mutableAttrString
     }
     
     func resizeToFitIndent(image: UIImage) -> UIImage? {
         let imageWidth = image.size.width
-        let ratio = (textContainer.size.width - 60) / imageWidth;
+        let ratio = (textContainer.size.width - 60) / imageWidth
         
         let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
@@ -258,5 +269,12 @@ extension PianoTextView : KeyboardControllable {
     func switchKeyboard(to: KeyboardState) {
         inputView = to != .normal ? formInputView : nil
         reloadInputViews()
+    }
+}
+
+extension PianoTextView: FolderChangeable {
+    func changeFolder(to: StaticFolder) {
+        note?.staticFolder = to
+        PianoData.save()
     }
 }

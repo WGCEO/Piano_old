@@ -90,7 +90,7 @@
                     </connections>
                 </collectionView>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zCH-Y1-nJm">
-                    <rect key="frame" x="16" y="72" width="40" height="40"/>
+                    <rect key="frame" x="0.0" y="88" width="40" height="40"/>
                     <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="2iB-xi-uI8"/>
@@ -103,9 +103,9 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="i6h-Xs-Onp" secondAttribute="trailing" id="4af-Kn-nUq"/>
                 <constraint firstItem="i6h-Xs-Onp" firstAttribute="top" secondItem="WAC-2G-trN" secondAttribute="top" id="6g8-oT-5Rp"/>
-                <constraint firstItem="zCH-Y1-nJm" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" constant="16" id="8ML-wo-DjK"/>
+                <constraint firstItem="zCH-Y1-nJm" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" id="8ML-wo-DjK"/>
                 <constraint firstAttribute="bottom" secondItem="MZe-9F-8lA" secondAttribute="bottom" id="GdD-cl-JU0"/>
-                <constraint firstAttribute="bottom" secondItem="zCH-Y1-nJm" secondAttribute="bottom" constant="16" id="T0I-Km-azW"/>
+                <constraint firstAttribute="bottom" secondItem="zCH-Y1-nJm" secondAttribute="bottom" id="T0I-Km-azW"/>
                 <constraint firstItem="i6h-Xs-Onp" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" id="TFB-U7-90J"/>
                 <constraint firstItem="MZe-9F-8lA" firstAttribute="leading" secondItem="WAC-2G-trN" secondAttribute="leading" id="bDK-KM-Btb"/>
                 <constraint firstAttribute="bottom" secondItem="i6h-Xs-Onp" secondAttribute="bottom" id="h0Q-3C-lev"/>

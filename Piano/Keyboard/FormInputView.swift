@@ -79,7 +79,7 @@ class FormInputView: UIView {
         imagePickerButton.isHidden = false
     }
     
-    func prepare(){
+    func setup(){
         let nib = UINib(nibName: "ImageCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: ImageCell.reuseIdentifier)
     }
