@@ -12,9 +12,9 @@ class ImageTextAttachment: NSTextAttachment {
     
     var imageHashValue : Int?
     
-    override func image(forBounds imageBounds: CGRect, textContainer: NSTextContainer?, characterIndex charIndex: Int) -> UIImage? {
-        <#code#>
-    }
+//    override func image(forBounds imageBounds: CGRect, textContainer: NSTextContainer?, characterIndex charIndex: Int) -> UIImage? {
+//        <#code#>
+//    }
     
     override func attachmentBounds(for textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint, characterIndex charIndex: Int) -> CGRect {
         
