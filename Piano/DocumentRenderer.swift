@@ -14,14 +14,21 @@ enum DocumentType {
 }
 
 class DocumentRenderer {
-    func render(type: DocumentType, with textView: UITextView) -> Data {
-        switch type {
-        case .pdf:
-            return renderPDFDocument(with: textView)
+    class func render(type: DocumentType, with textView: UITextView, _ handler: ((URL?)->Void)?) {
+        DispatchQueue.main.async {
+            let renderer = DocumentRenderer()
+            
+            var fileURL: URL?
+            switch type {
+            case .pdf:
+                 fileURL = renderer.renderPDFDocument(with: textView)
+            }
+            
+            handler?(fileURL)
         }
     }
     
-    private func renderPDFDocument(with textView: UITextView) -> Data {
+    private func renderPDFDocument(with textView: UITextView) -> URL {
         let printPageRenderer = A4PaperPrintPageRenderer()
         
         printPageRenderer.addPrintFormatter(textView.viewPrintFormatter(), startingAtPageAt: 0)
@@ -29,10 +36,10 @@ class DocumentRenderer {
         return drawPDFDocument(using: printPageRenderer)
     }
     
-    private func drawPDFDocument(using printPageRenderer: UIPrintPageRenderer) -> Data {
-        let data = NSMutableData()
+    private func drawPDFDocument(using printPageRenderer: UIPrintPageRenderer) -> URL {
+        let path = NSTemporaryDirectory().appending("piano.pdf")
+        UIGraphicsBeginPDFContextToFile(path, CGRect.zero, nil)
         
-        UIGraphicsBeginPDFContextToData(data, CGRect.zero, nil)
         for page in 0..<printPageRenderer.numberOfPages {
             UIGraphicsBeginPDFPage()
             printPageRenderer.drawPage(at: page, in: UIGraphicsGetPDFContextBounds())
@@ -40,7 +47,7 @@ class DocumentRenderer {
         
         UIGraphicsEndPDFContext()
         
-        return data as Data
+        return URL(fileURLWithPath: path)
     }
 }
 

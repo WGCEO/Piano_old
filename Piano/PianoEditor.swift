@@ -66,13 +66,16 @@ class PianoEditor: UIView {
     }
     
     @IBAction func tapSettingButton(_ sender: UIButton){
+        ActivityIndicator.startAnimating()
         
-        let renderer = DocumentRenderer()
-        let pdfDocument = renderer.render(type: .pdf, with: textView)
-        
-        let activityViewController = UIActivityViewController(activityItems: [pdfDocument], applicationActivities: nil)
-        AppNavigator.present(activityViewController)
-        
+        DocumentRenderer.render(type: .pdf, with: textView) { (pdfURL: URL?) in
+            ActivityIndicator.stopAnimating()
+            
+            guard let url = pdfURL else { return }
+            
+            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            AppNavigator.present(activityViewController)
+        }
     }
     
     
