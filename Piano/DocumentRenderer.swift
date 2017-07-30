@@ -49,7 +49,7 @@ class A4PaperPrintPageRenderer: UIPrintPageRenderer {
     let A4PaperWidth: CGFloat = 595.2
     let A4PaperHeight: CGFloat = 841.8
     
-    let margin: CGFloat = 30.0
+    let margin: CGFloat = 0 // 30.0
     
     override init() {
         super.init()

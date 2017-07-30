@@ -14,7 +14,7 @@ enum PianoMode: Int {
 }
 
 protocol Navigatable: class {
-    func moveToNoteListViewController(with folder: StaticFolder)
+    func moveToNoteListViewController(with folderNum: Int)
     func moveToPreferenceViewController()
     func moveToNewMemo()
 }
@@ -61,13 +61,17 @@ class PianoEditor: UIView {
     
     @IBAction func tapListButton(_ sender: UIButton){
         //TODO: first 폴더가 아닌 가지고 있는 메모의 스테틱 폴더 넘버로 폴더 찾아 넘겨주기
-        guard let folder = textView.note?.staticFolder else { return }
-        delegate?.moveToNoteListViewController(with: folder)
+        delegate?.moveToNoteListViewController(with: 0)
     }
     
     @IBAction func tapSettingButton(_ sender: UIButton){
+        
         let renderer = DocumentRenderer()
-        renderer.render(type: .pdf, with: textView.copy() as! UITextView)
+        let pdfDocument = renderer.render(type: .pdf, with: textView)
+        
+        let activityViewController = UIActivityViewController(activityItems: [pdfDocument], applicationActivities: nil)
+        AppNavigator.present(activityViewController)
+        
     }
     
     

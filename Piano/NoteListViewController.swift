@@ -14,7 +14,7 @@ class NoteListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var folderButtons: [UIButton]!
     
-    var selectedFolder: StaticFolder?
+    var selectedFolderNum: Int = 0
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -23,13 +23,14 @@ class NoteListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let folder = selectedFolder else { return }
+        
         for button in folderButtons {
-            if button.tag == folder.order {
+            if button.tag == selectedFolderNum {
                 button.sendActions(for: .touchUpInside)
                 break
             }
         }
+            
     }
     
     @IBAction func touchUpFolder(_ sender: UIButton) {

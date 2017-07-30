@@ -12,6 +12,7 @@ import PhotosUI
 
 protocol Insertable: class {
     func insert(form: UIImage)
+    func insertDivision()
     func insert(image: UIImage?)
 }
 
@@ -98,7 +99,7 @@ class FormInputView: UIView {
     }
     
     @IBAction func tapSeparator(_ sender: UIButton){
-        
+        delegate?.insertDivision()
     }
     
     

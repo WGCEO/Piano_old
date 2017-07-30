@@ -56,7 +56,7 @@ class PianoTextView: UITextView {
     
     private func setInsets(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight * 2, 10)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 0, PianoGlobal.toolBarHeight * 2, 0)
     }
     
     private func setInputAccessoryView(){
@@ -216,6 +216,10 @@ extension PianoTextView: Effectable {
 }
 
 extension PianoTextView: Insertable {
+    func insertDivision() {
+        addDivisionLine()
+    }
+    
     func insert(form: UIImage) {
         //
         
@@ -224,8 +228,17 @@ extension PianoTextView: Insertable {
     func insert(image: UIImage?) {
         guard let image = image else { return }
         
+        
+        let ratio = textContainer.size.width / image.size.width
+        let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: size))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        
         let attachment = ImageTextAttachment()
-        attachment.image = image
+        attachment.image = scaledImage
         let imageAttrString = NSAttributedString(attachment: attachment)
         let imageMutableAttrString = NSMutableAttributedString(attributedString: imageAttrString)
         let paragraphStyle = NSMutableParagraphStyle()

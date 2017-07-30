@@ -73,17 +73,17 @@ class NoteViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier,
-            let folder = sender as? StaticFolder,
+            let folderNum = sender as? Int,
             identifier == "NoteListViewController" {
             let des = segue.destination as! NoteListViewController
-            des.selectedFolder = folder
+            des.selectedFolderNum = folderNum
         }
     }
 }
 
 extension NoteViewController: Navigatable {
-    func moveToNoteListViewController(with folder: StaticFolder) {
-        performSegue(withIdentifier: "NoteListViewController", sender: folder)
+    func moveToNoteListViewController(with folderNum: Int) {
+        performSegue(withIdentifier: "NoteListViewController", sender: folderNum)
     }
     
     func moveToPreferenceViewController() {

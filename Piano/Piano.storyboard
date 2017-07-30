@@ -129,7 +129,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="tapListButtonWith_sender:" destination="df7-4C-wJg" eventType="touchUpInside" id="TRf-Pv-dqN"/>
+                                                    <action selector="tapListButton:" destination="df7-4C-wJg" eventType="touchUpInside" id="KS5-eo-xBl"/>
                                                 </connections>
                                             </button>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaJ-yN-Szd">
@@ -146,7 +146,7 @@
                                                                 </constraints>
                                                                 <state key="normal" image="textEffect"/>
                                                                 <connections>
-                                                                    <action selector="tapPianoButtonWith_sender:" destination="df7-4C-wJg" eventType="touchUpInside" id="nI7-5j-ZeE"/>
+                                                                    <action selector="tapPianoButton:" destination="df7-4C-wJg" eventType="touchUpInside" id="3OW-ad-Llx"/>
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rWT-8p-fYh">
@@ -156,6 +156,9 @@
                                                                     <constraint firstAttribute="width" constant="58" id="wlZ-r4-hPl"/>
                                                                 </constraints>
                                                                 <state key="normal" title="설정"/>
+                                                                <connections>
+                                                                    <action selector="tapSettingButton:" destination="df7-4C-wJg" eventType="touchUpInside" id="VHw-IG-oJH"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                     </stackView>
