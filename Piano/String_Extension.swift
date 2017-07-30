@@ -20,12 +20,12 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
     
-    func nsRange(from range: Range<String.Index>) -> NSRange {
-        let from = range.lowerBound.samePosition(in: utf16)
-        let to = range.upperBound.samePosition(in: utf16)
-        return NSRange(location: utf16.distance(from: utf16.startIndex, to: from),
-                       length: utf16.distance(from: from, to: to))
-    }
+//    func nsRange(from range: Range<String.Index>) -> NSRange {
+//        let from = range.lowerBound.samePosition(in: utf16)
+//        let to = range.upperBound.samePosition(in: utf16)
+//        return NSRange(location: utf16.distance(from: utf16.startIndex, to: from),
+//                       length: utf16.distance(from: from, to: to))
+//    }
     
     func range(from nsRange: NSRange) -> Range<String.Index>? {
         guard

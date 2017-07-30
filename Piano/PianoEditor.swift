@@ -28,7 +28,6 @@ class PianoEditor: UIView {
         super.awakeFromNib()
         setValuesForChildViews()
         textView.inputAccessoryView = mrInputAccessoryView
-            
         formInputView.delegate = textView
     }
     
