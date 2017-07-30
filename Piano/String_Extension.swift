@@ -18,7 +18,7 @@ extension String {
     
     var localized: String {
         return NSLocalizedString(self, comment: "")
-    }
+    } 
     
 //    func nsRange(from range: Range<String.Index>) -> NSRange {
 //        let from = range.lowerBound.samePosition(in: utf16)

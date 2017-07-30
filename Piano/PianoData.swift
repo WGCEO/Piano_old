@@ -21,7 +21,6 @@ struct PianoData {
         }
         
         container.viewContext.automaticallyMergesChangesFromParent = true
-        container.checkCoreData()
         
         return container
     }()
@@ -44,3 +43,4 @@ struct PianoData {
         PianoData.coreDataStack.save()
     }
 }
+

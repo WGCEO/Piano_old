@@ -18,7 +18,7 @@ class DeletedMemoViewController: UIViewController {
         super.viewDidLoad()
         
         textView.layoutManager.delegate = self
-        textView.textContainerInset = UIEdgeInsetsMake(20, 20, 0, 20)
+        textView.textContainerInset = UIEdgeInsetsMake(20, 10, 80, 10)
         
         if let memo = self.memo {
             DispatchQueue.global().async { [unowned self] in

@@ -22,6 +22,7 @@ class MRScrollView: UIScrollView {
     }
     
     public func showMirroring(from textView: UITextView){
+        /*
         //1. 탭 중이거나, 숨겨져있을 때(하드웨어 키보드 연결)엔 미러링 보여주지 말기
         guard !isTapped, !isHidden else { return }
         
@@ -43,6 +44,8 @@ class MRScrollView: UIScrollView {
         
         setScrollOffset(by: frontWidth)
         setCursorViewLocation(by: frontWidth)
+ 
+         */
     }
     
     private func getAttrTextForMirroring(from textView: UITextView, inRange range: NSRange) -> NSAttributedString {

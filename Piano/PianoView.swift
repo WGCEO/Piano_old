@@ -27,7 +27,7 @@ class PianoView: UIView {
     private var animating: Bool = false
     
     //Test flag
-    private let fontChange: Bool = false
+    private let fontChange: Bool = true
     
     private var pianoData: PianoViewData?
     
@@ -70,7 +70,7 @@ class PianoView: UIView {
     
     private func updateLabels(to touchX: CGFloat){
         guard let data = pianoData else { return }
-        
+        backgroundColor = UIColor.white.withAlphaComponent(progress * 0.9)
         for labelInfo in data.labelInfos {
             applyAttrToLabel(by: touchX, in: labelInfo)
             moveLabel(by: touchX, in: labelInfo)
@@ -113,7 +113,7 @@ class PianoView: UIView {
             
             if fontChange {
                 //issue: 폰트 크기 크게, 소숫점 폰트 사이즈이면 렉 심해서 반올림함
-                let largeFontSize = round(labelInfo.font.pointSize + y / 17)
+                let largeFontSize = round(labelInfo.font.pointSize + y / 4)
                 labelInfo.label.font = labelInfo.font.withSize(largeFontSize)
                 
                 //폰트 중앙 고정
@@ -166,6 +166,7 @@ class PianoView: UIView {
         
         UIView.animate(withDuration: PianoGlobal.duration, animations: { [weak self] in
             guard let strongSelf = self else { return }
+            self?.backgroundColor = UIColor.white.withAlphaComponent(0)
             for labelInfo in data.labelInfos {
                 
                 if strongSelf.fontChange {

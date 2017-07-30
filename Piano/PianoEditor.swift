@@ -13,47 +13,66 @@ enum PianoMode: Int {
     case off
 }
 
+protocol Navigatable: class {
+    func moveToNoteListViewController(with folder: StaticFolder)
+    func moveToPreferenceViewController()
+    func moveToNewMemo()
+}
+
 class PianoEditor: UIView {
     
     // MARK: property
-    @IBOutlet var formInputView: FormInputView!
-    @IBOutlet var mrInputAccessoryView: MRInputAccessoryView!
     @IBOutlet weak var textView: PianoTextView!
     @IBOutlet weak var pianoView: PianoView!
-    @IBOutlet weak var topViewTop: NSLayoutConstraint!
     @IBOutlet var topButtons: [UIButton]!
+    @IBOutlet weak var palleteViewTop: NSLayoutConstraint!
+    @IBOutlet weak var completeButtonBottom: NSLayoutConstraint!
+    @IBOutlet weak var controlPanelBottom: NSLayoutConstraint!
+    
+    weak var delegate: Navigatable?
+    
+    var controlPanelAnimate: Bool = false
+    fileprivate var offSetY: CGFloat = 0 {
+        didSet {
+            animateControlPannel(previousOffsetY: oldValue, currentOffsetY: offSetY)
+        }
+    }
     
     // MARK: init
     override func awakeFromNib() {
         super.awakeFromNib()
-        setValuesForChildViews()
-        textView.inputAccessoryView = mrInputAccessoryView
-        formInputView.delegate = textView
+        setup()
+        movePalleteViewsOff()
     }
     
     //MARK: Public
-    @IBAction func tapTopButton(_ sender: UIButton) {
+    @IBAction func tapPalleteButton(_ sender: UIButton) {
         setPianoViewAttributeStyle(by: sender)
-        animate(for: sender)
+        changeAlpha(for: sender)
     }
     
-    @IBAction func tapPlusButton(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        
-        textView.inputView = sender.isSelected ? formInputView : nil
-        textView.reloadInputViews()
+    @IBAction func tapCompleteButton(_ sender: UIButton){
+        animate(for: PianoMode.off)
     }
     
-    @IBAction func tapCloseKeyboardButton(_ sender: Any) {
-        textView.resignFirstResponder()
+    @IBAction func tapPianoButton(_sender: UIButton){
+        animate(for: PianoMode.on)
     }
+    
+    @IBAction func tapListButton(_sender: UIButton){
+        //TODO: first 폴더가 아닌 가지고 있는 메모의 스테틱 폴더 넘버로 폴더 찾아 넘겨주기
+        guard let folder = textView.note?.staticFolder else { return }
+        delegate?.moveToNoteListViewController(with: folder)
+    }
+    
     
     public func animate(for mode: PianoMode) {
-        let (topValue, insetTop, completion) = animateValues(for: mode)
+        let (palleteViewTop, completeButtonBottom, controlPanelBottom, completion) = animateValues(for: mode)
         
         UIView.animate(withDuration: PianoGlobal.duration, animations: { [weak self] in
-            self?.topViewTop.constant = topValue
-            self?.textView.contentInset.top = insetTop
+            self?.palleteViewTop.constant = palleteViewTop
+            self?.completeButtonBottom.constant = completeButtonBottom
+            self?.controlPanelBottom.constant = controlPanelBottom
             self?.layoutIfNeeded()
         }) { (_) in
             completion()
@@ -61,7 +80,31 @@ class PianoEditor: UIView {
     }
     
     //MARK: Private
-    private func setValuesForChildViews() {
+    private func animateControlPannel(previousOffsetY: CGFloat, currentOffsetY: CGFloat){
+        // TODO: 에디터가 편집모드일 땐 애니메이션 하면 안됨. 하지만 이 모드인걸 체크하는 방식이 이거밖에 안떠올라서 이렇게 구현함
+        guard completeButtonBottom.constant != 0 else { return }
+        
+        if previousOffsetY > currentOffsetY, controlPanelBottom.constant != 7 {
+            //appear
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.controlPanelBottom.constant = 7
+                self?.layoutIfNeeded()
+            })
+        } else if previousOffsetY < currentOffsetY, controlPanelBottom.constant != -44, offSetY > 0 {
+            //hide
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.controlPanelBottom.constant = -44
+                self?.layoutIfNeeded()
+            })
+        }
+    }
+    
+    private func movePalleteViewsOff(){
+        palleteViewTop.constant = -100
+        completeButtonBottom.constant = -44
+    }
+    
+    private func setup() {
         textView.control.pianoable = pianoView
         textView.control.effectable = textView
         textView.delegate = self
@@ -72,7 +115,7 @@ class PianoEditor: UIView {
         pianoView.attributeStyle = style
     }
     
-    private func animate(for selectedButton: UIButton){
+    private func changeAlpha(for selectedButton: UIButton){
         for button in topButtons {
             UIView.animate(withDuration: PianoGlobal.duration, animations: {
                 if button == selectedButton {
@@ -84,15 +127,17 @@ class PianoEditor: UIView {
         }
     }
     
-    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, completion: () -> Void) {
-        let topValue: CGFloat
-        let insetTop: CGFloat
+    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat, completion: () -> Void) {
+        let palleteViewTop: CGFloat
+        let completeButtonBottom: CGFloat
+        let controlPanelBottom: CGFloat
         let completion: () -> Void
         
         switch mode {
         case .on:
-            topValue = 0
-            insetTop = PianoGlobal.paletteViewHeight
+            palleteViewTop = 0
+            completeButtonBottom = 0
+            controlPanelBottom = -45
             completion = { [weak self] in
                 self?.textView.isEditable = false
                 self?.textView.isSelectable = false
@@ -100,15 +145,16 @@ class PianoEditor: UIView {
                 self?.textView.setOffsetForPreventBug()
             }
         case .off:
-            topValue = -PianoGlobal.paletteViewHeight
-            insetTop = PianoGlobal.navigationBarHeight
+            palleteViewTop = -100
+            completeButtonBottom = -44
+            controlPanelBottom = 7
             completion = { [weak self] in
                 self?.textView.isEditable = true
                 self?.textView.isSelectable = true
                 self?.textView.detachControl()
             }
         }
-        return (topValue, insetTop, completion)
+        return (palleteViewTop, completeButtonBottom, controlPanelBottom, completion)
     }
 }
 
@@ -116,11 +162,16 @@ class PianoEditor: UIView {
 extension PianoEditor : UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
+        showMirroring(textView)
+    }
+    
+    private func showMirroring(_ textView: UITextView) {
+        guard let pianoTextView = textView as? PianoTextView, let inputAccessoryView = pianoTextView.inputAccessoryView as? MRInputAccessoryView else { return }
+        inputAccessoryView.mrScrollView.showMirroring(from: textView)
     }
     
     func textViewDidChangeSelection(_ textView: UITextView) {
-        mrInputAccessoryView.mrScrollView.showMirroring(from: textView)
+        showMirroring(textView)
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
@@ -137,25 +188,54 @@ extension PianoEditor : UITextViewDelegate {
         textView.detachControl()
     }
     
-    internal func textViewDidChange(_ textView: UITextView) {
-        guard let textView = textView as? PianoTextView else { return }
-        
-        textView.chainElements()
-        textView.detectIndent()
-        
-//        textChangedHandler?(textView.attributedText)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        offSetY = scrollView.contentOffset.y
     }
     
+//    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+//        <#code#>
+//    }
+    
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard let textView = textView as? PianoTextView else { return true}
         
-        // 테스트용
-        if text == "'" {
-            textView.addDivisionLine()
+        
+        //TODO: 문단을 먼저 추출하고 돌려야함
+    
+        
+        let paragraphRange = (textView.text as NSString).paragraphRange(for: textView.selectedRange)
+        textView.attributedText.enumerateAttribute(.attachment, in: paragraphRange, options: []) { (value, range, stop) in
+            if textView.selectedRange.location <= range.location {
+                textView.insertText("\n\n")
+                textView.selectedRange.location -= 2
+            } else {
+                textView.insertText("\n")
+                //                    textView.selectedRange.location += 1
+            }
             
-            return false 
+            stop.pointee = true
         }
         
-        return textView.addElementIfNeeded(text as NSString, in: range)
+       
+        
+        
+        return true
     }
+    
+    /*
+     internal func textViewDidChange(_ textView: UITextView) {
+     guard let textView = textView as? PianoTextView else { return }
+     
+     textView.chainElements()
+     textView.detectIndent()
+     
+     textChangedHandler?(textView.attributedText)
+     }
+     
+     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+     guard let textView = textView as? PianoTextView else { return true}
+     
+     return textView.addElementIfNeeded(text as NSString, in: range)
+     }
+     */
 }

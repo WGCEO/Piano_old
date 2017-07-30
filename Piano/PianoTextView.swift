@@ -9,13 +9,42 @@
 import UIKit
 
 class PianoTextView: UITextView {
+    
+    //lazy var로 만들어서 코어데이터 첫 메모를 fetch하기
+    internal var note: Memo? {
+        didSet {
+            folderView?.setFolders(for: note)
+        }
+    }
+    
     private var coverView: UIView?
+    
+    private lazy var formInputView: FormInputView? = {
+        let nib = UINib(nibName: "FormInputView", bundle: nil)
+        guard let formInputView = nib.instantiate(withOwner: self, options: nil).first as? FormInputView else { return nil }
+        formInputView.delegate = self
+        formInputView.setup()
+        return formInputView
+    }()
+    
+    //TODO: iOS9 컨스트레인트 사용하는 법 체크해서 적용하기
+    private lazy var folderView: FolderView? = {
+        let nib = UINib(nibName: "FolderView", bundle: nil)
+        guard let folderView = nib.instantiate(withOwner: self, options: nil).first as? FolderView else { return nil }
+        folderView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: 0))
+        folderView.delegate = self
+        addSubview(folderView)
+        return folderView
+    }()
     
     //MARK: init
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setValuesForText()
+    
+        setInsets()
+        setInputAccessoryView()
         keyboard(listen: true)
+
     }
     
     deinit {
@@ -25,23 +54,16 @@ class PianoTextView: UITextView {
     //MARK:
     public var control = PianoControl()
     
-    private func setValuesForText(){
+    private func setInsets(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10, 10, 0, 10)
-        contentInset = UIEdgeInsetsMake(PianoGlobal.navigationBarHeight,
-                                        0,
-                                        PianoGlobal.toolBarHeight,
-                                        0)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 0, PianoGlobal.toolBarHeight * 2, 0)
     }
     
-    private func keyboard(listen: Bool){
-        if listen {
-            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
-        } else {
-            NotificationCenter.default.removeObserver(self)
-        }
+    private func setInputAccessoryView(){
+        let nib = UINib(nibName: "MRInputAccessoryView", bundle: nil)
+        guard let mrInputAccessoryView = nib.instantiate(withOwner: self, options: nil).first as? MRInputAccessoryView else { return }
+        mrInputAccessoryView.delegate = self
+        inputAccessoryView = mrInputAccessoryView
     }
     
     private func addCoverView(rect: CGRect) {
@@ -60,6 +82,7 @@ class PianoTextView: UITextView {
         var size = bounds.size
         size.height -= (contentInset.top + contentInset.bottom)
         control.frame = CGRect(origin: point, size: size)
+        control.backgroundColor = UIColor.red.withAlphaComponent(0.3)
         addSubview(control)
     }
     
@@ -78,9 +101,10 @@ class PianoTextView: UITextView {
     }
     
     private func setAttribute(with result: PianoResult) {
-        let final = result.final.move(x: -textContainerInset.left, y: 0)
-        let farLeft = result.farLeft.move(x: -textContainerInset.left, y: 0)
-        let farRight = result.farRight.move(x: -textContainerInset.left, y: 0)
+        //TODO: 2는 어떤 줄이 윗 줄에 적용되는 버그에 대한 임시 해결책
+        let final = result.final.move(x: -textContainerInset.left, y: -textContainerInset.top + 2)
+        let farLeft = result.farLeft.move(x: -textContainerInset.left, y: -textContainerInset.top + 2)
+        let farRight = result.farRight.move(x: -textContainerInset.left, y: -textContainerInset.top + 2)
         
         let applyRange = getRangeForApply(farLeft: farLeft, final: final)
         if applyRange.length > 0 {
@@ -101,6 +125,19 @@ class PianoTextView: UITextView {
 }
 
 extension PianoTextView {
+    private func keyboard(listen: Bool){
+        if listen {
+            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(PianoTextView.keyboardDidHide(notification:)), name: Notification.Name.UIKeyboardDidHide, object: nil)
+            
+        } else {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
     @objc internal func keyboardWillShow(notification: Notification){
         
         guard let userInfo = notification.userInfo,
@@ -111,12 +148,24 @@ extension PianoTextView {
         contentInset.bottom = bottom
         scrollIndicatorInsets.bottom = bottom
         scrollRangeToVisible(selectedRange)
+        
+        setFormInputView(height: kbFrame.size.height - 44)
     }
     
     @objc internal func keyboardWillHide(notification: Notification){
-        contentInset.bottom = PianoGlobal.toolBarHeight
-        scrollIndicatorInsets.bottom = PianoGlobal.toolBarHeight
+        contentInset = UIEdgeInsets.zero
+        scrollIndicatorInsets = contentInset
         setOffsetForPreventBug()
+        
+    }
+    
+    @objc internal func keyboardDidHide(notification: Notification){
+        setOffsetForPreventBug()
+        formInputView?.reset()
+    }
+    
+    private func setFormInputView(height: CGFloat){
+        formInputView?.frame.size.height = height
     }
 }
 
@@ -129,7 +178,7 @@ extension PianoTextView: Effectable {
                     return PianoViewData(rect: CGRect.zero, labelInfos: [])
             }
             
-            let relativePoint = point.move(x: 0, y: strongSelf.contentOffset.y + strongSelf.contentInset.top + strongSelf.textContainerInset.top)
+            let relativePoint = point.move(x: 0, y: strongSelf.contentOffset.y + strongSelf.contentInset.top - strongSelf.textContainerInset.top)
             
             let index = strongSelf.layoutManager.glyphIndex(for: relativePoint, in: strongSelf.textContainer)
             var range = NSRange()
@@ -169,47 +218,61 @@ extension PianoTextView: Effectable {
 extension PianoTextView: Insertable {
     func insert(form: UIImage) {
         //
+        
     }
     
-    func insert(image: UIImage, localIdentifier: String) {
+    func insert(image: UIImage?) {
+        guard let image = image else { return }
         
-        let attachment = ImageTextAttachment(localIdentifier: localIdentifier)
-        attachment.image = resizeToFitIndent(image: image)
-        let attrString = NSAttributedString(attachment: attachment)
-        let enterAttrText = NSMutableAttributedString(string: "\n")
-        
-        let mutableAttrText = NSMutableAttributedString(attributedString: enterAttrText)
-        mutableAttrText.append(attrString)
-        mutableAttrText.append(enterAttrText)
-        
+        let attachment = ImageTextAttachment()
+        attachment.image = image
+        let imageAttrString = NSAttributedString(attachment: attachment)
+        let imageMutableAttrString = NSMutableAttributedString(attributedString: imageAttrString)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.firstLineHeadIndent = 30
-        paragraphStyle.headIndent = 30
-        paragraphStyle.tailIndent = -30
         paragraphStyle.lineSpacing = 10
         
         let font = UIFont.systemFont(ofSize: PianoGlobal.fontSize)
         let fontColor = PianoGlobal.defaultColor
         
-        mutableAttrText.addAttributes([.paragraphStyle : paragraphStyle,
-                                       .font : font,
-                                       .foregroundColor : fontColor],
-                                      range: NSMakeRange(1, mutableAttrText.length - 1))
-        
+        imageMutableAttrString.addAttributes([.paragraphStyle : paragraphStyle,
+                                              .font: font,
+                                              .foregroundColor : fontColor], range: NSMakeRange(0, imageMutableAttrString.length))
+
         let mutableAttrString = NSMutableAttributedString(attributedString: attributedText)
-        mutableAttrString.insert(mutableAttrText, at: selectedRange.location)
+        mutableAttrString.insert(imageMutableAttrString, at: selectedRange.location)
         attributedText = mutableAttrString
+        
+        typingAttributes = [NSAttributedStringKey.paragraphStyle.rawValue : paragraphStyle,
+                            NSAttributedStringKey.font.rawValue: font,
+                            NSAttributedStringKey.foregroundColor.rawValue : fontColor]
     }
     
-    func resizeToFitIndent(image: UIImage) -> UIImage? {
-        let imageWidth = image.size.width
-        let ratio = (textContainer.size.width - 60) / imageWidth;
-        
-        let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return scaledImage
+    
+    func temporateCode(){
+//        let a4Width: CGFloat = 535.2
+//        let ratio = a4Width / unwrapImage.size.width
+//        let size = unwrapImage.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+//        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+//        unwrapImage.draw(in: CGRect(origin: CGPoint.zero, size: size))
+//        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+    }
+}
+
+extension PianoTextView : KeyboardControllable {
+    func resignKeyboard() {
+        resignFirstResponder()
+    }
+    
+    func switchKeyboard(to: KeyboardState) {
+        inputView = to != .normal ? formInputView : nil
+        reloadInputViews()
+    }
+}
+
+extension PianoTextView: FolderChangeable {
+    func changeFolder(to: StaticFolder) {
+        note?.staticFolder = to
+        PianoData.save()
     }
 }

@@ -173,6 +173,7 @@ extension PianoTextView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
+        paragraphStyle.lineSpacing = 10
         
         let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle,
                           ElementAttributeKey: ElementType.none] as [NSAttributedStringKey: Any]
@@ -198,6 +199,7 @@ extension PianoTextView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth - width
         paragraphStyle.headIndent = indentWidth - width
+        paragraphStyle.lineSpacing = 10
         textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
         
         let elementAttributes = [ElementAttributeKey: element.type,

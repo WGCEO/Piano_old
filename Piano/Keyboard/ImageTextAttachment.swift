@@ -9,14 +9,30 @@
 import UIKit
 
 class ImageTextAttachment: NSTextAttachment {
-    let localIdentifier: String
     
-    init(localIdentifier: String) {
-        self.localIdentifier = localIdentifier
-        super.init(data: nil, ofType: nil)
-    }
+    var imageHashValue : Int?
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+//    override func image(forBounds imageBounds: CGRect, textContainer: NSTextContainer?, characterIndex charIndex: Int) -> UIImage? {
+//        <#code#>
+//    }
+    
+    override func attachmentBounds(for textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint, characterIndex charIndex: Int) -> CGRect {
+        
+        let width: CGFloat = lineFrag.size.width
+        var scalingFactor: CGFloat = 1.0
+        
+        if let img = self.image {
+            
+            let imageSize:CGSize  = img.size
+            
+            if (width < imageSize.width) {
+                scalingFactor = width / imageSize.width;
+            }
+            let rect = CGRect(x: 0, y: 0, width: imageSize.width * scalingFactor, height: imageSize.height * scalingFactor)
+            return rect;
+        } else {
+            let rect = CGRect(x: 0, y: 0, width: width, height: width)
+            return rect;
+        }
     }
 }

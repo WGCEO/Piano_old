@@ -41,7 +41,14 @@
 		315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315A53821DF311FA00BB7367 /* NSRange_Extension.swift */; };
 		316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */; };
 		316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316F157B1DEC140A007693D9 /* UITextView_Extension.swift */; };
+		DA06896D1F20365D0033BA0F /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA06896C1F20365D0033BA0F /* TrashViewController.swift */; };
+		DA0689711F203D930033BA0F /* OldNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0689701F203D930033BA0F /* OldNoteViewController.swift */; };
 		DA53FDA11F1C745B00CA8587 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */; };
+		DA53FDA51F1C79D400CA8587 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53FDA41F1C79D400CA8587 /* NoteListViewController.swift */; };
+		DA53FDAA1F1C7A3100CA8587 /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53FDA91F1C7A3100CA8587 /* NoteCell.swift */; };
+		DA5B51DA1F25F5F5003EED0C /* NoteHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5B51D91F25F5F5003EED0C /* NoteHeaderCell.swift */; };
+		DA8A6D581F1EE79500F8A9FC /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8A6D571F1EE79500F8A9FC /* Setting.storyboard */; };
+		DA8A6D631F1EFB9100F8A9FC /* SettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */; };
 		DAC9005B1F1C5AA30011B870 /* Piano.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAC9005A1F1C5AA30011B870 /* Piano.storyboard */; };
 		DAC9005D1F1C6A650011B870 /* NSAttributedString_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9005C1F1C6A650011B870 /* NSAttributedString_Extension.swift */; };
 		DAC9005F1F1C6A930011B870 /* CGRect_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9005E1F1C6A930011B870 /* CGRect_Extension.swift */; };
@@ -57,9 +64,17 @@
 		DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900751F1C704B0011B870 /* MRScrollView.swift */; };
 		DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900781F1C70900011B870 /* UILabel_Extension.swift */; };
 		DAC9007B1F1C70C30011B870 /* MRInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */; };
+		DAF2EC751F1F0363009B49BA /* TrashListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC741F1F0363009B49BA /* TrashListViewController.swift */; };
+		DAF2EC771F1F15EC009B49BA /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */; };
+		DAF2EC791F1F1619009B49BA /* OldNoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC781F1F1619009B49BA /* OldNoteListViewController.swift */; };
+		DAF2EC7B1F1F1646009B49BA /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */; };
+		DAF2EC7D1F1F26FB009B49BA /* LicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF2EC7C1F1F26FB009B49BA /* LicenseViewController.swift */; };
+		DAF33EA91F2085FB00DE48A9 /* FolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EA81F2085FB00DE48A9 /* FolderView.xib */; };
+		DAF33EAB1F2086DA00DE48A9 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF33EAA1F2086DA00DE48A9 /* FolderView.swift */; };
+		DAF33EAD1F208EAE00DE48A9 /* FormInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EAC1F208EAE00DE48A9 /* FormInputView.xib */; };
+		DAF33EAF1F20912A00DE48A9 /* MRInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EAE1F20912A00DE48A9 /* MRInputAccessoryView.xib */; };
+		DAF33EB11F21D50B00DE48A9 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */; };
 		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
-		F43808631F2861D900909D65 /* DivisionLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43808621F2861D900909D65 /* DivisionLine.swift */; };
-		F454826A1F24B7C800FE035D /* ElementCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45482691F24B7C800FE035D /* ElementCalculator.swift */; };
 		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
 		F48685881F10E43B0028537D /* PianoTextViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48685871F10E43B0028537D /* PianoTextViewLayout.swift */; };
 		F49B3C6C1EE18E6400A0E81C /* PNEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */; };
@@ -68,8 +83,7 @@
 		F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C761EE1A2B800A0E81C /* MailSender.swift */; };
 		F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C781EE1A2C200A0E81C /* MemoManager.swift */; };
 		F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */; };
-		F4A84DE71F1E31C800C4B765 /* DocumentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */; };
-		F4D52ACF1F1B21F600E38A79 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D52ACE1F1B21F600E38A79 /* Element.swift */; };
+		F4D52ACF1F1B21F600E38A79 /* NSString+Kerning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */; };
 		F4EB6CA41F16557500AF0FFF /* ElementInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */; };
 /* End PBXBuildFile section */
 
@@ -163,7 +177,14 @@
 		316F15791DEC11C3007693D9 /* CGPoint_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPoint_Extension.swift; sourceTree = "<group>"; };
 		316F157B1DEC140A007693D9 /* UITextView_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextView_Extension.swift; sourceTree = "<group>"; };
 		AD2C509BEAA634355CC85D66 /* Pods-Piano.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Piano.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Piano/Pods-Piano.debug.xcconfig"; sourceTree = "<group>"; };
+		DA06896C1F20365D0033BA0F /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
+		DA0689701F203D930033BA0F /* OldNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldNoteViewController.swift; sourceTree = "<group>"; };
 		DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		DA53FDA41F1C79D400CA8587 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
+		DA53FDA91F1C7A3100CA8587 /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
+		DA5B51D91F25F5F5003EED0C /* NoteHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteHeaderCell.swift; sourceTree = "<group>"; };
+		DA8A6D571F1EE79500F8A9FC /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		DAC9005A1F1C5AA30011B870 /* Piano.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Piano.storyboard; sourceTree = "<group>"; };
 		DAC9005C1F1C6A650011B870 /* NSAttributedString_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString_Extension.swift; sourceTree = "<group>"; };
 		DAC9005E1F1C6A930011B870 /* CGRect_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect_Extension.swift; sourceTree = "<group>"; };
@@ -179,9 +200,17 @@
 		DAC900751F1C704B0011B870 /* MRScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRScrollView.swift; sourceTree = "<group>"; };
 		DAC900781F1C70900011B870 /* UILabel_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel_Extension.swift; sourceTree = "<group>"; };
 		DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRInputAccessoryView.swift; sourceTree = "<group>"; };
+		DAF2EC741F1F0363009B49BA /* TrashListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashListViewController.swift; sourceTree = "<group>"; };
+		DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
+		DAF2EC781F1F1619009B49BA /* OldNoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldNoteListViewController.swift; sourceTree = "<group>"; };
+		DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
+		DAF2EC7C1F1F26FB009B49BA /* LicenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
+		DAF33EA81F2085FB00DE48A9 /* FolderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FolderView.xib; sourceTree = "<group>"; };
+		DAF33EAA1F2086DA00DE48A9 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
+		DAF33EAC1F208EAE00DE48A9 /* FormInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FormInputView.xib; sourceTree = "<group>"; };
+		DAF33EAE1F20912A00DE48A9 /* MRInputAccessoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MRInputAccessoryView.xib; sourceTree = "<group>"; };
+		DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
-		F43808621F2861D900909D65 /* DivisionLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
-		F45482691F24B7C800FE035D /* ElementCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementCalculator.swift; sourceTree = "<group>"; };
 		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
 		F48685871F10E43B0028537D /* PianoTextViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextViewLayout.swift; sourceTree = "<group>"; };
 		F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PNEditor.swift; sourceTree = "<group>"; };
@@ -190,8 +219,7 @@
 		F49B3C761EE1A2B800A0E81C /* MailSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailSender.swift; sourceTree = "<group>"; };
 		F49B3C781EE1A2C200A0E81C /* MemoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
 		F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRenderer.swift; sourceTree = "<group>"; };
-		F4D52ACE1F1B21F600E38A79 /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
+		F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+Kerning.swift"; sourceTree = "<group>"; };
 		F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -382,7 +410,9 @@
 			isa = PBXGroup;
 			children = (
 				F49B3C6B1EE18E6400A0E81C /* PNEditor.swift */,
-				DAC9006A1F1C6B8E0011B870 /* PianoView.swift */,
+				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
+				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
+				F4D52ACE1F1B21F600E38A79 /* NSString+Kerning.swift */,
 			);
 			name = PNEditor;
 			sourceTree = "<group>";
@@ -408,9 +438,11 @@
 			isa = PBXGroup;
 			children = (
 				DA53FDA01F1C745B00CA8587 /* NoteViewController.swift */,
-				F417A9321F1E1EDD000EC48C /* Layout */,
+				DAC900641F1C6B020011B870 /* PianoGlobal.swift */,
+				DA8A6D5B1F1EEEB400F8A9FC /* Setting */,
 				DAC900771F1C70530011B870 /* Mirroring */,
 				DAC900701F1C6E300011B870 /* Keyboard */,
+				DA53FDA81F1C7A1500CA8587 /* NoteList */,
 				DA53FDA31F1C755100CA8587 /* PianoEditor */,
 			);
 			name = NewPiano;
@@ -419,21 +451,50 @@
 		DA53FDA31F1C755100CA8587 /* PianoEditor */ = {
 			isa = PBXGroup;
 			children = (
-				DAC900681F1C6B6A0011B870 /* PianoViewData.swift */,
-				DAC900661F1C6B490011B870 /* PianoResult.swift */,
 				DAC9006C1F1C6CA50011B870 /* PianoEditor.swift */,
+				DAC900681F1C6B6A0011B870 /* PianoViewData.swift */,
+				DAC9006A1F1C6B8E0011B870 /* PianoView.swift */,
+				DAC900661F1C6B490011B870 /* PianoResult.swift */,
 				31575C941DE80BB600373ADD /* PianoControl.swift */,
 				310870A11DE14D6A0044BA5D /* PianoTextView.swift */,
+				DAF33EA81F2085FB00DE48A9 /* FolderView.xib */,
+				DAF33EAA1F2086DA00DE48A9 /* FolderView.swift */,
 				DAC900601F1C6ACF0011B870 /* PianoAttributeStyle.swift */,
-				DAC900641F1C6B020011B870 /* PianoGlobal.swift */,
 			);
 			name = PianoEditor;
+			sourceTree = "<group>";
+		};
+		DA53FDA81F1C7A1500CA8587 /* NoteList */ = {
+			isa = PBXGroup;
+			children = (
+				DA53FDA41F1C79D400CA8587 /* NoteListViewController.swift */,
+				DA53FDA91F1C7A3100CA8587 /* NoteCell.swift */,
+				DA5B51D91F25F5F5003EED0C /* NoteHeaderCell.swift */,
+			);
+			name = NoteList;
+			sourceTree = "<group>";
+		};
+		DA8A6D5B1F1EEEB400F8A9FC /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */,
+				DAF2EC741F1F0363009B49BA /* TrashListViewController.swift */,
+				DA06896C1F20365D0033BA0F /* TrashViewController.swift */,
+				DAF2EC761F1F15EC009B49BA /* UsageViewController.swift */,
+				DAF2EC781F1F1619009B49BA /* OldNoteListViewController.swift */,
+				DA0689701F203D930033BA0F /* OldNoteViewController.swift */,
+				DAF2EC7A1F1F1646009B49BA /* ReviewViewController.swift */,
+				DAF2EC7C1F1F26FB009B49BA /* LicenseViewController.swift */,
+			);
+			name = Setting;
 			sourceTree = "<group>";
 		};
 		DAC900701F1C6E300011B870 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
+				DAF33EAC1F208EAE00DE48A9 /* FormInputView.xib */,
 				DAC9006E1F1C6E260011B870 /* FormInputView.swift */,
+				DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */,
 				DAC900731F1C6FE80011B870 /* ImageCell.swift */,
 				DAC900711F1C6F9B0011B870 /* ImageTextAttachment.swift */,
 			);
@@ -446,6 +507,7 @@
 				DAC900751F1C704B0011B870 /* MRScrollView.swift */,
 				DAC900781F1C70900011B870 /* UILabel_Extension.swift */,
 				DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */,
+				DAF33EAE1F20912A00DE48A9 /* MRInputAccessoryView.xib */,
 			);
 			path = Mirroring;
 			sourceTree = "<group>";
@@ -475,6 +537,7 @@
 				0A2CE6831E10FBA20003F3CB /* fontawesome-webfont.ttf */,
 				3131F6D51DDD2E3D00EC4229 /* Main.storyboard */,
 				DAC9005A1F1C5AA30011B870 /* Piano.storyboard */,
+				DA8A6D571F1EE79500F8A9FC /* Setting.storyboard */,
 				0AEC95871E3A001E0039A47F /* Launch Screen.storyboard */,
 			);
 			name = Resource;
@@ -489,18 +552,6 @@
 			name = etc;
 			sourceTree = "<group>";
 		};
-		F417A9321F1E1EDD000EC48C /* Layout */ = {
-			isa = PBXGroup;
-			children = (
-				F48685871F10E43B0028537D /* PianoTextViewLayout.swift */,
-				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
-				F45482691F24B7C800FE035D /* ElementCalculator.swift */,
-				F4D52ACE1F1B21F600E38A79 /* Element.swift */,
-				F43808621F2861D900909D65 /* DivisionLine.swift */,
-			);
-			name = Layout;
-			sourceTree = "<group>";
-		};
 		F49B3C7A1EE1A38900A0E81C /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,7 +561,6 @@
 				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,
 				F49B3C781EE1A2C200A0E81C /* MemoManager.swift */,
 				F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */,
-				F4A84DE61F1E31C800C4B765 /* DocumentRenderer.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -663,10 +713,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A8B992C1E407C1700130F7F /* Localizable.strings in Resources */,
+				DAF33EAD1F208EAE00DE48A9 /* FormInputView.xib in Resources */,
 				0A2CE6841E10FC610003F3CB /* fontawesome-webfont.ttf in Resources */,
+				DA8A6D581F1EE79500F8A9FC /* Setting.storyboard in Resources */,
 				DAC9005B1F1C5AA30011B870 /* Piano.storyboard in Resources */,
+				DAF33EAF1F20912A00DE48A9 /* MRInputAccessoryView.xib in Resources */,
+				DAF33EB11F21D50B00DE48A9 /* ImageCell.xib in Resources */,
 				3131F6D91DDD2E3D00EC4229 /* Assets.xcassets in Resources */,
 				0AEC95881E3A001E0039A47F /* Launch Screen.storyboard in Resources */,
+				DAF33EA91F2085FB00DE48A9 /* FolderView.xib in Resources */,
 				3131F6D71DDD2E3D00EC4229 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -740,7 +795,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA8A6D631F1EFB9100F8A9FC /* SettingTableViewController.swift in Sources */,
 				0AEDCEE21DF923F9000D57C2 /* String_Extension.swift in Sources */,
+				DAF2EC7B1F1F1646009B49BA /* ReviewViewController.swift in Sources */,
 				DAC9005D1F1C6A650011B870 /* NSAttributedString_Extension.swift in Sources */,
 				F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */,
 				DAC900691F1C6B6A0011B870 /* PianoViewData.swift in Sources */,
@@ -748,17 +805,17 @@
 				DAC900721F1C6F9B0011B870 /* ImageTextAttachment.swift in Sources */,
 				DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
-				F43808631F2861D900909D65 /* DivisionLine.swift in Sources */,
 				0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */,
-				F4A84DE71F1E31C800C4B765 /* DocumentRenderer.swift in Sources */,
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
 				0AEC95941E3C86580039A47F /* SettingViewController.swift in Sources */,
 				DAC900651F1C6B020011B870 /* PianoGlobal.swift in Sources */,
+				DA5B51DA1F25F5F5003EED0C /* NoteHeaderCell.swift in Sources */,
 				0A8815A61E31F75500ABEB98 /* MemoTableViewController.swift in Sources */,
 				0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */,
 				F49B3C751EE1A2AF00A0E81C /* ImagePicker.swift in Sources */,
 				310870AA1DE1729C0044BA5D /* Reusable.swift in Sources */,
 				DA53FDA11F1C745B00CA8587 /* NoteViewController.swift in Sources */,
+				DAF2EC771F1F15EC009B49BA /* UsageViewController.swift in Sources */,
 				F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */,
 				0A638E671E16A7A00006FFEA /* Date_Extension.swift in Sources */,
 				DAC9005F1F1C6A930011B870 /* CGRect_Extension.swift in Sources */,
@@ -766,24 +823,31 @@
 				DAC900741F1C6FE80011B870 /* ImageCell.swift in Sources */,
 				DAC900611F1C6ACF0011B870 /* PianoAttributeStyle.swift in Sources */,
 				0A8150E31E1CB1D100F2EDFE /* PianoData.swift in Sources */,
+				DAF2EC791F1F1619009B49BA /* OldNoteListViewController.swift in Sources */,
 				0A0818501E0B95E40001304F /* DeletedMemoViewController.swift in Sources */,
 				315A53831DF311FA00BB7367 /* NSRange_Extension.swift in Sources */,
 				DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */,
 				0A1812841E29DF1300272080 /* TextEffectCell.swift in Sources */,
+				DAF2EC7D1F1F26FB009B49BA /* LicenseViewController.swift in Sources */,
+				DAF33EAB1F2086DA00DE48A9 /* FolderView.swift in Sources */,
+				DA53FDAA1F1C7A3100CA8587 /* NoteCell.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				0A8815A91E31FB1D00ABEB98 /* MemoViewController.swift in Sources */,
+				DA06896D1F20365D0033BA0F /* TrashViewController.swift in Sources */,
 				F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */,
 				0A5AFD4A1E02609E0000CDF6 /* NSPersistentContainer_Extension.swift in Sources */,
 				0A8B994A1E40CE2D00130F7F /* ThanksToViewController.swift in Sources */,
+				DA0689711F203D930033BA0F /* OldNoteViewController.swift in Sources */,
 				F4EB6CA41F16557500AF0FFF /* ElementInspector.swift in Sources */,
-				F454826A1F24B7C800FE035D /* ElementCalculator.swift in Sources */,
 				F48685881F10E43B0028537D /* PianoTextViewLayout.swift in Sources */,
 				0A8B997C1E41AD1C00130F7F /* UIColor_Extension.swift in Sources */,
 				DAC9007B1F1C70C30011B870 /* MRInputAccessoryView.swift in Sources */,
 				0A5B08251E3F0BCD0074E5CA /* MoveMemoViewController.swift in Sources */,
 				DAC900671F1C6B490011B870 /* PianoResult.swift in Sources */,
+				DA53FDA51F1C79D400CA8587 /* NoteListViewController.swift in Sources */,
 				F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */,
 				DAC9006D1F1C6CA50011B870 /* PianoEditor.swift in Sources */,
+				DAF2EC751F1F0363009B49BA /* TrashListViewController.swift in Sources */,
 				0AC540F41E08D29400EC3436 /* PianoPersistentContainer.swift in Sources */,
 				0A08184D1E0B8D0F0001304F /* DeletedMemoListViewController.swift in Sources */,
 				F49B3C731EE1A2A500A0E81C /* AppNavigator.swift in Sources */,
@@ -792,7 +856,7 @@
 				316F157A1DEC11C3007693D9 /* CGPoint_Extension.swift in Sources */,
 				DAC9006F1F1C6E260011B870 /* FormInputView.swift in Sources */,
 				DAC9006B1F1C6B8E0011B870 /* PianoView.swift in Sources */,
-				F4D52ACF1F1B21F600E38A79 /* Element.swift in Sources */,
+				F4D52ACF1F1B21F600E38A79 /* NSString+Kerning.swift in Sources */,
 				F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */,
 				316F157C1DEC140A007693D9 /* UITextView_Extension.swift in Sources */,
 			);

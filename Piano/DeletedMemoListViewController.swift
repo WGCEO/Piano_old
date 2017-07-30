@@ -39,7 +39,7 @@ class DeletedMemoListViewController: UIViewController {
         super.viewDidLoad()
 
         setTableViewCellHeight()
-        PianoData.deleteMemosIfPassOneMonth()
+//        PianoData.deleteMemosIfPassOneMonth()
         
         do {
             try resultsController.performFetch()
@@ -78,7 +78,7 @@ class DeletedMemoListViewController: UIViewController {
         
     }
     
-    func preferredContentSizeChanged(notification: Notification) {
+    @objc func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
     

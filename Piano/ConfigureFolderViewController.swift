@@ -52,7 +52,7 @@ class ConfigureFolderViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(ConfigureFolderViewController.preferredContentSizeChanged(notification:)), name: Notification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
-    func preferredContentSizeChanged(notification: Notification) {
+    @objc func preferredContentSizeChanged(notification: Notification) {
         tableView.reloadData()
     }
     
@@ -90,7 +90,7 @@ class ConfigureFolderViewController: UIViewController {
         showAddGroupAlertViewController()
     }
     
-    func textChanged(sender: AnyObject) {
+    @objc func textChanged(sender: AnyObject) {
         let tf = sender as! UITextField
         var resp : UIResponder! = tf
         while !(resp is UIAlertController) { resp = resp.next }

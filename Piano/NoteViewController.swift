@@ -5,87 +5,95 @@
 //  Created by changi kim on 2017. 7. 17..
 //  Copyright © 2017년 Piano. All rights reserved.
 //
+
 import UIKit
+import  CoreData
 
 class NoteViewController: UIViewController {
     
     @IBOutlet weak var editor: PianoEditor!
-    @IBOutlet weak var bottomViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var completeButtonBottom: NSLayoutConstraint!
-    @IBOutlet weak var topViewTop: NSLayoutConstraint!
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    lazy private var resultsController: NSFetchedResultsController<Memo> = {
+        let request: NSFetchRequest<Memo> = Memo.fetchRequest()
+        request.predicate = NSPredicate(format: "isInTrash == false")
+        let context = PianoData.coreDataStack.viewContext
+        let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)
+        request.sortDescriptors = [dateSort]
+        let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext:context, sectionNameKeyPath: nil, cacheName: nil)
+//        controller.delegate = self
+        return controller
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        editor.delegate = self
         
+        //TODO: 나중에 지우기
+//        setTempParagraphStyle()
+        // 여기까지
+        
+        MemoManager.migrateVersionTwo()
+        
+        
+        if let recentlyData = UserDefaults.standard.object(forKey: "recentlyNote") as? Data, let attrText = NSKeyedUnarchiver.unarchiveObject(with: recentlyData) as? NSAttributedString {
+            editor.textView.attributedText = attrText
+        } else {
+            do {
+                try resultsController.performFetch()
+
+                guard let recentlyMemo = resultsController.fetchedObjects?.first,
+                    let data = recentlyMemo.content,
+                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
+                editor.textView.note = recentlyMemo
+                editor.textView.attributedText = attrText
+            } catch {
+                print("Error performing fetch \(error.localizedDescription)")
+            }
+        }
+        
+    }
+    
+    
+    
+    private func setTempParagraphStyle(){
         let mutableString = NSMutableAttributedString(attributedString: editor.textView.attributedText)
         guard let paragraph = mutableString.attribute(NSAttributedStringKey.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle else { return }
         let mutableParagraph = NSMutableParagraphStyle()
         mutableParagraph.setParagraphStyle(paragraph)
-        mutableParagraph.headIndent = 30
-        mutableParagraph.firstLineHeadIndent = 30
-        mutableParagraph.tailIndent = -30
+        mutableParagraph.headIndent = 0
+        mutableParagraph.firstLineHeadIndent = 0
+        mutableParagraph.tailIndent = -10
         mutableParagraph.lineSpacing = 10
         mutableString.addAttributes([.paragraphStyle : mutableParagraph, .foregroundColor : PianoGlobal.defaultColor], range: NSMakeRange(0, mutableString.length))
         editor.textView.attributedText = mutableString
     }
     
-    @IBAction func tapFolderSpecificationButton(_ sender: Any) {
-        //폴더가 한개도 없다면 얼럿을 띄우기
-        
-        //폴더가 있다면 모달로 이동
-    }
-    
-    @IBAction func tapPianoButton(_ sender: UIButton) {
-        
-        animate(for: PianoMode.on)
-        editor.animate(for: PianoMode.on)
-    }
-    
-    @IBAction func tapCompleteButton(_ sender: UIButton) {
-        
-        animate(for: PianoMode.off)
-        editor.animate(for: PianoMode.off)
-    }
-    
-    @IBAction func tapImagePicker(_ sender: UIButton){
-        
-    }
-    
-    @IBAction func tapShareButton(_ sender: Any) {
-        guard let htmlString = editor.textView.attributedText.parseToHTMLString() else { return }
-        
-        let renderer = DocumentRenderer()
-        let pdfDocument = renderer.render(type: .pdf, with: editor.textView)
-        
-        let activityViewController = UIActivityViewController(activityItems: [pdfDocument], applicationActivities: nil)
-        AppNavigator.present(activityViewController)
-    }
-    
-    private func animate(for mode: PianoMode) {
-        let (topViewTop, bottomViewBottom, completeButtonBottom) = animateValues(for: mode)
-        
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.topViewTop.constant = topViewTop
-            self?.bottomViewBottom.constant = bottomViewBottom
-            self?.completeButtonBottom.constant = completeButtonBottom
-            self?.view.layoutIfNeeded()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier,
+            let folder = sender as? StaticFolder,
+            identifier == "NoteListViewController" {
+            let des = segue.destination as! NoteListViewController
+            des.selectedFolder = folder
         }
-    }
-    
-    private func animateValues(for mode: PianoMode) -> (CGFloat, CGFloat, CGFloat) {
-        let topViewTop: CGFloat
-        let bottomViewBottom: CGFloat
-        let completeButtonBottom: CGFloat
-        switch mode {
-        case .on:
-            topViewTop = -64
-            bottomViewBottom = -44
-            completeButtonBottom = 0
-        case .off:
-            topViewTop = 0
-            bottomViewBottom = 0
-            completeButtonBottom = -44
-        }
-        return (topViewTop, bottomViewBottom, completeButtonBottom)
     }
 }
+
+extension NoteViewController: Navigatable {
+    func moveToNoteListViewController(with folder: StaticFolder) {
+        performSegue(withIdentifier: "NoteListViewController", sender: folder)
+    }
+    
+    func moveToPreferenceViewController() {
+        //
+    }
+    
+    func moveToNewMemo() {
+        //
+    }
+}
+
+
+
