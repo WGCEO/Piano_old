@@ -155,17 +155,7 @@ extension FormInputView: UICollectionViewDelegate {
         
         PHImageManager.default().requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: requestOptions) { [weak self](image, _) in
             guard let unwrapImage = image else { return }
-            
-            let a4Width: CGFloat = 535.2
-            let ratio = a4Width / unwrapImage.size.width
-            let size = unwrapImage.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-            UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-            unwrapImage.draw(in: CGRect(origin: CGPoint.zero, size: size))
-            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            
-            self?.delegate?.insert(image: scaledImage)
+            self?.delegate?.insert(image: unwrapImage)
             //TODO: 여기서 글로벌 인디케이터 해제하기
         }
         

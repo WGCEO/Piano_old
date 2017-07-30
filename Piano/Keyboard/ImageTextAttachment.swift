@@ -10,8 +10,14 @@ import UIKit
 
 class ImageTextAttachment: NSTextAttachment {
     
+    var imageHashValue : Int?
+    
+    override func image(forBounds imageBounds: CGRect, textContainer: NSTextContainer?, characterIndex charIndex: Int) -> UIImage? {
+        <#code#>
+    }
     
     override func attachmentBounds(for textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint, characterIndex charIndex: Int) -> CGRect {
+        
         let width: CGFloat = lineFrag.size.width
         var scalingFactor: CGFloat = 1.0
         

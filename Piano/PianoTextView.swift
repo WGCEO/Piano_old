@@ -223,6 +223,7 @@ extension PianoTextView: Insertable {
     
     func insert(image: UIImage?) {
         guard let image = image else { return }
+        
         let attachment = ImageTextAttachment()
         attachment.image = image
         let imageAttrString = NSAttributedString(attachment: attachment)
@@ -244,6 +245,17 @@ extension PianoTextView: Insertable {
         typingAttributes = [NSAttributedStringKey.paragraphStyle.rawValue : paragraphStyle,
                             NSAttributedStringKey.font.rawValue: font,
                             NSAttributedStringKey.foregroundColor.rawValue : fontColor]
+    }
+    
+    
+    func temporateCode(){
+//        let a4Width: CGFloat = 535.2
+//        let ratio = a4Width / unwrapImage.size.width
+//        let size = unwrapImage.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
+//        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+//        unwrapImage.draw(in: CGRect(origin: CGPoint.zero, size: size))
+//        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
     }
 }
 
