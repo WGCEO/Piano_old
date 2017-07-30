@@ -11,11 +11,11 @@ import UIKit
 class PianoTextView: UITextView {
     
     //lazy var로 만들어서 코어데이터 첫 메모를 fetch하기
-    internal var note: Memo? {
-        didSet {
-            folderView?.setFolders(for: note)
-        }
-    }
+//    internal var note: Memo? {
+//        didSet {
+//            folderView?.setFolders(for: note)
+//        }
+//    }
     
     private var coverView: UIView?
     
@@ -32,7 +32,7 @@ class PianoTextView: UITextView {
         let nib = UINib(nibName: "FolderView", bundle: nil)
         guard let folderView = nib.instantiate(withOwner: self, options: nil).first as? FolderView else { return nil }
         folderView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: 0))
-        folderView.delegate = self
+        folderView.delegate = NoteManager.sharedInstance
         addSubview(folderView)
         return folderView
     }()
@@ -280,12 +280,5 @@ extension PianoTextView : KeyboardControllable {
     func switchKeyboard(to: KeyboardState) {
         inputView = to != .normal ? formInputView : nil
         reloadInputViews()
-    }
-}
-
-extension PianoTextView: FolderChangeable {
-    func changeFolder(to: StaticFolder) {
-        note?.staticFolder = to
-        PianoData.save()
     }
 }

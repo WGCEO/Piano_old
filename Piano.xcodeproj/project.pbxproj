@@ -53,6 +53,7 @@
 		DAA71BA51F2DB84B00153433 /* ElementCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA71BA11F2DB7DB00153433 /* ElementCalculator.swift */; };
 		DAA71BA71F2DB87500153433 /* DivisionLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA71BA61F2DB87400153433 /* DivisionLine.swift */; };
 		DAA71BA91F2DBBD300153433 /* DocumentRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA71BA81F2DBBD300153433 /* DocumentRenderer.swift */; };
+		DAA71BAD1F2DE29500153433 /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA71BAC1F2DE29500153433 /* NoteManager.swift */; };
 		DAC9005B1F1C5AA30011B870 /* Piano.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAC9005A1F1C5AA30011B870 /* Piano.storyboard */; };
 		DAC9005D1F1C6A650011B870 /* NSAttributedString_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9005C1F1C6A650011B870 /* NSAttributedString_Extension.swift */; };
 		DAC9005F1F1C6A930011B870 /* CGRect_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9005E1F1C6A930011B870 /* CGRect_Extension.swift */; };
@@ -193,6 +194,7 @@
 		DAA71BA21F2DB7DB00153433 /* ElementInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
 		DAA71BA61F2DB87400153433 /* DivisionLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
 		DAA71BA81F2DBBD300153433 /* DocumentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRenderer.swift; sourceTree = "<group>"; };
+		DAA71BAC1F2DE29500153433 /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
 		DAC9005A1F1C5AA30011B870 /* Piano.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Piano.storyboard; sourceTree = "<group>"; };
 		DAC9005C1F1C6A650011B870 /* NSAttributedString_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString_Extension.swift; sourceTree = "<group>"; };
 		DAC9005E1F1C6A930011B870 /* CGRect_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect_Extension.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				F49B3C741EE1A2AF00A0E81C /* ImagePicker.swift */,
 				F49B3C761EE1A2B800A0E81C /* MailSender.swift */,
 				F49B3C781EE1A2C200A0E81C /* MemoManager.swift */,
+				DAA71BAC1F2DE29500153433 /* NoteManager.swift */,
 				F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */,
 				DAA71BA81F2DBBD300153433 /* DocumentRenderer.swift */,
 			);
@@ -851,6 +854,7 @@
 				DAF2EC7D1F1F26FB009B49BA /* LicenseViewController.swift in Sources */,
 				DAF33EAB1F2086DA00DE48A9 /* FolderView.swift in Sources */,
 				DA53FDAA1F1C7A3100CA8587 /* NoteCell.swift in Sources */,
+				DAA71BAD1F2DE29500153433 /* NoteManager.swift in Sources */,
 				3131F6D21DDD2E3D00EC4229 /* AppDelegate.swift in Sources */,
 				0A8815A91E31FB1D00ABEB98 /* MemoViewController.swift in Sources */,
 				DA06896D1F20365D0033BA0F /* TrashViewController.swift in Sources */,

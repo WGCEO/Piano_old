@@ -35,7 +35,7 @@ class NoteViewController: UIViewController {
 //        setTempParagraphStyle()
         // 여기까지
         
-        MemoManager.migrateVersionTwo()
+//        MemoManager.migrateVersionTwo()
         
         
 //        if let recentlyData = UserDefaults.standard.object(forKey: "recentlyNote") as? Data, let attrText = NSKeyedUnarchiver.unarchiveObject(with: recentlyData) as? NSAttributedString {

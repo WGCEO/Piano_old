@@ -32,11 +32,12 @@ class PianoEditor: UIView {
     weak var delegate: Navigatable?
     
     var controlPanelAnimate: Bool = false
-    fileprivate var offSetY: CGFloat = 0 {
-        didSet {
-            animateControlPannel(previousOffsetY: oldValue, currentOffsetY: offSetY)
-        }
-    }
+    fileprivate var offSetY: CGFloat = 0
+//    {
+//        didSet {
+//            animateControlPannel(previousOffsetY: oldValue, currentOffsetY: offSetY)
+//        }
+//    }
     
     // MARK: init
     override func awakeFromNib() {

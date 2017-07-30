@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FolderChangeable: class {
-    func changeFolder(to: StaticFolder)
+    func changeFolder(to: Int)
 }
 
 class FolderView: UIView {
@@ -23,15 +23,16 @@ class FolderView: UIView {
         
     }
     
-    internal func setFolders(for note: Memo?){
-        guard let staticFolder = note?.staticFolder else { return }
+    
+    
+    internal func setFolders(with num: Int){
         
         for button in folderButtons {
             UIView.animate(withDuration: PianoGlobal.duration, animations: {
-                button.backgroundColor = staticFolder.order != button.tag ? .white : .black
+                button.backgroundColor = num != button.tag ? .white : .black
             })
             
-            button.isUserInteractionEnabled = staticFolder.order != button.tag ? false : true
+            button.isUserInteractionEnabled = num != button.tag ? false : true
         }
     }
     
@@ -54,9 +55,9 @@ class FolderView: UIView {
                 button.isUserInteractionEnabled = button != sender ? false : true
                 
                 if button == sender {
-                    for staticFolder in MemoManager.staticFolders {
-                        if button.tag == staticFolder.order {
-                            delegate?.changeFolder(to: staticFolder)
+                    for i in 0...6 {
+                        if button.tag == i {
+                            delegate?.changeFolder(to: i)
                         }
                     }
                 }
