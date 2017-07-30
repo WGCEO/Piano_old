@@ -33,11 +33,13 @@ class ElementInspector {
      
     public func inspect(paragraph attributedText: NSAttributedString) -> Element {
         let text = attributedText.string as NSString
+        /*
         if let attachment = attributedText.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) as? ImageTextAttachment {
             if attachment.localIdentifier == "checkbox" && text.length > 1 && text.substring(with: NSMakeRange(1,1)) == " " {
                 return Element(with: .checkbox, "* ", NSMakeRange(0, 2))
             }
         }
+         */
         
         return inspect(with: text)
     }

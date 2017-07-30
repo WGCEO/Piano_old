@@ -28,6 +28,7 @@ class PianoEditor: UIView {
         super.awakeFromNib()
         setValuesForChildViews()
         textView.inputAccessoryView = mrInputAccessoryView
+            
         formInputView.delegate = textView
     }
     
@@ -149,7 +150,13 @@ extension PianoEditor : UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textView = textView as? PianoTextView else { return true}
         
+        // 테스트용
+        if text == "'" {
+            textView.addDivisionLine()
+            
+            return false 
+        }
+        
         return textView.addElementIfNeeded(text as NSString, in: range)
     }
-    
 }

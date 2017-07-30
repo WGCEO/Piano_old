@@ -58,6 +58,7 @@
 		DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900781F1C70900011B870 /* UILabel_Extension.swift */; };
 		DAC9007B1F1C70C30011B870 /* MRInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */; };
 		F40D0B2E1EEA6016003B8ED6 /* UserDefaults+Piano.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */; };
+		F43808631F2861D900909D65 /* DivisionLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43808621F2861D900909D65 /* DivisionLine.swift */; };
 		F454826A1F24B7C800FE035D /* ElementCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45482691F24B7C800FE035D /* ElementCalculator.swift */; };
 		F4777F661EE97ED300E7B86D /* UIAlertController_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */; };
 		F48685881F10E43B0028537D /* PianoTextViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48685871F10E43B0028537D /* PianoTextViewLayout.swift */; };
@@ -179,6 +180,7 @@
 		DAC900781F1C70900011B870 /* UILabel_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel_Extension.swift; sourceTree = "<group>"; };
 		DAC9007A1F1C70C30011B870 /* MRInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRInputAccessoryView.swift; sourceTree = "<group>"; };
 		F40D0B2D1EEA6016003B8ED6 /* UserDefaults+Piano.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Piano.swift"; sourceTree = "<group>"; };
+		F43808621F2861D900909D65 /* DivisionLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
 		F45482691F24B7C800FE035D /* ElementCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementCalculator.swift; sourceTree = "<group>"; };
 		F4777F651EE97ED300E7B86D /* UIAlertController_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController_Extension.swift; sourceTree = "<group>"; };
 		F48685871F10E43B0028537D /* PianoTextViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoTextViewLayout.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
 				F45482691F24B7C800FE035D /* ElementCalculator.swift */,
 				F4D52ACE1F1B21F600E38A79 /* Element.swift */,
+				F43808621F2861D900909D65 /* DivisionLine.swift */,
 			);
 			name = Layout;
 			sourceTree = "<group>";
@@ -745,6 +748,7 @@
 				DAC900721F1C6F9B0011B870 /* ImageTextAttachment.swift in Sources */,
 				DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
+				F43808631F2861D900909D65 /* DivisionLine.swift in Sources */,
 				0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */,
 				F4A84DE71F1E31C800C4B765 /* DocumentRenderer.swift in Sources */,
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,

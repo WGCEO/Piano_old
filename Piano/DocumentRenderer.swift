@@ -14,18 +14,17 @@ enum DocumentType {
 }
 
 class DocumentRenderer {
-    func render(type: DocumentType, with text: String) -> Data {
+    func render(type: DocumentType, with textView: UITextView) -> Data {
         switch type {
         case .pdf:
-            return renderPDFDocument(with: text)
+            return renderPDFDocument(with: textView)
         }
     }
     
-    private func renderPDFDocument(with text: String) -> Data {
+    private func renderPDFDocument(with textView: UITextView) -> Data {
         let printPageRenderer = A4PaperPrintPageRenderer()
         
-        let printFormatter = UIMarkupTextPrintFormatter(markupText: text)
-        printPageRenderer.addPrintFormatter(printFormatter, startingAtPageAt: 0)
+        printPageRenderer.addPrintFormatter(textView.viewPrintFormatter(), startingAtPageAt: 0)
         
         return drawPDFDocument(using: printPageRenderer)
     }
@@ -34,9 +33,10 @@ class DocumentRenderer {
         let data = NSMutableData()
         
         UIGraphicsBeginPDFContextToData(data, CGRect.zero, nil)
-        UIGraphicsBeginPDFPage()
-        
-        printPageRenderer.drawPage(at: 0, in: UIGraphicsGetPDFContextBounds())
+        for page in 0..<printPageRenderer.numberOfPages {
+            UIGraphicsBeginPDFPage()
+            printPageRenderer.drawPage(at: page, in: UIGraphicsGetPDFContextBounds())
+        }
         
         UIGraphicsEndPDFContext()
         
@@ -49,11 +49,15 @@ class A4PaperPrintPageRenderer: UIPrintPageRenderer {
     let A4PaperWidth: CGFloat = 595.2
     let A4PaperHeight: CGFloat = 841.8
     
+    let margin: CGFloat = 30.0
+    
     override init() {
         super.init()
         
         let paperFrame = CGRect(x: 0.0, y: 0.0, width: A4PaperWidth, height: A4PaperWidth)
         setValue(NSValue(cgRect: paperFrame), forKey: "paperRect")
-        setValue(NSValue(cgRect: paperFrame), forKey: "printableRect")
+        
+        let printableRect = CGRect(x: margin, y: margin, width: (A4PaperWidth-(margin*2)), height: (A4PaperWidth-(margin*2)))
+        setValue(NSValue(cgRect: printableRect), forKey: "printableRect")
     }
 }
