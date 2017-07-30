@@ -38,38 +38,38 @@ class NoteViewController: UIViewController {
         MemoManager.migrateVersionTwo()
         
         
-        if let recentlyData = UserDefaults.standard.object(forKey: "recentlyNote") as? Data, let attrText = NSKeyedUnarchiver.unarchiveObject(with: recentlyData) as? NSAttributedString {
-            editor.textView.attributedText = attrText
-        } else {
-            do {
-                try resultsController.performFetch()
-
-                guard let recentlyMemo = resultsController.fetchedObjects?.first,
-                    let data = recentlyMemo.content,
-                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
-                editor.textView.note = recentlyMemo
-                editor.textView.attributedText = attrText
-            } catch {
-                print("Error performing fetch \(error.localizedDescription)")
-            }
-        }
+//        if let recentlyData = UserDefaults.standard.object(forKey: "recentlyNote") as? Data, let attrText = NSKeyedUnarchiver.unarchiveObject(with: recentlyData) as? NSAttributedString {
+//            editor.textView.attributedText = attrText
+//        } else {
+//            do {
+//                try resultsController.performFetch()
+//
+//                guard let recentlyMemo = resultsController.fetchedObjects?.first,
+//                    let data = recentlyMemo.content,
+//                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
+//                editor.textView.note = recentlyMemo
+//                editor.textView.attributedText = attrText
+//            } catch {
+//                print("Error performing fetch \(error.localizedDescription)")
+//            }
+//        }
         
     }
     
     
     
-    private func setTempParagraphStyle(){
-        let mutableString = NSMutableAttributedString(attributedString: editor.textView.attributedText)
-        guard let paragraph = mutableString.attribute(NSAttributedStringKey.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle else { return }
-        let mutableParagraph = NSMutableParagraphStyle()
-        mutableParagraph.setParagraphStyle(paragraph)
-        mutableParagraph.headIndent = 0
-        mutableParagraph.firstLineHeadIndent = 0
-        mutableParagraph.tailIndent = -10
-        mutableParagraph.lineSpacing = 10
-        mutableString.addAttributes([.paragraphStyle : mutableParagraph, .foregroundColor : PianoGlobal.defaultColor], range: NSMakeRange(0, mutableString.length))
-        editor.textView.attributedText = mutableString
-    }
+//    private func setTempParagraphStyle(){
+//        let mutableString = NSMutableAttributedString(attributedString: editor.textView.attributedText)
+//        guard let paragraph = mutableString.attribute(NSAttributedStringKey.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle else { return }
+//        let mutableParagraph = NSMutableParagraphStyle()
+//        mutableParagraph.setParagraphStyle(paragraph)
+//        mutableParagraph.headIndent = 0
+//        mutableParagraph.firstLineHeadIndent = 0
+//        mutableParagraph.tailIndent = -10
+//        mutableParagraph.lineSpacing = 10
+//        mutableString.addAttributes([.paragraphStyle : mutableParagraph, .foregroundColor : PianoGlobal.defaultColor], range: NSMakeRange(0, mutableString.length))
+//        editor.textView.attributedText = mutableString
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier,

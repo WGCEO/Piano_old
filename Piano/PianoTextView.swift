@@ -56,7 +56,7 @@ class PianoTextView: UITextView {
     
     private func setInsets(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 0, PianoGlobal.toolBarHeight * 2, 0)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight * 2, 10)
     }
     
     private func setInputAccessoryView(){

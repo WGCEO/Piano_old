@@ -55,14 +55,19 @@ class PianoEditor: UIView {
         animate(for: PianoMode.off)
     }
     
-    @IBAction func tapPianoButton(_sender: UIButton){
+    @IBAction func tapPianoButton(_ sender: UIButton){
         animate(for: PianoMode.on)
     }
     
-    @IBAction func tapListButton(_sender: UIButton){
+    @IBAction func tapListButton(_ sender: UIButton){
         //TODO: first 폴더가 아닌 가지고 있는 메모의 스테틱 폴더 넘버로 폴더 찾아 넘겨주기
         guard let folder = textView.note?.staticFolder else { return }
         delegate?.moveToNoteListViewController(with: folder)
+    }
+    
+    @IBAction func tapSettingButton(_ sender: UIButton){
+        let renderer = DocumentRenderer()
+        renderer.render(type: .pdf, with: textView.copy() as! UITextView)
     }
     
     
@@ -197,39 +202,39 @@ extension PianoEditor : UITextViewDelegate {
 //    }
     
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        
-        //TODO: 문단을 먼저 추출하고 돌려야함
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//
+//
+//        //TODO: 문단을 먼저 추출하고 돌려야함
+//
+//
+//        let paragraphRange = (textView.text as NSString).paragraphRange(for: textView.selectedRange)
+//        textView.attributedText.enumerateAttribute(.attachment, in: paragraphRange, options: []) { (value, range, stop) in
+//            if textView.selectedRange.location <= range.location {
+//                textView.insertText("\n\n")
+//                textView.selectedRange.location -= 2
+//            } else {
+//                textView.insertText("\n")
+//                //                    textView.selectedRange.location += 1
+//            }
+//
+//            stop.pointee = true
+//        }
+//
+//
+//
+//
+//        return true
+//    }
+//
     
-        
-        let paragraphRange = (textView.text as NSString).paragraphRange(for: textView.selectedRange)
-        textView.attributedText.enumerateAttribute(.attachment, in: paragraphRange, options: []) { (value, range, stop) in
-            if textView.selectedRange.location <= range.location {
-                textView.insertText("\n\n")
-                textView.selectedRange.location -= 2
-            } else {
-                textView.insertText("\n")
-                //                    textView.selectedRange.location += 1
-            }
-            
-            stop.pointee = true
-        }
-        
-       
-        
-        
-        return true
-    }
-    
-    /*
      internal func textViewDidChange(_ textView: UITextView) {
      guard let textView = textView as? PianoTextView else { return }
      
      textView.chainElements()
      textView.detectIndent()
      
-     textChangedHandler?(textView.attributedText)
+//     textChangedHandler?(textView.attributedText)
      }
      
      func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -237,5 +242,5 @@ extension PianoEditor : UITextViewDelegate {
      
      return textView.addElementIfNeeded(text as NSString, in: range)
      }
-     */
+ 
 }
