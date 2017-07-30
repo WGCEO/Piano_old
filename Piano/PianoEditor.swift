@@ -196,8 +196,29 @@ extension PianoEditor : UITextViewDelegate {
 //        <#code#>
 //    }
     
-    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        print("shouldInteractWith textAttachment")
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        
+        //TODO: 문단을 먼저 추출하고 돌려야함
+    
+        
+        let paragraphRange = (textView.text as NSString).paragraphRange(for: textView.selectedRange)
+        textView.attributedText.enumerateAttribute(.attachment, in: paragraphRange, options: []) { (value, range, stop) in
+            if textView.selectedRange.location <= range.location {
+                textView.insertText("\n\n")
+                textView.selectedRange.location -= 2
+            } else {
+                textView.insertText("\n")
+                //                    textView.selectedRange.location += 1
+            }
+            
+            stop.pointee = true
+        }
+        
+       
+        
+        
         return true
     }
     

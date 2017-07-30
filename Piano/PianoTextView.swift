@@ -40,9 +40,11 @@ class PianoTextView: UITextView {
     //MARK: init
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    
         setInsets()
         setInputAccessoryView()
         keyboard(listen: true)
+
     }
     
     deinit {
@@ -219,45 +221,29 @@ extension PianoTextView: Insertable {
         
     }
     
-    func insert(image: UIImage, localIdentifier: String) {
+    func insert(image: UIImage?) {
+        guard let image = image else { return }
+        let attachment = ImageTextAttachment()
+        attachment.image = image
+        let imageAttrString = NSAttributedString(attachment: attachment)
+        let imageMutableAttrString = NSMutableAttributedString(attributedString: imageAttrString)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 10
         
-        let attachment = ImageTextAttachment(originalImage: image)
-        let attrString = NSAttributedString(attachment: attachment)
-//        let enterAttrText = NSMutableAttributedString(string: "\n")
+        let font = UIFont.systemFont(ofSize: PianoGlobal.fontSize)
+        let fontColor = PianoGlobal.defaultColor
         
-//        let mutableAttrText = NSMutableAttributedString(attributedString: enterAttrText)
-//        mutableAttrText.append(attrString)
-//        mutableAttrText.append(enterAttrText)
-//
-//        let paragraphStyle = NSMutableParagraphStyle()
-//        paragraphStyle.firstLineHeadIndent = 30
-//        paragraphStyle.headIndent = 30
-//        paragraphStyle.tailIndent = -30
-//        paragraphStyle.lineSpacing = 10
-//
-//        let font = UIFont.systemFont(ofSize: PianoGlobal.fontSize)
-//        let fontColor = PianoGlobal.defaultColor
-//
-//        mutableAttrText.addAttributes([.paragraphStyle : paragraphStyle,
-//                                       .font : font,
-//                                       .foregroundColor : fontColor],
-//                                      range: NSMakeRange(1, mutableAttrText.length - 1))
-//
+        imageMutableAttrString.addAttributes([.paragraphStyle : paragraphStyle,
+                                              .font: font,
+                                              .foregroundColor : fontColor], range: NSMakeRange(0, imageMutableAttrString.length))
+
         let mutableAttrString = NSMutableAttributedString(attributedString: attributedText)
-        mutableAttrString.insert(attrString, at: selectedRange.location)
+        mutableAttrString.insert(imageMutableAttrString, at: selectedRange.location)
         attributedText = mutableAttrString
-    }
-    
-    func resizeToFitIndent(image: UIImage) -> UIImage? {
-        let imageWidth = image.size.width
-        let ratio = (textContainer.size.width - 60) / imageWidth
         
-        let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return scaledImage
+        typingAttributes = [NSAttributedStringKey.paragraphStyle.rawValue : paragraphStyle,
+                            NSAttributedStringKey.font.rawValue: font,
+                            NSAttributedStringKey.foregroundColor.rawValue : fontColor]
     }
 }
 

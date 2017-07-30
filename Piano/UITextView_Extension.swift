@@ -41,10 +41,20 @@ extension UITextView {
         
     }
     
-    func getParagraphInfo(with range: NSRange) -> (range: NSRange, textRange: UITextRange, text: String)?{
+    func getParagraphAttrText(with range: NSRange) -> NSAttributedString? {
         guard !(range.location + range.length > self.text.characters.count) else {
             return nil
         }
+        
+        let paragraphRange = (self.text as NSString).paragraphRange(for: range)
+        return attributedText.attributedSubstring(from: paragraphRange)
+    }
+    
+    func getParagraphInfo(with range: NSRange) -> (range: NSRange, textRange: UITextRange, paragraphText: String)?{
+        guard !(range.location + range.length > self.text.characters.count) else {
+            return nil
+        }
+        
         let paragraphRange = (self.text as NSString).paragraphRange(for: range)
         guard let paragraphTextRange = paragraphRange.toTextRange(textInput: self),
             let paragraphText = self.text(in: paragraphTextRange)
