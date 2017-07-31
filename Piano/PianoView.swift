@@ -27,7 +27,7 @@ class PianoView: UIView {
     private var animating: Bool = false
     
     //Test flag
-    private let fontChange: Bool = true
+    private let fontChange: Bool = false
     
     private var pianoData: PianoViewData?
     
@@ -101,6 +101,12 @@ class PianoView: UIView {
             mutableAttrText.addAttributes(attributeStyle.removeAttr(), range: NSMakeRange(0, mutableAttrText.length))
             labelInfo.label.attributedText = mutableAttrText
         }
+        
+        if let size = labelInfo.label.attributedText?.size() {
+            labelInfo.label.frame.size = size
+        }
+        
+        
     }
     
     private func moveLabel(by touchX: CGFloat, in labelInfo: (label: UILabel, center: CGPoint, frame: CGRect, font: UIFont)){

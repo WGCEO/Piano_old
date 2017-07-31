@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-private let indentWidth: CGFloat = 30.0
+private let indentWidth: CGFloat = 25.0
 
 let ElementAttributeKey = NSAttributedStringKey("elementAttributeKey")
 
@@ -50,8 +50,9 @@ extension PianoTextView {
     }
     
     public func addDivisionLine() {
-        let attachment = ImageTextAttachment()//(localIdentifier: "divisionLine")
-        attachment.image = UIImage.makeDivisionLine(with: CGSize(width: UIScreen.main.bounds.width-50, height: 25))
+        let image = UIImage.makeDivisionLine(with: CGSize(width: 1, height: 25))
+        let attachment = DivineLineAttachment()
+        attachment.image = image
         
         let attributedString = NSMutableAttributedString(string: "\n\n\n")
         attributedString.replaceCharacters(in: NSMakeRange(1, 1), with: NSAttributedString(attachment: attachment))

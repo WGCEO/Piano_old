@@ -108,7 +108,7 @@ class ConfigureFolderViewController: UIViewController {
             do {
                 let newFolder = Folder(context: context)
                 newFolder.name = text
-                newFolder.date = Date()
+                newFolder.date = NSDate()
                 newFolder.memos = []
                 
                 try context.save()

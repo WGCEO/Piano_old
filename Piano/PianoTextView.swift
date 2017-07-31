@@ -44,7 +44,6 @@ class PianoTextView: UITextView {
         setInsets()
         setInputAccessoryView()
         keyboard(listen: true)
-
     }
     
     deinit {
@@ -82,7 +81,6 @@ class PianoTextView: UITextView {
         var size = bounds.size
         size.height -= (contentInset.top + contentInset.bottom)
         control.frame = CGRect(origin: point, size: size)
-        control.backgroundColor = UIColor.red.withAlphaComponent(0.3)
         addSubview(control)
     }
     
@@ -228,17 +226,7 @@ extension PianoTextView: Insertable {
     func insert(image: UIImage?) {
         guard let image = image else { return }
         
-        
-        let ratio = textContainer.size.width / image.size.width
-        let size = image.size.applying(CGAffineTransform(scaleX: ratio, y: ratio))
-        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: size))
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        
-        let attachment = ImageTextAttachment()
-        attachment.image = scaledImage
+        let attachment = ImageAttachment(image: image)
         let imageAttrString = NSAttributedString(attachment: attachment)
         let imageMutableAttrString = NSMutableAttributedString(attributedString: imageAttrString)
         let paragraphStyle = NSMutableParagraphStyle()
@@ -275,6 +263,13 @@ extension PianoTextView: Insertable {
 extension PianoTextView : KeyboardControllable {
     func resignKeyboard() {
         resignFirstResponder()
+        let memo = Memo(context: PianoData.coreDataStack.viewContext)
+        memo.content = NSKeyedArchiver.archivedData(withRootObject: attributedText) as NSData
+        memo.date = NSDate()
+        memo.folder = nil
+        memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
+        PianoData.save()
+
     }
     
     func switchKeyboard(to: KeyboardState) {

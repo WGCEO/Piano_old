@@ -31,6 +31,9 @@ class NoteViewController: UIViewController {
         super.viewDidLoad()
         editor.delegate = self
         
+
+        print(UIScreen.main.bounds)
+        
         //TODO: 나중에 지우기
 //        setTempParagraphStyle()
         // 여기까지
@@ -46,8 +49,7 @@ class NoteViewController: UIViewController {
 //
 //                guard let recentlyMemo = resultsController.fetchedObjects?.first,
 //                    let data = recentlyMemo.content,
-//                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString else { return }
-//                editor.textView.note = recentlyMemo
+//                    let attrText = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? NSAttributedString else { return }
 //                editor.textView.attributedText = attrText
 //            } catch {
 //                print("Error performing fetch \(error.localizedDescription)")

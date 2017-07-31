@@ -21,5 +21,6 @@ struct PianoGlobal {
     static let transparent: CGFloat = 0.3
     static let mirrorFont: CGFloat = 31
     static let backgroundColor: UIColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
-    
+    static let imageWidth: CGFloat = 451.2
+    static var indent: CGFloat = 25.0
 }
