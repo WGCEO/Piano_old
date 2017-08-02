@@ -55,7 +55,7 @@ class PianoTextView: UITextView {
     
     private func setInsets(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 0, PianoGlobal.toolBarHeight * 2, 0)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight * 2, 10)
     }
     
     private func setInputAccessoryView(){
@@ -106,8 +106,9 @@ class PianoTextView: UITextView {
         
         let applyRange = getRangeForApply(farLeft: farLeft, final: final)
         if applyRange.length > 0 {
-            
+//            isScrollEnabled = false
             layoutManager.textStorage?.addAttributes(result.applyAttribute, range: applyRange)
+//            isScrollEnabled = true
         }
         
         let removeRange = getRangeForRemove(final: final, farRight: farRight)
@@ -115,10 +116,12 @@ class PianoTextView: UITextView {
             let mutableAttrText = NSMutableAttributedString(attributedString: attributedText)
             mutableAttrText.addAttributes(result.removeAttribute, range: removeRange)
             attributedText = mutableAttrText
+//            isScrollEnabled = false
             layoutManager.textStorage?.addAttributes(result.removeAttribute, range: removeRange)
+//            isScrollEnabled = true
         }
         
-        setOffsetForPreventBug()
+//        setOffsetForPreventBug()
     }
 }
 
@@ -263,12 +266,6 @@ extension PianoTextView: Insertable {
 extension PianoTextView : KeyboardControllable {
     func resignKeyboard() {
         resignFirstResponder()
-        let memo = Memo(context: PianoData.coreDataStack.viewContext)
-        memo.content = NSKeyedArchiver.archivedData(withRootObject: attributedText) as NSData
-        memo.date = NSDate()
-        memo.folder = nil
-        memo.firstLine = "NewMemo".localized(withComment: "새로운 메모")
-        PianoData.save()
 
     }
     

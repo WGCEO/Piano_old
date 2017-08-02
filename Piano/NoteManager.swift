@@ -14,7 +14,7 @@ class NoteManager {
     
     lazy var currentNote: Memo? = {
         let request: NSFetchRequest<Memo> = Memo.fetchRequest()
-        request.predicate = NSPredicate(format: "isInTrash == true")
+        request.predicate = NSPredicate(format: "isInTrash == false")
         request.fetchLimit = 1
         let context = PianoData.coreDataStack.viewContext
         let dateSort = NSSortDescriptor(key: #keyPath(Memo.date), ascending: false)

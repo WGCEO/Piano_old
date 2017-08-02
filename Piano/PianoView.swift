@@ -27,7 +27,7 @@ class PianoView: UIView {
     private var animating: Bool = false
     
     //Test flag
-    private let fontChange: Bool = false
+    private let fontChange: Bool = true
     
     private var pianoData: PianoViewData?
     

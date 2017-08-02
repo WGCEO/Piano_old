@@ -40,7 +40,7 @@ class MRInputAccessoryView: UIView {
             let kbFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
             else { return }
         
-        //아이패드일경우 스크롤뷰 숨겨야함
+        //블루투스 연결되어있을 경우 스크롤뷰 숨겨야함
         let isBluetoothKB = UIScreen.main.bounds.height != kbFrame.origin.y + kbFrame.height
         
         mrScrollView.isHidden = isBluetoothKB

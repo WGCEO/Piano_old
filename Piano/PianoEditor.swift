@@ -31,14 +31,6 @@ class PianoEditor: UIView {
     
     weak var delegate: Navigatable?
     
-    var controlPanelAnimate: Bool = false
-    fileprivate var offSetY: CGFloat = 0
-//    {
-//        didSet {
-//            animateControlPannel(previousOffsetY: oldValue, currentOffsetY: offSetY)
-//        }
-//    }
-    
     // MARK: init
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -93,24 +85,6 @@ class PianoEditor: UIView {
     }
     
     //MARK: Private
-    private func animateControlPannel(previousOffsetY: CGFloat, currentOffsetY: CGFloat){
-        // TODO: 에디터가 편집모드일 땐 애니메이션 하면 안됨. 하지만 이 모드인걸 체크하는 방식이 이거밖에 안떠올라서 이렇게 구현함
-        guard completeButtonBottom.constant != 0 else { return }
-        
-        if previousOffsetY > currentOffsetY, controlPanelBottom.constant != 7 {
-            //appear
-            UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                self?.controlPanelBottom.constant = 7
-                self?.layoutIfNeeded()
-            })
-        } else if previousOffsetY < currentOffsetY, controlPanelBottom.constant != -44, offSetY > 0 {
-            //hide
-            UIView.animate(withDuration: 0.3, animations: { [weak self] in
-                self?.controlPanelBottom.constant = -44
-                self?.layoutIfNeeded()
-            })
-        }
-    }
     
     private func movePalleteViewsOff(){
         palleteViewTop.constant = -100
@@ -201,10 +175,6 @@ extension PianoEditor : UITextViewDelegate {
         textView.detachControl()
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        offSetY = scrollView.contentOffset.y
-    }
-    
 //    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 //        <#code#>
 //    }
@@ -239,16 +209,16 @@ extension PianoEditor : UITextViewDelegate {
      internal func textViewDidChange(_ textView: UITextView) {
      guard let textView = textView as? PianoTextView else { return }
      
-     textView.chainElements()
-     textView.detectIndent()
+//     textView.chainElements()
+//     textView.detectIndent()
      
 //     textChangedHandler?(textView.attributedText)
      }
      
-     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-     guard let textView = textView as? PianoTextView else { return true}
-     
-     return textView.addElementIfNeeded(text as NSString, in: range)
-     }
+//     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//     guard let textView = textView as? PianoTextView else { return true}
+//
+//     return textView.addElementIfNeeded(text as NSString, in: range)
+//     }
  
 }

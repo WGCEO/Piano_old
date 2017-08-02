@@ -65,7 +65,7 @@
 		DAC9006B1F1C6B8E0011B870 /* PianoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9006A1F1C6B8E0011B870 /* PianoView.swift */; };
 		DAC9006D1F1C6CA50011B870 /* PianoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9006C1F1C6CA50011B870 /* PianoEditor.swift */; };
 		DAC9006F1F1C6E260011B870 /* FormInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9006E1F1C6E260011B870 /* FormInputView.swift */; };
-		DAC900721F1C6F9B0011B870 /* ImageTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900711F1C6F9B0011B870 /* ImageTextAttachment.swift */; };
+		DAC900721F1C6F9B0011B870 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900711F1C6F9B0011B870 /* ImageAttachment.swift */; };
 		DAC900741F1C6FE80011B870 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900731F1C6FE80011B870 /* ImageCell.swift */; };
 		DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900751F1C704B0011B870 /* MRScrollView.swift */; };
 		DAC900791F1C70900011B870 /* UILabel_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC900781F1C70900011B870 /* UILabel_Extension.swift */; };
@@ -207,7 +207,7 @@
 		DAC9006A1F1C6B8E0011B870 /* PianoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoView.swift; sourceTree = "<group>"; };
 		DAC9006C1F1C6CA50011B870 /* PianoEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoEditor.swift; sourceTree = "<group>"; };
 		DAC9006E1F1C6E260011B870 /* FormInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormInputView.swift; sourceTree = "<group>"; };
-		DAC900711F1C6F9B0011B870 /* ImageTextAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTextAttachment.swift; sourceTree = "<group>"; };
+		DAC900711F1C6F9B0011B870 /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
 		DAC900731F1C6FE80011B870 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		DAC900751F1C704B0011B870 /* MRScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRScrollView.swift; sourceTree = "<group>"; };
 		DAC900781F1C70900011B870 /* UILabel_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel_Extension.swift; sourceTree = "<group>"; };
@@ -518,7 +518,7 @@
 				DAC9006E1F1C6E260011B870 /* FormInputView.swift */,
 				DAF33EB01F21D50B00DE48A9 /* ImageCell.xib */,
 				DAC900731F1C6FE80011B870 /* ImageCell.swift */,
-				DAC900711F1C6F9B0011B870 /* ImageTextAttachment.swift */,
+				DAC900711F1C6F9B0011B870 /* ImageAttachment.swift */,
 				DAA71BB61F2F210A00153433 /* DivineLineAttachment.swift */,
 			);
 			path = Keyboard;
@@ -827,7 +827,7 @@
 				F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */,
 				DAC900691F1C6B6A0011B870 /* PianoViewData.swift in Sources */,
 				0A0C1E7F1DFCE30C008EBFC1 /* PianoModel.xcdatamodeld in Sources */,
-				DAC900721F1C6F9B0011B870 /* ImageTextAttachment.swift in Sources */,
+				DAC900721F1C6F9B0011B870 /* ImageAttachment.swift in Sources */,
 				DAC900761F1C704B0011B870 /* MRScrollView.swift in Sources */,
 				31575C951DE80BB600373ADD /* PianoControl.swift in Sources */,
 				0ACC37761E3DEC1A0079FA93 /* UIViewController_Extension.swift in Sources */,
