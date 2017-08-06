@@ -19,6 +19,8 @@ class PianoTextView: UITextView {
     
     private var coverView: UIView?
     
+    var changedRange: NSRange?
+    
     private lazy var formInputView: FormInputView? = {
         let nib = UINib(nibName: "FormInputView", bundle: nil)
         guard let formInputView = nib.instantiate(withOwner: self, options: nil).first as? FormInputView else { return nil }

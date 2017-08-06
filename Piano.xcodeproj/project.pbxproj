@@ -89,6 +89,7 @@
 		F49B3C771EE1A2B800A0E81C /* MailSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C761EE1A2B800A0E81C /* MailSender.swift */; };
 		F49B3C791EE1A2C200A0E81C /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C781EE1A2C200A0E81C /* MemoManager.swift */; };
 		F49B3C7C1EE1A39A00A0E81C /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */; };
+		F4C458E71F36B45A00AD793F /* TimeLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C458E61F36B45A00AD793F /* TimeLogger.swift */; };
 		F4EB6CA41F16557500AF0FFF /* ElementInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +232,7 @@
 		F49B3C761EE1A2B800A0E81C /* MailSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailSender.swift; sourceTree = "<group>"; };
 		F49B3C781EE1A2C200A0E81C /* MemoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
 		F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		F4C458E61F36B45A00AD793F /* TimeLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLogger.swift; sourceTree = "<group>"; };
 		F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -586,6 +588,7 @@
 				DAA71BAC1F2DE29500153433 /* NoteManager.swift */,
 				F49B3C7B1EE1A39A00A0E81C /* ActivityIndicator.swift */,
 				DAA71BA81F2DBBD300153433 /* DocumentRenderer.swift */,
+				F4C458E61F36B45A00AD793F /* TimeLogger.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -834,6 +837,7 @@
 				0A1812821E29DEEA00272080 /* SelectEffectViewController.swift in Sources */,
 				0AEC95941E3C86580039A47F /* SettingViewController.swift in Sources */,
 				DAC900651F1C6B020011B870 /* PianoGlobal.swift in Sources */,
+				F4C458E71F36B45A00AD793F /* TimeLogger.swift in Sources */,
 				DA5B51DA1F25F5F5003EED0C /* NoteHeaderCell.swift in Sources */,
 				0A8815A61E31F75500ABEB98 /* MemoTableViewController.swift in Sources */,
 				0A8815B31E35A92200ABEB98 /* MemoCell.swift in Sources */,

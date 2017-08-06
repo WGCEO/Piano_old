@@ -160,6 +160,7 @@ extension PianoEditor : UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         showMirroring(textView)
     }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
         textView.attachControl()
@@ -175,50 +176,27 @@ extension PianoEditor : UITextViewDelegate {
         textView.detachControl()
     }
     
-//    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-//        <#code#>
-//    }
+    internal func textViewDidChange(_ textView: UITextView) {
+        arrangeText()
+    }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let textView = textView as? PianoTextView else { return true}
+        
+        let changedRange = textView.addElementIfNeeded(text as NSString, in: range)
+        textView.changedRange = changedRange ?? range
+        
+        return (changedRange == nil)
+    }
     
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//
-//
-//        //TODO: 문단을 먼저 추출하고 돌려야함
-//
-//
-//        let paragraphRange = (textView.text as NSString).paragraphRange(for: textView.selectedRange)
-//        textView.attributedText.enumerateAttribute(.attachment, in: paragraphRange, options: []) { (value, range, stop) in
-//            if textView.selectedRange.location <= range.location {
-//                textView.insertText("\n\n")
-//                textView.selectedRange.location -= 2
-//            } else {
-//                textView.insertText("\n")
-//                //                    textView.selectedRange.location += 1
-//            }
-//
-//            stop.pointee = true
-//        }
-//
-//
-//
-//
-//        return true
-//    }
-//
-    
-     internal func textViewDidChange(_ textView: UITextView) {
-     guard let textView = textView as? PianoTextView else { return }
-     
-//     textView.chainElements()
-//     textView.detectIndent()
-     
-//     textChangedHandler?(textView.attributedText)
-     }
-     
-//     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//     guard let textView = textView as? PianoTextView else { return true}
-//
-//     return textView.addElementIfNeeded(text as NSString, in: range)
-//     }
- 
+    private func arrangeText() {
+        if let changedRange = textView.changedRange {
+            TimeLogger.sharedInstance.start(with: "detectElement")
+            textView.detectElement(from: changedRange)
+            let interval = TimeLogger.sharedInstance.end(with: "detectElement")
+            if interval > 1/60 {
+                print("It takes too long. detectElement: \(interval)seconds")
+            }
+        }
+    }
 }

@@ -55,7 +55,7 @@ class TrashViewController: UIViewController {
     @IBAction func restore(_ sender: Any) {
         guard let memo = self.memo else { return }
         memo.isInTrash = false
-        memo.date = NSDate()
+        memo.date = Date()
         PianoData.save()
         let _ = navigationController?.popViewController(animated: true)
     }
