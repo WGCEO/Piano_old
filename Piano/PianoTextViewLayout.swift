@@ -24,10 +24,11 @@ extension PianoTextView {
     // MARK: - public methods
     public func detectElement(from range: NSRange) {
         var before: Element?
+        var selectedRange: NSRange?
         
         let document = attributedText.string as NSString
-        let paragraphRange = document.paragraphRange(for: NSMakeRange(range.location, 0))
-        document.enumerateSubstrings(in: NSMakeRange(paragraphRange.location, document.length - paragraphRange.location), options: .byParagraphs) { [weak self] (paragraph, paragraphRange, _, stop) in
+        let ParagraphRange = document.paragraphRange(for: NSMakeRange(range.location, 0))
+        document.enumerateSubstrings(in: NSMakeRange(ParagraphRange.location, document.length - ParagraphRange.location), options: .byParagraphs) { [weak self] (paragraph, paragraphRange, _, stop) in
             guard let strongSelf = self, let paragraph = paragraph as NSString? else { return }
             let element = ElementInspector.sharedInstance.inspect(with: paragraph)
             let textRange = NSMakeRange(paragraphRange.location + element.range.location, element.range.length)
@@ -42,6 +43,12 @@ extension PianoTextView {
                         if currentElementText != (element.text as String) {
                             strongSelf.replace(textRange, withText: currentElementText)
                             strongSelf.removeIndent(elementInDocument, paragraphRange)
+                            
+                            if let selectedRange = selectedRange {
+                                strongSelf.selectedRange = selectedRange
+                            }
+                        } else {
+                            selectedRange = NSMakeRange(elementInDocument.range.location + elementInDocument.range.length, 0)
                         }
                     }
                 } else {
@@ -61,6 +68,8 @@ extension PianoTextView {
                 } else {
                     strongSelf.addIndent(in: paragraphRange)
                 }
+                
+                selectedRange = NSMakeRange(elementInDocument.range.location + elementInDocument.range.length, 0)
             }
             
             before = element
@@ -92,18 +101,19 @@ extension PianoTextView {
     }
     
     public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> NSRange? {
+        guard replacementText.rangeOfCharacter(from: .newlines).length > 0 else { return nil }
         let context = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString)
-    
-        if replacementText.rangeOfCharacter(from: .newlines).length > 0 {
-            guard let element = context.before else { return nil }
-            if element.type == .number {
-                return changeNumberElement(context: context, in: range)
-            } else if element.type == .list {
-                return changeListElement(context: context, in: range)
-            }
-        }
         
-        return nil
+        guard let element = context.before,
+            element.range.location + element.range.length <= range.location else { return nil }
+        
+        if element.type == .number {
+            return changeNumberElement(context: context, in: range)
+        } else if element.type == .list {
+            return changeListElement(context: context, in: range)
+        } else {
+            return nil
+        }
     }
     
     // MARK: - numbering

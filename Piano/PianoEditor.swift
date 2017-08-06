@@ -182,6 +182,7 @@ extension PianoEditor : UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textView = textView as? PianoTextView else { return true}
         
+        print(range)
         let changedRange = textView.addElementIfNeeded(text as NSString, in: range)
         textView.changedRange = changedRange ?? range
         
@@ -192,9 +193,12 @@ extension PianoEditor : UITextViewDelegate {
     
     private func arrangeText() {
         if let changedRange = textView.changedRange {
-            TimeLogger.sharedInstance.start(with: "detectElement:including")
+            TimeLogger.sharedInstance.start(with: "detectElement")
             textView.detectElement(from: changedRange)
-            _ = TimeLogger.sharedInstance.end(with: "detectElement:including")
+            let interval = TimeLogger.sharedInstance.end(with: "detectElement")
+            if interval > 1/60 {
+                print("It takes too long. detectElement: \(interval)seconds")
+            }
         }
     }
 }

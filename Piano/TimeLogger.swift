@@ -30,10 +30,6 @@ class TimeLogger {
         
         let intervalTime = (end - start)
         
-        if intervalTime > 1/60 {
-            print("It takes too long. \(key): \(intervalTime)seconds")
-        }
-        
         return intervalTime
     }
 }
