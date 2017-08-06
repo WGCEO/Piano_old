@@ -12,13 +12,17 @@ typealias Context = (before: Element?, after: Element?)
 
 class ElementInspector {
     static let sharedInstance = ElementInspector()
+    private let inspectables: [ElementType] = [
+        .list,
+        .number
+    ]
     
     private init() {
         
     }
     
     public func inspect(with text: NSString) -> Element {
-        for type in iterateEnum(ElementType.self) {
+        for type in inspectables {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
@@ -55,15 +59,5 @@ class ElementInspector {
         }
         
         return (before, after)
-    }
-}
-
-fileprivate func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
-    var i = 0
-    return AnyIterator {
-        let next = withUnsafeBytes(of: &i) { $0.load(as: T.self) }
-        if next.hashValue != i { return nil }
-        i += 1
-        return next
     }
 }

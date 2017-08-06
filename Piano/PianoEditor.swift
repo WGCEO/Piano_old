@@ -160,6 +160,7 @@ extension PianoEditor : UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         showMirroring(textView)
     }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         guard let textView = scrollView as? PianoTextView, !textView.isEditable else { return }
         textView.attachControl()
@@ -182,11 +183,8 @@ extension PianoEditor : UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textView = textView as? PianoTextView else { return true}
         
-        print(range)
         let changedRange = textView.addElementIfNeeded(text as NSString, in: range)
         textView.changedRange = changedRange ?? range
-        
-        arrangeText()
         
         return (changedRange == nil)
     }
