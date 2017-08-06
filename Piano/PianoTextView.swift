@@ -55,7 +55,7 @@ class PianoTextView: UITextView {
     
     private func setInsets(){
         textContainer.lineFragmentPadding = 0
-        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 10, PianoGlobal.toolBarHeight * 2, 10)
+        textContainerInset = UIEdgeInsetsMake(10 + PianoGlobal.paletteViewHeight, 30, PianoGlobal.toolBarHeight * 2, 30)
     }
     
     private func setInputAccessoryView(){
@@ -230,25 +230,11 @@ extension PianoTextView: Insertable {
         guard let image = image else { return }
         
         let attachment = ImageAttachment(image: image)
-        let imageAttrString = NSAttributedString(attachment: attachment)
-        let imageMutableAttrString = NSMutableAttributedString(attributedString: imageAttrString)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 10
-        
-        let font = UIFont.systemFont(ofSize: PianoGlobal.fontSize)
-        let fontColor = PianoGlobal.defaultColor
-        
-        imageMutableAttrString.addAttributes([.paragraphStyle : paragraphStyle,
-                                              .font: font,
-                                              .foregroundColor : fontColor], range: NSMakeRange(0, imageMutableAttrString.length))
-
-        let mutableAttrString = NSMutableAttributedString(attributedString: attributedText)
-        mutableAttrString.insert(imageMutableAttrString, at: selectedRange.location)
-        attributedText = mutableAttrString
-        
-        typingAttributes = [NSAttributedStringKey.paragraphStyle.rawValue : paragraphStyle,
-                            NSAttributedStringKey.font.rawValue: font,
-                            NSAttributedStringKey.foregroundColor.rawValue : fontColor]
+        let attributedString = NSMutableAttributedString(string: "\n\n\n")
+        attributedString.replaceCharacters(in: NSMakeRange(1, 1), with: NSAttributedString(attachment: attachment))
+        attributedString.addAttributes(PianoGlobal.defaultAttributes, range: NSMakeRange(0, 3))
+        textStorage.replaceCharacters(in: selectedRange, with: attributedString)
+        selectedRange = NSMakeRange(selectedRange.location + 3, 0)
     }
     
     
@@ -266,6 +252,12 @@ extension PianoTextView: Insertable {
 extension PianoTextView : KeyboardControllable {
     func resignKeyboard() {
         resignFirstResponder()
+        
+        DispatchQueue.main.async { [unowned self] in
+            let data = NSKeyedArchiver.archivedData(withRootObject: self.attributedText.copy())
+            UserDefaults.standard.setValue(data, forKey: "Daan")
+        }
+        
 
     }
     

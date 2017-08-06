@@ -18,6 +18,10 @@ class ImageAttachment: NSTextAttachment {
         super.init(coder: aDecoder)
     }
     
+    override init(data contentData: Data?, ofType uti: String?) {
+        super.init(data: contentData, ofType: uti)
+    }
+    
     init(image: UIImage) {
         super.init(data: nil, ofType: nil)
         
@@ -37,12 +41,24 @@ class ImageAttachment: NSTextAttachment {
     override func attachmentBounds(for textContainer: NSTextContainer?, proposedLineFragment lineFrag: CGRect, glyphPosition position: CGPoint, characterIndex charIndex: Int) -> CGRect {
         var scalingFactor: CGFloat = 1.0
         
+        //TODO: 주석 안친 아래께 임시 코드임
+//        if let image = self.image {
+//            let imageSize: CGSize = image.size
+//            if lineFrag.width - (PianoGlobal.indent * 2) < imageSize.width {
+//                scalingFactor = (lineFrag.width - (PianoGlobal.indent * 2)) / imageSize.width
+//            }
+//            let rect = CGRect(x: PianoGlobal.indent, y: 0, width: imageSize.width * scalingFactor, height: imageSize.height * scalingFactor)
+//            return rect
+//        } else {
+//            return CGRect.zero
+//        }
+        
         if let image = self.image {
             let imageSize: CGSize = image.size
-            if lineFrag.width - (PianoGlobal.indent * 2) < imageSize.width {
-                scalingFactor = (lineFrag.width - (PianoGlobal.indent * 2)) / imageSize.width
+            if lineFrag.width < imageSize.width {
+                scalingFactor = (lineFrag.width) / imageSize.width
             }
-            let rect = CGRect(x: PianoGlobal.indent, y: 0, width: imageSize.width * scalingFactor, height: imageSize.height * scalingFactor)
+            let rect = CGRect(x: 0, y: 0, width: imageSize.width * scalingFactor, height: imageSize.height * scalingFactor)
             return rect
         } else {
             return CGRect.zero

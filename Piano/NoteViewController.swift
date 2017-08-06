@@ -56,6 +56,11 @@ class NoteViewController: UIViewController {
 //            }
 //        }
         
+        if let data = UserDefaults.standard.object(forKey: "Daan") as? Data,
+            let attrText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSAttributedString {
+            editor.textView.attributedText = attrText
+        }
+        
     }
     
     

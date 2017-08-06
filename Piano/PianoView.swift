@@ -226,11 +226,9 @@ class PianoView: UIView {
 }
 
 extension PianoView: Pianoable {
-    
     func preparePiano(with dataTrigger: PianoViewDataTrigger) {
         guard !animating else { return }
         if pianoData == nil {
-            
             set(pianoData: dataTrigger())
             attachLabels()
             displayLink(on: true)
@@ -238,9 +236,7 @@ extension PianoView: Pianoable {
     }
     
     func playPiano(previousX: CGFloat, currentX: CGFloat) {
-        
         guard !animating else { return }
-        
         updateCoordinateXs(with: currentX)
         updateLabels(to: currentX)
     }
@@ -248,7 +244,5 @@ extension PianoView: Pianoable {
     func endPiano(completion: @escaping CaptivateResult) {
         animateToOriginalPosition(completion: completion)
     }
-    
-    
 }
 

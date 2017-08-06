@@ -58,5 +58,4 @@ class PianoControl: UIControl {
             effectable.endPiano(with: result)
         }
     }
-    
 }

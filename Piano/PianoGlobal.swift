@@ -23,4 +23,27 @@ struct PianoGlobal {
     static let backgroundColor: UIColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
     static let imageWidth: CGFloat = 451.2
     static var indent: CGFloat = 25.0
+    static var defaultFont: UIFont = UIFont.systemFont(ofSize: 17)
+    static let lineSpacing: CGFloat = 8.0
+    
+    static let defaultAttributes: [NSAttributedStringKey : Any] = {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.firstLineHeadIndent = 0
+        paragraphStyle.headIndent = 0
+        paragraphStyle.tailIndent = 0
+        paragraphStyle.lineSpacing = PianoGlobal.lineSpacing
+        
+        let font = PianoGlobal.defaultFont
+        let foregroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        let backgroundColor = UIColor.clear
+        
+        let attrs: [NSAttributedStringKey : Any] = [.paragraphStyle : paragraphStyle,
+                                                    .font : font,
+                                                    .foregroundColor: foregroundColor,
+                                                    .backgroundColor: backgroundColor,
+                                                    .underlineStyle: 0,
+                                                    .strikethroughStyle: 0
+        ]
+        return attrs
+    }()
 }
