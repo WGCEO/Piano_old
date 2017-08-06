@@ -17,33 +17,6 @@ class ElementInspector {
         
     }
     
-    public func inspect(document attributedText: NSAttributedString, handler: ((Paragraph)->Void)?) {
-        let text = attributedText.string as NSString
-        text.enumerateSubstrings(in: NSMakeRange(0, text.length), options: .byParagraphs) { [weak self] (paragraph, paragraphRange, enclosingRange, stop) in
-            guard let strongSelf = self, paragraph != "" else { return }
-            
-            let paragraphAttributedText = attributedText.attributedSubstring(from: paragraphRange)
-            let element = strongSelf.inspect(paragraph: paragraphAttributedText)
-            let paragraph = Paragraph(with: element, paragraphRange)
-            
-            handler?(paragraph)
-        }
-    }
-    
-     
-    public func inspect(paragraph attributedText: NSAttributedString) -> Element {
-        let text = attributedText.string as NSString
-        /*
-        if let attachment = attributedText.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) as? ImageTextAttachment {
-            if attachment.localIdentifier == "checkbox" && text.length > 1 && text.substring(with: NSMakeRange(1,1)) == " " {
-                return Element(with: .checkbox, "* ", NSMakeRange(0, 2))
-            }
-        }
-         */
-        
-        return inspect(with: text)
-    }
-    
     public func inspect(with text: NSString) -> Element {
         for type in iterateEnum(ElementType.self) {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }

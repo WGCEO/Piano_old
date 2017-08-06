@@ -15,37 +15,64 @@ let ElementAttributeKey = NSAttributedStringKey("elementAttributeKey")
 
 extension PianoTextView {
     
+    override var attributedText: NSAttributedString! {
+        didSet {
+            detectElement(from: NSMakeRange(0, attributedText.string.count))
+        }
+    }
+    
     // MARK: - public methods
-    public func detectIndent() {
-        let text = textStorage.string as NSString
-        let range = NSMakeRange(0, text.length)
+    public func detectElement(from range: NSRange) {
+        var before: Element?
+        var selectedRange: NSRange?
         
-        addIndent(in: range)
-        ElementInspector.sharedInstance.inspect(document: attributedText) { [weak self] (paragraph: Paragraph) in
-            guard let strongSelf = self else { return }
-            let (element, paragraphRange) = (paragraph.element, paragraph.range)
+        let document = attributedText.string as NSString
+        let ParagraphRange = document.paragraphRange(for: NSMakeRange(range.location, 0))
+        document.enumerateSubstrings(in: NSMakeRange(ParagraphRange.location, document.length - ParagraphRange.location), options: .byParagraphs) { [weak self] (paragraph, paragraphRange, _, stop) in
+            guard let strongSelf = self, let paragraph = paragraph as NSString? else { return }
+            let element = ElementInspector.sharedInstance.inspect(with: paragraph)
             let textRange = NSMakeRange(paragraphRange.location + element.range.location, element.range.length)
             let elementInDocument = Element(with: element.type, element.text, textRange)
             
-//            if element.type == .checkbox && element.text == "* " {
-//                let attachment = ImageTextAttachment(localIdentifier: "checkbox")
-//                attachment.image = UIImage(named: "checkbox_on")
-//
-//                let attachmentAttributedString = NSAttributedString(attachment: attachment)
-//
-//                strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: attachmentAttributedString)
-//            } else
-            if element.type == .list && element.text == "- " {
-                strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: "•")
-            } else if element.type == .none && element.text.contains("•") {
-                if let range = element.text.range(of: "•").toTextRange(textInput: strongSelf) {
-                    strongSelf.replace(range, withText: "-")
+            if let before = before {
+                if element.type == .number && element.type == before.type {
+                    let elementText = before.text.substring(with: NSMakeRange(before.range.location, before.range.length-2))
+                    if let beforeElement = Int(elementText),
+                        let textRange = NSMakeRange(paragraphRange.location, element.range.length).toTextRange(textInput: strongSelf) {
+                        let currentElementText = "\(beforeElement + 1). "
+                        if currentElementText != (element.text as String) {
+                            strongSelf.replace(textRange, withText: currentElementText)
+                            strongSelf.removeIndent(elementInDocument, paragraphRange)
+                            
+                            if let selectedRange = selectedRange {
+                                strongSelf.selectedRange = selectedRange
+                            }
+                        } else {
+                            selectedRange = NSMakeRange(elementInDocument.range.location + elementInDocument.range.length, 0)
+                        }
+                    }
+                } else {
+                    stop.pointee = true
                 }
+            } else {
+                if element.type == .list && element.text == "- " {
+                    strongSelf.textStorage.replaceCharacters(in: NSMakeRange(textRange.location, 1), with: "•")
+                } else if element.type == .none && element.text.contains("•") {
+                    if let range = element.text.range(of: "•").toTextRange(textInput: strongSelf) {
+                        strongSelf.replace(range, withText: "-")
+                    }
+                }
+                
+                if element.type != .none {
+                    strongSelf.removeIndent(elementInDocument, paragraphRange)
+                } else {
+                    strongSelf.addIndent(in: paragraphRange)
+                }
+                
+                selectedRange = NSMakeRange(elementInDocument.range.location + elementInDocument.range.length, 0)
             }
             
-            if element.type != .none {
-                strongSelf.removeIndent(elementInDocument, paragraphRange)
-            }
+            before = element
         }
     }
     
@@ -73,100 +100,76 @@ extension PianoTextView {
         selectedRange = NSMakeRange(selectedRange.location + 3, 0)
     }
     
-    public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> Bool {
+    public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> NSRange? {
+        guard replacementText.rangeOfCharacter(from: .newlines).length > 0 else { return nil }
         let context = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString)
-    
-        if replacementText.rangeOfCharacter(from: .newlines).length > 0 {
-            guard let element = context.before else { return true }
-            if element.type == .number {
-                return changeNumberElement(context: context, in: range)
-            } else if element.type == .list {
-                return changeListElement(context: context, in: range)
-            }
-        }
         
-        return true
-    }
-    
-    public func chainElements() {
-        var before: Element?
-        var location = 0
-        for paragraph in textStorage.string.components(separatedBy: .newlines) {
-            let current = ElementInspector.sharedInstance.inspect(with: paragraph as NSString)
-            if let before = before {
-                if current.type == .number && current.type == before.type {
-                    let elementText = before.text.substring(with: NSMakeRange(before.range.location, before.range.length-2))
-                    if let beforeElement = Int(elementText),
-                        let range = NSMakeRange(location+current.range.location,current.range.length).toTextRange(textInput: self) {
-                        let currentElementText = "\(beforeElement + 1). "
-                        if currentElementText != (current.text as String) {
-                            replace(range, withText: currentElementText)
-                            
-                            return
-                        }
-                    }
-                }
-            }
-            
-            before = current
-            location += paragraph.characters.count + 1
+        guard let element = context.before,
+            element.range.location + element.range.length <= range.location else { return nil }
+        
+        if element.type == .number {
+            return changeNumberElement(context: context, in: range)
+        } else if element.type == .list {
+            return changeListElement(context: context, in: range)
+        } else {
+            return nil
         }
     }
     
     // MARK: - numbering
-    private func changeNumberElement(context: Context, in range: NSRange) -> Bool {
+    private func changeNumberElement(context: Context, in range: NSRange) -> NSRange? {
         guard let before = context.before,
-            let current = Int(before.text.substring(with: NSMakeRange(0, before.range.length-2))) else { return true }
+            let current = Int(before.text.substring(with: NSMakeRange(0, before.range.length-2))) else { return nil }
         
         if (before.range.location + before.range.length) == range.location { // 아무것도 입력하지 않았을 경우
-            removeNumberElement(in: before.range)
+            return removeNumberElement(in: before.range)
         } else { // 무언가 입력했을 경우
             let next = current + 1
-            addNumberElement(number: next, in: range)
+            return addNumberElement(number: next, in: range)
         }
-        
-        return false
     }
     
-    private func addNumberElement(number: Int, in range: NSRange) {
+    private func addNumberElement(number: Int, in range: NSRange) -> NSRange? {
         let elementText = "\n\(number). "
         
-        if let range = range.toTextRange(textInput: self) {
-            replace(range, withText: elementText)
-        }
+        guard let textRange = range.toTextRange(textInput: self) else { return nil }
+        
+        replace(textRange, withText: elementText)
+        return NSMakeRange(range.location+1, elementText.count-1)
     }
     
-    public func removeNumberElement(in range: NSRange) {
-        if let range = range.toTextRange(textInput: self) {
-            replace(range, withText: "")
-        }
+    public func removeNumberElement(in range: NSRange) -> NSRange? {
+        guard let textRange = range.toTextRange(textInput: self) else { return nil }
+        
+        replace(textRange, withText: "")
+        return NSMakeRange(range.location, 0)
     }
     
     // MARK: - listing
-    private func changeListElement(context: Context, in range: NSRange) -> Bool {
-        guard let before = context.before else { return true }
+    private func changeListElement(context: Context, in range: NSRange) -> NSRange? {
+        guard let before = context.before else { return nil }
         
         if (before.range.location + before.range.length) == range.location { // 아무것도 입력하지 않았을 경우
-            removeListElement(in: before.range)
+            return removeListElement(in: before.range)
         } else { // 무언가 입력했을 경우
-            addListElement(in: range)
+            return addListElement(in: range)
         }
-        
-        return false
     }
     
-    private func addListElement(in range: NSRange) {
+    private func addListElement(in range: NSRange) -> NSRange? {
         let elementText = "\n• "
         
-        if let range = range.toTextRange(textInput: self) {
-            replace(range, withText: elementText)
-        }
+        guard let textRange = range.toTextRange(textInput: self) else { return nil }
+        
+        replace(textRange, withText: elementText)
+        return NSMakeRange(range.location+1, elementText.count-1)
     }
     
-    private func removeListElement(in range: NSRange) {
-        if let range = range.toTextRange(textInput: self) {
-            replace(range, withText: "")
-        }
+    private func removeListElement(in range: NSRange) -> NSRange? {
+        guard let textRange = range.toTextRange(textInput: self) else { return nil }
+        
+        replace(textRange, withText: "")
+        return NSMakeRange(range.location, 0)
     }
     
     // MARK: - indenting
@@ -183,16 +186,6 @@ extension PianoTextView {
     }
     
     private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
-        /*
-         var font: UIFont
-        if element.type == .checkbox {
-            font = UIFont.systemFont(ofSize: 16)
-        } else {
-            guard let fontAtLocation = attributes[NSAttributedStringKey.font] as? UIFont else { return }
-                
-            font = fontAtLocation
-        }
-         */
         guard let font = self.font else { return }
         
         let width = ElementCalculator.sharedInstance.calculateWidth(with: element, font: font)

@@ -58,9 +58,6 @@ struct Element {
     }
     
     private func whitespaceUnit(_ handler: ((Unit)->Void)?) {
-        //if type == .checkbox {
-        //    handler?(Unit(with: .whitespace, " ", NSMakeRange(range.location + 1, range.length - 1)))
-        //}
         if type != .none {
             let whitespaceRange = NSMakeRange(range.length - 1, 1)
             let whitespaceText = text.substring(with: whitespaceRange)
@@ -86,8 +83,6 @@ struct Element {
             let headRange = NSMakeRange(0, 1)
             let headText = text.substring(with: headRange)
             handler?(Unit(with: .head, headText as NSString, NSMakeRange(range.location + headRange.location, headRange.length)))
-        //case .checkbox:
-        //    handler?(Unit(with: .head, "*" , NSMakeRange(range.location, 1)))
         default: ()
         }
     }
