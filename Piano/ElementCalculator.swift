@@ -71,9 +71,6 @@ class ElementCalculator {
         } else if element.type == .list {
             width += calculateCharacterWidth(with: "•", font: font)
         }
-//        else if element.type == .checkbox {
-//            width += calculateCharacterWidth(with: standardText, font: font)
-//        }
         
         widthCache[variableContainer] = width
         return width
@@ -92,8 +89,6 @@ class ElementCalculator {
             kerning = calculateKerningInNumber(unitType: unitType, font: font)
         case .list:
             kerning = calculateKerningInList(unitType: unitType, font: font)
-//        case .checkbox:
-//            kerning = calculateKerningInCheckBox(unitType: unitType, font: UIFont.systemFont(ofSize: 16))
         default:
             kerning = nil
         }
@@ -127,21 +122,6 @@ class ElementCalculator {
             return nil
         }
     }
-    
-    /*
-    private func calculateKerningInCheckBox(unitType: UnitType, font: UIFont) -> CGFloat? {
-        switch unitType {
-        case .head:
-            return calculateCharacterWidth(with: standardText, font: font) + (calculateDotWidth(with: font) * (dotKerningRate + 1)) - 20
-        case .dot:
-            return nil
-        case .whitespace:
-            return 0
-        case .none:
-            return nil
-        }
-    }
-     */
     
     // MARK: - calculate width
     private func calculateTextWidth(with text: NSString, font: UIFont) -> CGFloat {

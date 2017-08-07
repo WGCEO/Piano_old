@@ -39,49 +39,62 @@ enum UnitType: String {
     case whitespace
 }
 
-class Paragraph {
-    var element: Element
-    var range: NSRange
-    
-    init(with element: Element, _ range: NSRange) {
-        self.element = element
-        self.range = range
-    }
-}
+fileprivate let firstNumberText = "1. "
+fileprivate let defaultDepth = 1
 
-let firstNumberText = "1. "
 class Element {
     var type: ElementType
     var text: NSString
     var range: NSRange
-    var depth: Int = 1
-    var before: Element?
+    var paragraphRange: NSRange
+    
+    weak var document: NSAttributedString?
+    var depth: Int {
+        return document?.attribute(IndentElementAttributeKey, at: range.location, effectiveRange: nil) as? Int ?? defaultDepth
+    }
+    
+    var previous: Element?
+    var next: Element? {
+        guard let text = document?.string as NSString?,
+            range.length + range.length > text.length else { return nil }
+        
+        let nextRange = text.paragraphRange(for: NSMakeRange(range.length + range.length + 1, 0))
+        let nextText = text.substring(with: range)
+        let nextElement = ElementInspector.sharedInstance.inspect(with: nextText as NSString, nextRange.location)
+        nextElement.paragraphRange = nextRange
+        nextElement.document = document
+        nextElement.previous = self
+        
+        return nextElement
+    }
     
     static let none = Element(with: .none, "", NSMakeRange(0, 0))
     init(with type: ElementType, _ text: NSString, _ range: NSRange) {
         self.type = type
         self.text = text
         self.range = range
+        self.paragraphRange = range
     }
     
-    public func move(location: Int) {
-        self.range = NSMakeRange(range.location + location, range.length)
+    public func increment(with amount: Int) {
+        self.range = NSMakeRange(range.location + amount, range.length)
+        self.paragraphRange = NSMakeRange(paragraphRange.location + amount, paragraphRange.length)
     }
     
-    public func calculateNextNumberText(with depth: Int) -> String? {
-        var before: Element? = self
+    public func calculateNextNumberText(with depth: Int) -> NSString? {
+        var previous: Element? = self
         while true {
-            if let beforeElement = before, beforeElement.type == .number && beforeElement.depth == depth {
-                let elementText = beforeElement.text.substring(with: NSMakeRange(0, beforeElement.range.length-2))
-                if let beforeNumber = Int(elementText) {
-                    return "\(beforeNumber + 1). "
+            if let prevElement = previous, prevElement.type == .number && prevElement.depth == depth {
+                let elementText = prevElement.text.substring(with: NSMakeRange(0, prevElement.range.length-2))
+                if let prevNumber = Int(elementText) {
+                    return "\(prevNumber + 1). " as NSString
                 } else {
                     return nil
                 }
             }
             
-            before = before?.before
-            if before == nil { return firstNumberText }
+            previous = previous?.previous
+            if previous == nil { return firstNumberText as NSString }
         }
     }
     

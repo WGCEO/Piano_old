@@ -25,52 +25,33 @@ extension PianoTextView {
     
     // MARK: - public methods
     public func detectElement(from range: NSRange) {
-        var before: Element?
-        var edit: Int = 0
-        
-        // ready for round
-        let document = attributedText.string as NSString
-        let location = range.location > document.length ? document.length : range.location
-        let paragraphRange = document.paragraphRange(for: NSMakeRange(location, 0))
-        let beforeParagraphRange = document.paragraphRange(for: NSMakeRange(paragraphRange.location-1 > 0 ? paragraphRange.location-1 : 0, 0))
-        document.enumerateSubstrings(in: NSMakeRange(beforeParagraphRange.location, document.length - beforeParagraphRange.location), options: .byParagraphs) { [weak self] (paragraph, paragraphRange, _, stop) in
-            guard let strongSelf = self, let paragraph = paragraph as NSString? else { return }
-            
-            // init element
-            let editedParagraphRange = NSMakeRange(paragraphRange.location + edit, paragraphRange.length)
-            let element = ElementInspector.sharedInstance.inspect(with: paragraph)
-            element.move(location: editedParagraphRange.location)
-            element.depth = strongSelf.textStorage.attribute(IndentElementAttributeKey, at: editedParagraphRange.location, effectiveRange: nil) as? Int ?? 1
-            element.before = before
-            
-            // chaining
-            if let nextNumberText = before?.calculateNextNumberText(with: element.depth), let beforeType = before?.type, element.type == .number {
-                if element.type == beforeType {
-                    if nextNumberText != (element.text as String) {
-                        let range = NSMakeRange(element.range.location, element.range.length)
-                        strongSelf.textStorage.replaceCharacters(in: range, with: nextNumberText)
-                        strongSelf.removeIndent(element, editedParagraphRange)
-                        
-                        element.text = nextNumberText as NSString
-                        element.range = NSMakeRange(element.range.location, element.text.length)
-                        edit += element.text.length - range.length
-                    } 
-                } else {
-                    stop.pointee = true
-                }
-            }
-            
-            if element.type != .none {
-                strongSelf.changeCharacterIfNeeded(with: element)
-                strongSelf.removeIndent(element, editedParagraphRange)
-                before = element
-            } else {
-                strongSelf.addIndent(in: editedParagraphRange)
-                if before != nil {
-                    stop.pointee = true
-                }
-            }
+        let context = ElementInspector.sharedInstance.context(of: range, in: attributedText)
+        if context.current.type != .none {
+            changeCharacterIfNeeded(with: context.current)
+            removeIndent(of: context.current)
+        } else {
+            addIndent(to: context.current)
         }
+        
+        var current: Element? = context.current
+        var previous = context.previous
+        current?.previous = previous
+        repeat {
+            if let current = current,
+                (current.type == .number && current.type == previous?.type),
+                let nextNumberText = previous?.calculateNextNumberText(with: current.depth),
+                nextNumberText != current.text {
+                
+                let difference = nextNumberText.length - current.range.length
+                textStorage.replaceCharacters(in: current.range, with: nextNumberText as String)
+                removeIndent(of: current)
+                
+                current.increment(with: difference)
+            }
+            
+            previous = current
+            current = current?.next
+        } while (current != nil)
     }
     
     public func changeCharacterIfNeeded(with element: Element) {
@@ -109,18 +90,17 @@ extension PianoTextView {
     
     public func addElementIfNeeded(_ replacementText: NSString, in range: NSRange) -> NSRange? {
         if replacementText.rangeOfCharacter(from: .newlines).length > 0 {
-            let context = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString)
+            let current = ElementInspector.sharedInstance.context(of: range, in: attributedText).current
             
-            guard let element = context.before,
-                element.range.location + element.range.length <= range.location else { return nil }
+            guard current.range.location + current.range.length <= range.location else { return nil }
             
-            if element.type == .number {
-                return changeNumberElement(context: context, in: range)
-            } else if element.type == .list {
-                return changeListElement(context: context, in: range)
+            if current.type == .number {
+                return changeNumberElement(with: current, in: range)
+            } else if current.type == .list {
+                return changeListElement(with: current, in: range)
             }
         } else if replacementText.contains("\t") {
-            guard let before = ElementInspector.sharedInstance.context(of: range, in: textStorage.string as NSString).before,
+            guard let before = ElementInspector.sharedInstance.context(of: range, in: attributedText).previous,
                 before.type == .number || before.type == .list else { return nil }
             
             let depth = textStorage.attribute(IndentElementAttributeKey, at: before.range.location, effectiveRange: nil) as? Int ?? 1
@@ -136,18 +116,16 @@ extension PianoTextView {
     }
     
     // MARK: - numbering
-    private func changeNumberElement(context: Context, in range: NSRange) -> NSRange? {
-        guard let before = context.before else { return nil }
-        
-        if (before.range.location + before.range.length) == range.location { // 아무것도 입력하지 않았을 경우
-            return removeNumberElement(in: before.range)
+    private func changeNumberElement(with element: Element, in range: NSRange) -> NSRange? {
+        if (element.range.location + element.range.length) == range.location { // 아무것도 입력하지 않았을 경우
+            return removeNumberElement(in: element.range)
         } else { // 무언가 입력했을 경우
-            return addNumberElement(with: before, in: range)
+            return addNumberElement(with: element, in: range)
         }
     }
     
-    private func addNumberElement(with before: Element, in range: NSRange) -> NSRange? {
-        guard let current = Int(before.text.substring(with: NSMakeRange(0, before.range.length-2))),
+    private func addNumberElement(with element: Element, in range: NSRange) -> NSRange? {
+        guard let current = Int(element.text.substring(with: NSMakeRange(0, element.range.length-2))),
             let textRange = range.toTextRange(textInput: self) else { return nil }
         
         let next = current + 1
@@ -156,7 +134,7 @@ extension PianoTextView {
         
         replace(textRange, withText: elementText)
         
-        let depth = textStorage.attribute(IndentElementAttributeKey, at: before.range.location, effectiveRange: nil) as? Int ?? 1
+        let depth = textStorage.attribute(IndentElementAttributeKey, at: element.range.location, effectiveRange: nil) as? Int ?? 1
         let changedRange = NSMakeRange(range.location+1, elementText.count-1)
         textStorage.addAttributes([IndentElementAttributeKey: depth], range: changedRange)
         detectElement(from: changedRange)
@@ -172,11 +150,9 @@ extension PianoTextView {
     }
     
     // MARK: - listing
-    private func changeListElement(context: Context, in range: NSRange) -> NSRange? {
-        guard let before = context.before else { return nil }
-        
-        if (before.range.location + before.range.length) == range.location { // 아무것도 입력하지 않았을 경우
-            return removeListElement(in: before.range)
+    private func changeListElement(with element: Element, in range: NSRange) -> NSRange? {
+        if (element.range.location + element.range.length) == range.location { // 아무것도 입력하지 않았을 경우
+            return removeListElement(in: element.range)
         } else { // 무언가 입력했을 경우
             return addListElement(in: range)
         }
@@ -199,18 +175,18 @@ extension PianoTextView {
     }
     
     // MARK: - indenting
-    private func addIndent(in range: NSRange) {
+    private func addIndent(to element: Element) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.firstLineHeadIndent = indentWidth
         paragraphStyle.headIndent = indentWidth
         paragraphStyle.lineSpacing = 4
         
         let attributes = [NSAttributedStringKey.paragraphStyle: paragraphStyle] as [NSAttributedStringKey: Any]
-        textStorage.addAttributes(attributes, range: range)
-        textStorage.removeAttribute(NSAttributedStringKey.kern, range: range)
+        textStorage.addAttributes(attributes, range: element.paragraphRange)
+        textStorage.removeAttribute(NSAttributedStringKey.kern, range: element.range)
     }
     
-    private func removeIndent(_ element: Element, _ paragraphRange: NSRange) {
+    private func removeIndent(of element: Element) {
         guard let font = self.font else { return }
         
         let width = ElementCalculator.sharedInstance.calculateWidth(with: element, font: font)
@@ -219,7 +195,7 @@ extension PianoTextView {
         paragraphStyle.firstLineHeadIndent = indentWidth * CGFloat(element.depth) - width
         paragraphStyle.headIndent = indentWidth * CGFloat(element.depth) - width
         paragraphStyle.lineSpacing = 4
-        textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: paragraphRange)
+        textStorage.addAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle], range: element.paragraphRange)
         
         let elementAttributes = [NSAttributedStringKey.strokeColor: UIColor.black,
                                  NSAttributedStringKey.font: font] as [NSAttributedStringKey : Any]
