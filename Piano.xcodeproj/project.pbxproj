@@ -193,7 +193,6 @@
 		DA8A6D621F1EFB9100F8A9FC /* SettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewController.swift; sourceTree = "<group>"; };
 		DAA71BA01F2DB7DB00153433 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		DAA71BA11F2DB7DB00153433 /* ElementCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementCalculator.swift; sourceTree = "<group>"; };
-		DAA71BA21F2DB7DB00153433 /* ElementInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementInspector.swift; sourceTree = "<group>"; };
 		DAA71BA61F2DB87400153433 /* DivisionLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivisionLine.swift; sourceTree = "<group>"; };
 		DAA71BA81F2DBBD300153433 /* DocumentRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRenderer.swift; sourceTree = "<group>"; };
 		DAA71BAC1F2DE29500153433 /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
@@ -508,7 +507,6 @@
 				F4EB6CA31F16557500AF0FFF /* ElementInspector.swift */,
 				DAA71BA01F2DB7DB00153433 /* Element.swift */,
 				DAA71BA11F2DB7DB00153433 /* ElementCalculator.swift */,
-				DAA71BA21F2DB7DB00153433 /* ElementInspector.swift */,
 			);
 			name = Layout;
 			sourceTree = "<group>";

@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias Context = (before: Element?, after: Element?)
+typealias Context = (previous: Element?, current: Element)
 
 class ElementInspector {
     static let sharedInstance = ElementInspector()
@@ -16,48 +16,38 @@ class ElementInspector {
         .list,
         .number
     ]
-    
-    private init() {
-        
-    }
-    
-    public func inspect(with text: NSString) -> Element {
+
+    public func inspect(with text: NSString, _ position: Int = 0) -> Element {
         for type in inspectables {
             guard let regex = try? NSRegularExpression(pattern: type.pattern, options: []) else { continue }
             
             let matches = regex.matches(in: (text as String), options: [], range: NSMakeRange(0, text.length))
             if let range = matches.first?.range {
-                return Element(with: type, text.substring(with: range) as NSString, range)
+                return Element(with: type, text.substring(with: range) as NSString, NSMakeRange(position + range.location, range.length))
             }
         }
         
         return Element(with: .none, "", NSMakeRange(0, 0))
     }
     
-    public func context(of range: NSRange, in text: NSString) -> Context {
-        var before: Element?
-        var after: Element?
+    public func context(of range: NSRange, in attributedText: NSAttributedString) -> Context {
+        let text = attributedText.string as NSString
         
-        var position = 0
-        for paragraph in text.components(separatedBy: .newlines) {
-            let paragraphRange = NSMakeRange(position, paragraph.characters.count)
-            position += paragraph.characters.count + 1
-            
-            if paragraphRange.location <= range.location {
-                before = inspect(with: paragraph as NSString)
-                if let range = before?.range {
-                    before?.range = NSMakeRange(paragraphRange.location + range.location, range.length)
-                }
-            } else if (paragraphRange.length+paragraphRange.length) < range.location && paragraphRange.location < 10000000 { // TODO: how to detect range location overflow
-                after = inspect(with: paragraph as NSString)
-                if let range = after?.range {
-                    after?.range = NSMakeRange(paragraphRange.location + range.location, range.length)
-                }
-                
-                break
-            }
+        let currentRange = text.paragraphRange(for: NSMakeRange(range.location, 0))
+        let currentText = text.substring(with: currentRange)
+        let current = inspect(with: currentText as NSString, currentRange.location)
+        current.document = attributedText
+        current.paragraphRange = currentRange
+        
+        var previous: Element?
+        if currentRange.location > 0 {
+            let previousRange = text.paragraphRange(for: NSMakeRange(currentRange.location-1, 0))
+            let previousText = text.substring(with: previousRange)
+            previous = inspect(with: previousText as NSString, previousRange.location)
+            previous?.document = attributedText
+            previous?.paragraphRange = previousRange
         }
         
-        return (before, after)
+        return (previous, current)
     }
 }
